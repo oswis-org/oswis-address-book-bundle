@@ -1,0 +1,57 @@
+Zakjakub\OswisAccommodationBundle\Entity\CashDeskTransfer:
+    attributes:
+        id:
+            groups:
+                - 'accommodation_cash_desk_transfers_get'
+                - 'accommodation_cash_desk_transfer_get'
+        singleNote:
+            groups:
+                - 'accommodation_cash_desk_transfers_post'
+                - 'accommodation_cash_desk_transfer_get'
+                - 'accommodation_cash_desk_transfer_put'
+        dateTime:
+            groups:
+                - 'accommodation_cash_desk_transfers_get'
+                - 'accommodation_cash_desk_transfers_post'
+                - 'accommodation_cash_desk_transfer_get'
+        createdDateTime:
+            groups: ['accommodation_cash_desk_transfer_get']
+        updatedDateTime:
+            groups: ['accommodation_cash_desk_transfer_get']
+        createdAuthor:
+            groups: ['accommodation_cash_desk_transfer_get']
+        updatedAuthor:
+            groups: ['accommodation_cash_desk_transfer_get']
+        createdIp:
+            groups: ['accommodation_cash_desk_transfer_get']
+        updatedIp:
+            groups: ['accommodation_cash_desk_transfer_get']
+        payments:
+            groups:
+                - 'accommodation_cash_desk_transfers_post'
+                - 'accommodation_cash_desk_transfer_get'
+        organizationCashDesk:
+            groups: ['accommodation_cash_desk_transfers_post', 'accommodation_cash_desk_transfer_get']
+        temporaryCashDesk:
+            groups: ['accommodation_cash_desk_transfers_post', 'accommodation_cash_desk_transfer_get']
+        deleted:
+            groups:
+                - 'accommodation_cash_desk_transfers_get'
+                - 'accommodation_cash_desk_transfer_get'
+                - 'accommodation_cash_desk_transfer_put'
+        numericValue:
+            groups:
+                - 'accommodation_cash_desk_transfers_get'
+                - 'accommodation_cash_desk_transfer_get'
+
+#App\Entity\AppUser:
+#    attributes:
+#        id:
+#            groups: ['accommodation_cash_desk_transfers_get', 'accommodation_cash_desk_transfer_get']
+#        username:
+#            groups: ['accommodation_cash_desk_transfers_get', 'accommodation_cash_desk_transfer_get']
+#        fullName:
+#            groups: ['accommodation_cash_desk_transfers_get', 'accommodation_cash_desk_transfer_get']
+
+
+

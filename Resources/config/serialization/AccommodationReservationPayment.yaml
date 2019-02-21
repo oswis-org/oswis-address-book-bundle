@@ -1,0 +1,107 @@
+Zakjakub\OswisAccommodationBundle\Entity\ReservationPayment:
+    attributes:
+        id:
+            groups: ['accommodation_reservation_payments_get', 'accommodation_reservation_payment_get']
+        note:
+            groups:
+                - 'accommodation_reservation_payments_post'
+                - 'accommodation_reservation_payment_get'
+        createdDateTime:
+            groups: ['accommodation_reservation_payments_get', 'accommodation_reservation_payment_get']
+        updatedDateTime:
+            groups: ['accommodation_reservation_payment_get']
+        createdAuthor:
+            groups: ['accommodation_reservation_payment_get']
+        updatedAuthor:
+            groups: ['accommodation_reservation_payment_get']
+        createdIp:
+            groups: ['accommodation_reservation_payment_get']
+        updatedIp:
+            groups: ['accommodation_reservation_payment_get']
+        reservation:
+            groups:
+                - 'accommodation_reservation_payments_get'
+                - 'accommodation_reservation_payments_post'
+                - 'accommodation_reservation_payment_get'
+        author:
+            groups:
+                - 'accommodation_reservation_payments_get'
+                - 'accommodation_reservation_payment_get'
+        paymentMethod:
+            groups:
+                - 'accommodation_reservation_payment_get'
+                - 'accommodation_reservation_payments_post'
+        type:
+            groups:
+                - 'accommodation_reservation_payment_get'
+                - 'accommodation_reservation_payments_post'
+        numericValue:
+            groups:
+                - 'accommodation_reservation_payments_get'
+                - 'accommodation_reservation_payments_post'
+                - 'accommodation_reservation_payment_get'
+        cashDeskTransfer:
+            groups:
+                - 'accommodation_reservation_payment_get'
+
+Zakjakub\OswisAccommodationBundle\Entity\Reservation:
+    attributes:
+        id:
+            groups:
+                - 'accommodation_reservation_payments_get'
+                - 'accommodation_reservation_payments_post'
+                - 'accommodation_reservation_payment_get'
+        description:
+            groups:
+                - 'accommodation_reservation_payment_get'
+        note:
+            groups:
+                - 'accommodation_reservation_payment_get'
+        createdDateTime:
+            groups: ['accommodation_reservation_payment_get']
+        updatedDateTime:
+            groups: ['accommodation_reservation_payment_get']
+        createdAuthor:
+            groups: ['accommodation_reservation_payment_get']
+        updatedAuthor:
+            groups: ['accommodation_reservation_payment_get']
+        createdIp:
+            groups: ['accommodation_reservation_payment_get']
+        updatedIp:
+            groups: ['accommodation_reservation_payment_get']
+        customer:
+            groups:
+                - 'accommodation_reservation_payment_get'
+        payments:
+            groups: ['accommodation_reservation_payment_get']
+        depositValue:
+            groups:
+                - 'accommodation_reservation_payment_get'
+        totalPrice:
+            groups:
+                - 'accommodation_reservation_payment_get'
+        paidValue:
+            groups:
+                - 'accommodation_reservation_payment_get'
+        pricesArray:
+            groups: ['accommodation_reservation_payment_get']
+        usedDiscounts:
+            groups: ['accommodation_reservation_payment_get']
+        personStaysArray:
+            groups:
+                - 'accommodation_reservation_payment_get'
+        lastUpdateDateTime:
+            groups: ['accommodation_reservation_payment_get']
+
+Zakjakub\OswisAccommodationBundle\Entity\AccommodationUser:
+    attributes:
+        id:
+            groups:
+                - 'accommodation_reservation_payment_get'
+        username:
+            groups:
+                - 'accommodation_reservation_payment_get'
+        fullName:
+            groups:
+                - 'accommodation_reservation_payment_get'
+

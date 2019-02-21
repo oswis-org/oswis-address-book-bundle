@@ -1,0 +1,370 @@
+Zakjakub\OswisAccommodationBundle\Entity\Reservation:
+    attributes:
+        id:
+            groups: ['accommodation_reservations_get', 'accommodation_reservation_get']
+        description:
+            groups:
+                - 'accommodation_reservations_post'
+                - 'accommodation_reservation_get'
+                - 'accommodation_reservation_put'
+        note:
+            groups:
+                - 'accommodation_reservations_post'
+                - 'accommodation_reservation_get'
+                - 'accommodation_reservation_put'
+        createdDateTime:
+            groups: ['accommodation_reservations_get', 'accommodation_reservation_get']
+        updatedDateTime:
+            groups: ['accommodation_reservation_get']
+        createdAuthor:
+            groups: ['accommodation_reservation_get']
+        updatedAuthor:
+            groups: ['accommodation_reservation_get']
+        createdIp:
+            groups: ['accommodation_reservation_get']
+        updatedIp:
+            groups: ['accommodation_reservation_get']
+        customer:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        payments:
+            groups: ['accommodation_reservation_get']
+        depositValue:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        totalPrice:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        accommodationPrice:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        remainingPrice:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        resortFeesPrice:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        startDateTime:
+            groups: ['accommodation_reservations_get', 'accommodation_reservation_get']
+        endDateTime:
+            groups: ['accommodation_reservations_get', 'accommodation_reservation_get']
+        paidValue:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        pricesArray:
+            groups: ['accommodation_reservation_get']
+        resortFeeRevsArray:
+            groups: ['accommodation_reservation_get']
+        usedDiscounts:
+            groups: ['accommodation_reservation_get']
+        personStaysArray:
+            groups:
+                - 'accommodation_reservations_post'
+                - 'accommodation_reservation_get'
+                - 'accommodation_reservation_put'
+        lastUpdateDateTime:
+            groups: ['accommodation_reservation_get']
+
+Zakjakub\OswisAccommodationBundle\Entity\AccommodationUser:
+    attributes:
+        id:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservations_post'
+                - 'accommodation_reservation_get'
+        username:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        fullName:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        email:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        phone:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+
+Zakjakub\OswisAccommodationBundle\Entity\PersonStay:
+    attributes:
+        id:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservations_post'
+                - 'accommodation_reservation_get'
+                - 'accommodation_reservation_put'
+        room:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservations_post'
+                - 'accommodation_reservation_get'
+                - 'accommodation_reservation_put'
+        person:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservations_post'
+                - 'accommodation_reservation_get'
+                - 'accommodation_reservation_put'
+        startDateTime:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservations_post'
+                - 'accommodation_reservation_get'
+                - 'accommodation_reservation_put'
+        endDateTime:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservations_post'
+                - 'accommodation_reservation_get'
+                - 'accommodation_reservation_put'
+        price:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+
+Zakjakub\OswisAccommodationBundle\Entity\Person:
+    attributes:
+        id:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservations_post'
+                - 'accommodation_reservation_get'
+                - 'accommodation_reservation_put'
+        fullName:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservations_post'
+                - 'accommodation_reservation_get'
+                - 'accommodation_reservation_put'
+        birthDate:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservations_post'
+                - 'accommodation_reservation_get'
+                - 'accommodation_reservation_put'
+        description:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservations_post'
+                - 'accommodation_reservation_get'
+                - 'accommodation_reservation_put'
+        note:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservations_post'
+                - 'accommodation_reservation_get'
+                - 'accommodation_reservation_put'
+        foreignNationality:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservations_post'
+                - 'accommodation_reservation_get'
+                - 'accommodation_reservation_put'
+        idCardType:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservations_post'
+                - 'accommodation_reservation_get'
+                - 'accommodation_reservation_put'
+        idCardNumber:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservations_post'
+                - 'accommodation_reservation_get'
+                - 'accommodation_reservation_put'
+        ztp:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservations_post'
+                - 'accommodation_reservation_get'
+                - 'accommodation_reservation_put'
+        ztpAccompaniment:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservations_post'
+                - 'accommodation_reservation_get'
+                - 'accommodation_reservation_put'
+        pet:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservations_post'
+                - 'accommodation_reservation_get'
+                - 'accommodation_reservation_put'
+        category:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservations_post'
+                - 'accommodation_reservation_get'
+                - 'accommodation_reservation_put'
+
+Zakjakub\OswisAccommodationBundle\Entity\PersonCategory:
+    attributes:
+        id:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservations_post'
+                - 'accommodation_reservation_get'
+                - 'accommodation_reservation_put'
+        name:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+
+Zakjakub\OswisAccommodationBundle\Entity\ReservationPayment:
+    attributes:
+        id:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        author:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        paymentMathod:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        numericValue:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        createdDateTime:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+
+Zakjakub\OswisAccommodationBundle\Entity\RoomCategoryPrice:
+    attributes:
+        id:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        description:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        note:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        numericValue:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        petsOnly:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        petsExcluded:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        ztpOnly:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        ztpExcluded:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        ztpAccompanimentOnly:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        ztpAccompanimentExcluded:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+
+Zakjakub\OswisAccommodationBundle\Entity\ResortFeeRev:
+    attributes:
+        id:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        name:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        description:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        note:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        numericValue:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        taxRate:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+
+Zakjakub\OswisAccommodationBundle\Entity\Room:
+    attributes:
+        id:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservations_post'
+                - 'accommodation_reservation_get'
+                - 'accommodation_reservation_put'
+        name:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        facility:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+
+Zakjakub\OswisAccommodationBundle\Entity\Facility:
+    attributes:
+        id:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        name:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        shortName:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+
+Zakjakub\OswisAccommodationBundle\Entity\ResortFeeRevsArrayItem:
+    attributes:
+        count:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        item:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+
+Zakjakub\OswisAccommodationBundle\Entity\PricesArrayItem:
+    attributes:
+        count:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+        item:
+            groups:
+                - 'accommodation_reservations_get'
+                - 'accommodation_reservation_get'
+

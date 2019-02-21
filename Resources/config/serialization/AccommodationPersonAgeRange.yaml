@@ -1,0 +1,56 @@
+Zakjakub\OswisAccommodationBundle\Entity\PersonAgeRange:
+    attributes:
+        id:
+            groups: ['accommodation_person_age_ranges_get', 'accommodation_person_age_range_get']
+        name:
+            groups:
+                - 'accommodation_person_age_ranges_get'
+                - 'accommodation_person_age_ranges_post'
+                - 'accommodation_person_age_range_get'
+                - 'accommodation_person_age_range_put'
+        shortName:
+            groups:
+                - 'accommodation_person_age_ranges_get'
+                - 'accommodation_person_age_ranges_post'
+                - 'accommodation_person_age_range_get'
+                - 'accommodation_person_age_range_put'
+        createdDateTime:
+            groups: ['accommodation_person_age_range_get']
+        updatedDateTime:
+            groups: ['accommodation_person_age_range_get']
+        description:
+            groups:
+                - 'accommodation_person_age_ranges_get'
+                - 'accommodation_person_age_ranges_post'
+                - 'accommodation_person_age_range_get'
+                - 'accommodation_person_age_range_put'
+        note:
+            groups:
+                - 'accommodation_person_age_ranges_get'
+                - 'accommodation_person_age_ranges_post'
+                - 'accommodation_person_age_range_get'
+                - 'accommodation_person_age_range_put'
+        minAge:
+            groups:
+                - 'accommodation_person_age_ranges_get'
+                - 'accommodation_person_age_ranges_post'
+                - 'accommodation_person_age_range_get'
+                - 'accommodation_person_age_range_put'
+        maxAge:
+            groups:
+                - 'accommodation_person_age_ranges_get'
+                - 'accommodation_person_age_ranges_post'
+                - 'accommodation_person_age_range_get'
+                - 'accommodation_person_age_range_put'
+        dateTime:
+            groups:
+                - 'accommodation_person_age_ranges_get'
+                - 'accommodation_person_age_ranges_post'
+                - 'accommodation_person_age_range_get'
+                - 'accommodation_person_age_range_put'
+
+
+
+
+
+

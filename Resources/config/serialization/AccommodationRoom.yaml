@@ -1,0 +1,95 @@
+Zakjakub\OswisAccommodationBundle\Entity\Room:
+    attributes:
+        id:
+            groups: ['accommodation_rooms_get', 'accommodation_room_get']
+        name:
+            groups:
+                - 'accommodation_rooms_get'
+                - 'accommodation_rooms_post'
+                - 'accommodation_room_get'
+                - 'accommodation_room_put'
+        shortName:
+            groups:
+                - 'accommodation_rooms_get'
+                - 'accommodation_rooms_post'
+                - 'accommodation_room_get'
+                - 'accommodation_room_put'
+        createdDateTime:
+            groups: ['accommodation_room_get']
+        updatedDateTime:
+            groups: ['accommodation_room_get']
+        description:
+            groups:
+                - 'accommodation_rooms_get'
+                - 'accommodation_rooms_post'
+                - 'accommodation_room_get'
+                - 'accommodation_room_put'
+        note:
+            groups:
+                - 'accommodation_rooms_get'
+                - 'accommodation_rooms_post'
+                - 'accommodation_room_get'
+                - 'accommodation_room_put'
+        floor:
+            groups:
+                - 'accommodation_rooms_get'
+                - 'accommodation_rooms_post'
+                - 'accommodation_room_get'
+                - 'accommodation_room_put'
+        numberOfBeds:
+            groups:
+                - 'accommodation_rooms_get'
+                - 'accommodation_rooms_post'
+                - 'accommodation_room_get'
+                - 'accommodation_room_put'
+        numberOfExtraBeds:
+            groups:
+                - 'accommodation_rooms_get'
+                - 'accommodation_rooms_post'
+                - 'accommodation_room_get'
+                - 'accommodation_room_put'
+        numberOfAnimals:
+            groups:
+                - 'accommodation_rooms_get'
+                - 'accommodation_rooms_post'
+                - 'accommodation_room_get'
+                - 'accommodation_room_put'
+        dateTime:
+            groups:
+                - 'accommodation_rooms_get'
+                - 'accommodation_rooms_post'
+                - 'accommodation_room_get'
+                - 'accommodation_room_put'
+        capacity:
+            groups:
+                - 'accommodation_rooms_get'
+                - 'accommodation_room_get'
+        roomCategory:
+            groups:
+                - 'accommodation_rooms_get'
+                - 'accommodation_rooms_post'
+                - 'accommodation_room_get'
+                - 'accommodation_room_put'
+        facility:
+            groups:
+                - 'accommodation_rooms_get'
+                - 'accommodation_rooms_post'
+                - 'accommodation_room_get'
+                - 'accommodation_room_put'
+
+Zakjakub\OswisAccommodationBundle\Entity\RoomCategory:
+    attributes:
+        id:
+            groups: ['accommodation_rooms_get', 'accommodation_rooms_post', 'accommodation_room_get', 'accommodation_room_put']
+        name:
+            groups: ['accommodation_rooms_get', 'accommodation_room_get']
+
+Zakjakub\OswisAccommodationBundle\Entity\Facility:
+    attributes:
+        id:
+            groups: ['accommodation_rooms_get', 'accommodation_rooms_post', 'accommodation_room_get', 'accommodation_room_put']
+        name:
+            groups: ['accommodation_rooms_get', 'accommodation_room_get']
+
+
+

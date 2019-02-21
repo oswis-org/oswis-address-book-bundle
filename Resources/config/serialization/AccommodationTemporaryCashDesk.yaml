@@ -1,0 +1,59 @@
+Zakjakub\OswisAccommodationBundle\Entity\TemporaryCashDesk:
+    attributes:
+        id:
+            groups:
+                - 'accommodation_temporary_cash_desks_get'
+                - 'accommodation_temporary_cash_desk_get'
+        name:
+            groups:
+                - 'accommodation_temporary_cash_desks_get'
+                - 'accommodation_temporary_cash_desks_post'
+                - 'accommodation_temporary_cash_desk_get'
+                - 'accommodation_temporary_cash_desk_put'
+        description:
+            groups:
+                - 'accommodation_temporary_cash_desks_post'
+                - 'accommodation_temporary_cash_desk_get'
+                - 'accommodation_temporary_cash_desk_put'
+        note:
+            groups:
+                - 'accommodation_temporary_cash_desks_post'
+                - 'accommodation_temporary_cash_desk_get'
+                - 'accommodation_temporary_cash_desk_put'
+        createdDateTime:
+            groups: ['accommodation_temporary_cash_desk_get']
+        updatedDateTime:
+            groups: ['accommodation_temporary_cash_desk_get']
+        createdAuthor:
+            groups: ['accommodation_temporary_cash_desk_get']
+        updatedAuthor:
+            groups: ['accommodation_temporary_cash_desk_get']
+        createdIp:
+            groups: ['accommodation_temporary_cash_desk_get']
+        updatedIp:
+            groups: ['accommodation_temporary_cash_desk_get']
+        organization:
+            groups:
+                - 'accommodation_temporary_cash_desks_get'
+                - 'accommodation_temporary_cash_desks_post'
+                - 'accommodation_temporary_cash_desk_get'
+                - 'accommodation_temporary_cash_desk_put'
+        baseValue:
+            groups:
+                - 'accommodation_temporary_cash_desks_post'
+                - 'accommodation_temporary_cash_desk_get'
+                - 'accommodation_temporary_cash_desk_put'
+
+Zakjakub\OswisAccommodationBundle\Entity\Organization:
+    attributes:
+        id:
+            groups:
+                - 'accommodation_temporary_cash_desks_get'
+                - 'accommodation_temporary_cash_desks_post'
+                - 'accommodation_temporary_cash_desk_get'
+                - 'accommodation_temporary_cash_desk_put'
+        name:
+            groups:
+                - 'accommodation_temporary_cash_desks_get'
+                - 'accommodation_temporary_cash_desk_get'
+

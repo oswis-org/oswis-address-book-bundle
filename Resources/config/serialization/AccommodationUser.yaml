@@ -1,0 +1,160 @@
+Zakjakub\OswisAccommodationBundle\Entity\AccommodationUser:
+    attributes:
+        id:
+            groups: ['accommodation_users_get', 'accommodation_user_get']
+        createdDateTime:
+            groups: ['accommodation_user_get']
+        updatedDateTime:
+            groups: ['accommodation_user_get']
+        createdAuthor:
+            groups: ['accommodation_user_get']
+        updatedAuthor:
+            groups: ['accommodation_user_get']
+        createdIp:
+            groups: ['accommodation_user_get']
+        updatedIp:
+            groups: ['accommodation_user_get']
+        deleted:
+            groups:
+                - 'accommodation_users_get'
+                - 'accommodation_users_post'
+                - 'accommodation_user_get'
+                - 'accommodation_user_put'
+        appUser:
+            groups:
+                - 'accommodation_users_post'
+                - 'accommodation_user_get'
+                - 'accommodation_user_put'
+        cashDeskTransfers:
+            groups:
+                - 'accommodation_user_get'
+        reservationPayments:
+            groups:
+                - 'accommodation_user_get'
+        managedFacilityRevisions:
+            groups:
+                - 'accommodation_user_get'
+        facilityRevisionWhereFacilityManager:
+            groups:
+                - 'accommodation_user_get'
+        accommodationUserCategory:
+            groups:
+                - 'accommodation_users_post'
+                - 'accommodation_user_get'
+                - 'accommodation_user_put'
+        reservations:
+            groups:
+                - 'accommodation_user_get'
+        username:
+            groups:
+                - 'accommodation_users_get'
+                - 'accommodation_user_get'
+        fullName:
+            groups:
+                - 'accommodation_users_get'
+                - 'accommodation_user_get'
+
+Zakjakub\OswisCoreBundle\Entity\AppUser:
+    attributes:
+        id:
+            groups:
+                - 'accommodation_users_post'
+                - 'accommodation_user_get'
+                - 'accommodation_user_put'
+        appUserType:
+            groups:
+                - 'accommodation_users_post'
+                - 'accommodation_user_get'
+                - 'accommodation_user_put'
+        username:
+            groups:
+                - 'accommodation_users_post'
+                - 'accommodation_user_get'
+                - 'accommodation_user_put'
+        fullName:
+            groups:
+                - 'accommodation_users_post'
+                - 'accommodation_user_get'
+                - 'accommodation_user_put'
+        description:
+            groups:
+                - 'accommodation_users_post'
+                - 'accommodation_user_get'
+                - 'accommodation_user_put'
+        note:
+            groups:
+                - 'accommodation_users_post'
+                - 'accommodation_user_get'
+                - 'accommodation_user_put'
+        email:
+            groups:
+                - 'accommodation_users_post'
+                - 'accommodation_user_get'
+                - 'accommodation_user_put'
+        phone:
+            groups:
+                - 'accommodation_users_post'
+                - 'accommodation_user_get'
+                - 'accommodation_user_put'
+        deleted:
+            groups:
+                - 'accommodation_users_post'
+                - 'accommodation_user_get'
+                - 'accommodation_user_put'
+        startDateTime:
+            groups:
+                - 'accommodation_users_post'
+                - 'accommodation_user_get'
+                - 'accommodation_user_put'
+        endDateTime:
+            groups:
+                - 'accommodation_users_post'
+                - 'accommodation_user_get'
+                - 'accommodation_user_put'
+
+Zakjakub\OswisAccommodationBundle\Entity\AccommodationUserCategory:
+    attributes:
+        id:
+            groups:
+                - 'accommodation_users_get'
+                - 'accommodation_users_post'
+                - 'accommodation_user_get'
+                - 'accommodation_user_put'
+        name:
+            groups:
+                - 'accommodation_users_get'
+                - 'accommodation_users_post'
+                - 'accommodation_user_get'
+                - 'accommodation_user_put'
+        shortName:
+            groups:
+                - 'accommodation_users_get'
+                - 'accommodation_users_post'
+                - 'accommodation_user_get'
+                - 'accommodation_user_put'
+
+Zakjakub\OswisCoreBundle\Entity\AppUserType:
+    attributes:
+        id:
+            groups:
+                - 'accommodation_users_get'
+                - 'accommodation_users_post'
+                - 'accommodation_user_get'
+                - 'accommodation_user_put'
+        name:
+            groups:
+                - 'accommodation_users_get'
+                - 'accommodation_users_post'
+                - 'accommodation_user_get'
+                - 'accommodation_user_put'
+        shortName:
+            groups:
+                - 'accommodation_users_get'
+                - 'accommodation_users_post'
+                - 'accommodation_user_get'
+                - 'accommodation_user_put'
+
+
+
+
+

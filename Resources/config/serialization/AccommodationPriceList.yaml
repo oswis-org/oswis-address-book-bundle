@@ -1,0 +1,32 @@
+Zakjakub\OswisAccommodationBundle\Entity\Reservation:
+    attributes:
+        id:
+            groups: ['accommodation_price_lists_get', 'accommodation_price_list_get']
+        description:
+            groups:
+                - 'accommodation_price_lists_post'
+                - 'accommodation_price_list_get'
+                - 'accommodation_price_list_put'
+        note:
+            groups:
+                - 'accommodation_price_lists_post'
+                - 'accommodation_price_list_get'
+                - 'accommodation_price_list_put'
+        createdDateTime:
+            groups: ['accommodation_price_lists_get', 'accommodation_price_list_get']
+        updatedDateTime:
+            groups: ['accommodation_price_list_get']
+        createdAuthor:
+            groups: ['accommodation_price_list_get']
+        updatedAuthor:
+            groups: ['accommodation_price_list_get']
+        createdIp:
+            groups: ['accommodation_price_list_get']
+        updatedIp:
+            groups: ['accommodation_price_list_get']
+        dateTime:
+            groups:
+                - 'accommodation_price_lists_get'
+                - 'accommodation_price_list_get'
+
+
