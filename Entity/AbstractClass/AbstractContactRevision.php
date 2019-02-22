@@ -2,7 +2,6 @@
 
 namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
 use Zakjakub\OswisAddressBookBundle\Entity\ContactImage;
 use Zakjakub\OswisCoreBundle\Entity\AbstractRevision;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
@@ -14,8 +13,8 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicContainerTrait;
  * @Doctrine\ORM\Mapping\InheritanceType("JOINED")
  * @Doctrine\ORM\Mapping\DiscriminatorColumn(name="discriminator", type="text")
  * @Doctrine\ORM\Mapping\DiscriminatorMap({
- *   "person" = "PersonRevision",
- *   "organization" = "OrganizationRevision"
+ *   "address_book_person_revision" = "PersonRevision",
+ *   "address_book_organization_revision" = "OrganizationRevision"
  * })
  */
 abstract class AbstractContactRevision extends AbstractRevision
@@ -23,16 +22,6 @@ abstract class AbstractContactRevision extends AbstractRevision
 
     use BasicEntityTrait;
     use NameableBasicContainerTrait;
-
-    /**
-     * @var ContactImage|null
-     * @Doctrine\ORM\Mapping\ManyToOne(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactImage"
-     * )
-     * @Doctrine\ORM\Mapping\JoinColumn(nullable=true)
-     * @ApiProperty(iri="http://schema.org/image")
-     */
-    public $image;
 
     /**
      * @inheritdoc

@@ -24,8 +24,8 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicContainerTrait;
  * @Doctrine\ORM\Mapping\InheritanceType("JOINED")
  * @Doctrine\ORM\Mapping\DiscriminatorColumn(name="discriminator", type="text")
  * @Doctrine\ORM\Mapping\DiscriminatorMap({
- *   "person" = "Person",
- *   "organization" = "Organization"
+ *   "address_book_person" = "Person",
+ *   "address_book_organization" = "Organization"
  * })
  * @ApiResource()
  */
@@ -82,47 +82,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
      */
     private $addresses;
 
-    /**
-     * @var Collection|null $locations Locations (Places) where Organization is located, Person lives etc.
-     *
-     * @Doctrine\ORM\Mapping\ManyToMany(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Place",
-     *     mappedBy="contacts"
-     * )
-     * @ApiProperty(iri="http://schema.org/location")
-     */
-    private $locations;
-
     abstract public function setContactName(?string $dummy): void;
-
-    /**
-     * @return Collection
-     */
-    final public function getLocations(): Collection
-    {
-        return $this->locations;
-    }
-
-    /**
-     * @param Place|null $place
-     */
-    final public function addLocation(?Place $place): void
-    {
-        if ($place && !$this->locations->contains($place)) {
-            $this->locations->add($place);
-            $place->addContact($this);
-        }
-    }
-
-    /**
-     * @param Place|null $place
-     */
-    final public function removeLocation(?Place $place): void
-    {
-        if ($place && $this->locations->removeElement($place)) {
-            $place->removeContact($this);
-        }
-    }
 
     /**
      * @param ContactNote|null $personNote

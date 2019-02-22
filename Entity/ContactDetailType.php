@@ -7,7 +7,6 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\Collection;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
 
@@ -24,6 +23,7 @@ class ContactDetailType
 
     use BasicEntityTrait;
     use NameableBasicTrait;
+
     /**
      * @var Collection|null $contacts Contacts of this type
      * @Doctrine\ORM\Mapping\OneToMany(targetEntity="ContactDetail", mappedBy="contactType", cascade={"all"}, orphanRemoval=true)
@@ -74,6 +74,7 @@ class ContactDetailType
     }
 
     /**
+     * Get schema of contact detail.
      * @return string
      */
     final public function getSchema(): string
@@ -82,6 +83,8 @@ class ContactDetailType
     }
 
     /**
+     * Set schema of contact detail.
+     *
      * @param string $schema
      */
     final public function setSchema(string $schema): void

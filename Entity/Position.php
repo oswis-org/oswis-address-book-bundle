@@ -53,9 +53,6 @@ class Position
     /**
      * Get organization of this position.
      *
-     * @Groups({
-     *     "person_get",
-     * })
      * @return string
      */
     final public function getEmployerString(): string

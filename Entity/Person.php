@@ -17,7 +17,7 @@ use Zakjakub\OswisCoreBundle\Entity\AbstractRevision;
  * Represents a person.
  *
  * @Doctrine\ORM\Mapping\Entity()
- * @Doctrine\ORM\Mapping\Table(name="person")
+ * @Doctrine\ORM\Mapping\Table(name="address_book_person")
  * @ApiResource(
  *   iri="http://schema.org/Person"
  * )

@@ -1,6 +1,6 @@
 <?php
 
-namespace Zakjakub\OswisAccommodationBundle;
+namespace Zakjakub\OswisAddressBookBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

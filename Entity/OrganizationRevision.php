@@ -11,7 +11,7 @@ use Zakjakub\OswisCoreBundle\Entity\AbstractRevisionContainer;
 
 /**
  * @Doctrine\ORM\Mapping\Entity
- * @Doctrine\ORM\Mapping\Table(name="organization")
+ * @Doctrine\ORM\Mapping\Table(name="address_book_organization_revision")
  * @ApiResource(
  *   iri="http://schema.org/Organization"
  * )

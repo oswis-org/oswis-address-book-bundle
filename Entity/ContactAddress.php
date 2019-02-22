@@ -6,7 +6,6 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Validator\Constraints as Assert;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractAddress;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
-use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContactRevision;
 
 /**
  * @Doctrine\ORM\Mapping\Entity
@@ -15,6 +14,7 @@ use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContactRevision
  */
 class ContactAddress extends AbstractAddress
 {
+
     /**
      * @var AbstractContact|null $contact Contact, that this address belongs to
      * @Doctrine\ORM\Mapping\ManyToOne(
