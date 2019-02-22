@@ -55,9 +55,6 @@ class Organization extends AbstractOrganization
      */
     protected $subOrganizations;
 
-
-    /** @noinspection MethodShouldBeFinalInspection */
-
     /**
      * @var Collection|null $positions Positions
      * @Doctrine\ORM\Mapping\OneToMany(

@@ -10,7 +10,7 @@ use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 /**
  * @Doctrine\ORM\Mapping\Entity
  * @Doctrine\ORM\Mapping\Table(name="address_book_contact_address")
- * @ApiResource
+ * @ApiResource()
  */
 class ContactAddress extends AbstractAddress
 {

@@ -13,7 +13,7 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
 /**
  * Class ContactType
  * @Doctrine\ORM\Mapping\Entity
- * @Doctrine\ORM\Mapping\Table(name="contact_detail_type")
+ * @Doctrine\ORM\Mapping\Table(name="address_book_contact_detail_type")
  * @ApiResource()
  * @ApiFilter(OrderFilter::class)
  * @ApiFilter(SearchFilter::class, properties={"id": "exact", "name": "ipartial"})
