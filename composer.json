@@ -35,6 +35,9 @@
     "vich/uploader-bundle": "^1.8",
     "mpdf/mpdf": "^7.1"
   },
+  "require-dev": {
+    "roave/security-advisories": "dev-master"
+  },
   "autoload": {
     "psr-4": {
       "ZakJakub\\OswisJobFairBundle\\": ""
