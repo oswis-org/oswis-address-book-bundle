@@ -29,8 +29,8 @@ class ContactNote
      * Contact that this not belongs to.
      * @var AbstractContact|null $contact Contact, that this note belongs to
      * @Doctrine\ORM\Mapping\ManyToOne(
-     *     targetEntity="AbstractContact",
-     *     inversedBy="notes"
+     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact",
+     *     inversedBy="internalNotes"
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")
      */
@@ -74,11 +74,11 @@ class ContactNote
     final public function setContact(?AbstractContact $contact): void
     {
         if ($this->contact && $this->contact !== $contact) {
-            $this->contact->removeNote($this);
+            $this->contact->removeInternalNote($this);
         }
         if ($contact && $this->contact !== $contact) {
             $this->contact = $contact;
-            $contact->addNote($this);
+            $contact->addInternalNote($this);
         }
     }
 

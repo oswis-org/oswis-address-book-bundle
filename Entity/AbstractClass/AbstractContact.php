@@ -39,7 +39,6 @@ abstract class AbstractContact extends AbstractRevisionContainer
      */
     private $type;
 
-
     /**
      * Notes about person.
      *
@@ -51,7 +50,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
      *     orphanRemoval=true
      * )
      */
-    private $notes;
+    private $internalNotes;
 
     /**
      *  Contact details (e-mails, phones...)
@@ -85,13 +84,13 @@ abstract class AbstractContact extends AbstractRevisionContainer
     /**
      * @param ContactNote|null $personNote
      */
-    final public function addNote(?ContactNote $personNote): void
+    final public function addInternalNote(?ContactNote $personNote): void
     {
         if (!$personNote) {
             return;
         }
-        if (!$this->notes->contains($personNote)) {
-            $this->notes->add($personNote);
+        if (!$this->internalNotes->contains($personNote)) {
+            $this->internalNotes->add($personNote);
         }
         $personNote->setContact($this);
     }
@@ -99,9 +98,9 @@ abstract class AbstractContact extends AbstractRevisionContainer
     /**
      * @param ContactNote|null $personNote
      */
-    final public function removeNote(?ContactNote $personNote): void
+    final public function removeInternalNote(?ContactNote $personNote): void
     {
-        if ($personNote && $this->notes->removeElement($personNote)) {
+        if ($personNote && $this->internalNotes->removeElement($personNote)) {
             $personNote->setContact(null);
         }
     }
@@ -173,9 +172,9 @@ abstract class AbstractContact extends AbstractRevisionContainer
     /**
      * @return Collection
      */
-    final public function getNotes(): Collection
+    final public function getInternalNotes(): Collection
     {
-        return $this->notes;
+        return $this->internalNotes;
     }
 
     /**
