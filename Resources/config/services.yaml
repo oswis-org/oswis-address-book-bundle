@@ -1,21 +1,21 @@
 services:
 
-    ZakJakub\OswisAddressBookBundle\EventSubscriber\:
-        resource: '../../EventSubscriber/*'
-        tags: [ { name: 'kernel.view'} ]
-        arguments:
-          ['@security.user_password_encoder.generic', '@doctrine.orm.entity_manager.abstract', '@swiftmailer.mailer.abstract', '@monolog.logger_prototype', '@twig', '@security.token_storage']
-        public: true
-
-    Zakjakub\OswisAddressBookBundle\Controller\:
-        resource: '../../Controller/*'
-        tags: ['controller.service_arguments']
-        public: true
-
-    Zakjakub\OswisAddressBookBundle\Api\Dto\:
-        resource: '../../Api/Dto/*'
-        public: true
-
-    Zakjakub\OswisAddressBookBundle\Api\EventSubscriber\:
-        resource: '../../Api/EventSubscriber/*'
-        public: true
+#    ZakJakub\OswisAddressBookBundle\EventSubscriber\:
+#        resource: '../../EventSubscriber/*'
+#        tags: [ { name: 'kernel.view'} ]
+#        arguments:
+#          ['@security.user_password_encoder.generic', '@doctrine.orm.entity_manager.abstract', '@swiftmailer.mailer.abstract', '@monolog.logger_prototype', '@twig', '@security.token_storage']
+#        public: true
+#
+#    Zakjakub\OswisAddressBookBundle\Controller\:
+#        resource: '../../Controller/*'
+#        tags: ['controller.service_arguments']
+#        public: true
+#
+#    Zakjakub\OswisAddressBookBundle\Api\Dto\:
+#        resource: '../../Api/Dto/*'
+#        public: true
+#
+#    Zakjakub\OswisAddressBookBundle\Api\EventSubscriber\:
+#        resource: '../../Api/EventSubscriber/*'
+#        public: true
