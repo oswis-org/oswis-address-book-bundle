@@ -28,7 +28,7 @@ class PersonRevision extends AbstractPersonRevision
     /**
      * @var PersonAgeRange
      * @Doctrine\ORM\Mapping\ManyToOne(
-     *     targetEntity="Zakjakub\OswisAccommodationBundle\Entity\Person",
+     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Person",
      *     inversedBy="revisions"
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(name="container_id", referencedColumnName="id")

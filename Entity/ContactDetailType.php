@@ -26,7 +26,12 @@ class ContactDetailType
 
     /**
      * @var Collection|null $contacts Contacts of this type
-     * @Doctrine\ORM\Mapping\OneToMany(targetEntity="ContactDetail", mappedBy="contactType", cascade={"all"}, orphanRemoval=true)
+     * @Doctrine\ORM\Mapping\OneToMany(
+     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactDetail",
+     *     mappedBy="contactType",
+     *     cascade={"all"},
+     *     orphanRemoval=true
+     * )
      */
     private $contacts;
 
