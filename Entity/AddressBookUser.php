@@ -6,7 +6,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use Zakjakub\OswisCoreBundle\Entity\AppUser;
+use Zakjakub\OswisAccommodationBundle\Entity\AbstractBundleUser;
 
 /**
  * @Doctrine\ORM\Mapping\Entity()
@@ -17,11 +17,5 @@ use Zakjakub\OswisCoreBundle\Entity\AppUser;
  */
 class AddressBookUser extends AbstractBundleUser
 {
-
-    public function __construct(
-        ?AppUser $appUser = null
-    ) {
-        parent::__construct($appUser);
-    }
 
 }
