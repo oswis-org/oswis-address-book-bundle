@@ -5,7 +5,6 @@ namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
 use Zakjakub\OswisAddressBookBundle\Entity\ContactImage;
 use Zakjakub\OswisCoreBundle\Entity\AbstractRevision;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
-use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicContainerTrait;
 
 /**
  * @Doctrine\ORM\Mapping\Entity()

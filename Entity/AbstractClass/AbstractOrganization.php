@@ -2,9 +2,12 @@
 
 namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
 
+use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicContainerTrait;
+
 abstract class AbstractOrganization extends AbstractContact
 {
 
+    use NameableBasicContainerTrait;
 
     final public function getContactName(): string
     {

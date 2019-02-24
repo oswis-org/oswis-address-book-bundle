@@ -4,7 +4,6 @@ namespace Zakjakub\OswisAddressBookBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
-use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
 
 /**

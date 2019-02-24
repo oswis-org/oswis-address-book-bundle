@@ -2,8 +2,12 @@
 
 namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
 
+use Zakjakub\OswisCoreBundle\Traits\Entity\PersonAdvancedContainerTrait;
+
 abstract class AbstractPerson extends AbstractContact
 {
+
+    use PersonAdvancedContainerTrait;
 
     final public function getContactName(): string
     {

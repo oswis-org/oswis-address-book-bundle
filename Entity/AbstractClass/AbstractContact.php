@@ -14,7 +14,6 @@ use Zakjakub\OswisAddressBookBundle\Entity\Place;
 use Zakjakub\OswisCoreBundle\Entity\AbstractRevisionContainer;
 use Zakjakub\OswisCoreBundle\Entity\AppUser;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
-use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicContainerTrait;
 
 /**
  * Class Contact (abstract class for Person, Department, Organization)
