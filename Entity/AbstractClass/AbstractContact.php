@@ -15,19 +15,6 @@ use Zakjakub\OswisCoreBundle\Entity\AbstractRevisionContainer;
 use Zakjakub\OswisCoreBundle\Entity\AppUser;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 
-/**
- * Class Contact (abstract class for Person, Department, Organization)
- *
- * @Doctrine\ORM\Mapping\Entity()
- * @Doctrine\ORM\Mapping\Table(name="address_book_abstract_contact")
- * @Doctrine\ORM\Mapping\InheritanceType("JOINED")
- * @Doctrine\ORM\Mapping\DiscriminatorColumn(name="discriminator", type="text")
- * @Doctrine\ORM\Mapping\DiscriminatorMap({
- *   "address_book_person" = "Person",
- *   "address_book_organization" = "Organization"
- * })
- * @ApiResource()
- */
 abstract class AbstractContact extends AbstractRevisionContainer
 {
     use BasicEntityTrait;
