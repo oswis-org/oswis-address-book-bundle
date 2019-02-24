@@ -8,7 +8,6 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
 
 abstract class AbstractAddress
 {
-    use BasicEntityTrait;
     use NameableBasicTrait;
     use AddressTrait;
 }

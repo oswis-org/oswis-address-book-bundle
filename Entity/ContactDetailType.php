@@ -21,7 +21,6 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
 class ContactDetailType
 {
 
-    use BasicEntityTrait;
     use NameableBasicTrait;
 
     /**

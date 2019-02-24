@@ -15,7 +15,6 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
 class Position
 {
 
-    use BasicEntityTrait;
     use NameableBasicTrait;
 
     public const MANAGER_POSITION_TYPES = ['manager', 'director', 'boss'];
