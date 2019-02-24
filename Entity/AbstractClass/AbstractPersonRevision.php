@@ -7,8 +7,8 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\PersonAdvancedTrait;
 
 abstract class AbstractPersonRevision extends AbstractContactRevision implements PersonInterface
 {
-    use PersonAdvancedTrait;
 
+    use PersonAdvancedTrait;
 
     final public function getContactName(): string
     {

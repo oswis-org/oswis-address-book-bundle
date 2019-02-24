@@ -21,7 +21,6 @@ abstract class AbstractContactRevision extends AbstractRevision
 {
 
     use BasicEntityTrait;
-    use NameableBasicContainerTrait;
 
     /**
      * @inheritdoc

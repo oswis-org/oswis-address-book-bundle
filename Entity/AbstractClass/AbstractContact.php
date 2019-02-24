@@ -32,7 +32,6 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicContainerTrait;
 abstract class AbstractContact extends AbstractRevisionContainer
 {
     use BasicEntityTrait;
-    use NameableBasicContainerTrait;
 
     /**
      * @var string|null $type Type of contact (person, organization, school, department...)
