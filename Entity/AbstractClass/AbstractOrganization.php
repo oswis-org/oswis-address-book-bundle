@@ -3,6 +3,7 @@
 namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
 
 use Zakjakub\OswisCoreBundle\Traits\Entity\ColorContainerTrait;
+use Zakjakub\OswisCoreBundle\Traits\Entity\EmailContainerTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\IdentificationNumberContainerTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicContainerTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\UrlContainerTrait;
@@ -22,6 +23,7 @@ abstract class AbstractOrganization extends AbstractContact
     use NameableBasicContainerTrait;
     use IdentificationNumberContainerTrait;
     use UrlContainerTrait;
+    use EmailContainerTrait;
     use ColorContainerTrait;
 
     final public function getContactName(): string

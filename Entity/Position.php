@@ -14,7 +14,6 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
  */
 class Position
 {
-
     use BasicEntityTrait;
     use NameableBasicTrait;
 
