@@ -72,6 +72,7 @@ class Person extends AbstractPerson
     ) {
         $revision = new PersonRevision();
         $this->positions = new ArrayCollection();
+        $this->revisions = new ArrayCollection();
         $revision->setFullName($fullName);
         $revision->setEmail($email);
         $revision->setPhone($phone);
@@ -97,6 +98,15 @@ class Person extends AbstractPerson
     {
         return PersonRevision::class;
     }
+
+    final public function getRevisionByDate(?\DateTime $dateTime = null): PersonRevision
+    {
+        $revision = $this->getRevision($dateTime);
+        \assert($revision instanceof PersonRevision);
+
+        return $revision;
+    }
+
 
     final public function addPosition(Position $position): void
     {
