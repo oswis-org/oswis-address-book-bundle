@@ -1,6 +1,6 @@
 <?php
 
-namespace ZakJakub\OswisAddressBookBundle\DependencyInjection;
+namespace Zakjakub\OswisAddressBookBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

@@ -1,6 +1,6 @@
 services:
 
-#    ZakJakub\OswisAddressBookBundle\EventSubscriber\:
+#    Zakjakub\OswisAddressBookBundle\EventSubscriber\:
 #        resource: '../../EventSubscriber/*'
 #        tags: [ { name: 'kernel.view'} ]
 #        arguments:
