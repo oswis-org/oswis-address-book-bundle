@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractOrganization;
-use Zakjakub\OswisCoreBundle\Entity\AbstractRevision;
+use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevision;
 
 /**
  * @Doctrine\ORM\Mapping\Entity

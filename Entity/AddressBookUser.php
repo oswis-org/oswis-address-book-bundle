@@ -6,7 +6,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use Zakjakub\OswisAccommodationBundle\Entity\AbstractBundleUser;
+use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractBundleUser;
 
 /**
  * @Doctrine\ORM\Mapping\Entity()

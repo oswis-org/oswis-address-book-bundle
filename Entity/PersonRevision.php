@@ -7,7 +7,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractPersonRevision;
-use Zakjakub\OswisCoreBundle\Entity\AbstractRevisionContainer;
+use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevisionContainer;
 
 /**
  * Class Person

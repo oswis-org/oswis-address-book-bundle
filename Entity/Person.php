@@ -9,7 +9,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractPerson;
-use Zakjakub\OswisCoreBundle\Entity\AbstractRevision;
+use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevision;
 
 /**
  * Class Person

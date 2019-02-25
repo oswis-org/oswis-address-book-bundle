@@ -11,7 +11,7 @@ use Zakjakub\OswisAddressBookBundle\Entity\ContactDetail;
 use Zakjakub\OswisAddressBookBundle\Entity\ContactNote;
 use Zakjakub\OswisAddressBookBundle\Entity\Person;
 use Zakjakub\OswisAddressBookBundle\Entity\Place;
-use Zakjakub\OswisCoreBundle\Entity\AbstractRevisionContainer;
+use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevisionContainer;
 use Zakjakub\OswisCoreBundle\Entity\AppUser;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 

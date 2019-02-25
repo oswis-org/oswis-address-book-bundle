@@ -70,7 +70,7 @@ class Position
     final public function getEmployeeString(): string
     {
         if ($this->person) {
-            return $this->person->getName();
+            return $this->person->getFullName();
         }
 
         return '???';
