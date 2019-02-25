@@ -28,7 +28,7 @@ abstract class AbstractPerson extends AbstractContact
         if (\in_array($typeName, self::ALLOWED_TYPES, true)) {
             return true;
         }
-        throw new \InvalidArgumentException('Typ organizace "' . $typeName . '" není povolen.');
+        throw new \InvalidArgumentException('Typ organizace "'.$typeName.'" není povolen.');
     }
 
 }
