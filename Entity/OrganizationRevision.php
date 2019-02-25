@@ -32,14 +32,6 @@ class OrganizationRevision extends AbstractOrganizationRevision
     protected $container;
 
     /**
-     * Organization constructor.
-     */
-    public function __construct()
-    {
-        // parent::__construct();
-    }
-
-    /**
      * @param AbstractRevisionContainer|null $revisionContainer
      */
     public static function checkRevisionContainer(?AbstractRevisionContainer $revisionContainer): void

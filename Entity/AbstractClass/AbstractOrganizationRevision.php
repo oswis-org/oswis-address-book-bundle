@@ -2,6 +2,7 @@
 
 namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
 
+use Zakjakub\OswisCoreBundle\Entity\Nameable;
 use Zakjakub\OswisCoreBundle\Traits\Entity\IdentificationNumberTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\UrlTrait;
@@ -13,6 +14,15 @@ abstract class AbstractOrganizationRevision extends AbstractContactRevision
     use IdentificationNumberTrait;
     use UrlTrait;
 
+    public function __construct(
+        ?Nameable $nameable = null,
+        ?string $identificationNumber = null,
+        ?string $url = null
+    ) {
+        $this->setFieldsFromNameable($nameable);
+        $this->setIdentificationNumber($identificationNumber);
+        $this->setUrl($url);
+    }
 
     final public function getContactName(): string
     {

@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractOrganization;
 use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevision;
+use Zakjakub\OswisCoreBundle\Entity\Nameable;
 
 /**
  * @Doctrine\ORM\Mapping\Entity
@@ -23,6 +24,7 @@ use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevision;
  */
 class Organization extends AbstractOrganization
 {
+
 
     /**
      * @var Collection
@@ -66,13 +68,16 @@ class Organization extends AbstractOrganization
      */
     protected $positions;
 
-    final public function __construct()
-    {
-        // parent::__construct();
+    public function __construct(
+        ?Nameable $nameable = null,
+        ?string $identificationNumber = null,
+        ?string $url = null
+    ) {
         $this->revisions = new ArrayCollection();
         $this->subOrganizations = new ArrayCollection();
         $this->parentOrganization = null;
         $this->positions = new ArrayCollection();
+        $this->addRevision(new OrganizationRevision($nameable, $identificationNumber, $url));
     }
 
     /**

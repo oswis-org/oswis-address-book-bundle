@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractPerson;
 use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevision;
+use Zakjakub\OswisCoreBundle\Entity\Address;
 
 /**
  * Class Person
@@ -26,6 +27,7 @@ use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevision;
  */
 class Person extends AbstractPerson
 {
+
     /**
      * @var Collection
      * @Doctrine\ORM\Mapping\OneToMany(
@@ -46,7 +48,6 @@ class Person extends AbstractPerson
      */
     private $appUser;
 
-
     /**
      * Positions (jobs, studies...).
      * @var Collection|null $positions
@@ -59,10 +60,26 @@ class Person extends AbstractPerson
      */
     private $positions;
 
-    public function __construct()
-    {
-        // parent::__construct();
+    public function __construct(
+        ?Address $address = null,
+        ?string $fullName = null,
+        ?string $email = null,
+        ?string $phone = null,
+        ?string $description = null,
+        ?\DateTime $birthDate = null,
+        ?string $note = null,
+        ?string $url = null
+    ) {
+        $revision = new PersonRevision();
         $this->positions = new ArrayCollection();
+        $revision->setFullName($fullName);
+        $revision->setEmail($email);
+        $revision->setPhone($phone);
+        $revision->setDescription($description);
+        $revision->setBirthDate($birthDate);
+        $revision->setNote($note);
+        $revision->setUrl($url);
+        $this->addRevision($revision);
     }
 
     /**
