@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\Collection;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractPerson;
 use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevision;
 use Zakjakub\OswisCoreBundle\Entity\Address;
+use Zakjakub\OswisCoreBundle\Entity\AppUser;
 
 /**
  * Class Person
