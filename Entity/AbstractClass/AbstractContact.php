@@ -37,7 +37,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
      *
      * @Doctrine\ORM\Mapping\Column(type="string", nullable=true)
      */
-    private $type;
+    protected $type;
 
     /**
      * Notes about person.
@@ -50,7 +50,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
      *     orphanRemoval=true
      * )
      */
-    private $internalNotes;
+    protected $internalNotes;
 
     /**
      *  Contact details (e-mails, phones...)
@@ -63,7 +63,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
      *     orphanRemoval=true
      * )
      */
-    private $contactDetails;
+    protected $contactDetails;
 
     /**
      * Postal addresses of AbstractContact (Person, Organization)
@@ -77,7 +77,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
      * )
      * @ApiProperty(iri="http://schema.org/address")
      */
-    private $addresses;
+    protected $addresses;
 
     abstract public function setContactName(?string $dummy): void;
 
@@ -309,9 +309,9 @@ abstract class AbstractContact extends AbstractRevisionContainer
     /**
      * @return null|string
      */
-    final public function getType(): string
+    final public function getType(): ?string
     {
-        return $this->type ?? '';
+        return $this->type;
     }
 
     /**
@@ -319,8 +319,9 @@ abstract class AbstractContact extends AbstractRevisionContainer
      */
     final public function setType(?string $type): void
     {
-        $this->type = $type ?? '';
+        $this->type = $type;
     }
 
+    abstract public function checkType(string $typeName): bool;
 
 }

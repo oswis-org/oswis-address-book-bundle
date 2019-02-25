@@ -2,6 +2,7 @@
 
 namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
 
+use Zakjakub\OswisCoreBundle\Traits\Entity\ColorContainerTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\IdentificationNumberContainerTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicContainerTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\UrlContainerTrait;
@@ -9,9 +10,19 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\UrlContainerTrait;
 abstract class AbstractOrganization extends AbstractContact
 {
 
+    public const ALLOWED_TYPES = [
+        'company',
+        'department',
+        'university',
+        'faculty',
+        'high-school',
+        'student-organization'
+    ];
+
     use NameableBasicContainerTrait;
     use IdentificationNumberContainerTrait;
     use UrlContainerTrait;
+    use ColorContainerTrait;
 
     final public function getContactName(): string
     {
@@ -26,6 +37,14 @@ abstract class AbstractOrganization extends AbstractContact
     final public function setContactName(?string $dummy): void
     {
         $this->setName($dummy);
+    }
+
+    final public function checkType(?string $typeName): bool
+    {
+        if (\in_array($typeName, self::ALLOWED_TYPES, true)) {
+            return true;
+        }
+        throw new \InvalidArgumentException('Typ organizace "' . $typeName . '" není povolen.');
     }
 
 }

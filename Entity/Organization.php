@@ -14,7 +14,7 @@ use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevision;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
 
 /**
- * @Doctrine\ORM\Mapping\Entity
+ * @Doctrine\ORM\Mapping\Entity(repositoryClass="Zakjakub\OswisAddressBookBundle\Repository\OrganizationRepository")
  * @Doctrine\ORM\Mapping\Table(name="address_book_organization")
  * @ApiResource(
  *   iri="http://schema.org/Organization",
@@ -24,7 +24,6 @@ use Zakjakub\OswisCoreBundle\Entity\Nameable;
  */
 class Organization extends AbstractOrganization
 {
-
 
     /**
      * @var Collection
@@ -71,11 +70,12 @@ class Organization extends AbstractOrganization
     public function __construct(
         ?Nameable $nameable = null,
         ?string $identificationNumber = null,
-        ?string $url = null
+        ?string $url = null,
+        ?Organization $parentOrganization = null
     ) {
         $this->revisions = new ArrayCollection();
         $this->subOrganizations = new ArrayCollection();
-        $this->parentOrganization = null;
+        $this->parentOrganization = $parentOrganization;
         $this->positions = new ArrayCollection();
         $this->addRevision(new OrganizationRevision($nameable, $identificationNumber, $url));
     }
