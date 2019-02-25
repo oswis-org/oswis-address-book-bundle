@@ -23,8 +23,8 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
  * @Doctrine\ORM\Mapping\InheritanceType("JOINED")
  * @Doctrine\ORM\Mapping\DiscriminatorColumn(name="discriminator", type="text")
  * @Doctrine\ORM\Mapping\DiscriminatorMap({
- *   "address_book_person" = "Person",
- *   "address_book_organization" = "Organization"
+ *   "address_book_person" = "Zakjakub\OswisAddressBookBundle\Entity\Person",
+ *   "address_book_organization" = "Zakjakub\OswisAddressBookBundle\Entity\Organization"
  * })
  * @ApiResource()
  */
