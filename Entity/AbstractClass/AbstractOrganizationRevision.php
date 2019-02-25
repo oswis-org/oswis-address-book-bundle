@@ -21,11 +21,13 @@ abstract class AbstractOrganizationRevision extends AbstractContactRevision
     public function __construct(
         ?Nameable $nameable = null,
         ?string $identificationNumber = null,
-        ?string $url = null
+        ?string $url = null,
+        ?string $email = null
     ) {
         $this->setFieldsFromNameable($nameable);
         $this->setIdentificationNumber($identificationNumber);
         $this->setUrl($url);
+        $this->setEmail($email);
     }
 
     final public function getContactName(): string
