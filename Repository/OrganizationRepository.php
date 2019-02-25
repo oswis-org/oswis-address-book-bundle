@@ -21,6 +21,7 @@ class OrganizationRepository extends EntityRepository
                 ->getQuery()
                 ->execute([], Query::HYDRATE_OBJECT);
         }
+
         return $this->createQueryBuilder('organization')
             ->where('organization.type = :type')
             ->setParameter('type', 'faculty')
