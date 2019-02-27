@@ -34,7 +34,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
 
     /**
      * @var ContactImage|null
-     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="App\Entity\ContactImage")
+     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactImage")
      * @Doctrine\ORM\Mapping\JoinColumn(nullable=true)
      * @ApiProperty(iri="http://schema.org/image")
      */
