@@ -4,11 +4,13 @@ namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
 
 use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevision;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
+use Zakjakub\OswisCoreBundle\Traits\Entity\InternalNoteTrait;
 
 abstract class AbstractContactRevision extends AbstractRevision
 {
 
     use BasicEntityTrait;
+    use InternalNoteTrait;
 
     /**
      * @inheritdoc

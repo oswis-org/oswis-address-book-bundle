@@ -14,6 +14,7 @@ use Zakjakub\OswisAddressBookBundle\Entity\Place;
 use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevisionContainer;
 use Zakjakub\OswisCoreBundle\Entity\AppUser;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
+use Zakjakub\OswisCoreBundle\Traits\Entity\InternalNoteContainerTrait;
 
 /**
  * Class Contact (abstract class for Person, Department, Organization)
@@ -31,6 +32,7 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 abstract class AbstractContact extends AbstractRevisionContainer
 {
     use BasicEntityTrait;
+    use InternalNoteContainerTrait;
 
     /**
      * @var ContactImage|null
