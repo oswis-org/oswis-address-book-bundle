@@ -15,9 +15,9 @@ final class ContactImageType extends AbstractType
     {
         $builder->add(
             'file',
-            FileType::class,
+            VichImageType::class,
             [
-                'label'    => 'label.file',
+                'label'    => false,
                 'required' => false,
             ]
         );
