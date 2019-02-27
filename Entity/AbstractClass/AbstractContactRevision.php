@@ -2,7 +2,6 @@
 
 namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
 
-use Zakjakub\OswisAddressBookBundle\Entity\ContactImage;
 use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevision;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 

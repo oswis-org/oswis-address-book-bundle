@@ -33,6 +33,14 @@ abstract class AbstractContact extends AbstractRevisionContainer
     use BasicEntityTrait;
 
     /**
+     * @var ContactImage|null
+     * @ORM\ManyToOne(targetEntity="App\Entity\ContactImage")
+     * @ORM\JoinColumn(nullable=true)
+     * @ApiProperty(iri="http://schema.org/image")
+     */
+    public $image;
+
+    /**
      * @var string|null $type Type of contact (person, organization, school, department...)
      *
      * @Doctrine\ORM\Mapping\Column(type="string", nullable=true)
