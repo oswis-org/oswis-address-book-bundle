@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Zakjakub\OswisAddressBookBundle\Controller\CreateContactImageAction;
 
 /**
- * @ORM\Entity
+ * @Doctrine\ORM\Mapping\Entity
  * @Doctrine\ORM\Mapping\Table(name="address_book_contact_image")
  * @ApiResource(iri="http://schema.org/ImageObject", collectionOperations={
  *     "get",
