@@ -22,12 +22,14 @@ abstract class AbstractOrganizationRevision extends AbstractContactRevision
         ?Nameable $nameable = null,
         ?string $identificationNumber = null,
         ?string $url = null,
-        ?string $email = null
+        ?string $email = null,
+        ?string $color = null
     ) {
         $this->setFieldsFromNameable($nameable);
         $this->setIdentificationNumber($identificationNumber);
         $this->setUrl($url);
         $this->setEmail($email);
+        $this->setColor($color);
     }
 
     final public function getContactName(): string

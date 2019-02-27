@@ -8,6 +8,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractOrganizationRevision;
 use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevisionContainer;
+use Zakjakub\OswisCoreBundle\Entity\Nameable;
 
 /**
  * @Doctrine\ORM\Mapping\Entity
@@ -30,6 +31,17 @@ class OrganizationRevision extends AbstractOrganizationRevision
      * @Doctrine\ORM\Mapping\JoinColumn(name="container_id", referencedColumnName="id")
      */
     protected $container;
+
+    public function __construct(
+        ?Nameable $nameable = null,
+        ?string $identificationNumber = null,
+        ?string $url = null,
+        ?string $email = null,
+        ?Organization $parentOrganization = null
+    ) {
+        parent::__construct();
+    }
+
 
     /**
      * @param AbstractRevisionContainer|null $revisionContainer
