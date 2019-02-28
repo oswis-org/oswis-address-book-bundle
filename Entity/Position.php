@@ -51,6 +51,23 @@ class Position
     private $type;
 
     /**
+     * Position constructor.
+     *
+     * @param Person|null       $person
+     * @param Organization|null $organization
+     * @param string|null       $type
+     */
+    public function __construct(
+        ?Person $person = null,
+        ?Organization $organization = null,
+        ?string $type = null
+    ) {
+        $this->setPerson($person);
+        $this->setOrganization($organization);
+        $this->setType($type);
+    }
+
+    /**
      * Get organization of this position.
      *
      * @return string
