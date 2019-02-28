@@ -408,4 +408,19 @@ class Organization extends AbstractOrganization
         }
         // TODO: Check!
     }
+
+    final public function getIdentificationNumberFromParents(): ?string
+    {
+        if ($this->getParentOrganization()) {
+            if ($this->getParentOrganization()->getIdentificationNumber()) {
+                return $this->getParentOrganization()->getIdentificationNumber();
+            }
+
+            return $this->getParentOrganization()->getIdentificationNumberFromParents();
+        }
+
+        return $this->getIdentificationNumber();
+    }
+
+
 }
