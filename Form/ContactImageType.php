@@ -17,14 +17,14 @@ final class ContactImageType extends AbstractType
             'file',
             VichImageType::class,
             [
-                'label'    => false,
+                'label'          => false,
                 'download_label' => true,
-                'download_link' => true,
-                'download_uri' => true,
-                'required' => false,
-                'attr' => [
+                'download_link'  => true,
+                'download_uri'   => true,
+                'required'       => false,
+                'attr'           => [
                     'placeholder' => 'Kliknutím vyberte soubor...',
-                ]
+                ],
             ]
         );
     }

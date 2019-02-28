@@ -18,6 +18,7 @@ class Position
     use NameableBasicTrait;
 
     public const MANAGER_POSITION_TYPES = ['manager', 'director', 'boss'];
+    public const STUDY_POSITION_TYPES = ['student', 'graduated', 'student/graduated'];
 
     /**
      * Person in this position.
@@ -134,7 +135,7 @@ class Position
     /**
      * @return Organization
      */
-    final public function getOrganization(): Organization
+    final public function getOrganization(): ?Organization
     {
         return $this->organization;
     }
@@ -179,4 +180,16 @@ class Position
     {
         $this->type = $type;
     }
+
+    final public function isRegularPosition(): bool
+    {
+        return !$this->isStudy();
+    }
+
+    final public function isStudy(): bool
+    {
+        return \in_array($this->getType(), self::STUDY_POSITION_TYPES, true);
+    }
+
+
 }
