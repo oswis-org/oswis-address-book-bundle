@@ -45,4 +45,10 @@ class ContactImage
      * @ApiProperty(iri="http://schema.org/contentUrl")
      */
     public $contentUrl;
+
+    final public function __toString(): string
+    {
+        return $this->contentUrl ?? '';
+    }
+
 }

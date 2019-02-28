@@ -18,7 +18,13 @@ final class ContactImageType extends AbstractType
             VichImageType::class,
             [
                 'label'    => false,
+                'download_label' => true,
+                'download_link' => true,
+                'download_uri' => true,
                 'required' => false,
+                'attr' => [
+                    'placeholder' => 'Kliknutím vyberte soubor...',
+                ]
             ]
         );
     }
