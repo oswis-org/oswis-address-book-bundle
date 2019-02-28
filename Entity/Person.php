@@ -42,7 +42,7 @@ class Person extends AbstractPerson
     protected $revisions;
 
     /**
-     * @var AppUser $appUser User
+     * @var AppUser|null $appUser User
      * @Doctrine\ORM\Mapping\OneToOne(
      *     targetEntity="Zakjakub\OswisCoreBundle\Entity\AppUser"
      * )

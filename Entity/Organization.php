@@ -41,7 +41,9 @@ class Organization extends AbstractOrganization
      * @var Organization|null $parentOrganization Parent organization (if this is not top level org)
      * @Doctrine\ORM\Mapping\ManyToOne(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Organization",
-     *     inversedBy="subOrganizations"
+     *     inversedBy="subOrganizations",
+     *     cascade={"all"},
+     *     fetch="EAGER"
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(nullable=true)
      */
