@@ -33,7 +33,8 @@ class OrganizationManager
         ?string $url = null,
         ?string $email = null,
         ?Organization $parentOrganization = null,
-        ?string $color = null
+        ?string $color = null,
+        ?string $type = null
     ): Organization {
         try {
             $em = $this->em;

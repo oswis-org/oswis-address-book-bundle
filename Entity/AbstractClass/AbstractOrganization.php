@@ -12,6 +12,7 @@ abstract class AbstractOrganization extends AbstractContact
 {
 
     public const ALLOWED_TYPES = [
+        'organization',
         'company',
         'department',
         'university',
