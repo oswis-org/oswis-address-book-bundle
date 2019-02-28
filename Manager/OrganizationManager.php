@@ -32,7 +32,8 @@ class OrganizationManager
         ?string $identificationNumber = null,
         ?string $url = null,
         ?string $email = null,
-        ?Organization $parentOrganization = null
+        ?Organization $parentOrganization = null,
+        ?string $color = null
     ): Organization {
         try {
             $em = $this->em;
@@ -41,7 +42,8 @@ class OrganizationManager
                 $identificationNumber,
                 $url,
                 $email,
-                $parentOrganization
+                $parentOrganization,
+                $color
             );
             $em->persist($entity);
             $em->flush();
