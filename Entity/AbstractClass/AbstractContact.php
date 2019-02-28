@@ -338,4 +338,10 @@ abstract class AbstractContact extends AbstractRevisionContainer
 
     abstract public function checkType(string $typeName): bool;
 
+    final public function __toString(): string
+    {
+        return $this->getContactName();
+    }
+
+
 }
