@@ -118,6 +118,9 @@ class Organization extends AbstractOrganization
      */
     final public function addPosition(?Position $position): void
     {
+        if (!$position) {
+            return;
+        }
         if ($position && !$this->positions->contains($position)) {
             $this->positions->add($position);
             $position->setOrganization($this);

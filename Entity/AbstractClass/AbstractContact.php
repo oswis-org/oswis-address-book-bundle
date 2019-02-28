@@ -12,6 +12,7 @@ use Zakjakub\OswisAddressBookBundle\Entity\ContactImage;
 use Zakjakub\OswisAddressBookBundle\Entity\ContactNote;
 use Zakjakub\OswisAddressBookBundle\Entity\Person;
 use Zakjakub\OswisAddressBookBundle\Entity\Place;
+use Zakjakub\OswisAddressBookBundle\Entity\Position;
 use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevisionContainer;
 use Zakjakub\OswisCoreBundle\Entity\AppUser;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
@@ -93,6 +94,9 @@ abstract class AbstractContact extends AbstractRevisionContainer
      */
     protected $addresses;
 
+    /**
+     * @param string|null $dummy
+     */
     abstract public function setContactName(?string $dummy): void;
 
     /**
@@ -230,6 +234,9 @@ abstract class AbstractContact extends AbstractRevisionContainer
         return $this->getContactName();
     }
 
+    /**
+     * @return string
+     */
     abstract public function getContactName(): string;
 
     /**
@@ -253,6 +260,9 @@ abstract class AbstractContact extends AbstractRevisionContainer
         return false;
     }
 
+    /**
+     * @return AppUser|null
+     */
     final public function getUser(): ?AppUser
     {
         return null;
@@ -280,11 +290,19 @@ abstract class AbstractContact extends AbstractRevisionContainer
         return false;
     }
 
+    /**
+     * @param AppUser $user
+     *
+     * @return bool
+     */
     final public function containsUserInPersons(AppUser $user): bool
     {
         return $this->getUsersOfPersons()->contains($user);
     }
 
+    /**
+     * @return Collection
+     */
     final public function getUsersOfPersons(): Collection
     {
         $users = new ArrayCollection();
@@ -297,6 +315,9 @@ abstract class AbstractContact extends AbstractRevisionContainer
         return $users;
     }
 
+    /**
+     * @return Collection
+     */
     final public function getPersons(): Collection
     {
         $persons = new ArrayCollection();
@@ -313,6 +334,9 @@ abstract class AbstractContact extends AbstractRevisionContainer
         return $persons;
     }
 
+    /**
+     * @return ArrayCollection
+     */
     final public function getManagedDepartments(): ArrayCollection
     {
         // TODO: Return managed departmenmts.
@@ -336,12 +360,110 @@ abstract class AbstractContact extends AbstractRevisionContainer
         $this->type = $type;
     }
 
+    /**
+     * @param string $typeName
+     *
+     * @return bool
+     */
     abstract public function checkType(string $typeName): bool;
 
+    /**
+     * @return string
+     */
     final public function __toString(): string
     {
         return $this->getContactName();
     }
 
+    /**
+     * @return Collection
+     */
+    final public function getStudies(): Collection
+    {
+        return $this->getPositions()->filter(
+            function (Position $position) {
+                return $position->isStudy();
+            }
+        );
+    }
+
+    /**
+     * @return Collection
+     */
+    abstract public function getPositions(): Collection;
+
+    /**
+     * @return Collection
+     */
+    final public function getRegularPositions(): Collection
+    {
+        return $this->getPositions()->filter(
+            function (Position $position) {
+                return $position->isRegularPosition();
+            }
+        );
+    }
+
+    /**
+     * @param Position $position
+     *
+     * @throws \InvalidArgumentException
+     */
+    final public function addStudy(Position $position): void
+    {
+        if (!$position->isStudy()) {
+            throw new \InvalidArgumentException('Špatný typ pozice ('.$position->getType().' není typ studia)');
+        }
+        $this->addPosition($position);
+    }
+
+    /**
+     * @param Position|null $position
+     */
+    abstract public function addPosition(?Position $position): void;
+
+    /**
+     * @param Position $position
+     *
+     * @throws \InvalidArgumentException
+     */
+    final public function addRegularPosition(Position $position): void
+    {
+        if (!$position->isRegularPosition()) {
+            throw new \InvalidArgumentException('Špatný typ pozice ('.$position->getType().' není typ zaměstnání)');
+        }
+        $this->addPosition($position);
+    }
+
+    /**
+     * @param Position $position
+     *
+     * @throws \InvalidArgumentException
+     */
+    final public function removeStudy(Position $position): void
+    {
+        if (!$position->isStudy()) {
+            throw new \InvalidArgumentException('Špatný typ pozice ('.$position->getType().' není typ studia)');
+        }
+        $this->removePosition($position);
+    }
+
+    /**
+     * @param Position|null $position
+     */
+    abstract public function removePosition(?Position $position): void;
+
+    /**
+     * @param Position $position
+     *
+     * @throws \InvalidArgumentException
+     */
+    final public function removeRegularPosition(Position $position): void
+    {
+        if (!$position->isRegularPosition()) {
+            throw new \InvalidArgumentException('Špatný typ pozice ('.$position->getType().' není typ zaměstnání)');
+        }
+        $this->removePosition($position);
+    }
 
 }

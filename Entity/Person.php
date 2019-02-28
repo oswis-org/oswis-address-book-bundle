@@ -100,6 +100,12 @@ class Person extends AbstractPerson
         return PersonRevision::class;
     }
 
+    /**
+     * @param \DateTime|null $dateTime
+     *
+     * @return PersonRevision
+     * @throws \Zakjakub\OswisCoreBundle\Exceptions\RevisionMissingException
+     */
     final public function getRevisionByDate(?\DateTime $dateTime = null): PersonRevision
     {
         $revision = $this->getRevision($dateTime);
@@ -108,59 +114,15 @@ class Person extends AbstractPerson
         return $revision;
     }
 
-    final public function getStudies(): Collection
+    final public function addPosition(?Position $position): void
     {
-        return $this->getPositions()->filter(
-            function (Position $position) {
-                return $position->isStudy();
-            }
-        );
-    }
-
-    final public function getPositions(): Collection
-    {
-        return $this->positions;
-    }
-
-    final public function getRegularPositions(): Collection
-    {
-        return $this->getPositions()->filter(
-            function (Position $position) {
-                return $position->isRegularPosition();
-            }
-        );
-    }
-
-    final public function addStudy(Position $position): void
-    {
-        if (!$position->isStudy()) {
-            throw new \InvalidArgumentException('Špatný typ pozice ('.$position->getType().' není typ studia)');
+        if (!$position) {
+            return;
         }
-        $this->addPosition($position);
-    }
-
-    final public function addPosition(Position $position): void
-    {
         if (!$this->positions->contains($position)) {
             $this->positions->add($position);
             $position->setPerson($this);
         }
-    }
-
-    final public function addRegularPosition(Position $position): void
-    {
-        if (!$position->isRegularPosition()) {
-            throw new \InvalidArgumentException('Špatný typ pozice ('.$position->getType().' není typ zaměstnání)');
-        }
-        $this->addPosition($position);
-    }
-
-    final public function removeStudy(Position $position): void
-    {
-        if (!$position->isStudy()) {
-            throw new \InvalidArgumentException('Špatný typ pozice ('.$position->getType().' není typ studia)');
-        }
-        $this->removePosition($position);
     }
 
     final public function removePosition(?Position $position): void
@@ -172,14 +134,6 @@ class Person extends AbstractPerson
             $position->setOrganization(null);
             $position->setPerson(null);
         }
-    }
-
-    final public function removeRegularPosition(Position $position): void
-    {
-        if (!$position->isRegularPosition()) {
-            throw new \InvalidArgumentException('Špatný typ pozice ('.$position->getType().' není typ zaměstnání)');
-        }
-        $this->removePosition($position);
     }
 
     /**
@@ -201,6 +155,11 @@ class Person extends AbstractPerson
         $output = preg_replace('!\s+!', ' ', $output);
 
         return $output;
+    }
+
+    final public function getPositions(): Collection
+    {
+        return $this->positions;
     }
 
     /**
