@@ -81,12 +81,11 @@ class Organization extends AbstractOrganization
         $this->revisions = new ArrayCollection();
         $this->positions = new ArrayCollection();
         $this->subOrganizations = new ArrayCollection();
+        $this->setType($type);
         $this->parentOrganization = $parentOrganization;
         $this->addRevision(
-            new OrganizationRevision($nameable, $identificationNumber, $url, $email)
+            new OrganizationRevision($nameable, $identificationNumber, $url, $email, $color)
         );
-        $this->setColor($color);
-        $this->setType($type);
     }
 
     /**

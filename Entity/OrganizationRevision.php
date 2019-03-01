@@ -32,17 +32,6 @@ class OrganizationRevision extends AbstractOrganizationRevision
      */
     protected $container;
 
-    public function __construct(
-        ?Nameable $nameable = null,
-        ?string $identificationNumber = null,
-        ?string $url = null,
-        ?string $email = null,
-        ?Organization $parentOrganization = null
-    ) {
-        parent::__construct();
-    }
-
-
     /**
      * @param AbstractRevisionContainer|null $revisionContainer
      */
