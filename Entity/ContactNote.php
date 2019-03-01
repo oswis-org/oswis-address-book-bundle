@@ -76,8 +76,8 @@ class ContactNote
         if ($this->contact && $this->contact !== $contact) {
             $this->contact->removeInternalNote($this);
         }
+        $this->contact = $contact;
         if ($contact && $this->contact !== $contact) {
-            $this->contact = $contact;
             $contact->addInternalNote($this);
         }
     }

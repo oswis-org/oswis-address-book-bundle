@@ -402,7 +402,7 @@ class Organization extends AbstractOrganization
      */
     final public function setParentOrganization(?Organization $organization): void
     {
-        if ($this->parentOrganization) {
+        if ($this->parentOrganization && $organization !== $this->parentOrganization) {
             $this->parentOrganization->removeSubOrganization($this);
         }
         $this->parentOrganization = $organization;

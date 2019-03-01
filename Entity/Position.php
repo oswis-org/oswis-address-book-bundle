@@ -126,8 +126,8 @@ class Position
         if ($this->person && $person !== $this->person) {
             $this->person->removePosition($this);
         }
+        $this->person = $person;
         if ($person && $this->person !== $person) {
-            $this->person = $person;
             $person->addPosition($this);
         }
     }
@@ -152,8 +152,8 @@ class Position
         if ($this->organization && $organization !== $this->organization) {
             $this->organization->removePosition($this);
         }
+        $this->organization = $organization;
         if ($organization && $this->organization !== $organization) {
-            $this->organization = $organization;
             $organization->addPosition($this);
         }
     }

@@ -42,9 +42,9 @@ class ContactAddress extends AbstractAddress
         if (null !== $this->contact) {
             $this->contact->removeAddress($this);
         }
+        $this->contact = $contact;
         if ($contact && $this->contact !== $contact) {
             $contact->addAddress($this);
-            $this->contact = $contact;
         }
     }
 }

@@ -44,7 +44,8 @@ class OrganizationManager
                 $url,
                 $email,
                 $parentOrganization,
-                $color
+                $color,
+                $type
             );
             $em->persist($entity);
             $em->flush();

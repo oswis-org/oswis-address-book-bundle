@@ -93,8 +93,8 @@ class ContactDetail
         if ($this->contactType && $contactType !== $this->contactType) {
             $this->contactType->removeContact($this);
         }
+        $this->contactType = $contactType;
         if ($contactType && $this->contactType !== $contactType) {
-            $this->contactType = $contactType;
             $contactType->addContact($this);
         }
     }
@@ -136,12 +136,12 @@ class ContactDetail
      */
     final public function setContact(AbstractContact $contact): void
     {
-        if (null !== $this->contact) {
+        if (null !== $this->contact && $contact !== $this->contact) {
             $this->contact->removeContactDetail($this);
         }
+        $this->contact = $contact;
         if ($contact && $this->contact !== $contact) {
             $contact->addContactDetail($this);
-            $this->contact = $contact;
         }
     }
 }
