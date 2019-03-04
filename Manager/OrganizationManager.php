@@ -2,6 +2,7 @@
 
 namespace Zakjakub\OswisAddressBookBundle\Manager;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Zakjakub\OswisAddressBookBundle\Entity\Organization;
@@ -15,7 +16,7 @@ class OrganizationManager
     protected $em;
 
     /**
-     * @var LoggerInterface
+     * @var LoggerInterface|null
      */
     protected $logger;
 
@@ -30,22 +31,24 @@ class OrganizationManager
     final public function create(
         ?Nameable $nameable = null,
         ?string $identificationNumber = null,
-        ?string $url = null,
-        ?string $email = null,
         ?Organization $parentOrganization = null,
         ?string $color = null,
-        ?string $type = null
+        ?string $type = null,
+        ?Collection $addresses = null,
+        ?Collection $contactDetails = null,
+        ?Collection $notes = null
     ): Organization {
         try {
             $em = $this->em;
             $entity = new Organization(
                 $nameable,
                 $identificationNumber,
-                $url,
-                $email,
                 $parentOrganization,
                 $color,
-                $type
+                $type,
+                $addresses,
+                $contactDetails,
+                $notes
             );
             $em->persist($entity);
             $em->flush();

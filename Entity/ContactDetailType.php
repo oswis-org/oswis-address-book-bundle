@@ -7,8 +7,10 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
+use Zakjakub\OswisCoreBundle\Traits\Entity\PriorityTrait;
 
 /**
  * Class ContactType
@@ -20,9 +22,18 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
  */
 class ContactDetailType
 {
+    public const ALLOWED_TYPES = [
+        'url'       => ['name' => 'URL'],
+        'email'     => ['name' => 'E-mail'],
+        'phone'     => ['name' => 'Telefon'],
+        'social'    => ['name' => 'Profil na sociální síti'],
+        'messenger' => ['name' => 'Internetový komunikátor'],
+        'voip'      => ['name' => 'Internetová telefonie'],
+    ];
 
     use BasicEntityTrait;
     use NameableBasicTrait;
+    use PriorityTrait;
 
     /**
      * @var Collection|null $contacts Contacts of this type
@@ -33,13 +44,13 @@ class ContactDetailType
      *     orphanRemoval=true
      * )
      */
-    private $contacts;
+    protected $contacts;
 
     /**
      * @var string|null $schema Schema of type of contact
      * @Doctrine\ORM\Mapping\Column(type="string", nullable=true)
      */
-    private $schema;
+    protected $schema;
 
     /**
      * Show in address book preview?
@@ -47,8 +58,79 @@ class ContactDetailType
      * @var bool|null $showInPreview
      * @Doctrine\ORM\Mapping\Column(type="boolean", nullable=true)
      */
-    private $showInPreview;
+    protected $showInPreview;
 
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $type;
+
+    /**
+     * @return bool|null
+     */
+    final public function getShowInPreview(): ?bool
+    {
+        return $this->showInPreview;
+    }
+
+    /**
+     * @param bool|null $showInPreview
+     */
+    final public function setShowInPreview(?bool $showInPreview): void
+    {
+        $this->showInPreview = $showInPreview;
+    }
+
+    /**
+     * @return array
+     * @throws \InvalidArgumentException
+     */
+    final public function getTypeAsArray(): array
+    {
+        $this->checkType();
+        if ($this->getType() && \array_key_exists($this->getType(), self::ALLOWED_TYPES)) {
+            return self::ALLOWED_TYPES[$this->getType()];
+        }
+
+        return null;
+    }
+
+    /**
+     * @param string|null $type
+     *
+     * @throws \InvalidArgumentException
+     */
+    final public function checkType(?string $type = null): void
+    {
+        $type = $type ?? $this->type;
+        if (!$type || \array_key_exists($type, self::ALLOWED_TYPES)) {
+            return;
+        }
+        throw new \InvalidArgumentException("Typ $type není povoleným typem akce.");
+    }
+
+    /**
+     * @return string|null
+     * @throws \InvalidArgumentException
+     */
+    final public function getType(): ?string
+    {
+        $this->checkType();
+
+        return $this->type;
+    }
+
+    /**
+     * @param string|null $type
+     *
+     * @throws \InvalidArgumentException
+     */
+    final public function setType(?string $type): void
+    {
+        $this->checkType($type);
+        $this->type = $type;
+    }
 
     final public function addContact(?ContactDetail $contact): void
     {

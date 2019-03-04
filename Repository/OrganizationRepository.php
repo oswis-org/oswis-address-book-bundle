@@ -7,7 +7,6 @@ use Doctrine\ORM\Query;
 
 class OrganizationRepository extends EntityRepository
 {
-
     final public function getFacultiesOfUniversity(?string $universityShortName = null): array
     {
         if ($universityShortName) {
@@ -28,5 +27,4 @@ class OrganizationRepository extends EntityRepository
             ->getQuery()
             ->execute([], Query::HYDRATE_OBJECT);
     }
-
 }

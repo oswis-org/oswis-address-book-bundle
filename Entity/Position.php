@@ -190,6 +190,4 @@ class Position
     {
         return \in_array($this->getType(), self::STUDY_POSITION_TYPES, true);
     }
-
-
 }

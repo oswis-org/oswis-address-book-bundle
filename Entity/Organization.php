@@ -72,19 +72,20 @@ class Organization extends AbstractOrganization
     public function __construct(
         ?Nameable $nameable = null,
         ?string $identificationNumber = null,
-        ?string $url = null,
-        ?string $email = null,
         ?Organization $parentOrganization = null,
         ?string $color = null,
-        ?string $type = 'organization'
+        ?string $type = 'organization',
+        ?Collection $addresses = null,
+        ?Collection $contactDetails = null,
+        ?Collection $notes = null
     ) {
+        parent::__construct($type, $notes, $contactDetails, $addresses);
         $this->revisions = new ArrayCollection();
         $this->positions = new ArrayCollection();
         $this->subOrganizations = new ArrayCollection();
-        $this->setType($type);
-        $this->parentOrganization = $parentOrganization;
+        $this->setParentOrganization($parentOrganization);
         $this->addRevision(
-            new OrganizationRevision($nameable, $identificationNumber, $url, $email, $color)
+            new OrganizationRevision($nameable, $identificationNumber, $color)
         );
     }
 
@@ -424,6 +425,4 @@ class Organization extends AbstractOrganization
 
         return $this->getIdentificationNumber();
     }
-
-
 }

@@ -10,7 +10,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractPerson;
 use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevision;
-use Zakjakub\OswisCoreBundle\Entity\Address;
 use Zakjakub\OswisCoreBundle\Entity\AppUser;
 
 /**
@@ -61,27 +60,34 @@ class Person extends AbstractPerson
      */
     private $positions;
 
+    /**
+     * Person constructor.
+     *
+     * @param string|null       $fullName
+     * @param string|null       $description
+     * @param \DateTime|null    $birthDate
+     * @param string|null       $type
+     * @param Collection|null   $notes
+     * @param Collection|null   $contactDetails
+     * @param Collection|null   $addresses
+     * @param ContactImage|null $image
+     *
+     * @throws \Exception
+     */
     public function __construct(
-        ?Address $address = null,
         ?string $fullName = null,
-        ?string $email = null,
-        ?string $phone = null,
         ?string $description = null,
         ?\DateTime $birthDate = null,
-        ?string $note = null,
-        ?string $url = null
+        ?string $type = null,
+        ?Collection $notes = null,
+        ?Collection $contactDetails = null,
+        ?Collection $addresses = null,
+        ?ContactImage $image = null
     ) {
-        $revision = new PersonRevision();
+        parent::__construct($type, $notes, $contactDetails, $addresses, $image);
         $this->positions = new ArrayCollection();
         $this->revisions = new ArrayCollection();
-        $revision->setFullName($fullName);
-        $revision->setEmail($email);
-        $revision->setPhone($phone);
-        $revision->setDescription($description);
-        $revision->setBirthDate($birthDate);
-        $revision->setNote($note);
-        $revision->setUrl($url);
-        $this->addRevision($revision);
+        $this->addRevision(new PersonRevision($fullName, $description, $birthDate));
     }
 
     /**
@@ -183,5 +189,4 @@ class Person extends AbstractPerson
             $this->appUser = $appUser;
         }
     }
-
 }

@@ -26,7 +26,7 @@ class PersonRevision extends AbstractPersonRevision
 {
 
     /**
-     * @var PersonAgeRange
+     * @var Person
      * @Doctrine\ORM\Mapping\ManyToOne(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Person",
      *     inversedBy="revisions"
@@ -50,5 +50,4 @@ class PersonRevision extends AbstractPersonRevision
     {
         return Person::class;
     }
-
 }

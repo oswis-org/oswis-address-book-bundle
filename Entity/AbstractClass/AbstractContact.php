@@ -11,12 +11,10 @@ use Zakjakub\OswisAddressBookBundle\Entity\ContactDetail;
 use Zakjakub\OswisAddressBookBundle\Entity\ContactImage;
 use Zakjakub\OswisAddressBookBundle\Entity\ContactNote;
 use Zakjakub\OswisAddressBookBundle\Entity\Person;
-use Zakjakub\OswisAddressBookBundle\Entity\Place;
 use Zakjakub\OswisAddressBookBundle\Entity\Position;
 use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevisionContainer;
 use Zakjakub\OswisCoreBundle\Entity\AppUser;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
-use Zakjakub\OswisCoreBundle\Traits\Entity\InternalNoteContainerTrait;
 
 /**
  * Class Contact (abstract class for Person, Department, Organization)
@@ -34,7 +32,6 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\InternalNoteContainerTrait;
 abstract class AbstractContact extends AbstractRevisionContainer
 {
     use BasicEntityTrait;
-    use InternalNoteContainerTrait;
 
     /**
      * @var ContactImage|null
@@ -65,7 +62,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
      *     orphanRemoval=true
      * )
      */
-    protected $internalNotes;
+    protected $notes;
 
     /**
      *  Contact details (e-mails, phones...)
@@ -81,7 +78,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
     protected $contactDetails;
 
     /**
-     * Postal addresses of AbstractContact (Person, Organization)
+     * Postal addresses of AbstractContact (Person, Organization).
      *
      * @var Collection|null
      * @Doctrine\ORM\Mapping\OneToMany(
@@ -95,20 +92,43 @@ abstract class AbstractContact extends AbstractRevisionContainer
     protected $addresses;
 
     /**
-     * @param string|null $dummy
+     * AbstractContact constructor.
+     *
+     * @param ContactImage|null $image
+     * @param string|null       $type
+     * @param Collection|null   $notes
+     * @param Collection|null   $contactDetails
+     * @param Collection|null   $addresses
      */
-    abstract public function setContactName(?string $dummy): void;
+    public function __construct(
+        ?string $type = null,
+        ?Collection $notes = null,
+        ?Collection $contactDetails = null,
+        ?Collection $addresses = null,
+        ?ContactImage $image = null
+    ) {
+        $this->image = $image;
+        $this->setType($type);
+        $this->setNotes($notes);
+        $this->setContactDetails($contactDetails);
+        $this->setAddresses($addresses);
+    }
+
+    /**
+     * @param string|null $name
+     */
+    abstract public function setContactName(?string $name): void;
 
     /**
      * @param ContactNote|null $personNote
      */
-    final public function addInternalNote(?ContactNote $personNote): void
+    final public function addNote(?ContactNote $personNote): void
     {
         if (!$personNote) {
             return;
         }
-        if (!$this->internalNotes->contains($personNote)) {
-            $this->internalNotes->add($personNote);
+        if (!$this->notes->contains($personNote)) {
+            $this->notes->add($personNote);
         }
         $personNote->setContact($this);
     }
@@ -116,21 +136,10 @@ abstract class AbstractContact extends AbstractRevisionContainer
     /**
      * @param ContactNote|null $personNote
      */
-    final public function removeInternalNote(?ContactNote $personNote): void
+    final public function removeNote(?ContactNote $personNote): void
     {
-        if ($personNote && $this->internalNotes->removeElement($personNote)) {
+        if ($personNote && $this->notes->removeElement($personNote)) {
             $personNote->setContact(null);
-        }
-    }
-
-    /**
-     * @param ContactDetail|null $contactDetail
-     */
-    final public function addContactDetail(?ContactDetail $contactDetail): void
-    {
-        if ($contactDetail && !$this->contactDetails->contains($contactDetail)) {
-            $this->contactDetails->add($contactDetail);
-            $contactDetail->setContact($this);
         }
     }
 
@@ -141,20 +150,6 @@ abstract class AbstractContact extends AbstractRevisionContainer
     {
         if ($contactDetail && $this->contactDetails->removeElement($contactDetail)) {
             $contactDetail->setContact(null);
-        }
-    }
-
-    /**
-     * @param ContactAddress|null $address
-     */
-    final public function addAddress(?ContactAddress $address): void
-    {
-        if (!$address) {
-            return;
-        }
-        if (!$this->addresses->contains($address)) {
-            $this->addresses->add($address);
-            $address->setContact($this);
         }
     }
 
@@ -179,6 +174,28 @@ abstract class AbstractContact extends AbstractRevisionContainer
         return $this->contactDetails;
     }
 
+    final public function setContactDetails(?Collection $contactDetails): void
+    {
+        $this->contactDetails = new ArrayCollection();
+        if ($contactDetails) {
+            foreach ($contactDetails as $contactDetail) {
+                \assert($contactDetail instanceof ContactDetail);
+                $this->addContactDetail($contactDetail);
+            }
+        }
+    }
+
+    /**
+     * @param ContactDetail|null $contactDetail
+     */
+    final public function addContactDetail(?ContactDetail $contactDetail): void
+    {
+        if ($contactDetail && !$this->contactDetails->contains($contactDetail)) {
+            $this->contactDetails->add($contactDetail);
+            $contactDetail->setContact($this);
+        }
+    }
+
     /**
      * @return Collection
      */
@@ -187,12 +204,48 @@ abstract class AbstractContact extends AbstractRevisionContainer
         return $this->addresses;
     }
 
+    final public function setAddresses(?Collection $addresses): void
+    {
+        $this->addresses = new ArrayCollection();
+        if ($addresses) {
+            foreach ($addresses as $address) {
+                \assert($address instanceof ContactAddress);
+                $this->addAddress($address);
+            }
+        }
+    }
+
+    /**
+     * @param ContactAddress|null $address
+     */
+    final public function addAddress(?ContactAddress $address): void
+    {
+        if (!$address) {
+            return;
+        }
+        if (!$this->addresses->contains($address)) {
+            $this->addresses->add($address);
+            $address->setContact($this);
+        }
+    }
+
     /**
      * @return Collection
      */
-    final public function getInternalNotes(): Collection
+    final public function getNotes(): Collection
     {
-        return $this->internalNotes;
+        return $this->notes;
+    }
+
+    final public function setNotes(?Collection $notes): void
+    {
+        $this->notes = new ArrayCollection();
+        if ($notes) {
+            foreach ($notes as $note) {
+                \assert($note instanceof ContactNote);
+                $this->addNote($note);
+            }
+        }
     }
 
     /**
@@ -465,5 +518,4 @@ abstract class AbstractContact extends AbstractRevisionContainer
         }
         $this->removePosition($position);
     }
-
 }

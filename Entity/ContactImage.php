@@ -50,5 +50,4 @@ class ContactImage
     {
         return $this->contentUrl ?? '';
     }
-
 }

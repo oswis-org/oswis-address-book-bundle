@@ -3,6 +3,7 @@
 namespace Zakjakub\OswisAddressBookBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\ORM\Mapping as ORM;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 
@@ -15,13 +16,18 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
  */
 class ContactNote
 {
-
     use BasicEntityTrait;
 
     /**
+     * @var bool|null
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    protected $public;
+
+    /**
      * Content of note.
-     * @var string $content
-     * @Doctrine\ORM\Mapping\Column(type="text")
+     * @var string|null $content
+     * @Doctrine\ORM\Mapping\Column(type="text", nullable=true)
      */
     private $content;
 
@@ -30,7 +36,7 @@ class ContactNote
      * @var AbstractContact|null $contact Contact, that this note belongs to
      * @Doctrine\ORM\Mapping\ManyToOne(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact",
-     *     inversedBy="internalNotes"
+     *     inversedBy="notes"
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")
      */
@@ -38,26 +44,44 @@ class ContactNote
 
     /**
      * ContactNote constructor.
+     *
+     * @param string|null          $content
+     * @param AbstractContact|null $contact
+     * @param bool|null            $public
      */
-    public function __construct()
+    public function __construct(
+        ?string $content = null,
+        ?AbstractContact $contact = null,
+        ?bool $public = null
+    ) {
+        $this->setContact($contact);
+        $this->setContent($content);
+        $this->setPublic($public);
+    }
+
+
+    /**
+     * @return bool|null
+     */
+    final public function getPublic(): ?bool
     {
-        $this->content = '';
+        return $this->public;
     }
 
     /**
-     * @return string
+     * @param bool|null $public
      */
-    final public function getContent(): string
+    final public function setPublic(?bool $public): void
     {
-        return $this->content ?? '';
+        $this->public = $public;
     }
 
     /**
-     * @param string $content
+     * @return bool|null
      */
-    final public function setContent(?string $content): void
+    final public function isPublic(): ?bool
     {
-        $this->content = $content;
+        return $this->public;
     }
 
     /**
@@ -74,16 +98,32 @@ class ContactNote
     final public function setContact(?AbstractContact $contact): void
     {
         if ($this->contact && $this->contact !== $contact) {
-            $this->contact->removeInternalNote($this);
+            $this->contact->removeNote($this);
         }
         $this->contact = $contact;
         if ($contact && $this->contact !== $contact) {
-            $contact->addInternalNote($this);
+            $contact->addNote($this);
         }
     }
 
     final public function __toString(): string
     {
+        return $this->getContent() ?? '';
+    }
+
+    /**
+     * @return string
+     */
+    final public function getContent(): ?string
+    {
         return $this->content;
+    }
+
+    /**
+     * @param string $content
+     */
+    final public function setContent(?string $content): void
+    {
+        $this->content = $content;
     }
 }

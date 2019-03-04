@@ -46,5 +46,4 @@ class OrganizationRevision extends AbstractOrganizationRevision
     {
         return Organization::class;
     }
-
 }

@@ -2,27 +2,30 @@
 
 namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
 
-use Zakjakub\OswisCoreBundle\Traits\Entity\PersonAdvancedContainerTrait;
+use Zakjakub\OswisCoreBundle\Traits\Entity\PersonBasicContainerTrait;
 
 abstract class AbstractPerson extends AbstractContact
 {
-
     public const ALLOWED_TYPES = ['person'];
 
-    use PersonAdvancedContainerTrait;
+    use PersonBasicContainerTrait;
 
     final public function getContactName(): string
     {
-        // TODO: Implement getContactName() method.
-        return '';
+        return $this->getFullName();
     }
 
-    final public function setContactName(?string $dummy): void
+    final public function setContactName(?string $name): void
     {
-        // TODO: Implement setContactName() method.
+        $this->setFullName($name);
     }
 
-
+    /**
+     * @param string|null $typeName
+     *
+     * @return bool
+     * @throws \InvalidArgumentException
+     */
     final public function checkType(?string $typeName): bool
     {
         if (\in_array($typeName, self::ALLOWED_TYPES, true)) {
@@ -30,5 +33,4 @@ abstract class AbstractPerson extends AbstractContact
         }
         throw new \InvalidArgumentException('Typ organizace "'.$typeName.'" není povolen.');
     }
-
 }

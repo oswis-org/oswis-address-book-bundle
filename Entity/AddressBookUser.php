@@ -17,5 +17,4 @@ use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractBundleUser;
  */
 class AddressBookUser extends AbstractBundleUser
 {
-
 }
