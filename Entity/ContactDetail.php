@@ -56,9 +56,9 @@ class ContactDetail
      * @param AbstractContact|null   $contact
      */
     public function __construct(
-        ?ContactDetailType $contactType,
-        ?string $content,
-        ?AbstractContact $contact
+        ?ContactDetailType $contactType = null,
+        ?string $content = null,
+        ?AbstractContact $contact = null
     ) {
         $this->contactType = $contactType;
         $this->content = $content;
