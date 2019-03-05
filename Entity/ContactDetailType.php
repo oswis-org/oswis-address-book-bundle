@@ -67,6 +67,18 @@ class ContactDetailType
     protected $type;
 
     /**
+     * @var string|null
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $formLabel;
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $formHelp;
+
+    /**
      * ContactDetailType constructor.
      *
      * @param Nameable|null $nameable
@@ -74,19 +86,58 @@ class ContactDetailType
      * @param bool|null     $showInPreview
      * @param string|null   $type
      *
+     * @param string|null   $formLabel
+     * @param string|null   $formHelp
+     *
      * @throws \InvalidArgumentException
      */
     public function __construct(
         ?Nameable $nameable = null,
         ?string $schema = null,
         ?bool $showInPreview = null,
-        ?string $type = null
+        ?string $type = null,
+        ?string $formLabel = null,
+        ?string $formHelp = null
     ) {
         $this->contacts = new ArrayCollection();
         $this->setFieldsFromNameable($nameable);
         $this->setSchema($schema);
         $this->setShowInPreview($showInPreview);
         $this->setType($type);
+        $this->setFormLabel($formLabel);
+        $this->setFormHelp($formHelp);
+    }
+
+    /**
+     * @return string|null
+     */
+    final public function getFormLabel(): ?string
+    {
+        return $this->formLabel;
+    }
+
+    /**
+     * @param string|null $formLabel
+     */
+    final public function setFormLabel(?string $formLabel): void
+    {
+        $this->formLabel = $formLabel;
+    }
+
+    /**
+     * @return string|null
+     */
+    final public function getFormHelp(): ?string
+    {
+        return $this->formHelp;
+    }
+
+    /**
+     * @param string|null $formHelp
+     */
+    final public function setFormHelp(?string $formHelp): void
+    {
+        $this->formHelp = $formHelp;
     }
 
     /**

@@ -31,7 +31,9 @@ class ContactDetailTypeManager
         ?Nameable $nameable = null,
         ?string $schema = null,
         ?bool $showInPreview = null,
-        ?string $type = null
+        ?string $type = null,
+        ?string $formLabel = null,
+        ?string $formHelp = null
     ): ContactDetailType {
         try {
             $em = $this->em;
@@ -39,7 +41,9 @@ class ContactDetailTypeManager
                 $nameable,
                 $schema,
                 $showInPreview,
-                $type
+                $type,
+                $formLabel,
+                $formHelp
             );
             $em->persist($entity);
             $em->flush();
