@@ -92,7 +92,7 @@ class ContactDetail
     /**
      * @param string $content
      */
-    final public function setContent(string $content): void
+    final public function setContent(?string $content): void
     {
         $this->content = $content;
     }
