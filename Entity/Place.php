@@ -36,13 +36,13 @@ class Place
 
     /**
      * @var int|null
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $floorNumber;
 
     /**
      * @var int|null
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $roomNumber;
 
