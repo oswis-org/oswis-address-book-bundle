@@ -37,7 +37,8 @@ abstract class AbstractContact extends AbstractRevisionContainer
      * @var ContactImage|null
      * @Doctrine\ORM\Mapping\ManyToOne(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactImage",
-     *     cascade={"all"}
+     *     cascade={"all"},
+     *     fetch="EAGER"
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(nullable=true)
      * @ApiProperty(iri="http://schema.org/image")
@@ -59,7 +60,8 @@ abstract class AbstractContact extends AbstractRevisionContainer
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactNote",
      *     mappedBy="contact",
      *     cascade={"all"},
-     *     orphanRemoval=true
+     *     orphanRemoval=true,
+     *     fetch="EAGER"
      * )
      */
     protected $notes;
@@ -72,7 +74,8 @@ abstract class AbstractContact extends AbstractRevisionContainer
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactDetail",
      *     mappedBy="contact",
      *     cascade={"all"},
-     *     orphanRemoval=true
+     *     orphanRemoval=true,
+     *     fetch="EAGER"
      * )
      */
     protected $contactDetails;
@@ -85,7 +88,8 @@ abstract class AbstractContact extends AbstractRevisionContainer
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactAddress",
      *     mappedBy="contact",
      *     cascade={"all"},
-     *     orphanRemoval=true
+     *     orphanRemoval=true,
+     *     fetch="EAGER"
      * )
      * @ApiProperty(iri="http://schema.org/address")
      */
