@@ -50,7 +50,7 @@ class Place
      * Parent place (if this is not top level place).
      * @var Place|null $parentPlace
      * @Doctrine\ORM\Mapping\ManyToOne(
-     *     targetEntity="Zakjakub\OswisJobFairBundle\Entity\Place",
+     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Place",
      *     inversedBy="subPlaces",
      *     fetch="EAGER"
      * )
@@ -62,7 +62,7 @@ class Place
      * Sub events.
      * @var Collection|null $subPlaces
      * @Doctrine\ORM\Mapping\OneToMany(
-     *     targetEntity="Zakjakub\OswisJobFairBundle\Entity\Place",
+     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Place",
      *     mappedBy="parentPlace",
      *     fetch="EAGER"
      * )

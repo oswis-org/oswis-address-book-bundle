@@ -84,7 +84,7 @@ class ContactDetail
     /**
      * @return string
      */
-    final public function getContent(): string
+    final public function getContent(): ?string
     {
         return $this->content;
     }

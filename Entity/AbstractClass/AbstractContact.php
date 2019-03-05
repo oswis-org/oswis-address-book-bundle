@@ -290,28 +290,31 @@ abstract class AbstractContact extends AbstractRevisionContainer
             }
         )->first();
         \assert($result instanceof ContactDetail);
+
         return $result ? $result->getContent() : null;
     }
 
     final public function getUrl(): ?string
     {
         $result = $this->contactDetails->filter(
-                function (ContactDetail $contactDetail) {
-                    return ($contactDetail->getContactType() && $contactDetail->getContactType()->getType() === 'url');
-                }
-            )->first();
+            function (ContactDetail $contactDetail) {
+                return ($contactDetail->getContactType() && $contactDetail->getContactType()->getType() === 'url');
+            }
+        )->first();
         \assert($result instanceof ContactDetail);
+
         return $result ? $result->getContent() : null;
     }
 
     final public function getPhone(): ?string
     {
         $result = $this->contactDetails->filter(
-                function (ContactDetail $contactDetail) {
-                    return ($contactDetail->getContactType() && $contactDetail->getContactType()->getType() === 'phone');
-                }
-            )->first();
+            function (ContactDetail $contactDetail) {
+                return ($contactDetail->getContactType() && $contactDetail->getContactType()->getType() === 'phone');
+            }
+        )->first();
         \assert($result instanceof ContactDetail);
+
         return $result ? $result->getContent() : null;
     }
 
