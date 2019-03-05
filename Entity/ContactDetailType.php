@@ -47,10 +47,10 @@ class ContactDetailType
     protected $contacts;
 
     /**
-     * @var string|null $schema Schema of type of contact
+     * @var string|null $contactSchema Schema of type of contact
      * @Doctrine\ORM\Mapping\Column(type="string", nullable=true)
      */
-    protected $schema;
+    protected $contactSchema;
 
     /**
      * Show in address book preview?
@@ -101,7 +101,7 @@ class ContactDetailType
     ) {
         $this->contacts = new ArrayCollection();
         $this->setFieldsFromNameable($nameable);
-        $this->setSchema($schema);
+        $this->setContactSchema($schema);
         $this->setShowInPreview($showInPreview);
         $this->setType($type);
         $this->setFormLabel($formLabel);
@@ -231,25 +231,25 @@ class ContactDetailType
 
     final public function getFormatted(string $value, ?string $description): string
     {
-        return strtr($this->getSchema(), array('$<value>' => $value, '$<description>' => $description));
+        return strtr($this->getContactSchema(), array('$<value>' => $value, '$<description>' => $description));
     }
 
     /**
      * Get schema of contact detail.
      * @return string
      */
-    final public function getSchema(): string
+    final public function getContactSchema(): string
     {
-        return $this->schema;
+        return $this->contactSchema;
     }
 
     /**
      * Set schema of contact detail.
      *
-     * @param string $schema
+     * @param string $contactSchema
      */
-    final public function setSchema(string $schema): void
+    final public function setContactSchema(string $contactSchema): void
     {
-        $this->schema = $schema;
+        $this->contactSchema = $contactSchema;
     }
 }

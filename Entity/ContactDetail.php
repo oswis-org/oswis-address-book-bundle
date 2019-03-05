@@ -125,7 +125,7 @@ class ContactDetail
     final public function getSchemaString(): ?string
     {
         if ($this->contactType) {
-            return $this->contactType->getSchema();
+            return $this->contactType->getContactSchema();
         }
 
         return null;
