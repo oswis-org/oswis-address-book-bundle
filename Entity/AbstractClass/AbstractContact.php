@@ -278,6 +278,38 @@ abstract class AbstractContact extends AbstractRevisionContainer
         return new ArrayCollection();
     }
 
+    final public function getEmail(): ?string
+    {
+        return $this->contactDetails->filter(
+            function (ContactDetail $contactDetail) {
+                return ($contactDetail->getContactType() && $contactDetail->getContactType()->getType() === 'email');
+            }
+        )->first();
+    }
+
+    final public function getUrl(): ?string
+    {
+        return $this->contactDetails->filter(
+                function (ContactDetail $contactDetail) {
+                    return ($contactDetail->getContactType() && $contactDetail->getContactType()->getType() === 'url');
+                }
+            )->first() ?? null;
+    }
+
+    final public function getPhone(): ?string
+    {
+        return $this->contactDetails->filter(
+                function (ContactDetail $contactDetail) {
+                    return ($contactDetail->getContactType() && $contactDetail->getContactType()->getType() === 'phone');
+                }
+            )->first() ?? null;
+    }
+
+    final public function getAddress(): ?string
+    {
+        return $this->contactDetails->first() ?? null;
+    }
+
     /**
      * @ApiProperty(iri="http://schema.org/legalName")
      * @return string (Official) Name of AbstractContact (Person or Organization)

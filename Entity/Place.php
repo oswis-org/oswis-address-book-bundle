@@ -174,5 +174,4 @@ class Place
     {
         $this->roomNumber = $roomNumber;
     }
-
 }

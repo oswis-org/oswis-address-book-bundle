@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Validator\Constraints as Assert;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractAddress;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
+use Zakjakub\OswisCoreBundle\Traits\Entity\PriorityTrait;
 
 /**
  * @Doctrine\ORM\Mapping\Entity
@@ -14,6 +15,7 @@ use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
  */
 class ContactAddress extends AbstractAddress
 {
+    use PriorityTrait;
 
     /**
      * @var AbstractContact|null $contact Contact, that this address belongs to

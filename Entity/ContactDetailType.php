@@ -10,7 +10,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
-use Zakjakub\OswisCoreBundle\Traits\Entity\PriorityTrait;
 
 /**
  * Class ContactType
@@ -33,7 +32,6 @@ class ContactDetailType
 
     use BasicEntityTrait;
     use NameableBasicTrait;
-    use PriorityTrait;
 
     /**
      * @var Collection|null $contacts Contacts of this type

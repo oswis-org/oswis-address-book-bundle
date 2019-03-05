@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\DescriptionTrait;
+use Zakjakub\OswisCoreBundle\Traits\Entity\PriorityTrait;
 
 /**
  * @Doctrine\ORM\Mapping\Entity()
@@ -16,6 +17,7 @@ class ContactDetail
 {
     use BasicEntityTrait;
     use DescriptionTrait;
+    use PriorityTrait;
 
     /**
      * Type of this contact.
