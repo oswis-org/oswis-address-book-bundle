@@ -49,6 +49,24 @@ class ContactDetail
     private $contact;
 
     /**
+     * ContactDetail constructor.
+     *
+     * @param ContactDetailType|null $contactType
+     * @param string|null            $content
+     * @param AbstractContact|null   $contact
+     */
+    public function __construct(
+        ?ContactDetailType $contactType,
+        ?string $content,
+        ?AbstractContact $contact
+    ) {
+        $this->contactType = $contactType;
+        $this->content = $content;
+        $this->contact = $contact;
+    }
+
+
+    /**
      * @return null|string
      */
     final public function getFormatted(): ?string

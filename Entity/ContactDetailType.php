@@ -6,8 +6,10 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Zakjakub\OswisCoreBundle\Entity\Nameable;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
 
@@ -63,6 +65,29 @@ class ContactDetailType
      * @ORM\Column(type="string", nullable=true)
      */
     protected $type;
+
+    /**
+     * ContactDetailType constructor.
+     *
+     * @param Nameable|null $nameable
+     * @param string|null   $schema
+     * @param bool|null     $showInPreview
+     * @param string|null   $type
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function __construct(
+        ?Nameable $nameable = null,
+        ?string $schema = null,
+        ?bool $showInPreview = null,
+        ?string $type = null
+    ) {
+        $this->contacts = new ArrayCollection();
+        $this->setFieldsFromNameable($nameable);
+        $this->setSchema($schema);
+        $this->setShowInPreview($showInPreview);
+        $this->setType($type);
+    }
 
     /**
      * @return bool|null
