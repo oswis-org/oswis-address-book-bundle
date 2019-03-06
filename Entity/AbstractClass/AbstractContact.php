@@ -175,7 +175,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
      */
     final public function getContactDetails(): Collection
     {
-        return $this->contactDetails;
+        return $this->contactDetails ?? new ArrayCollection();
     }
 
     final public function setContactDetails(?Collection $contactDetails): void
