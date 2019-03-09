@@ -2,7 +2,6 @@
 
 namespace Zakjakub\OswisAddressBookBundle\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\DescriptionTrait;
@@ -11,7 +10,6 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\PriorityTrait;
 /**
  * @Doctrine\ORM\Mapping\Entity()
  * @Doctrine\ORM\Mapping\Table(name="address_book_contact_detail")
- * @ApiResource()
  */
 class ContactDetail
 {

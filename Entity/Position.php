@@ -2,15 +2,52 @@
 
 namespace Zakjakub\OswisAddressBookBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
 
 /**
  * @Doctrine\ORM\Mapping\Entity()
  * @Doctrine\ORM\Mapping\Table(name="address_book_position")
- * @ApiResource()
+ * @ApiResource(
+ *   attributes={
+ *     "access_control"="is_granted('ROLE_MANAGER')"
+ *   },
+ *   collectionOperations={
+ *     "get"={
+ *       "access_control"="is_granted('ROLE_MANAGER')",
+ *       "normalization_context"={"groups"={"address_book_positions_get"}},
+ *     },
+ *     "post"={
+ *       "access_control"="is_granted('ROLE_MANAGER')",
+ *       "denormalization_context"={"groups"={"address_book_positions_post"}}
+ *     }
+ *   },
+ *   itemOperations={
+ *     "get"={
+ *       "access_control"="is_granted('ROLE_MANAGER')",
+ *       "normalization_context"={"groups"={"address_book_position_get"}},
+ *     },
+ *     "put"={
+ *       "access_control"="is_granted('ROLE_MANAGER')",
+ *       "denormalization_context"={"groups"={"address_book_position_put"}}
+ *     },
+ *     "delete"={
+ *       "access_control"="is_granted('ROLE_ADMIN')",
+ *       "denormalization_context"={"groups"={"address_book_position_delete"}}
+ *     }
+ *   }
+ * )
+ * @ApiFilter(OrderFilter::class)
+ * @Searchable({
+ *     "id",
+ *     "name",
+ *     "description",
+ *     "note"
+ * })
  */
 class Position
 {

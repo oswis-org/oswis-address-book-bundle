@@ -3,7 +3,6 @@
 namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Zakjakub\OswisAddressBookBundle\Entity\ContactAddress;
@@ -27,7 +26,6 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
  *   "address_book_person" = "Zakjakub\OswisAddressBookBundle\Entity\Person",
  *   "address_book_organization" = "Zakjakub\OswisAddressBookBundle\Entity\Organization"
  * })
- * @ApiResource()
  */
 abstract class AbstractContact extends AbstractRevisionContainer
 {

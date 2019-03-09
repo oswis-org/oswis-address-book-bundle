@@ -2,7 +2,6 @@
 
 namespace Zakjakub\OswisAddressBookBundle\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Validator\Constraints as Assert;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractAddress;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
@@ -11,7 +10,6 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\PriorityTrait;
 /**
  * @Doctrine\ORM\Mapping\Entity
  * @Doctrine\ORM\Mapping\Table(name="address_book_contact_address")
- * @ApiResource()
  */
 class ContactAddress extends AbstractAddress
 {

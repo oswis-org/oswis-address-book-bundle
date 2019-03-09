@@ -5,22 +5,54 @@ namespace Zakjakub\OswisAddressBookBundle\Entity;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractOrganization;
 use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevision;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
+use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
 
 /**
  * @Doctrine\ORM\Mapping\Entity(repositoryClass="Zakjakub\OswisAddressBookBundle\Repository\OrganizationRepository")
  * @Doctrine\ORM\Mapping\Table(name="address_book_organization")
  * @ApiResource(
  *   iri="http://schema.org/Organization",
+ *   attributes={
+ *     "access_control"="is_granted('ROLE_MANAGER')"
+ *   },
+ *   collectionOperations={
+ *     "get"={
+ *       "access_control"="is_granted('ROLE_MANAGER')",
+ *       "normalization_context"={"groups"={"address_book_organizations_get"}},
+ *     },
+ *     "post"={
+ *       "access_control"="is_granted('ROLE_MANAGER')",
+ *       "denormalization_context"={"groups"={"address_book_organizations_post"}}
+ *     }
+ *   },
+ *   itemOperations={
+ *     "get"={
+ *       "access_control"="is_granted('ROLE_MANAGER')",
+ *       "normalization_context"={"groups"={"address_book_organization_get"}},
+ *     },
+ *     "put"={
+ *       "access_control"="is_granted('ROLE_MANAGER')",
+ *       "denormalization_context"={"groups"={"address_book_organization_put"}}
+ *     },
+ *     "delete"={
+ *       "access_control"="is_granted('ROLE_ADMIN')",
+ *       "denormalization_context"={"groups"={"address_book_organization_delete"}}
+ *     }
+ *   }
  * )
  * @ApiFilter(OrderFilter::class)
- * @ApiFilter(SearchFilter::class, properties={"id": "exact", "name": "ipartial"})
+ * @Searchable({
+ *     "id",
+ *     "name",
+ *     "description",
+ *     "note"
+ * })
  */
 class Organization extends AbstractOrganization
 {

@@ -33,7 +33,7 @@ final class SearchAnnotation
         foreach ($data['value'] as $key => $value) {
             if (is_string($value)) {
                 $this->fields[] = $value;
-            // \error_log('value: ' . $value);
+                // \error_log('value: ' . $value);
             } else {
                 throw new AnnotationException('Options must be a array of strings.');
             }

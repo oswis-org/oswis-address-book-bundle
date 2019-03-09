@@ -11,7 +11,9 @@ use Zakjakub\OswisAddressBookBundle\Controller\CreateContactImageAction;
 /**
  * @Doctrine\ORM\Mapping\Entity
  * @Doctrine\ORM\Mapping\Table(name="address_book_contact_image")
- * @ApiResource(iri="http://schema.org/ImageObject", collectionOperations={
+ * @ApiResource(
+ *   iri="http://schema.org/ImageObject",
+ *   collectionOperations={
  *     "get",
  *     "post"={
  *         "method"="POST",
@@ -19,7 +21,8 @@ use Zakjakub\OswisAddressBookBundle\Controller\CreateContactImageAction;
  *         "controller"=CreateContactImageAction::class,
  *         "defaults"={"_api_receive"=false},
  *     },
- * })
+ *   }
+ * )
  * @Vich\UploaderBundle\Mapping\Annotation\Uploadable
  */
 class ContactImage

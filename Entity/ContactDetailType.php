@@ -5,11 +5,11 @@ namespace Zakjakub\OswisAddressBookBundle\Entity;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
+use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
 
@@ -17,9 +17,42 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
  * Class ContactType
  * @Doctrine\ORM\Mapping\Entity
  * @Doctrine\ORM\Mapping\Table(name="address_book_contact_detail_type")
- * @ApiResource()
+ * @ApiResource(
+ *   attributes={
+ *     "access_control"="is_granted('ROLE_MANAGER')"
+ *   },
+ *   collectionOperations={
+ *     "get"={
+ *       "access_control"="is_granted('ROLE_MANAGER')",
+ *       "normalization_context"={"groups"={"address_book_contact_detail_types_get"}},
+ *     },
+ *     "post"={
+ *       "access_control"="is_granted('ROLE_MANAGER')",
+ *       "denormalization_context"={"groups"={"address_book_contact_detail_types_post"}}
+ *     }
+ *   },
+ *   itemOperations={
+ *     "get"={
+ *       "access_control"="is_granted('ROLE_MANAGER')",
+ *       "normalization_context"={"groups"={"address_book_contact_detail_type_get"}},
+ *     },
+ *     "put"={
+ *       "access_control"="is_granted('ROLE_MANAGER')",
+ *       "denormalization_context"={"groups"={"address_book_contact_detail_type_put"}}
+ *     },
+ *     "delete"={
+ *       "access_control"="is_granted('ROLE_ADMIN')",
+ *       "denormalization_context"={"groups"={"address_book_contact_detail_type_delete"}}
+ *     }
+ *   }
+ * )
  * @ApiFilter(OrderFilter::class)
- * @ApiFilter(SearchFilter::class, properties={"id": "exact", "name": "ipartial"})
+ * @Searchable({
+ *     "id",
+ *     "appUser.username",
+ *     "appUser.description",
+ *     "appUser.note"
+ * })
  */
 class ContactDetailType
 {
@@ -231,6 +264,8 @@ class ContactDetailType
 
     final public function getFormatted(string $value, ?string $description): string
     {
+        /** @noinspection UnknownInspectionInspection */
+        /** @noinspection HtmlUnknownTag */
         return strtr($this->getContactSchema(), array('$<value>' => $value, '$<description>' => $description));
     }
 
