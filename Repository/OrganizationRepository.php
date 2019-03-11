@@ -7,16 +7,16 @@ use Doctrine\ORM\Query;
 
 class OrganizationRepository extends EntityRepository
 {
-    final public function getFacultiesOfUniversity(?string $universityShortName = null): array
+    final public function getFacultiesOfUniversity(?string $slug = null): array
     {
-        if ($universityShortName) {
+        if ($slug) {
             return $this->createQueryBuilder('organization')
                 ->where('organization.type = :faculty')
                 ->andWhere('organization.parent.type = :university')
-                ->andWhere('organization.parent.shortName = :shortName')
+                ->andWhere('organization.parent.slug = :slug')
                 ->setParameter('faculty', 'faculty')
                 ->setParameter('university', 'university')
-                ->setParameter('shortName', $universityShortName)
+                ->setParameter('slug', $slug)
                 ->getQuery()
                 ->execute([], Query::HYDRATE_OBJECT);
         }
