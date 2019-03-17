@@ -38,8 +38,7 @@ class ContactNoteType extends AbstractType
                     array(
                         'label'    => $contactNote->isPublic() ? 'Poznámka pro účastníky' : 'Poznámka pro pořadatele',
                         'required' => false,
-                        'help'     => $contactNote->isPublic(
-                        ) ? 'Poznámka, která bude zveřejněná účastníkům.' : 'Neveřejná poznámka, určená pouze pro pořadatele.',
+                        'help'     => $contactNote->isPublic() ? 'Poznámka, která bude zveřejněná účastníkům.' : 'Neveřejná poznámka, určená pouze pro pořadatele.',
                     )
                 );
             }

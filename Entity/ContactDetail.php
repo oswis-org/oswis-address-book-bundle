@@ -59,11 +59,10 @@ class ContactDetail
         ?string $content = null,
         ?AbstractContact $contact = null
     ) {
-        $this->contactType = $contactType;
-        $this->content = $content;
-        $this->contact = $contact;
+        $this->setContactType($contactType);
+        $this->setContent($content);
+        $this->setContact($contact);
     }
-
 
     /**
      * @return null|string
@@ -151,9 +150,9 @@ class ContactDetail
     }
 
     /**
-     * @param AbstractContact $contact
+     * @param AbstractContact|null $contact
      */
-    final public function setContact(AbstractContact $contact): void
+    final public function setContact(?AbstractContact $contact): void
     {
         if (null !== $this->contact && $contact !== $this->contact) {
             $this->contact->removeContactDetail($this);
