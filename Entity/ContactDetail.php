@@ -157,6 +157,7 @@ class ContactDetail
         if (null !== $this->contact && $contact !== $this->contact) {
             $this->contact->removeContactDetail($this);
         }
+        $this->contact = $contact;
         if ($contact && $this->contact !== $contact) {
             $contact->addContactDetail($this);
         }
