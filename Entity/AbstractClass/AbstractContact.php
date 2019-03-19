@@ -203,7 +203,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
      */
     final public function getAddresses(): Collection
     {
-        return $this->addresses;
+        return $this->addresses ?? new ArrayCollection();
     }
 
     final public function setAddresses(?Collection $addresses): void
@@ -453,6 +453,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
      */
     final public function setType(?string $type): void
     {
+        $this->checkType($type);
         $this->type = $type;
     }
 

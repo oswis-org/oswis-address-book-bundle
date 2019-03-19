@@ -333,6 +333,9 @@ class Organization extends AbstractOrganization
      */
     final public function addSubOrganization(?Organization $organization): void
     {
+        if (!$organization) {
+            return;
+        }
         if ($organization && !$this->subOrganizations->contains($organization)) {
             $this->subOrganizations->add($organization);
             $organization->setParentOrganization($this);
