@@ -453,7 +453,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
      */
     final public function setType(?string $type): void
     {
-        $this->checkType($type);
+        // $this->checkType($type);
         $this->type = $type;
     }
 
