@@ -13,6 +13,8 @@ final class ContactImageType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $maxSize = ini_get('post_max_size') ? ' (max. '.ini_get('post_max_size').'B)' : '';
+
         $builder->add(
             'file',
             VichImageType::class,
@@ -22,7 +24,7 @@ final class ContactImageType extends AbstractType
                 'download_uri'   => true,
                 'required'       => false,
                 'attr'           => [
-                    'placeholder' => 'Kliknutím vyberte soubor...',
+                    'placeholder' => 'Kliknutím vyberte soubor'.$maxSize.'...',
                 ],
             ]
         );
