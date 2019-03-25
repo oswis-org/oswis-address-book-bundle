@@ -8,12 +8,14 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use Zakjakub\OswisAddressBookBundle\Entity\ContactImage;
+use Zakjakub\OswisCoreBundle\Utils\FileUtils;
 
 final class ContactImageType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $maxSize = ini_get('post_max_size') ? ' (max. '.ini_get('post_max_size').'B)' : '';
+        $maxSize = FileUtils::humanReadableFileUploadMaxSize();
+        $maxSize = $maxSize ? ' (max. ' . $maxSize . ')' : '';
 
         $builder->add(
             'file',
