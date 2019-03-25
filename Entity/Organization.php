@@ -450,7 +450,6 @@ class Organization extends AbstractOrganization
 
     final public function getIdentificationNumberFromParents(): ?string
     {
-        return $this->getIdentificationNumber() ?? null;
         if ($this->getParentOrganization()) {
             if ($this->getParentOrganization()->getIdentificationNumber()) {
                 return $this->getParentOrganization()->getIdentificationNumber();
