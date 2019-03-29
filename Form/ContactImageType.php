@@ -15,7 +15,7 @@ final class ContactImageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $maxSize = FileUtils::humanReadableFileUploadMaxSize();
-        $maxSize = $maxSize ? ' (max. ' . $maxSize . ')' : '';
+        $maxSize = $maxSize ? ' (max. '.$maxSize.')' : '';
 
         $builder->add(
             'file',

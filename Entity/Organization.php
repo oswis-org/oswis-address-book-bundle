@@ -5,13 +5,16 @@ namespace Zakjakub\OswisAddressBookBundle\Entity;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractOrganization;
 use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevision;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
+use Zakjakub\OswisCoreBundle\Exceptions\RevisionMissingException;
 use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
+use function assert;
 
 /**
  * @Doctrine\ORM\Mapping\Entity(repositoryClass="Zakjakub\OswisAddressBookBundle\Repository\OrganizationRepository")
@@ -126,7 +129,7 @@ class Organization extends AbstractOrganization
      */
     public static function checkRevision(?AbstractRevision $revision): void
     {
-        \assert($revision instanceof OrganizationRevision);
+        assert($revision instanceof OrganizationRevision);
     }
 
     /**
@@ -138,15 +141,15 @@ class Organization extends AbstractOrganization
     }
 
     /**
-     * @param \DateTime|null $dateTime
+     * @param DateTime|null $dateTime
      *
      * @return OrganizationRevision
-     * @throws \Zakjakub\OswisCoreBundle\Exceptions\RevisionMissingException
+     * @throws RevisionMissingException
      */
-    final public function getRevisionByDate(?\DateTime $dateTime = null): OrganizationRevision
+    final public function getRevisionByDate(?DateTime $dateTime = null): OrganizationRevision
     {
         $revision = $this->getRevision($dateTime);
-        \assert($revision instanceof OrganizationRevision);
+        assert($revision instanceof OrganizationRevision);
 
         return $revision;
     }
@@ -187,7 +190,7 @@ class Organization extends AbstractOrganization
         $students = new ArrayCollection();
         if ($this->getType() === 'school') {
             $this->getDirectStudies()->map(
-                function (Position $position) use ($students) {
+                static function (Position $position) use ($students) {
                     $students->add($position->getPerson());
                 }
             );
@@ -216,7 +219,7 @@ class Organization extends AbstractOrganization
     final public function filterPositionsByType(string $positionName): Collection
     {
         return $this->getPositions()->filter(
-            function (Position $position) use ($positionName) {
+            static function (Position $position) use ($positionName) {
                 return $positionName === $position->getType();
             }
         );
@@ -227,7 +230,7 @@ class Organization extends AbstractOrganization
      */
     final public function getPositions(): Collection
     {
-        return $this->positions;
+        return $this->positions ?? new ArrayCollection();
     }
 
     /**
@@ -238,7 +241,7 @@ class Organization extends AbstractOrganization
         $students = new ArrayCollection();
         if ($this->getType() === 'school') {
             $this->getAllStudies()->map(
-                function (Position $position) use ($students) {
+                static function (Position $position) use ($students) {
                     $students->add($position->getPerson());
                 }
             );
@@ -255,9 +258,9 @@ class Organization extends AbstractOrganization
         if ($this->getType() === 'school') {
             $studies = $this->getDirectStudies();
             foreach ($this->getSubOrganizations() as $organization) {
-                \assert($organization instanceof self);
+                assert($organization instanceof self);
                 $organization->getAllStudies()->forAll(
-                    function (Position $position) use ($studies) {
+                    static function (Position $position) use ($studies) {
                         $studies->add($position);
                     }
                 );
@@ -285,7 +288,7 @@ class Organization extends AbstractOrganization
         $employees = new ArrayCollection();
         if ($this->getType() === 'school') {
             $this->getAllStudies()->map(
-                function (Position $position) use ($employees) {
+                static function (Position $position) use ($employees) {
                     $employees->add($position->getPerson());
                 }
             );
@@ -301,9 +304,9 @@ class Organization extends AbstractOrganization
     {
         $positions = $this->getDirectEmployeesPositions();
         foreach ($this->getSubOrganizations() as $organization) {
-            \assert($organization instanceof self);
+            assert($organization instanceof self);
             $organization->getAllEmployeesPositions()->forAll(
-                function (Position $position) use ($positions) {
+                static function (Position $position) use ($positions) {
                     $positions->add($position);
                 }
             );
@@ -364,9 +367,9 @@ class Organization extends AbstractOrganization
     {
         $employees = $this->getDirectEmployees();
         foreach ($this->getDepartments() as $department) {
-            \assert($department instanceof self);
+            assert($department instanceof self);
             $department->getDirectEmployees()->forAll(
-                function (Position $position) use ($employees) {
+                static function (Position $position) use ($employees) {
                     $employees->add($position);
                 }
             );
@@ -383,7 +386,7 @@ class Organization extends AbstractOrganization
         $employees = new ArrayCollection();
         $positionsOfEmployees = $this->getDirectEmployeesPositions();
         $positionsOfEmployees->forAll(
-            function (Position $position) use ($employees) {
+            static function (Position $position) use ($employees) {
                 $employees->add($position->getPerson());
             }
         );
@@ -407,7 +410,7 @@ class Organization extends AbstractOrganization
     final public function filterSubOrganizationsByType(string $type): Collection
     {
         return $this->getSubOrganizations()->filter(
-            function (Organization $organization) use ($type) {
+            static function (Organization $organization) use ($type) {
                 return $type === $organization->getType();
             }
         );
