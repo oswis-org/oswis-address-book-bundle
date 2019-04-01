@@ -64,7 +64,8 @@ class Position
      * @Doctrine\ORM\Mapping\ManyToOne(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Person",
      *     cascade={"all"},
-     *     inversedBy="positions"
+     *     inversedBy="positions",
+     *     fetch="EAGER"
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(name="person_id", referencedColumnName="id")
      */
@@ -76,7 +77,8 @@ class Position
      * @Doctrine\ORM\Mapping\ManyToOne(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Organization",
      *     cascade={"all"},
-     *     inversedBy="positions"
+     *     inversedBy="positions",
+     *     fetch="EAGER"
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(name="organization_id", referencedColumnName="id")
      */
