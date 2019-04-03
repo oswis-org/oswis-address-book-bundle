@@ -5,9 +5,11 @@ namespace Zakjakub\OswisAddressBookBundle\Entity;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use function array_key_exists;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use InvalidArgumentException;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
 use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
@@ -123,7 +125,7 @@ class ContactDetailType
      * @param string|null   $formLabel
      * @param string|null   $formHelp
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct(
         ?Nameable $nameable = null,
@@ -192,12 +194,12 @@ class ContactDetailType
 
     /**
      * @return array
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     final public function getTypeAsArray(): array
     {
         $this->checkType();
-        if ($this->getType() && \array_key_exists($this->getType(), self::ALLOWED_TYPES)) {
+        if ($this->getType() && array_key_exists($this->getType(), self::ALLOWED_TYPES)) {
             return self::ALLOWED_TYPES[$this->getType()];
         }
 
@@ -207,20 +209,20 @@ class ContactDetailType
     /**
      * @param string|null $type
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     final public function checkType(?string $type = null): void
     {
         $type = $type ?? $this->type;
-        if (!$type || \array_key_exists($type, self::ALLOWED_TYPES)) {
+        if (!$type || array_key_exists($type, self::ALLOWED_TYPES)) {
             return;
         }
-        throw new \InvalidArgumentException("Typ $type není povoleným typem akce.");
+        throw new InvalidArgumentException("Typ $type není povoleným typem akce.");
     }
 
     /**
      * @return string|null
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     final public function getType(): ?string
     {
@@ -232,7 +234,7 @@ class ContactDetailType
     /**
      * @param string|null $type
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     final public function setType(?string $type): void
     {
@@ -274,7 +276,7 @@ class ContactDetailType
      * Get schema of contact detail.
      * @return string
      */
-    final public function getContactSchema(): string
+    final public function getContactSchema(): ?string
     {
         return $this->contactSchema;
     }
@@ -284,7 +286,7 @@ class ContactDetailType
      *
      * @param string $contactSchema
      */
-    final public function setContactSchema(string $contactSchema): void
+    final public function setContactSchema(?string $contactSchema): void
     {
         $this->contactSchema = $contactSchema;
     }
