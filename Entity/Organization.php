@@ -22,6 +22,7 @@ use function assert;
  * @ApiResource(
  *   iri="http://schema.org/Organization",
  *   attributes={
+ *     "filters"={"search"},
  *     "access_control"="is_granted('ROLE_MANAGER')"
  *   },
  *   collectionOperations={

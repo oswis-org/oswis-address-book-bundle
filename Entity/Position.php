@@ -15,6 +15,7 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
  * @Doctrine\ORM\Mapping\Table(name="address_book_position")
  * @ApiResource(
  *   attributes={
+ *     "filters"={"search"},
  *     "access_control"="is_granted('ROLE_MANAGER')"
  *   },
  *   collectionOperations={

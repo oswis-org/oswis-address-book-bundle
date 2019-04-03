@@ -22,6 +22,7 @@ use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
  * @ApiResource(
  *   iri="http://schema.org/Person",
  *   attributes={
+ *     "filters"={"search"},
  *     "access_control"="is_granted('ROLE_MANAGER')"
  *   },
  *   collectionOperations={
