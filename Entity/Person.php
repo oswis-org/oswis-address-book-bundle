@@ -5,12 +5,18 @@ namespace Zakjakub\OswisAddressBookBundle\Entity;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Exception;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractPerson;
 use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevision;
 use Zakjakub\OswisCoreBundle\Entity\AppUser;
+use Zakjakub\OswisCoreBundle\Exceptions\RevisionMissingException;
 use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
+use function assert;
+use function rtrim;
+use function trim;
 
 /**
  * Class Person
@@ -95,32 +101,49 @@ class Person extends AbstractPerson
     private $positions;
 
     /**
+     * Connections to skills.
+     * @var Collection|null $positions
+     * @Doctrine\ORM\Mapping\OneToMany(
+     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\PersonSkillConnection",
+     *     mappedBy="person",
+     *     cascade={"all"},
+     *     orphanRemoval=true
+     * )
+     */
+    private $personSkillConnections;
+
+    /**
      * Person constructor.
      *
      * @param string|null       $fullName
      * @param string|null       $description
-     * @param \DateTime|null    $birthDate
+     * @param DateTime|null     $birthDate
      * @param string|null       $type
      * @param Collection|null   $notes
      * @param Collection|null   $contactDetails
      * @param Collection|null   $addresses
      * @param ContactImage|null $image
+     * @param Collection|null   $positions
+     * @param Collection|null   $personSkillConnections
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct(
         ?string $fullName = null,
         ?string $description = null,
-        ?\DateTime $birthDate = null,
+        ?DateTime $birthDate = null,
         ?string $type = null,
         ?Collection $notes = null,
         ?Collection $contactDetails = null,
         ?Collection $addresses = null,
-        ?ContactImage $image = null
+        ?ContactImage $image = null,
+        ?Collection $positions = null,
+        ?Collection $personSkillConnections = null
     ) {
         parent::__construct($type, $notes, $contactDetails, $addresses, $image);
-        $this->positions = new ArrayCollection();
         $this->revisions = new ArrayCollection();
+        $this->setPositions($positions);
+        $this->setPersonSkillConnections($personSkillConnections);
         $this->addRevision(new PersonRevision($fullName, $description, $birthDate));
     }
 
@@ -129,7 +152,7 @@ class Person extends AbstractPerson
      */
     public static function checkRevision(?AbstractRevision $revision): void
     {
-        \assert($revision instanceof PersonRevision);
+        assert($revision instanceof PersonRevision);
     }
 
     /**
@@ -141,15 +164,15 @@ class Person extends AbstractPerson
     }
 
     /**
-     * @param \DateTime|null $dateTime
+     * @param DateTime|null $dateTime
      *
      * @return PersonRevision
-     * @throws \Zakjakub\OswisCoreBundle\Exceptions\RevisionMissingException
+     * @throws RevisionMissingException
      */
-    final public function getRevisionByDate(?\DateTime $dateTime = null): PersonRevision
+    final public function getRevisionByDate(?DateTime $dateTime = null): PersonRevision
     {
         $revision = $this->getRevision($dateTime);
-        \assert($revision instanceof PersonRevision);
+        assert($revision instanceof PersonRevision);
 
         return $revision;
     }
@@ -176,6 +199,28 @@ class Person extends AbstractPerson
         }
     }
 
+    final public function addPersonSkillConnection(?PersonSkillConnection $personSkillConnection): void
+    {
+        if (!$personSkillConnection) {
+            return;
+        }
+        if (!$this->personSkillConnections->contains($personSkillConnection)) {
+            $this->personSkillConnections->add($personSkillConnection);
+            $personSkillConnection->setPerson($this);
+        }
+    }
+
+    final public function removePersonSkillConnection(?PersonSkillConnection $personSkillConnection): void
+    {
+        if (!$personSkillConnection) {
+            return;
+        }
+        if ($this->personSkillConnections->removeElement($personSkillConnection)) {
+            $personSkillConnection->setOrganization(null);
+            $personSkillConnection->setPerson(null);
+        }
+    }
+
     /**
      * @return string
      */
@@ -183,15 +228,15 @@ class Person extends AbstractPerson
     {
         $output = '';
         foreach ($this->getPositions() as $position) {
-            \assert($position instanceof Position);
+            assert($position instanceof Position);
             if ($output !== '') {
                 $output .= ', ';
             }
             $output .= $position->getEmployerString();
         }
         $output = preg_replace('/[,]+/', ',', $output);
-        $output = \trim($output);
-        $output = \rtrim($output, ',');
+        $output = trim($output);
+        $output = rtrim($output, ',');
         $output = preg_replace('!\s+!', ' ', $output);
 
         return $output;
@@ -200,6 +245,55 @@ class Person extends AbstractPerson
     final public function getPositions(): Collection
     {
         return $this->positions;
+    }
+
+    final public function setPositions(?Collection $newPositions): void
+    {
+        if (!$this->positions) {
+            $this->positions = new ArrayCollection();
+        }
+        if (!$newPositions) {
+            $newPositions = new ArrayCollection();
+        }
+        foreach ($this->positions as $oldPosition) {
+            if (!$newPositions->contains($oldPosition)) {
+                $this->positions->removeElement($oldPosition);
+            }
+        }
+        if ($newPositions) {
+            foreach ($newPositions as $newPosition) {
+                if (!$this->positions->contains($newPosition)) {
+                    $this->addPosition($newPosition);
+                }
+            }
+        }
+    }
+
+    final public function getPersonSkillConnections(): Collection
+    {
+        return $this->personSkillConnections;
+    }
+
+    final public function setPersonSkillConnections(?Collection $newPersonSkillConnections): void
+    {
+        if (!$this->personSkillConnections) {
+            $this->personSkillConnections = new ArrayCollection();
+        }
+        if (!$newPersonSkillConnections) {
+            $newPersonSkillConnections = new ArrayCollection();
+        }
+        foreach ($this->personSkillConnections as $oldPersonSkillConnection) {
+            if (!$newPersonSkillConnections->contains($oldPersonSkillConnection)) {
+                $this->personSkillConnections->removeElement($oldPersonSkillConnection);
+            }
+        }
+        if ($newPersonSkillConnections) {
+            foreach ($newPersonSkillConnections as $newPersonSkillConnection) {
+                if (!$this->personSkillConnections->contains($newPersonSkillConnection)) {
+                    $this->addPersonSkillConnection($newPersonSkillConnection);
+                }
+            }
+        }
     }
 
     /**

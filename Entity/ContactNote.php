@@ -17,6 +17,7 @@ class ContactNote
     use BasicEntityTrait;
 
     /**
+     * Can be showed on website etc.
      * @var bool|null
      * @ORM\Column(type="boolean", nullable=true)
      */
@@ -56,7 +57,6 @@ class ContactNote
         $this->setContent($content);
         $this->setPublic($public);
     }
-
 
     /**
      * @return bool|null

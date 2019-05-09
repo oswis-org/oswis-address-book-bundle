@@ -1,12 +1,11 @@
 <?php
-// src/Entity/MediaObject.php
 
 namespace Zakjakub\OswisAddressBookBundle\Entity;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\HttpFoundation\File\File;
-use Zakjakub\OswisAddressBookBundle\Controller\CreateContactImageAction;
+use Zakjakub\OswisAddressBookBundle\Controller\ContactImageAction;
+use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractImage;
 
 /**
  * @Doctrine\ORM\Mapping\Entity
@@ -18,39 +17,26 @@ use Zakjakub\OswisAddressBookBundle\Controller\CreateContactImageAction;
  *     "post"={
  *         "method"="POST",
  *         "path"="/contact_images",
- *         "controller"=CreateContactImageAction::class,
+ *         "controller"=ContactImageAction::class,
  *         "defaults"={"_api_receive"=false},
  *     },
  *   }
  * )
  * @Vich\UploaderBundle\Mapping\Annotation\Uploadable
  */
-class ContactImage
+class ContactImage extends AbstractImage
 {
-
-    /**
-     * @Doctrine\ORM\Mapping\Id
-     * @Doctrine\ORM\Mapping\GeneratedValue(strategy="AUTO")
-     * @Doctrine\ORM\Mapping\Column(type="integer")
-     */
-    public $id;
 
     /**
      * @var File|null
      * @Symfony\Component\Validator\Constraints\NotNull()
-     * @Vich\UploaderBundle\Mapping\Annotation\UploadableField(mapping="contact_image", fileNameProperty="contentUrl")
+     * @Vich\UploaderBundle\Mapping\Annotation\UploadableField(
+     *     mapping="abstract_image",
+     *     fileNameProperty="contentUrl",
+     *     dimensions={"contentDimensionsWidth", "contentDimensionsHeight"},
+     *     mimeType="contentDimensionsMimeType"
+     * )
      */
     public $file;
 
-    /**
-     * @var string|null
-     * @Doctrine\ORM\Mapping\Column(nullable=true)
-     * @ApiProperty(iri="http://schema.org/contentUrl")
-     */
-    public $contentUrl;
-
-    final public function __toString(): string
-    {
-        return $this->contentUrl ?? '';
-    }
 }

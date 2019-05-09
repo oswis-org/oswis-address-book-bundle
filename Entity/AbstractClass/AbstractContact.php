@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Zakjakub\OswisAddressBookBundle\Entity\ContactAddress;
 use Zakjakub\OswisAddressBookBundle\Entity\ContactDetail;
 use Zakjakub\OswisAddressBookBundle\Entity\ContactImage;
+use Zakjakub\OswisAddressBookBundle\Entity\ContactImageConnection;
 use Zakjakub\OswisAddressBookBundle\Entity\ContactNote;
 use Zakjakub\OswisAddressBookBundle\Entity\Person;
 use Zakjakub\OswisAddressBookBundle\Entity\Position;
@@ -42,6 +43,20 @@ abstract class AbstractContact extends AbstractRevisionContainer
      * @ApiProperty(iri="http://schema.org/image")
      */
     public $image;
+
+    /**
+     * Images of person.
+     *
+     * @var Collection|null
+     * @Doctrine\ORM\Mapping\OneToMany(
+     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactImageConnection",
+     *     mappedBy="contact",
+     *     cascade={"all"},
+     *     orphanRemoval=true,
+     *     fetch="EAGER"
+     * )
+     */
+    protected $imageConnections;
 
     /**
      * @var string|null $type Type of contact (person, organization, school, department...)
@@ -142,6 +157,30 @@ abstract class AbstractContact extends AbstractRevisionContainer
     {
         if ($personNote && $this->notes->removeElement($personNote)) {
             $personNote->setContact(null);
+        }
+    }
+
+    /**
+     * @param ContactImageConnection|null $contactImageConnection
+     */
+    final public function addImageConnection(?ContactImageConnection $contactImageConnection): void
+    {
+        if (!$contactImageConnection) {
+            return;
+        }
+        if (!$this->imageConnections->contains($contactImageConnection)) {
+            $this->imageConnections->add($contactImageConnection);
+        }
+        $contactImageConnection->setContact($this);
+    }
+
+    /**
+     * @param ContactImageConnection|null $contactImageConnection
+     */
+    final public function removeImageConnection(?ContactImageConnection $contactImageConnection): void
+    {
+        if ($contactImageConnection && $this->imageConnections->removeElement($contactImageConnection)) {
+            $contactImageConnection->setContact(null);
         }
     }
 
