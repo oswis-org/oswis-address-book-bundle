@@ -6499,16 +6499,16 @@
     },
     {
       "name": "zakjakub/oswis-core-bundle",
-      "version": "v0.0.157",
+      "version": "v0.0.165",
       "source": {
         "type": "git",
         "url": "git@github.com:zakjakub/oswis-core-bundle.git",
-        "reference": "c73b675a080831bb550c6bfa5a65868e67d6b3cf"
+        "reference": "3096b691d1a483a39ab83989581475c455003bc3"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/zakjakub/oswis-core-bundle/zipball/c73b675a080831bb550c6bfa5a65868e67d6b3cf",
-        "reference": "c73b675a080831bb550c6bfa5a65868e67d6b3cf",
+        "url": "https://api.github.com/repos/zakjakub/oswis-core-bundle/zipball/3096b691d1a483a39ab83989581475c455003bc3",
+        "reference": "3096b691d1a483a39ab83989581475c455003bc3",
         "shasum": ""
       },
       "require": {
@@ -6535,6 +6535,7 @@
         "symfony/serializer-pack": "^1.0",
         "symfony/swiftmailer-bundle": "^3.2",
         "symfony/twig-bundle": "^4.2",
+        "symfony/web-link": "^4.3@beta",
         "vich/uploader-bundle": "^1.9"
       },
       "require-dev": {
@@ -6562,7 +6563,7 @@
         }
       ],
       "description": "Core module for One Simple Web IS.",
-      "homepage": "https://github.com/zakjakub/oswis-resources-bundle",
+      "homepage": "https://oswis.org",
       "keywords": [
         "information-system",
         "is",
@@ -6571,10 +6572,10 @@
         "zakjakub"
       ],
       "support": {
-        "source": "https://github.com/zakjakub/oswis-core-bundle/tree/v0.0.157",
+        "source": "https://github.com/zakjakub/oswis-core-bundle/tree/v0.0.165",
         "issues": "https://github.com/zakjakub/oswis-core-bundle/issues"
       },
-      "time": "2019-05-09T11:36:27+00:00"
+      "time": "2019-05-10T09:35:41+00:00"
     },
     {
       "name": "zendframework/zend-code",

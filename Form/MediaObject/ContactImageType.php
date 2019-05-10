@@ -1,10 +1,11 @@
 <?php
 
-namespace Zakjakub\OswisAddressBookBundle\Controller;
+namespace Zakjakub\OswisAddressBookBundle\Form\MediaObject;
 
 use Zakjakub\OswisAddressBookBundle\Entity\ContactImage;
+use Zakjakub\OswisCoreBundle\Form\AbstractClass\AbstractImageType;
 
-final class ContactImageAction
+final class ContactImageType extends AbstractImageType
 {
 
     /**
