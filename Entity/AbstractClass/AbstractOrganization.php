@@ -2,6 +2,9 @@
 
 namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
 
+use function in_array;
+use InvalidArgumentException;
+use Zakjakub\OswisCoreBundle\Exceptions\RevisionMissingException;
 use Zakjakub\OswisCoreBundle\Traits\Entity\ColorContainerTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\IdentificationNumberContainerTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicContainerTrait;
@@ -30,7 +33,7 @@ abstract class AbstractOrganization extends AbstractContact
     /**
      * @param string|null $name
      *
-     * @throws \Zakjakub\OswisCoreBundle\Exceptions\RevisionMissingException
+     * @throws RevisionMissingException
      */
     final public function setContactName(?string $name): void
     {
@@ -41,13 +44,13 @@ abstract class AbstractOrganization extends AbstractContact
      * @param string|null $typeName
      *
      * @return bool
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     final public function checkType(?string $typeName): bool
     {
-        if (\in_array($typeName, self::ALLOWED_TYPES, true)) {
+        if (in_array($typeName, self::ALLOWED_TYPES, true)) {
             return true;
         }
-        throw new \InvalidArgumentException('Typ organizace "'.$typeName.'" není povolen.');
+        throw new InvalidArgumentException('Typ organizace "'.$typeName.'" není povolen.');
     }
 }

@@ -13,7 +13,7 @@ class OrganizationRevision extends AbstractOrganizationRevision
 {
 
     /**
-     * @var PersonAgeRange
+     * @var Organization
      * @Doctrine\ORM\Mapping\ManyToOne(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Organization",
      *     inversedBy="revisions"

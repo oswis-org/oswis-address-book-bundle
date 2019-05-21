@@ -25,12 +25,12 @@ abstract class AbstractOrganizationRevision extends AbstractContactRevision
 
     final public function getContactName(): string
     {
-        // TODO: Implement getContactName() method.
-        return '';
+        return $this->getName();
     }
 
     final public function setContactName(?string $fullName): void
     {
-        // TODO: Implement setContactName() method.
+        $this->setName($fullName);
     }
+
 }

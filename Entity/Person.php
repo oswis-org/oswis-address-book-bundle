@@ -141,10 +141,9 @@ class Person extends AbstractPerson
         ?Collection $personSkillConnections = null
     ) {
         parent::__construct($type, $notes, $contactDetails, $addresses, $image);
-        $this->revisions = new ArrayCollection();
+        $this->revisions = new ArrayCollection([new PersonRevision($fullName, $description, $birthDate)]);
         $this->setPositions($positions);
         $this->setPersonSkillConnections($personSkillConnections);
-        $this->addRevision(new PersonRevision($fullName, $description, $birthDate));
     }
 
     /**
@@ -216,7 +215,7 @@ class Person extends AbstractPerson
             return;
         }
         if ($this->personSkillConnections->removeElement($personSkillConnection)) {
-            $personSkillConnection->setOrganization(null);
+            $personSkillConnection->setPersonSkill(null);
             $personSkillConnection->setPerson(null);
         }
     }

@@ -42,18 +42,9 @@ class StudentPersonType extends AbstractType
                 'studies',
                 CollectionType::class,
                 array(
-                    'label'         => 'Student/absolvent UP',
-                    'help'          => 'Pokud jste studoval(a) nebo absolvoval(a) studium na Univerzitě Palackého, vyberte příslušnou fakultu, jinak nechte pole prázdné.',
+                    'label'         => 'Fakulta',
+                    'help'          => 'Vyberte příslušnou fakultu.',
                     'entry_type'    => SchoolPositionType::class,
-                    'entry_options' => array('label' => false),
-                )
-            )
-            ->add(
-                'notes',
-                CollectionType::class,
-                array(
-                    'label'         => false,
-                    'entry_type'    => ContactNoteType::class,
                     'entry_options' => array('label' => false),
                 )
             );
@@ -73,6 +64,6 @@ class StudentPersonType extends AbstractType
 
     final public function getName(): string
     {
-        return 'job_fair_student_person';
+        return 'address_book_student_person';
     }
 }
