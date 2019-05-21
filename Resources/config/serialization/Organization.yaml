@@ -1,0 +1,113 @@
+Zakjakub\OswisAddressBookBundle\Entity\Organization:
+    attributes:
+        id:
+            groups:
+                - 'address_book_organizations_get'
+                - 'address_book_organization_get'
+        contactName:
+            groups:
+                - 'address_book_organizations_get'
+                - 'address_book_organizations_post'
+                - 'address_book_organization_get'
+                - 'address_book_organization_put'
+        shortName:
+            groups:
+                - 'address_book_organizations_get'
+                - 'address_book_organizations_post'
+                - 'address_book_organization_get'
+                - 'address_book_organization_put'
+        slug:
+            groups:
+                - 'address_book_organizations_get'
+                - 'address_book_organizations_post'
+                - 'address_book_organization_get'
+                - 'address_book_organization_put'
+        description:
+            groups:
+                - 'address_book_organizations_get'
+                - 'address_book_organizations_post'
+                - 'address_book_organization_get'
+                - 'address_book_organization_put'
+        image:
+            groups:
+                - 'address_book_organizations_get'
+                - 'address_book_organizations_post'
+                - 'address_book_organization_get'
+                - 'address_book_organization_put'
+        createdDateTime:
+            groups:
+                - 'address_book_organizations_get'
+                - 'address_book_organization_get'
+        updatedDateTime:
+            groups:
+                - 'address_book_organization_get'
+        createdAuthor:
+            groups: ['address_book_organization_get']
+        updatedAuthor:
+            groups: ['address_book_organization_get']
+        createdIp:
+            groups: ['address_book_organization_get']
+        updatedIp:
+            groups: ['address_book_organization_get']
+        type:
+            groups:
+                - 'address_book_organizations_get'
+                - 'address_book_organizations_post'
+                - 'address_book_organization_get'
+                - 'address_book_organization_put'
+        #        notes:
+        #            groups:
+        #                - 'address_book_organizations_get'
+        #                - 'address_book_organizations_post'
+        #                - 'address_book_organization_get'
+        #                - 'address_book_organization_put'
+        #        contactDetails:
+        #            groups:
+        #                - 'address_book_organizations_get'
+        #                - 'address_book_organizations_post'
+        #                - 'address_book_organization_get'
+        #                - 'address_book_organization_put'
+        #        addresses:
+        #            groups:
+        #                - 'address_book_organizations_get'
+        #                - 'address_book_organizations_post'
+        #                - 'address_book_organization_get'
+        #                - 'address_book_organization_put'
+        identificationNumber:
+            groups:
+                - 'address_book_organizations_get'
+                - 'address_book_organizations_post'
+                - 'address_book_organization_get'
+                - 'address_book_organization_put'
+        color:
+            groups:
+                - 'address_book_organizations_get'
+                - 'address_book_organizations_post'
+                - 'address_book_organization_get'
+                - 'address_book_organization_put'
+        parentOrganization:
+            groups:
+                - 'address_book_organizations_get'
+                - 'address_book_organizations_post'
+                - 'address_book_organization_get'
+                - 'address_book_organization_put'
+        positions:
+            groups:
+                - 'address_book_organizations_get'
+                - 'address_book_organizations_post'
+                - 'address_book_organization_get'
+                - 'address_book_organization_put'
+        email:
+            groups:
+                - 'address_book_organizations_get'
+                - 'address_book_organization_get'
+        phone:
+            groups:
+                - 'address_book_organizations_get'
+                - 'address_book_organization_get'
+        url:
+            groups:
+                - 'address_book_organizations_get'
+                - 'address_book_organization_get'
+
+

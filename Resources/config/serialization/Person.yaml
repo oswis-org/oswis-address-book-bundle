@@ -1,0 +1,113 @@
+Zakjakub\OswisAddressBookBundle\Entity\Person:
+    attributes:
+        id:
+            groups:
+                - 'address_book_persons_get'
+                - 'address_book_person_get'
+        contactName:
+            groups:
+                - 'address_book_persons_get'
+                - 'address_book_persons_post'
+                - 'address_book_person_get'
+                - 'address_book_person_put'
+        shortName:
+            groups:
+                - 'address_book_persons_get'
+                - 'address_book_persons_post'
+                - 'address_book_person_get'
+                - 'address_book_person_put'
+        slug:
+            groups:
+                - 'address_book_persons_get'
+                - 'address_book_persons_post'
+                - 'address_book_person_get'
+                - 'address_book_person_put'
+        description:
+            groups:
+                - 'address_book_persons_get'
+                - 'address_book_persons_post'
+                - 'address_book_person_get'
+                - 'address_book_person_put'
+        image:
+            groups:
+                - 'address_book_persons_get'
+                - 'address_book_persons_post'
+                - 'address_book_person_get'
+                - 'address_book_person_put'
+        createdDateTime:
+            groups:
+                - 'address_book_persons_get'
+                - 'address_book_person_get'
+        updatedDateTime:
+            groups:
+                - 'address_book_person_get'
+        createdAuthor:
+            groups: ['address_book_person_get']
+        updatedAuthor:
+            groups: ['address_book_person_get']
+        createdIp:
+            groups: ['address_book_person_get']
+        updatedIp:
+            groups: ['address_book_person_get']
+        type:
+            groups:
+                - 'address_book_persons_get'
+                - 'address_book_persons_post'
+                - 'address_book_person_get'
+                - 'address_book_person_put'
+        #        notes:
+        #            groups:
+        #                - 'address_book_persons_get'
+        #                - 'address_book_persons_post'
+        #                - 'address_book_person_get'
+        #                - 'address_book_person_put'
+        #        contactDetails:
+        #            groups:
+        #                - 'address_book_persons_get'
+        #                - 'address_book_persons_post'
+        #                - 'address_book_person_get'
+        #                - 'address_book_person_put'
+        #        addresses:
+        #            groups:
+        #                - 'address_book_persons_get'
+        #                - 'address_book_persons_post'
+        #                - 'address_book_person_get'
+        #                - 'address_book_person_put'
+        identificationNumber:
+            groups:
+                - 'address_book_persons_get'
+                - 'address_book_persons_post'
+                - 'address_book_person_get'
+                - 'address_book_person_put'
+        color:
+            groups:
+                - 'address_book_persons_get'
+                - 'address_book_persons_post'
+                - 'address_book_person_get'
+                - 'address_book_person_put'
+        parentOrganization:
+            groups:
+                - 'address_book_persons_get'
+                - 'address_book_persons_post'
+                - 'address_book_person_get'
+                - 'address_book_person_put'
+        positions:
+            groups:
+                - 'address_book_persons_get'
+                - 'address_book_persons_post'
+                - 'address_book_person_get'
+                - 'address_book_person_put'
+        email:
+            groups:
+                - 'address_book_persons_get'
+                - 'address_book_person_get'
+        phone:
+            groups:
+                - 'address_book_persons_get'
+                - 'address_book_person_get'
+        url:
+            groups:
+                - 'address_book_persons_get'
+                - 'address_book_person_get'
+
+

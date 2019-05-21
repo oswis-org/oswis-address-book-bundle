@@ -1,0 +1,51 @@
+Zakjakub\OswisAddressBookBundle\Entity\Place:
+    attributes:
+        id:
+            groups:
+                - 'address_book_places_get'
+                - 'address_book_place_get'
+        name:
+            groups:
+                - 'address_book_places_get'
+                - 'address_book_places_post'
+                - 'address_book_place_get'
+                - 'address_book_place_put'
+        shortName:
+            groups:
+                - 'address_book_places_get'
+                - 'address_book_places_post'
+                - 'address_book_place_get'
+                - 'address_book_place_put'
+        slug:
+            groups:
+                - 'address_book_places_get'
+                - 'address_book_places_post'
+                - 'address_book_place_get'
+                - 'address_book_place_put'
+        description:
+            groups:
+                - 'address_book_places_get'
+                - 'address_book_places_post'
+                - 'address_book_place_get'
+                - 'address_book_place_put'
+        note:
+            groups:
+                - 'address_book_places_get'
+                - 'address_book_places_post'
+                - 'address_book_place_get'
+                - 'address_book_place_put'
+        createdDateTime:
+            groups:
+                - 'address_book_places_get'
+                - 'address_book_place_get'
+        updatedDateTime:
+            groups:
+                - 'address_book_place_get'
+        createdAuthor:
+            groups: ['address_book_place_get']
+        updatedAuthor:
+            groups: ['address_book_place_get']
+        createdIp:
+            groups: ['address_book_place_get']
+        updatedIp:
+            groups: ['address_book_place_get']
