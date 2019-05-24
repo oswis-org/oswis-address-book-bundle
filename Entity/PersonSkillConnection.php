@@ -15,7 +15,7 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\NoteTrait;
 /**
  * Connection between person and skill.
  * @Doctrine\ORM\Mapping\Entity()
- * @Doctrine\ORM\Mapping\Table(name="address_book_person_skill")
+ * @Doctrine\ORM\Mapping\Table(name="address_book_person_skill_connection")
  * @ApiResource(
  *   attributes={
  *     "filters"={"search"},
@@ -24,25 +24,25 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\NoteTrait;
  *   collectionOperations={
  *     "get"={
  *       "access_control"="is_granted('ROLE_MANAGER')",
- *       "normalization_context"={"groups"={"address_book_positions_get"}},
+ *       "normalization_context"={"groups"={"address_book_person_skill_connections_get"}},
  *     },
  *     "post"={
  *       "access_control"="is_granted('ROLE_MANAGER')",
- *       "denormalization_context"={"groups"={"address_book_positions_post"}}
+ *       "denormalization_context"={"groups"={"address_book_person_skill_connections_post"}}
  *     }
  *   },
  *   itemOperations={
  *     "get"={
  *       "access_control"="is_granted('ROLE_MANAGER')",
- *       "normalization_context"={"groups"={"address_book_position_get"}},
+ *       "normalization_context"={"groups"={"address_book_person_skill_connection_get"}},
  *     },
  *     "put"={
  *       "access_control"="is_granted('ROLE_MANAGER')",
- *       "denormalization_context"={"groups"={"address_book_position_put"}}
+ *       "denormalization_context"={"groups"={"address_book_person_skill_connection_put"}}
  *     },
  *     "delete"={
  *       "access_control"="is_granted('ROLE_ADMIN')",
- *       "denormalization_context"={"groups"={"address_book_position_delete"}}
+ *       "denormalization_context"={"groups"={"address_book_person_skill_connection_delete"}}
  *     }
  *   }
  * )
