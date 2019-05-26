@@ -111,8 +111,8 @@ class Place
      * @param int|null      $floorNumber
      * @param int|null      $roomNumber
      * @param int|null      $url
-     * @param int|null      $geoLatitude
-     * @param int|null      $geoLongitude
+     * @param float|null    $geoLatitude
+     * @param float|null    $geoLongitude
      * @param int|null      $geoElevation
      */
     public function __construct(
@@ -122,8 +122,8 @@ class Place
         ?int $floorNumber = null,
         ?int $roomNumber = null,
         ?int $url = null,
-        ?int $geoLatitude = null,
-        ?int $geoLongitude = null,
+        ?float $geoLatitude = null,
+        ?float $geoLongitude = null,
         ?int $geoElevation = null
     ) {
         $this->subPlaces = new ArrayCollection();
