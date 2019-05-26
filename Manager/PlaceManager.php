@@ -33,7 +33,11 @@ class PlaceManager
         ?Address $address = null,
         ?Place $parentPlace = null,
         ?int $floorNumber = null,
-        ?int $roomNumber = null
+        ?int $roomNumber = null,
+        ?int $url = null,
+        ?int $geoLatitude = null,
+        ?int $geoLongitude = null,
+        ?int $geoElevation = null
     ): Place {
         try {
             $em = $this->em;
@@ -42,7 +46,11 @@ class PlaceManager
                 $address,
                 $parentPlace,
                 $floorNumber,
-                $roomNumber
+                $roomNumber,
+                $url,
+                $geoLatitude,
+                $geoLongitude,
+                $geoElevation
             );
             $em->persist($entity);
             $em->flush();
