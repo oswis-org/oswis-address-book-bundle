@@ -2,12 +2,12 @@
 
 namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
 
-use function in_array;
 use InvalidArgumentException;
 use Zakjakub\OswisCoreBundle\Exceptions\RevisionMissingException;
 use Zakjakub\OswisCoreBundle\Traits\Entity\ColorContainerTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\IdentificationNumberContainerTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicContainerTrait;
+use function in_array;
 
 abstract class AbstractOrganization extends AbstractContact
 {

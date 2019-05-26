@@ -3,7 +3,6 @@
 namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
-use function assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use InvalidArgumentException;
@@ -17,6 +16,7 @@ use Zakjakub\OswisAddressBookBundle\Entity\Position;
 use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevisionContainer;
 use Zakjakub\OswisCoreBundle\Entity\AppUser;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
+use function assert;
 
 /**
  * Class Contact (abstract class for Person, Department, Organization)

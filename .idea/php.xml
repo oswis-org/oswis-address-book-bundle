@@ -111,6 +111,7 @@
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php73" />
       <path value="$PROJECT_DIR$/vendor/symfony/mime" />
       <path value="$PROJECT_DIR$/vendor/hirak/prestissimo" />
+      <path value="$PROJECT_DIR$/vendor/bigit/vokativ" />
     </include_path>
   </component>
   <component name="PhpInterpreters">

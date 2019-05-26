@@ -13,7 +13,9 @@ use Zakjakub\OswisCoreBundle\Entity\Nameable;
 use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
 use Zakjakub\OswisCoreBundle\Traits\Entity\AddressTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
+use Zakjakub\OswisCoreBundle\Traits\Entity\GeoCoordinatesTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
+use Zakjakub\OswisCoreBundle\Traits\Entity\UrlTrait;
 
 /**
  * @Doctrine\ORM\Mapping\Entity
@@ -62,16 +64,18 @@ class Place
     use BasicEntityTrait;
     use NameableBasicTrait;
     use AddressTrait;
+    use UrlTrait;
+    use GeoCoordinatesTrait;
 
     /**
      * @var int|null
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected $floorNumber;
 
     /**
      * @var int|null
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     protected $roomNumber;
 
@@ -106,13 +110,21 @@ class Place
      * @param Place|null    $parentPlace
      * @param int|null      $floorNumber
      * @param int|null      $roomNumber
+     * @param int|null      $url
+     * @param int|null      $geoLatitude
+     * @param int|null      $geoLongitude
+     * @param int|null      $geoElevation
      */
     public function __construct(
         ?Nameable $nameable = null,
         ?Address $address = null,
         ?Place $parentPlace = null,
         ?int $floorNumber = null,
-        ?int $roomNumber = null
+        ?int $roomNumber = null,
+        ?int $url = null,
+        ?int $geoLatitude = null,
+        ?int $geoLongitude = null,
+        ?int $geoElevation = null
     ) {
         $this->subPlaces = new ArrayCollection();
         $this->setParentPlace($parentPlace);
@@ -120,6 +132,10 @@ class Place
         $this->setFieldsFromAddress($address);
         $this->setFloorNumber($floorNumber);
         $this->setRoomNumber($roomNumber);
+        $this->setUrl($url);
+        $this->setGeoLatitude($geoLatitude);
+        $this->setGeoLongitude($geoLongitude);
+        $this->setGeoElevation($geoElevation);
     }
 
     /**
