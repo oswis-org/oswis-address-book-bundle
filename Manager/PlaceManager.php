@@ -3,6 +3,7 @@
 namespace Zakjakub\OswisAddressBookBundle\Manager;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Psr\Log\LoggerInterface;
 use Zakjakub\OswisAddressBookBundle\Entity\Place;
 use Zakjakub\OswisCoreBundle\Entity\Address;
@@ -35,8 +36,8 @@ class PlaceManager
         ?int $floorNumber = null,
         ?int $roomNumber = null,
         ?int $url = null,
-        ?int $geoLatitude = null,
-        ?int $geoLongitude = null,
+        ?float $geoLatitude = null,
+        ?float $geoLongitude = null,
         ?int $geoElevation = null
     ): Place {
         try {
@@ -58,7 +59,7 @@ class PlaceManager
             $this->logger ? $this->logger->info($infoMessage) : null;
 
             return $entity;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->logger ? $this->logger->info('ERROR: Place not created: '.$e->getMessage()) : null;
 
             return null;
