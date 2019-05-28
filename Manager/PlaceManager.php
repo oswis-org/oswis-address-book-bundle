@@ -35,7 +35,7 @@ class PlaceManager
         ?Place $parentPlace = null,
         ?int $floorNumber = null,
         ?int $roomNumber = null,
-        ?int $url = null,
+        ?string $url = null,
         ?float $geoLatitude = null,
         ?float $geoLongitude = null,
         ?int $geoElevation = null
