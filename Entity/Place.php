@@ -110,7 +110,7 @@ class Place
      * @param Place|null    $parentPlace
      * @param int|null      $floorNumber
      * @param int|null      $roomNumber
-     * @param string|null      $url
+     * @param string|null   $url
      * @param float|null    $geoLatitude
      * @param float|null    $geoLongitude
      * @param int|null      $geoElevation

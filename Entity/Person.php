@@ -141,7 +141,8 @@ class Person extends AbstractPerson
         ?Collection $personSkillConnections = null
     ) {
         parent::__construct($type, $notes, $contactDetails, $addresses, $image);
-        $this->revisions = new ArrayCollection([new PersonRevision($fullName, $description, $birthDate)]);
+        $this->revisions = new ArrayCollection();
+        $this->addRevision(new PersonRevision($fullName, $description, $birthDate));
         $this->setPositions($positions);
         $this->setPersonSkillConnections($personSkillConnections);
     }
