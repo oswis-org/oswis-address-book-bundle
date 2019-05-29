@@ -216,16 +216,28 @@ abstract class AbstractContact extends AbstractRevisionContainer
         return $this->contactDetails ?? new ArrayCollection();
     }
 
-    final public function setContactDetails(?Collection $contactDetails): void
+    final public function setContactDetails(?Collection $newContactDetails): void
     {
-        $this->contactDetails = new ArrayCollection();
-        if ($contactDetails) {
-            foreach ($contactDetails as $contactDetail) {
-                assert($contactDetail instanceof ContactDetail);
-                $this->addContactDetail($contactDetail);
+        if (!$this->contactDetails) {
+            $this->contactDetails = new ArrayCollection();
+        }
+        if (!$newContactDetails) {
+            $newContactDetails = new ArrayCollection();
+        }
+        foreach ($this->contactDetails as $oldContactDetail) {
+            if (!$newContactDetails->contains($oldContactDetail)) {
+                $this->removeContactDetail($oldContactDetail);
+            }
+        }
+        if ($newContactDetails) {
+            foreach ($newContactDetails as $newContactDetail) {
+                if (!$this->contactDetails->contains($newContactDetail)) {
+                    $this->addContactDetail($newContactDetail);
+                }
             }
         }
     }
+
 
     /**
      * @param ContactDetail|null $contactDetail
@@ -246,16 +258,29 @@ abstract class AbstractContact extends AbstractRevisionContainer
         return $this->addresses ?? new ArrayCollection();
     }
 
-    final public function setAddresses(?Collection $addresses): void
+
+    final public function setAddresses(?Collection $newAddresses): void
     {
-        $this->addresses = new ArrayCollection();
-        if ($addresses) {
-            foreach ($addresses as $address) {
-                assert($address instanceof ContactAddress);
-                $this->addAddress($address);
+        if (!$this->addresses) {
+            $this->addresses = new ArrayCollection();
+        }
+        if (!$newAddresses) {
+            $newAddresses = new ArrayCollection();
+        }
+        foreach ($this->addresses as $oldAddress) {
+            if (!$newAddresses->contains($oldAddress)) {
+                $this->removeAddress($oldAddress);
+            }
+        }
+        if ($newAddresses) {
+            foreach ($newAddresses as $newAddress) {
+                if (!$this->addresses->contains($newAddress)) {
+                    $this->addAddress($newAddress);
+                }
             }
         }
     }
+
 
     /**
      * @param ContactAddress|null $address
@@ -279,13 +304,24 @@ abstract class AbstractContact extends AbstractRevisionContainer
         return $this->notes;
     }
 
-    final public function setNotes(?Collection $notes): void
+    final public function setNotes(?Collection $newNotes): void
     {
-        $this->notes = new ArrayCollection();
-        if ($notes) {
-            foreach ($notes as $note) {
-                assert($note instanceof ContactNote);
-                $this->addNote($note);
+        if (!$this->notes) {
+            $this->notes = new ArrayCollection();
+        }
+        if (!$newNotes) {
+            $newNotes = new ArrayCollection();
+        }
+        foreach ($this->notes as $oldNote) {
+            if (!$newNotes->contains($oldNote)) {
+                $this->removeNote($oldNote);
+            }
+        }
+        if ($newNotes) {
+            foreach ($newNotes as $newNote) {
+                if (!$this->notes->contains($newNote)) {
+                    $this->addNote($newNote);
+                }
             }
         }
     }

@@ -132,7 +132,7 @@ class Person extends AbstractPerson
         ?string $fullName = null,
         ?string $description = null,
         ?DateTime $birthDate = null,
-        ?string $type = null,
+        ?string $type = 'person',
         ?Collection $notes = null,
         ?Collection $contactDetails = null,
         ?Collection $addresses = null,

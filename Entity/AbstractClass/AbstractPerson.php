@@ -2,7 +2,9 @@
 
 namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
 
+use InvalidArgumentException;
 use Zakjakub\OswisCoreBundle\Traits\Entity\PersonBasicContainerTrait;
+use function in_array;
 
 abstract class AbstractPerson extends AbstractContact
 {
@@ -24,13 +26,13 @@ abstract class AbstractPerson extends AbstractContact
      * @param string|null $typeName
      *
      * @return bool
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     final public function checkType(?string $typeName): bool
     {
-        if (\in_array($typeName, self::ALLOWED_TYPES, true)) {
+        if (in_array($typeName, self::ALLOWED_TYPES, true)) {
             return true;
         }
-        throw new \InvalidArgumentException('Typ organizace "'.$typeName.'" není povolen.');
+        throw new InvalidArgumentException('Typ osoby "'.$typeName.'" není povolen.');
     }
 }
