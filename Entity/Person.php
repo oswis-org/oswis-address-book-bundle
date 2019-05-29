@@ -257,7 +257,7 @@ class Person extends AbstractPerson
         }
         foreach ($this->positions as $oldPosition) {
             if (!$newPositions->contains($oldPosition)) {
-                $this->positions->removeElement($oldPosition);
+                $this->removePosition($oldPosition);
             }
         }
         if ($newPositions) {
