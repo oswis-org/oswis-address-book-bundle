@@ -126,6 +126,8 @@ class Person extends AbstractPerson
      * @param Collection|null   $positions
      * @param Collection|null   $personSkillConnections
      *
+     * @param Collection|null   $addressBooks
+     *
      * @throws Exception
      */
     public function __construct(
@@ -138,9 +140,10 @@ class Person extends AbstractPerson
         ?Collection $addresses = null,
         ?ContactImage $image = null,
         ?Collection $positions = null,
-        ?Collection $personSkillConnections = null
+        ?Collection $personSkillConnections = null,
+        ?Collection $addressBooks = null
     ) {
-        parent::__construct($type, $notes, $contactDetails, $addresses, $image);
+        parent::__construct($type, $notes, $contactDetails, $addresses, $image, $addressBooks);
         $this->revisions = new ArrayCollection();
         $this->addRevision(new PersonRevision($fullName, $description, $birthDate));
         $this->setPositions($positions);

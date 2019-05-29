@@ -125,24 +125,125 @@ abstract class AbstractContact extends AbstractRevisionContainer
     /**
      * AbstractContact constructor.
      *
-     * @param ContactImage|null $image
      * @param string|null       $type
      * @param Collection|null   $notes
      * @param Collection|null   $contactDetails
      * @param Collection|null   $addresses
+     * @param ContactImage|null $image
+     * @param Collection|null   $addressBooks
      */
     public function __construct(
         ?string $type = null,
         ?Collection $notes = null,
         ?Collection $contactDetails = null,
         ?Collection $addresses = null,
-        ?ContactImage $image = null
+        ?ContactImage $image = null,
+        ?Collection $addressBooks = null
     ) {
         $this->image = $image;
         $this->setType($type);
         $this->setNotes($notes);
         $this->setContactDetails($contactDetails);
         $this->setAddresses($addresses);
+        $this->setAddressBooks($addressBooks);
+    }
+
+    final public function setAddressBooks(?Collection $newAddressBooks): void
+    {
+        if (!$this->addressBookContactConnections) {
+            $this->addressBookContactConnections = new ArrayCollection();
+        }
+        if (!$newAddressBooks) {
+            $newAddressBooks = new ArrayCollection();
+        }
+        foreach ($this->getAddressBooks() as $oldAddressBook) {
+            if (!$newAddressBooks->contains($oldAddressBook)) {
+                $this->removeAddressBook($oldAddressBook);
+            }
+        }
+        if ($newAddressBooks) {
+            foreach ($newAddressBooks as $newAddressBook) {
+                if (!$this->containsAddressBook($newAddressBook)) {
+                    $this->addAddressBook($newAddressBook);
+                }
+            }
+        }
+    }
+
+    final public function getAddressBooks(): Collection
+    {
+        return $this->getAddressBookContactConnections()->map(
+            static function (AddressBookContactConnection $addressBookContactConnection) {
+                return $addressBookContactConnection->getAddressBook();
+            }
+        );
+    }
+
+    final public function getAddressBookContactConnections(): Collection
+    {
+        return $this->addressBookContactConnections ?? new ArrayCollection();
+    }
+
+    final public function setAddressBookContactConnections(?Collection $newAddressBookContactConnections): void
+    {
+        if (!$this->addressBookContactConnections) {
+            $this->addressBookContactConnections = new ArrayCollection();
+        }
+        if (!$newAddressBookContactConnections) {
+            $newAddressBookContactConnections = new ArrayCollection();
+        }
+        foreach ($this->addressBookContactConnections as $oldAddressBookContactConnection) {
+            if (!$newAddressBookContactConnections->contains($oldAddressBookContactConnection)) {
+                $this->removeAddressBookContactConnection($oldAddressBookContactConnection);
+            }
+        }
+        if ($newAddressBookContactConnections) {
+            foreach ($newAddressBookContactConnections as $newAddressBookContactConnection) {
+                if (!$this->addressBookContactConnections->contains($newAddressBookContactConnection)) {
+                    $this->addAddressBookContactConnection($newAddressBookContactConnection);
+                }
+            }
+        }
+    }
+
+    final public function removeAddressBook(AddressBook $addressBook): void
+    {
+        foreach ($this->getAddressBookContactConnections() as $addressBookContactConnection) {
+            assert($addressBookContactConnection instanceof AddressBookContactConnection);
+            if ($addressBook->getId() === $addressBookContactConnection->getId()) {
+                $this->removeAddressBookContactConnection($addressBookContactConnection);
+            }
+        }
+    }
+
+    final public function removeAddressBookContactConnection(?AddressBookContactConnection $addressBookContactConnection): void
+    {
+        if (!$addressBookContactConnection) {
+            return;
+        }
+        if ($this->addressBookContactConnections->removeElement($addressBookContactConnection)) {
+            $addressBookContactConnection->setContact(null);
+        }
+    }
+
+    final public function containsAddressBook(AddressBook $addressBook): bool
+    {
+        return $this->getAddressBooks()->contains($addressBook);
+    }
+
+    final public function addAddressBook(AddressBook $addressBook): void
+    {
+        if (!$this->containsAddressBook($addressBook)) {
+            $this->addAddressBookContactConnection(new AddressBookContactConnection($addressBook));
+        }
+    }
+
+    final public function addAddressBookContactConnection(?AddressBookContactConnection $addressBookContactConnection): void
+    {
+        if ($addressBookContactConnection && !$this->addressBookContactConnections->contains($addressBookContactConnection)) {
+            $this->addressBookContactConnections->add($addressBookContactConnection);
+            $addressBookContactConnection->setContact($this);
+        }
     }
 
     /**
@@ -251,7 +352,6 @@ abstract class AbstractContact extends AbstractRevisionContainer
         }
     }
 
-
     /**
      * @param ContactDetail|null $contactDetail
      */
@@ -270,7 +370,6 @@ abstract class AbstractContact extends AbstractRevisionContainer
     {
         return $this->addresses ?? new ArrayCollection();
     }
-
 
     final public function setAddresses(?Collection $newAddresses): void
     {
@@ -293,7 +392,6 @@ abstract class AbstractContact extends AbstractRevisionContainer
             }
         }
     }
-
 
     /**
      * @param ContactAddress|null $address
@@ -528,7 +626,6 @@ abstract class AbstractContact extends AbstractRevisionContainer
         return new ArrayCollection();
     }
 
-
     /**
      * @return null|string
      */
@@ -650,82 +747,6 @@ abstract class AbstractContact extends AbstractRevisionContainer
             throw new InvalidArgumentException('Špatný typ pozice ('.$position->getType().' není typ zaměstnání)');
         }
         $this->removePosition($position);
-    }
-
-    final public function addAddressBook(AddressBook $addressBook): void
-    {
-        if (!$this->containsAddressBook($addressBook)) {
-            $this->addAddressBookContactConnection(new AddressBookContactConnection($addressBook));
-        }
-    }
-
-    final public function containsAddressBook(AddressBook $addressBook): bool
-    {
-        return $this->getAddressBooks()->contains($addressBook);
-    }
-
-    final public function getAddressBooks(): Collection
-    {
-        return $this->getAddressBookContactConnections()->map(
-            static function (AddressBookContactConnection $addressBookContactConnection) {
-                return $addressBookContactConnection->getAddressBook();
-            }
-        );
-    }
-
-    final public function getAddressBookContactConnections(): Collection
-    {
-        return $this->addressBookContactConnections ?? new ArrayCollection();
-    }
-
-    final public function setAddressBookContactConnections(?Collection $newAddressBookContactConnections): void
-    {
-        if (!$this->addressBookContactConnections) {
-            $this->addressBookContactConnections = new ArrayCollection();
-        }
-        if (!$newAddressBookContactConnections) {
-            $newAddressBookContactConnections = new ArrayCollection();
-        }
-        foreach ($this->addressBookContactConnections as $oldAddressBookContactConnection) {
-            if (!$newAddressBookContactConnections->contains($oldAddressBookContactConnection)) {
-                $this->removeAddressBookContactConnection($oldAddressBookContactConnection);
-            }
-        }
-        if ($newAddressBookContactConnections) {
-            foreach ($newAddressBookContactConnections as $newAddressBookContactConnection) {
-                if (!$this->addressBookContactConnections->contains($newAddressBookContactConnection)) {
-                    $this->addAddressBookContactConnection($newAddressBookContactConnection);
-                }
-            }
-        }
-    }
-
-    final public function addAddressBookContactConnection(?AddressBookContactConnection $addressBookContactConnection): void
-    {
-        if ($addressBookContactConnection && !$this->addressBookContactConnections->contains($addressBookContactConnection)) {
-            $this->addressBookContactConnections->add($addressBookContactConnection);
-            $addressBookContactConnection->setContact($this);
-        }
-    }
-
-    final public function removeAddressBookContactConnection(?AddressBookContactConnection $addressBookContactConnection): void
-    {
-        if (!$addressBookContactConnection) {
-            return;
-        }
-        if ($this->addressBookContactConnections->removeElement($addressBookContactConnection)) {
-            $addressBookContactConnection->setContact(null);
-        }
-    }
-
-    final public function removeAddressBook(AddressBook $addressBook): void
-    {
-        foreach ($this->getAddressBookContactConnections() as $addressBookContactConnection) {
-            assert($addressBookContactConnection instanceof AddressBookContactConnection);
-            if ($addressBook->getId() === $addressBookContactConnection->getId()) {
-                $this->removeAddressBookContactConnection($addressBookContactConnection);
-            }
-        }
     }
 
 
