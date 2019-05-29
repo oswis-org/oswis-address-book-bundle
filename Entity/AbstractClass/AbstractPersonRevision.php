@@ -2,6 +2,8 @@
 
 namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
 
+use DateTime;
+use Exception;
 use Zakjakub\OswisCoreBundle\Interfaces\PersonInterface;
 use Zakjakub\OswisCoreBundle\Traits\Entity\PersonBasicTrait;
 
@@ -12,16 +14,16 @@ abstract class AbstractPersonRevision extends AbstractContactRevision implements
     /**
      * AbstractPersonRevision constructor.
      *
-     * @param string|null    $fullName
-     * @param string|null    $description
-     * @param \DateTime|null $birthDate
+     * @param string|null   $fullName
+     * @param string|null   $description
+     * @param DateTime|null $birthDate
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct(
         ?string $fullName = null,
         ?string $description = null,
-        ?\DateTime $birthDate = null
+        ?DateTime $birthDate = null
     ) {
         $this->setFullName($fullName);
         $this->setDescription($description);

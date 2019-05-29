@@ -8,8 +8,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\Exception\AccessException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Zakjakub\OswisAddressBookBundle\Entity\ContactNote;
+use function assert;
 
 class ContactNoteType extends AbstractType
 {
@@ -28,9 +30,9 @@ class ContactNoteType extends AbstractType
 
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
-            function (FormEvent $event) {
+            static function (FormEvent $event) {
                 $contactNote = $event->getData();
-                \assert($contactNote instanceof ContactNote);
+                assert($contactNote instanceof ContactNote);
                 $form = $event->getForm();
                 $form->add(
                     'content',
@@ -49,7 +51,7 @@ class ContactNoteType extends AbstractType
     /**
      * @param OptionsResolver $resolver
      *
-     * @throws \Symfony\Component\OptionsResolver\Exception\AccessException
+     * @throws AccessException
      */
     final public function configureOptions(OptionsResolver $resolver): void
     {

@@ -5,8 +5,12 @@ namespace Zakjakub\OswisAddressBookBundle\Filter;
 
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\AbstractContextAwareFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use Doctrine\Common\Annotations\AnnotationException;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\ORM\QueryBuilder;
+use HttpInvalidParamException;
+use ReflectionClass;
+use ReflectionException;
 
 final class SearchFilter extends AbstractContextAwareFilter
 {
@@ -15,14 +19,14 @@ final class SearchFilter extends AbstractContextAwareFilter
      * @param string $resourceClass
      *
      * @return array
-     * @throws \Doctrine\Common\Annotations\AnnotationException
-     * @throws \ReflectionException
+     * @throws AnnotationException
+     * @throws ReflectionException
      */
     public function getDescription(string $resourceClass): array
     {
         $reader = new AnnotationReader();
         $annotation = $reader->getClassAnnotation(
-            new \ReflectionClass(new $resourceClass),
+            new ReflectionClass(new $resourceClass),
             SearchAnnotation::class
         );
 
@@ -45,9 +49,9 @@ final class SearchFilter extends AbstractContextAwareFilter
      * @param string                      $resourceClass
      * @param string|null                 $operationName
      *
-     * @throws \Doctrine\Common\Annotations\AnnotationException
-     * @throws \ReflectionException
-     * @throws \HttpInvalidParamException
+     * @throws AnnotationException
+     * @throws ReflectionException
+     * @throws HttpInvalidParamException
      */
     public function filterProperty(
         string $property,
@@ -66,12 +70,12 @@ final class SearchFilter extends AbstractContextAwareFilter
 
         $reader = new AnnotationReader();
         $annotation = $reader->getClassAnnotation(
-            new \ReflectionClass(new $resourceClass),
+            new ReflectionClass(new $resourceClass),
             SearchAnnotation::class
         );
 
         if (!$annotation) {
-            throw new \HttpInvalidParamException('No Search implemented.');
+            throw new HttpInvalidParamException('No Search implemented.');
         }
 
         $parameterName = $queryNameGenerator->generateParameterName($property);

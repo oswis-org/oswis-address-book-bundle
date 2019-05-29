@@ -3,6 +3,7 @@
 namespace Zakjakub\OswisAddressBookBundle\Manager;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Psr\Log\LoggerInterface;
 use Zakjakub\OswisAddressBookBundle\Entity\ContactDetailType;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
@@ -51,7 +52,7 @@ class ContactDetailTypeManager
             $this->logger ? $this->logger->info($infoMessage) : null;
 
             return $entity;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->logger ? $this->logger->info('ERROR: Contact detail type not created: '.$e->getMessage()) : null;
 
             return null;

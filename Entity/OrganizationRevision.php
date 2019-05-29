@@ -4,6 +4,7 @@ namespace Zakjakub\OswisAddressBookBundle\Entity;
 
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractOrganizationRevision;
 use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevisionContainer;
+use function assert;
 
 /**
  * @Doctrine\ORM\Mapping\Entity
@@ -27,7 +28,7 @@ class OrganizationRevision extends AbstractOrganizationRevision
      */
     public static function checkRevisionContainer(?AbstractRevisionContainer $revisionContainer): void
     {
-        \assert($revisionContainer instanceof Organization);
+        assert($revisionContainer instanceof Organization);
     }
 
     /**

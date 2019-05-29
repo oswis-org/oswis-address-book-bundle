@@ -10,11 +10,13 @@ use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\Exception\AccessException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Regex;
 use Zakjakub\OswisAddressBookBundle\Entity\ContactDetail;
+use function assert;
 
 class ContactDetailType extends AbstractType
 {
@@ -33,9 +35,9 @@ class ContactDetailType extends AbstractType
 
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
-            function (FormEvent $event) {
+            static function (FormEvent $event) {
                 $contactDetail = $event->getData();
-                \assert($contactDetail instanceof ContactDetail);
+                assert($contactDetail instanceof ContactDetail);
                 $form = $event->getForm();
                 $type = TextType::class;
                 $constraints = [];
@@ -99,7 +101,7 @@ class ContactDetailType extends AbstractType
     /**
      * @param OptionsResolver $resolver
      *
-     * @throws \Symfony\Component\OptionsResolver\Exception\AccessException
+     * @throws AccessException
      */
     final public function configureOptions(OptionsResolver $resolver): void
     {

@@ -4,6 +4,7 @@ namespace Zakjakub\OswisAddressBookBundle\Manager;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Psr\Log\LoggerInterface;
 use Zakjakub\OswisAddressBookBundle\Entity\Organization;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
@@ -56,7 +57,7 @@ class OrganizationManager
             $this->logger ? $this->logger->info($infoMessage) : null;
 
             return $entity;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->logger ? $this->logger->info('ERROR: Organization not created: '.$e->getMessage()) : null;
 
             return null;

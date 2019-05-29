@@ -4,6 +4,7 @@ namespace Zakjakub\OswisAddressBookBundle\Entity;
 
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractPersonRevision;
 use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevisionContainer;
+use function assert;
 
 /**
  * Class Person
@@ -31,7 +32,7 @@ class PersonRevision extends AbstractPersonRevision
      */
     public static function checkRevisionContainer(?AbstractRevisionContainer $revisionContainer): void
     {
-        \assert($revisionContainer instanceof Person);
+        assert($revisionContainer instanceof Person);
     }
 
     /**

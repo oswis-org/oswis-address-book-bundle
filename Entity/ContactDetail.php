@@ -6,6 +6,8 @@ use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\DescriptionTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\PriorityTrait;
+use function filter_var;
+use function htmlspecialchars;
 
 /**
  * @Doctrine\ORM\Mapping\Entity()
@@ -69,8 +71,8 @@ class ContactDetail
      */
     final public function getFormatted(): ?string
     {
-        $value = \filter_var($this->getContent(), FILTER_SANITIZE_URL);
-        $description = \htmlspecialchars($this->getDescription());
+        $value = filter_var($this->getContent(), FILTER_SANITIZE_URL);
+        $description = htmlspecialchars($this->getDescription());
 
         if (!$this->getContactType()) {
             return null;
