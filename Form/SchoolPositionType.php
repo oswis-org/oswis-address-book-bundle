@@ -43,7 +43,7 @@ class SchoolPositionType extends AbstractType
                         'required'      => false,
                         'class'         => Organization::class,
                         'query_builder' => static function (EntityRepository $repo) {
-                            // TODO: Not only faculties! Add parameter to school - if can be selected in forms.
+                            // TODO: Not only faculties! Add parameter to school - showInForm (if can be selected in forms).
                             return $repo->createQueryBuilder('organization')
                                 ->where('organization.type = :faculty')
                                 // ->leftJoin('organization.parentOrganization', 'parent')

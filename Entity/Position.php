@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
+use function in_array;
 
 /**
  * @Doctrine\ORM\Mapping\Entity()
@@ -53,11 +54,18 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
  */
 class Position
 {
+    public const MANAGER = 'manager';
+    public const DIRECTOR = 'director';
+    public const BOSS = 'boss';
+    public const STUDENT = 'student';
+    public const GRADUATED = 'graduated';
+    public const STUDENT_OR_GRADUATED = 'student/graduated';
+
     use BasicEntityTrait;
     use NameableBasicTrait;
 
-    public const MANAGER_POSITION_TYPES = ['manager', 'director', 'boss'];
-    public const STUDY_POSITION_TYPES = ['student', 'graduated', 'student/graduated'];
+    public const MANAGER_POSITION_TYPES = [self::MANAGER, self::DIRECTOR, self::BOSS];
+    public const STUDY_POSITION_TYPES = [self::STUDENT, self::GRADUATED, self::STUDENT_OR_GRADUATED];
 
     /**
      * Person in this position.
@@ -229,6 +237,6 @@ class Position
 
     final public function isStudy(): bool
     {
-        return \in_array($this->getType(), self::STUDY_POSITION_TYPES, true);
+        return in_array($this->getType(), self::STUDY_POSITION_TYPES, true);
     }
 }
