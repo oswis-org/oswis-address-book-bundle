@@ -6,6 +6,8 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use InvalidArgumentException;
+use Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBook;
+use Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBookContactConnection;
 use Zakjakub\OswisAddressBookBundle\Entity\ContactAddress;
 use Zakjakub\OswisAddressBookBundle\Entity\ContactDetail;
 use Zakjakub\OswisAddressBookBundle\Entity\ContactImage;
@@ -108,6 +110,17 @@ abstract class AbstractContact extends AbstractRevisionContainer
      * @ApiProperty(iri="http://schema.org/address")
      */
     protected $addresses;
+
+    /**
+     * @var Collection|null
+     * @Doctrine\ORM\Mapping\OneToMany(
+     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBookContactConnection",
+     *     cascade={"all"},
+     *     mappedBy="contact",
+     *     fetch="EAGER"
+     * )
+     */
+    protected $addressBookContactConnections;
 
     /**
      * AbstractContact constructor.
@@ -638,4 +651,82 @@ abstract class AbstractContact extends AbstractRevisionContainer
         }
         $this->removePosition($position);
     }
+
+    final public function addAddressBook(AddressBook $addressBook): void
+    {
+        if (!$this->containsAddressBook($addressBook)) {
+            $this->addAddressBookContactConnection(new AddressBookContactConnection($addressBook));
+        }
+    }
+
+    final public function containsAddressBook(AddressBook $addressBook): bool
+    {
+        return $this->getAddressBooks()->contains($addressBook);
+    }
+
+    final public function getAddressBooks(): Collection
+    {
+        return $this->getAddressBookContactConnections()->map(
+            static function (AddressBookContactConnection $addressBookContactConnection) {
+                return $addressBookContactConnection->getAddressBook();
+            }
+        );
+    }
+
+    final public function getAddressBookContactConnections(): Collection
+    {
+        return $this->addressBookContactConnections ?? new ArrayCollection();
+    }
+
+    final public function setAddressBookContactConnections(?Collection $newAddressBookContactConnections): void
+    {
+        if (!$this->addressBookContactConnections) {
+            $this->addressBookContactConnections = new ArrayCollection();
+        }
+        if (!$newAddressBookContactConnections) {
+            $newAddressBookContactConnections = new ArrayCollection();
+        }
+        foreach ($this->addressBookContactConnections as $oldAddressBookContactConnection) {
+            if (!$newAddressBookContactConnections->contains($oldAddressBookContactConnection)) {
+                $this->removeAddressBookContactConnection($oldAddressBookContactConnection);
+            }
+        }
+        if ($newAddressBookContactConnections) {
+            foreach ($newAddressBookContactConnections as $newAddressBookContactConnection) {
+                if (!$this->addressBookContactConnections->contains($newAddressBookContactConnection)) {
+                    $this->addAddressBookContactConnection($newAddressBookContactConnection);
+                }
+            }
+        }
+    }
+
+    final public function addAddressBookContactConnection(?AddressBookContactConnection $addressBookContactConnection): void
+    {
+        if ($addressBookContactConnection && !$this->addressBookContactConnections->contains($addressBookContactConnection)) {
+            $this->addressBookContactConnections->add($addressBookContactConnection);
+            $addressBookContactConnection->setContact($this);
+        }
+    }
+
+    final public function removeAddressBookContactConnection(?AddressBookContactConnection $addressBookContactConnection): void
+    {
+        if (!$addressBookContactConnection) {
+            return;
+        }
+        if ($this->addressBookContactConnections->removeElement($addressBookContactConnection)) {
+            $addressBookContactConnection->setContact(null);
+        }
+    }
+
+    final public function removeAddressBook(AddressBook $addressBook): void
+    {
+        foreach ($this->getAddressBookContactConnections() as $addressBookContactConnection) {
+            assert($addressBookContactConnection instanceof AddressBookContactConnection);
+            if ($addressBook->getId() === $addressBookContactConnection->getId()) {
+                $this->removeAddressBookContactConnection($addressBookContactConnection);
+            }
+        }
+    }
+
+
 }
