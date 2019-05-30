@@ -219,4 +219,13 @@ class Place
     {
         $this->roomNumber = $roomNumber;
     }
+
+    final public function getStreetAddress(): string {
+        $output = $this->getStreet();
+        $output .= (!empty($this->getStreet()) && $this->getHouseNumber() !== null) ? ' ' : null;
+        $output .= $this->getHouseNumber();
+
+        return $output;
+    }
+
 }
