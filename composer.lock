@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0db6e82038450e06c4c4c1feaa39f5b3",
+    "content-hash": "55f852651479c5b5e0d65e81d66e4955",
     "packages": [
         {
             "name": "adci/full-name-parser",
@@ -7157,7 +7157,7 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "beta",
+    "minimum-stability": "RC",
     "stability-flags": {
         "bigit/vokativ": 20,
         "roave/security-advisories": 20
