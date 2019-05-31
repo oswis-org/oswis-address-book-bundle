@@ -83,7 +83,9 @@ class Person extends AbstractPerson
     /**
      * @var AppUser|null $appUser User
      * @Doctrine\ORM\Mapping\OneToOne(
-     *     targetEntity="Zakjakub\OswisCoreBundle\Entity\AppUser"
+     *     targetEntity="Zakjakub\OswisCoreBundle\Entity\AppUser",
+     *     cascade={"all"},
+     *     fetch="EAGER"
      * )
      */
     private $appUser;
