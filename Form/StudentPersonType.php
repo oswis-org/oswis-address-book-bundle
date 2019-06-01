@@ -43,7 +43,6 @@ class StudentPersonType extends AbstractType
                 CollectionType::class,
                 array(
                     'label'         => 'Fakulta',
-                    'help'          => 'Vyberte příslušnou fakultu.',
                     'entry_type'    => SchoolPositionType::class,
                     'entry_options' => array('label' => false),
                 )

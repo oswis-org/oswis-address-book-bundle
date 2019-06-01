@@ -24,6 +24,7 @@ class SchoolPositionType extends AbstractType
             array(
                 'label'    => false,
                 'required' => false,
+                'help'     => 'Vyberte příslušnou fakultu.',
                 'class'    => Organization::class,
             )
         );
@@ -42,6 +43,7 @@ class SchoolPositionType extends AbstractType
                         'label'         => false,
                         'required'      => false,
                         'class'         => Organization::class,
+                        'help'          => 'Vyberte fakultu, která garantuje studijní obor.',
                         'query_builder' => static function (EntityRepository $repo) {
                             // TODO: Not only faculties! Add parameter to school - showInForm (if can be selected in forms).
                             return $repo->createQueryBuilder('organization')
