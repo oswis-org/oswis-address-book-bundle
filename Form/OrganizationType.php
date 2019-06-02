@@ -5,6 +5,7 @@ namespace Zakjakub\OswisAddressBookBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Exception\AccessException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -13,7 +14,6 @@ use Zakjakub\OswisCoreBundle\Utils\FileUtils;
 
 class OrganizationType extends AbstractType
 {
-    // WTF? Asi není nikde využito.
 
     final public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -23,14 +23,23 @@ class OrganizationType extends AbstractType
         $builder
             ->add(
                 'name',
-                null,
+                TextType::class,
                 array(
                     'label'    => 'Název organizace',
                     'required' => true,
-                    'help'     => 'Zadejte oficiální název organizace tak, jak je uveden v obchodním rejstříku.',
+                    'help'     => 'Zadejte oficiální název organizace.',
                     'attr'     => [
                         'autocomplete' => 'organization',
                     ],
+                )
+            )
+            ->add(
+                'identificationNumber',
+                TextType::class,
+                array(
+                    'label'    => 'Název organizace',
+                    'required' => false,
+                    'help'     => 'Zadejte IČ (nepovinné).',
                 )
             )
             ->add(
@@ -39,7 +48,7 @@ class OrganizationType extends AbstractType
                 array(
                     'label'    => 'Zaměření (krátký popis)',
                     'required' => false,
-                    'help'     => 'Zadejte stručné shrnutí informací o Vaší organizaci. Tyto informace budou zveřejněny studentům.',
+                    'help'     => 'Zadejte stručné shrnutí informací o Vaší organizaci. Tyto informace budou zveřejněny na webu.',
                     'attr'     => [],
                 )
             )
@@ -48,7 +57,7 @@ class OrganizationType extends AbstractType
                 CollectionType::class,
                 array(
                     'label'         => false,
-                    'entry_type'    => ContactDetailType::class,
+                    'entry_type'    => ContactDetailOptionalType::class,
                     'entry_options' => array('label' => false),
                 )
             )
@@ -56,16 +65,11 @@ class OrganizationType extends AbstractType
                 'regularPositions',
                 CollectionType::class,
                 array(
-                    'label'         => 'Zástupci organizace',
-                    'entry_type'    => EmployerPositionType::class,
+                    'label'         => 'Zástupci/kontaktní osoby organizace',
+                    'entry_type'    => EmployerPositionOptionalType::class,
                     'entry_options' => array('label' => false),
                     'attr'          => ['class' => 'row'],
-                    'allow_add'     => true,
-                    'allow_delete'  => true,
-                    'by_reference'  => false,
-                    'prototype'     => true,
                     'delete_empty'  => true,
-                    'help'          => 'Pokud potřebujete přidat dalšího zástupce, využijte tlačítko na konci formuláře.',
                 )
             )
             ->add(
@@ -75,9 +79,6 @@ class OrganizationType extends AbstractType
                     'label'    => 'Logo organizace',
                     'required' => false,
                     'help'     => 'Nahrajte logo Vaší organizace, nejlépe ve formátu png'.$maxSize.'. Bude uvedeno např. na webových stránkách.',
-                    'attr'     => [
-                        'autocomplete' => 'photo',
-                    ],
                 )
             )
             ->add(
