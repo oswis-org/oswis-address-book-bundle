@@ -133,6 +133,9 @@ class AddressBook extends AbstractRevisionContainer
 
     final public function addAddressBookContactConnection(?AddressBookContactConnection $addressBookContactConnection): void
     {
+        if (!$this->addressBookContactConnections) {
+            $this->addressBookContactConnections = new ArrayCollection();
+        }
         if ($addressBookContactConnection && !$this->addressBookContactConnections->contains($addressBookContactConnection)) {
             $this->addressBookContactConnections->add($addressBookContactConnection);
             $addressBookContactConnection->setAddressBook($this);
