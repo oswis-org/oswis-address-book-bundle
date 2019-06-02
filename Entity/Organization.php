@@ -110,7 +110,7 @@ class Organization extends AbstractOrganization
         ?string $identificationNumber = null,
         ?Organization $parentOrganization = null,
         ?string $color = null,
-        ?string $type = 'organization',
+        ?string $type = self::ORGANIZATION,
         ?Collection $addresses = null,
         ?Collection $contactDetails = null,
         ?Collection $notes = null,
@@ -187,6 +187,7 @@ class Organization extends AbstractOrganization
      */
     final public function getDirectStudents(): Collection
     {
+        /// TODO: WTF? It can't work. There is no type 'school'.
         $students = new ArrayCollection();
         if ($this->getType() === 'school') {
             $this->getDirectStudies()->map(
@@ -204,6 +205,7 @@ class Organization extends AbstractOrganization
      */
     final public function getDirectStudies(): Collection
     {
+        /// TODO: WTF? It can't work. There is no type 'school'.
         if ($this->getType() === 'school') {
             return $this->filterPositionsByType('student');
         }
