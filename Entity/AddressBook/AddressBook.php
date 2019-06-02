@@ -48,9 +48,9 @@ class AddressBook extends AbstractRevisionContainer
     public function __construct(
         ?Nameable $nameable = null
     ) {
-        $this->addressBookContactConnections = new ArrayCollection();
         $this->revisions = new ArrayCollection();
         $this->addRevision(new AddressBookRevision($nameable));
+        $this->addressBookContactConnections = new ArrayCollection();
     }
 
     /**
