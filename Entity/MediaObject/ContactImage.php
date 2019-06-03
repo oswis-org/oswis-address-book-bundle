@@ -34,7 +34,7 @@ class ContactImage extends AbstractImage
      *     mapping="address_book_contact_image",
      *     fileNameProperty="contentUrl",
      *     dimensions={"contentDimensionsWidth", "contentDimensionsHeight"},
-     *     mimeType="contentDimensionsMimeType"
+     *     mimeType="contentMimeType"
      * )
      */
     public $file;
