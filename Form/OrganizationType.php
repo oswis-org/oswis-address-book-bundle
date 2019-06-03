@@ -63,23 +63,25 @@ class OrganizationType extends AbstractType
                 )
             )
             ->add(
-                'regularPositions',
-                CollectionType::class,
-                array(
-                    'label'         => 'Zástupci/kontaktní osoby organizace',
-                    'entry_type'    => EmployerPositionOptionalType::class,
-                    'entry_options' => array('label' => false),
-                    'attr'          => ['class' => 'row'],
-                    'delete_empty'  => true,
-                )
-            )
-            ->add(
                 'image',
                 ContactImageType::class,
                 array(
                     'label'    => 'Logo organizace',
                     'required' => false,
                     'help'     => 'Nahrajte logo Vaší organizace, nejlépe ve formátu png'.$maxSize.'. Bude uvedeno např. na webových stránkách.',
+                )
+            )
+            ->add(
+                'regularPositions',
+                CollectionType::class,
+                array(
+                    'label'         => 'Zástupci/kontaktní osoby organizace',
+                    'entry_type'    => EmployerPositionOptionalType::class,
+                    'entry_options' => array('label' => false),
+                    'attr'          => [
+                        'class' => 'box',
+                    ],
+                    'delete_empty'  => true,
                 )
             )
             ->add(
