@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Exception\AccessException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Zakjakub\OswisAddressBookBundle\Entity\Organization;
+use Zakjakub\OswisAddressBookBundle\Form\MediaObject\ContactImageType;
 use Zakjakub\OswisCoreBundle\Utils\FileUtils;
 
 class OrganizationType extends AbstractType
