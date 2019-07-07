@@ -84,6 +84,7 @@ final class SearchFilter extends AbstractContextAwareFilter
 
         foreach ($annotation->fields as $field) {
             $joins = explode('.', $field);
+            /** @noinspection ForeachInvariantsInspection */
             for ($lastAlias = 'o', $i = 0, $num = count($joins); $i < $num; $i++) {
                 $currentAlias = $joins[$i];
                 if ($i === $num - 1) {
