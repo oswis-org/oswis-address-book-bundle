@@ -143,8 +143,15 @@ abstract class AbstractContact extends AbstractRevisionContainer
      */
     protected $addressBookContactConnections;
 
-    use BasicEntityTrait;
-    use TypeTrait;
+    /**
+     * @var AppUser|null $appUser User
+     * @Doctrine\ORM\Mapping\OneToOne(
+     *     targetEntity="Zakjakub\OswisCoreBundle\Entity\AppUser",
+     *     cascade={"all"},
+     *     fetch="EAGER"
+     * )
+     */
+    private $appUser;
 
     /**
      * AbstractContact constructor.
@@ -195,6 +202,9 @@ abstract class AbstractContact extends AbstractRevisionContainer
             }
         }
     }
+
+    use BasicEntityTrait;
+    use TypeTrait;
 
     final public function getAddressBooks(): Collection
     {
@@ -682,6 +692,28 @@ abstract class AbstractContact extends AbstractRevisionContainer
         }
 
         return $persons;
+    }
+
+    /**
+     * User associated with this contact.
+     * @return AppUser
+     */
+    final public function getAppUser(): ?AppUser
+    {
+        return $this->appUser;
+    }
+
+    /**
+     * @param AppUser|null $appUser
+     */
+    final public function setAppUser(?AppUser $appUser): void
+    {
+        if (!$appUser) {
+            return;
+        }
+        if ($this->appUser !== $appUser) {
+            $this->appUser = $appUser;
+        }
     }
 
     /**

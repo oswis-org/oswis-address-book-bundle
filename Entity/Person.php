@@ -11,7 +11,6 @@ use Doctrine\Common\Collections\Collection;
 use Exception;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractPerson;
 use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevision;
-use Zakjakub\OswisCoreBundle\Entity\AppUser;
 use Zakjakub\OswisCoreBundle\Exceptions\RevisionMissingException;
 use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
 use function assert;
@@ -79,16 +78,6 @@ class Person extends AbstractPerson
      * )
      */
     protected $revisions;
-
-    /**
-     * @var AppUser|null $appUser User
-     * @Doctrine\ORM\Mapping\OneToOne(
-     *     targetEntity="Zakjakub\OswisCoreBundle\Entity\AppUser",
-     *     cascade={"all"},
-     *     fetch="EAGER"
-     * )
-     */
-    private $appUser;
 
     /**
      * Positions (jobs, studies...).
@@ -298,28 +287,6 @@ class Person extends AbstractPerson
                     $this->addPersonSkillConnection($newPersonSkillConnection);
                 }
             }
-        }
-    }
-
-    /**
-     * User associated with this contact.
-     * @return AppUser
-     */
-    final public function getAppUser(): ?AppUser
-    {
-        return $this->appUser;
-    }
-
-    /**
-     * @param AppUser|null $appUser
-     */
-    final public function setAppUser(?AppUser $appUser): void
-    {
-        if (!$appUser) {
-            return;
-        }
-        if ($this->appUser !== $appUser) {
-            $this->appUser = $appUser;
         }
     }
 }
