@@ -13,12 +13,15 @@ use Zakjakub\OswisAddressBookBundle\Entity\ContactDetail;
 use Zakjakub\OswisAddressBookBundle\Entity\ContactImage;
 use Zakjakub\OswisAddressBookBundle\Entity\ContactImageConnection;
 use Zakjakub\OswisAddressBookBundle\Entity\ContactNote;
+use Zakjakub\OswisAddressBookBundle\Entity\Organization;
 use Zakjakub\OswisAddressBookBundle\Entity\Person;
 use Zakjakub\OswisAddressBookBundle\Entity\Position;
 use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevisionContainer;
 use Zakjakub\OswisCoreBundle\Entity\AppUser;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
+use Zakjakub\OswisCoreBundle\Traits\Entity\TypeTrait;
 use function assert;
+use function in_array;
 
 /**
  * Class Contact (abstract class for Person, Department, Organization)
@@ -34,7 +37,31 @@ use function assert;
  */
 abstract class AbstractContact extends AbstractRevisionContainer
 {
-    use BasicEntityTrait;
+    public const TYPE_ORGANIZATION = 'organization';
+    public const TYPE_PERSON = 'person';
+
+    public const TYPE_UNIVERSITY = 'university';
+    public const TYPE_FACULTY = 'faculty';
+    public const TYPE_FACULTY_DEPARTMENT = 'faculty-department';
+    public const TYPE_STUDENT_ORGANIZATION = 'student-organization';
+    public const TYPE_HIGH_SCHOOL = 'high-school';
+    public const TYPE_PRIMARY_SCHOOL = 'primary-school';
+    public const TYPE_KINDERGARTEN = 'kindergarten';
+    public const TYPE_COMPANY = 'company';
+
+    public const COMPANY_TYPES = [self::TYPE_COMPANY];
+    public const ORGANIZATION_TYPES = [self::TYPE_ORGANIZATION];
+    public const STUDENT_ORGANIZATION_TYPES = [self::TYPE_STUDENT_ORGANIZATION];
+    public const SCHOOL_TYPES = [
+        self::TYPE_UNIVERSITY,
+        self::TYPE_FACULTY,
+        self::TYPE_FACULTY_DEPARTMENT,
+        self::TYPE_HIGH_SCHOOL,
+        self::TYPE_PRIMARY_SCHOOL,
+        self::TYPE_KINDERGARTEN,
+    ];
+
+    public const PERSON_TYPES = [self::TYPE_PERSON];
 
     /**
      * @var ContactImage|null
@@ -61,12 +88,6 @@ abstract class AbstractContact extends AbstractRevisionContainer
      * )
      */
     protected $imageConnections;
-
-    /**
-     * @var string|null $type Type of contact (person, organization, school, department...)
-     * @Doctrine\ORM\Mapping\Column(type="string", nullable=true)
-     */
-    protected $type;
 
     /**
      * Notes about person.
@@ -122,6 +143,9 @@ abstract class AbstractContact extends AbstractRevisionContainer
      */
     protected $addressBookContactConnections;
 
+    use BasicEntityTrait;
+    use TypeTrait;
+
     /**
      * AbstractContact constructor.
      *
@@ -131,6 +155,8 @@ abstract class AbstractContact extends AbstractRevisionContainer
      * @param Collection|null   $addresses
      * @param ContactImage|null $image
      * @param Collection|null   $addressBooks
+     *
+     * @throws InvalidArgumentException
      */
     public function __construct(
         ?string $type = null,
@@ -244,6 +270,47 @@ abstract class AbstractContact extends AbstractRevisionContainer
             $this->addressBookContactConnections->add($addressBookContactConnection);
             $addressBookContactConnection->setContact($this);
         }
+    }
+
+    public static function getAllowedTypesDefault(): array
+    {
+        return [
+            self::TYPE_ORGANIZATION,
+            self::TYPE_PERSON,
+            self::TYPE_UNIVERSITY,
+            self::TYPE_FACULTY,
+            self::TYPE_FACULTY_DEPARTMENT,
+            self::TYPE_STUDENT_ORGANIZATION,
+            self::TYPE_HIGH_SCHOOL,
+            self::TYPE_PRIMARY_SCHOOL,
+            self::TYPE_KINDERGARTEN,
+            self::TYPE_COMPANY,
+        ];
+    }
+
+    public static function getAllowedTypesCustom(): array
+    {
+        return [];
+    }
+
+    final public function isPerson(): bool
+    {
+        return $this instanceof Person;
+    }
+
+    final public function isOrganization(): bool
+    {
+        return $this instanceof Organization;
+    }
+
+    final public function isSchool(): bool
+    {
+        return in_array($this->getType(), self::SCHOOL_TYPES, true);
+    }
+
+    final public function isStudentOrganization(): bool
+    {
+        return in_array($this->getType(), self::STUDENT_ORGANIZATION_TYPES, true);
     }
 
     /**
@@ -625,30 +692,6 @@ abstract class AbstractContact extends AbstractRevisionContainer
         // TODO: Return managed departmenmts.
         return new ArrayCollection();
     }
-
-    /**
-     * @return null|string
-     */
-    final public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    /**
-     * @param null|string $type
-     */
-    final public function setType(?string $type): void
-    {
-        // $this->checkType($type);
-        $this->type = $type;
-    }
-
-    /**
-     * @param string $typeName
-     *
-     * @return bool
-     */
-    abstract public function checkType(string $typeName): bool;
 
     /**
      * @return string

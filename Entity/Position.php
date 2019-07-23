@@ -5,10 +5,12 @@ namespace Zakjakub\OswisAddressBookBundle\Entity;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
-use Doctrine\Common\Collections\ArrayCollection;
+use InvalidArgumentException;
 use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
+use Zakjakub\OswisCoreBundle\Traits\Entity\DateRangeTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
+use Zakjakub\OswisCoreBundle\Traits\Entity\TypeTrait;
 use function in_array;
 
 /**
@@ -54,18 +56,28 @@ use function in_array;
  */
 class Position
 {
-    public const MANAGER = 'manager';
-    public const DIRECTOR = 'director';
-    public const BOSS = 'boss';
-    public const STUDENT = 'student';
-    public const GRADUATED = 'graduated';
-    public const STUDENT_OR_GRADUATED = 'student/graduated';
+    public const TYPE_EMPLOYEE = 'employee';
+    public const TYPE_MEMBER = 'member';
+    public const TYPE_MANAGER = 'manager';
+    public const TYPE_DIRECTOR = 'director';
+    public const TYPE_BOSS = 'boss';
+    public const TYPE_STUDENT = 'student';
+    public const TYPE_GRADUATED = 'graduated';
+    public const TYPE_STUDENT_OR_GRADUATED = 'student/graduated';
+
+    public const MANAGER_POSITION_TYPES = [self::TYPE_MANAGER, self::TYPE_DIRECTOR, self::TYPE_BOSS];
+    public const STUDY_POSITION_TYPES = [self::TYPE_STUDENT, self::TYPE_GRADUATED, self::TYPE_STUDENT_OR_GRADUATED];
 
     use BasicEntityTrait;
     use NameableBasicTrait;
+    use DateRangeTrait;
+    use TypeTrait;
 
-    public const MANAGER_POSITION_TYPES = [self::MANAGER, self::DIRECTOR, self::BOSS];
-    public const STUDY_POSITION_TYPES = [self::STUDENT, self::GRADUATED, self::STUDENT_OR_GRADUATED];
+    /**
+     * True if person is intended for receiving messages about organization.
+     * @var bool|null
+     */
+    protected $isContactPerson;
 
     /**
      * Person in this position.
@@ -94,27 +106,44 @@ class Position
     private $organization;
 
     /**
-     * Type of position (student, employee, member...).
-     * @var string|null
-     * @Doctrine\ORM\Mapping\Column(type="string", nullable=true)
-     */
-    private $type;
-
-    /**
      * Position constructor.
      *
      * @param Person|null       $person
      * @param Organization|null $organization
      * @param string|null       $type
+     * @param bool|null         $isContactPerson
+     *
+     * @throws InvalidArgumentException
      */
     public function __construct(
         ?Person $person = null,
         ?Organization $organization = null,
-        ?string $type = null
+        ?string $type = null,
+        ?bool $isContactPerson = null
     ) {
         $this->setPerson($person);
         $this->setOrganization($organization);
         $this->setType($type);
+        $this->setIsContactPerson($isContactPerson);
+    }
+
+    public static function getAllowedTypesDefault(): array
+    {
+        return [
+            self::TYPE_EMPLOYEE,
+            self::TYPE_MEMBER,
+            self::TYPE_MANAGER,
+            self::TYPE_DIRECTOR,
+            self::TYPE_BOSS,
+            self::TYPE_STUDENT,
+            self::TYPE_GRADUATED,
+            self::TYPE_STUDENT_OR_GRADUATED,
+        ];
+    }
+
+    public static function getAllowedTypesCustom(): array
+    {
+        return [];
     }
 
     /**
@@ -209,25 +238,7 @@ class Position
 
     final public function isManager(): bool
     {
-        $managerPositionTypes = new ArrayCollection($this::MANAGER_POSITION_TYPES);
-
-        return $managerPositionTypes->contains($this->getType());
-    }
-
-    /**
-     * @return string
-     */
-    final public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    /**
-     * @param string $type
-     */
-    final public function setType(?string $type): void
-    {
-        $this->type = $type;
+        return in_array($this->getType(), self::MANAGER_POSITION_TYPES, true);
     }
 
     final public function isRegularPosition(): bool
@@ -239,4 +250,26 @@ class Position
     {
         return in_array($this->getType(), self::STUDY_POSITION_TYPES, true);
     }
+
+    final public function isContactPerson(): bool
+    {
+        return $this->getIsContactPerson();
+    }
+
+    /**
+     * @return bool|null
+     */
+    final public function getIsContactPerson(): bool
+    {
+        return $this->isContactPerson ?? false;
+    }
+
+    /**
+     * @param bool|null $isContactPerson
+     */
+    final public function setIsContactPerson(bool $isContactPerson): void
+    {
+        $this->isContactPerson = $isContactPerson ?? false;
+    }
+
 }

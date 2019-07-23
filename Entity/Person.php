@@ -136,7 +136,7 @@ class Person extends AbstractPerson
         ?string $fullName = null,
         ?string $description = null,
         ?DateTime $birthDate = null,
-        ?string $type = 'person',
+        ?string $type = self::TYPE_PERSON,
         ?Collection $notes = null,
         ?Collection $contactDetails = null,
         ?Collection $addresses = null,

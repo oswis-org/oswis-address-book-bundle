@@ -9,6 +9,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractOrganization;
 use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevision;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
@@ -187,42 +188,65 @@ class Organization extends AbstractOrganization
      */
     final public function getDirectStudents(): Collection
     {
-        /// TODO: WTF? It can't work. There is no type 'school'.
         $students = new ArrayCollection();
-        if ($this->getType() === 'school') {
-            $this->getDirectStudies()->map(
-                static function (Position $position) use ($students) {
-                    $students->add($position->getPerson());
+        if ($this->isSchool()) {
+            foreach ($this->getDirectStudies() as $study) {
+                assert($study instanceof Position);
+                if ($study->isStudy() && !$students->contains($study->getPerson())) {
+                    $students->add($study->getPerson());
                 }
-            );
+            }
         }
 
         return $students;
     }
 
     /**
-     * @return Collection
-     */
-    final public function getDirectStudies(): Collection
-    {
-        /// TODO: WTF? It can't work. There is no type 'school'.
-        if ($this->getType() === 'school') {
-            return $this->filterPositionsByType('student');
-        }
-
-        return new ArrayCollection();
-    }
-
-    /**
-     * @param string $positionName
+     * Returns positions marked as study (student,
+     *
+     * @param DateTime|null $referenceDateTime
      *
      * @return Collection
      */
-    final public function filterPositionsByType(string $positionName): Collection
+    final public function getDirectStudies(?DateTime $referenceDateTime = null): Collection
     {
-        return $this->getPositions()->filter(
-            static function (Position $position) use ($positionName) {
-                return $positionName === $position->getType();
+
+        if (!$this->isSchool()) {
+            return new ArrayCollection();
+        }
+
+        return $this->getPositions($referenceDateTime)->filter(
+            static function (Position $position) {
+                return $position->isStudy();
+            }
+        );
+    }
+
+    /**
+     * Returns positions in organization. If referenceDateTime is specified, only valid positions (in that datetime) are returned.
+     *
+     * @param DateTime|null $referenceDateTime
+     *
+     * @return Collection
+     */
+    final public function getPositions(?DateTime $referenceDateTime = null): Collection
+    {
+        if ($referenceDateTime) {
+            return $this->positions->filter(
+                static function (Position $position) use ($referenceDateTime) {
+                    return $position->containsDateTimeInRange($referenceDateTime);
+                }
+            );
+        }
+
+        return $this->positions ?? new ArrayCollection();
+    }
+
+    final public function getContactPersons(?DateTime $referenceDateTime = null): Collection
+    {
+        return $this->getPositions($referenceDateTime ?? new DateTime())->filter(
+            static function (Position $position) {
+                return $position->getIsContactPerson();
             }
         );
     }
@@ -230,26 +254,25 @@ class Organization extends AbstractOrganization
     /**
      * @return Collection
      */
-    final public function getPositions(): Collection
-    {
-        return $this->positions ?? new ArrayCollection();
-    }
-
-    /**
-     * @return Collection
-     */
     final public function getAllStudents(): Collection
     {
-        $students = new ArrayCollection();
-        if ($this->getType() === 'school') {
-            $this->getAllStudies()->map(
-                static function (Position $position) use ($students) {
-                    $students->add($position->getPerson());
-                }
-            );
+        if (!$this->isSchool()) {
+            return new ArrayCollection();
         }
 
-        return $students;
+        return $this->getAllStudies()->map(
+            static function (Position $position) {
+                if ($position->isStudy() && $position->getPerson()) {
+                    return $position->getPerson();
+                }
+
+                return null;
+            }
+        )->filter(
+            static function (AbstractContact $contact) {
+                return $contact;
+            }
+        );
     }
 
     /**
@@ -257,7 +280,7 @@ class Organization extends AbstractOrganization
      */
     final public function getAllStudies(): Collection
     {
-        if ($this->getType() === 'school') {
+        if ($this->isSchool()) {
             $studies = $this->getDirectStudies();
             foreach ($this->getSubOrganizations() as $organization) {
                 assert($organization instanceof self);
@@ -288,7 +311,7 @@ class Organization extends AbstractOrganization
     final public function getAllEmployees(): Collection
     {
         $employees = new ArrayCollection();
-        if ($this->getType() === 'school') {
+        if ($this->isSchool()) {
             $this->getAllStudies()->map(
                 static function (Position $position) use ($employees) {
                     $employees->add($position->getPerson());
@@ -323,6 +346,20 @@ class Organization extends AbstractOrganization
     final public function getDirectEmployeesPositions(): Collection
     {
         return $this->filterPositionsByType('employee');
+    }
+
+    /**
+     * @param string $positionName
+     *
+     * @return Collection
+     */
+    final public function filterPositionsByType(string $positionName): Collection
+    {
+        return $this->getPositions()->filter(
+            static function (Position $position) use ($positionName) {
+                return $positionName === $position->getType();
+            }
+        );
     }
 
     /**
