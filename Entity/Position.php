@@ -267,7 +267,7 @@ class Position
     /**
      * @param bool|null $isContactPerson
      */
-    final public function setIsContactPerson(bool $isContactPerson): void
+    final public function setIsContactPerson(?bool $isContactPerson): void
     {
         $this->isContactPerson = $isContactPerson ?? false;
     }
