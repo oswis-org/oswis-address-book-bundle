@@ -242,10 +242,19 @@ class Organization extends AbstractOrganization
         return $this->positions ?? new ArrayCollection();
     }
 
-    final public function getContactPersons(?DateTime $referenceDateTime = null): Collection
-    {
+    final public function getContactPersons(
+        ?DateTime $referenceDateTime = null,
+        bool $onlyWithActivatedUser = false
+    ): Collection {
         return $this->getPositions($referenceDateTime ?? new DateTime())->filter(
-            static function (Position $position) {
+            static function (Position $position) use ($onlyWithActivatedUser) {
+                if ($onlyWithActivatedUser
+                    && (!$position->getPerson()
+                        || !$position->getPerson()->getAppUser()
+                        || !$position->getPerson()->getAppUser()->getAccountActivationDateTime())) {
+                    return false;
+                }
+
                 return $position->getIsContactPerson();
             }
         );
@@ -382,7 +391,7 @@ class Organization extends AbstractOrganization
             $this->subOrganizations->add($organization);
             $organization->setParentOrganization($this);
         }
-        // TODO: Check!
+        // TODO: Check cycles!
     }
 
     /**
@@ -396,7 +405,7 @@ class Organization extends AbstractOrganization
         if ($this->subOrganizations->removeElement($organization)) {
             $organization->setParentOrganization(null);
         }
-        // TODO: Check!
+        // TODO: Check cycles!
     }
 
     /**
