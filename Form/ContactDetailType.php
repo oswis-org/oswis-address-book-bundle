@@ -41,7 +41,7 @@ class ContactDetailType extends AbstractType
                 $form = $event->getForm();
                 $type = TextType::class;
                 $constraints = [];
-                $pattern = null;
+                $pattern = '*';
                 if ($contactDetail->getContactType()) {
                     switch ($contactDetail->getContactType()->getType()) {
                         case 'email':
