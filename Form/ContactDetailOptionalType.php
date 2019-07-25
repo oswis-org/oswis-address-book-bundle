@@ -41,18 +41,13 @@ class ContactDetailOptionalType extends AbstractType
                 $form = $event->getForm();
                 $type = TextType::class;
                 $constraints = [];
-                $pattern = '*';
+                $pattern = null;
                 if ($contactDetail->getContactType()) {
                     switch ($contactDetail->getContactType()->getType()) {
                         case 'email':
                             $type = EmailType::class;
                             $constraints = [
-                                new Email(
-                                    [
-                                        'mode'    => 'strict',
-                                        'message' => 'Zadaná adresa {{ value }} není platná.',
-                                    ]
-                                ),
+                                new Email(['mode' => 'strict', 'message' => 'Zadaná adresa {{ value }} není platná.']),
                             ];
                             break;
                         case 'url':
@@ -68,31 +63,27 @@ class ContactDetailOptionalType extends AbstractType
                                         'message' => 'Zadané číslo {{ value }} není platným českým nebo slovenským telefonním číslem.',
                                     ]
                                 ),
-                                new Length(
-                                    [
-                                        'min' => 9,
-                                        'max' => 15,
-                                    ]
-                                ),
+                                new Length(['min' => 9, 'max' => 18,]),
                             ];
                             break;
                     }
                 }
 
-                $form->add(
-                    'content',
-                    $type,
-                    array(
-                        'label'       => $contactDetail->getContactType() ? $contactDetail->getContactType()->getFormLabel() : false,
-                        'required'    => false,
-                        'attr'        => [
-                            'autocomplete' => $contactDetail->getContactType() ? $contactDetail->getContactType()->getType() : true,
-                            'pattern'      => $pattern,
-                        ],
-                        'help'        => $contactDetail->getContactType() ? $contactDetail->getContactType()->getFormHelp() : null,
-                        'constraints' => $constraints,
-                    )
+                $options = array(
+                    'label'       => $contactDetail->getContactType() ? $contactDetail->getContactType()->getFormLabel() : false,
+                    'required'    => false,
+                    'attr'        => [
+                        // 'autocomplete' => $contactDetail->getContactType() ? $contactDetail->getContactType()->getType() : true,
+                    ],
+                    'help'        => $contactDetail->getContactType() ? $contactDetail->getContactType()->getFormHelp() : null,
+                    'constraints' => $constraints,
                 );
+
+                if ($pattern) {
+                    $options['attr']['pattern'] = $pattern;
+                }
+
+                $form->add('content', $type, $options);
             }
         );
     }
