@@ -16,6 +16,7 @@ use Zakjakub\OswisAddressBookBundle\Entity\ContactNote;
 use Zakjakub\OswisAddressBookBundle\Entity\Organization;
 use Zakjakub\OswisAddressBookBundle\Entity\Person;
 use Zakjakub\OswisAddressBookBundle\Entity\Position;
+use Zakjakub\OswisCalendarBundle\Entity\EventParticipant\EventParticipantNote;
 use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevisionContainer;
 use Zakjakub\OswisCoreBundle\Entity\AppUser;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
@@ -523,6 +524,19 @@ abstract class AbstractContact extends AbstractRevisionContainer
                 if (!$this->notes->contains($newNote)) {
                     $this->addNote($newNote);
                 }
+            }
+        }
+    }
+
+    /**
+     * Remove notes where no content is present.
+     */
+    final public function removeEmptyNotes(): void
+    {
+        foreach ($this->getNotes() as $note) {
+            assert($note instanceof ContactNote);
+            if (!$note->getTextValue() || '' === $note->getTextValue()) {
+                $this->removeNote($note);
             }
         }
     }
