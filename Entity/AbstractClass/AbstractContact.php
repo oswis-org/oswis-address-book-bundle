@@ -377,6 +377,19 @@ abstract class AbstractContact extends AbstractRevisionContainer
     }
 
     /**
+     * Remove contact details where no content is present.
+     */
+    final public function removeEmptyContactDetails(): void
+    {
+        foreach ($this->getContactDetails() as $contactDetail) {
+            assert($contactDetail instanceof ContactDetail);
+            if (!$contactDetail->getContent() || '' === $contactDetail->getContent()) {
+                $this->removeContactDetail($contactDetail);
+            }
+        }
+    }
+
+    /**
      * @param ContactDetail|null $contactDetail
      */
     final public function removeContactDetail(?ContactDetail $contactDetail): void
