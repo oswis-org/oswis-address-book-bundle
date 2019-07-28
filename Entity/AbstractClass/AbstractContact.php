@@ -3,6 +3,7 @@
 namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use InvalidArgumentException;
@@ -549,6 +550,23 @@ abstract class AbstractContact extends AbstractRevisionContainer
     {
         // TODO: Return Urls as strings.
         return new ArrayCollection();
+    }
+
+    /** @noinspection MethodShouldBeFinalInspection */
+    public function getContactPersons(
+        ?DateTime $referenceDateTime = null,
+        bool $onlyWithActivatedUser = false
+    ): Collection {
+        if ($onlyWithActivatedUser) {
+            try {
+                return $this->getAppUser() && $this->getAppUser()->isActive($referenceDateTime)
+                    ? new ArrayCollection([$this]) : new ArrayCollection();
+            } catch (\Exception $e) {
+                return new ArrayCollection();
+            }
+        }
+
+        return new ArrayCollection([$this]);
     }
 
     /**
