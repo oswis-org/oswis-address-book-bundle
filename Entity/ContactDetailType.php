@@ -13,7 +13,7 @@ use Zakjakub\OswisCoreBundle\Entity\Nameable;
 use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
-use function array_key_exists;
+use Zakjakub\OswisCoreBundle\Traits\Entity\TypeTrait;
 
 /**
  * Class ContactType
@@ -59,17 +59,26 @@ use function array_key_exists;
  */
 class ContactDetailType
 {
+
+    public const TYPE_EMAIL = 'email';
+    public const TYPE_URL = 'url';
+    public const TYPE_PHONE = 'phone';
+    public const TYPE_SOCIAL = 'social';
+    public const TYPE_MESSENGER = 'messenger';
+    public const TYPE_VOIP = 'voip';
+
     public const ALLOWED_TYPES = [
-        'url'       => ['name' => 'URL'],
-        'email'     => ['name' => 'E-mail'],
-        'phone'     => ['name' => 'Telefon'],
-        'social'    => ['name' => 'Profil na sociální síti'],
-        'messenger' => ['name' => 'Internetový komunikátor'],
-        'voip'      => ['name' => 'Internetová telefonie'],
+        self::TYPE_URL       => ['name' => 'URL'],
+        self::TYPE_EMAIL     => ['name' => 'E-mail'],
+        self::TYPE_PHONE     => ['name' => 'Telefon'],
+        self::TYPE_SOCIAL    => ['name' => 'Profil na sociální síti'],
+        self::TYPE_MESSENGER => ['name' => 'Internetový komunikátor'],
+        self::TYPE_VOIP      => ['name' => 'Internetová telefonie'],
     ];
 
     use BasicEntityTrait;
     use NameableBasicTrait;
+    use TypeTrait;
 
     /**
      * @var Collection|null $contacts Contacts of this type
@@ -95,12 +104,6 @@ class ContactDetailType
      * @Doctrine\ORM\Mapping\Column(type="boolean", nullable=true)
      */
     protected $showInPreview;
-
-    /**
-     * @var string|null
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $type;
 
     /**
      * @var string|null
@@ -142,6 +145,23 @@ class ContactDetailType
         $this->setType($type);
         $this->setFormLabel($formLabel);
         $this->setFormHelp($formHelp);
+    }
+
+    final public static function getAllowedTypesDefault(): array
+    {
+        return [
+            self::TYPE_URL,
+            self::TYPE_EMAIL,
+            self::TYPE_PHONE,
+            self::TYPE_SOCIAL,
+            self::TYPE_MESSENGER,
+            self::TYPE_VOIP,
+        ];
+    }
+
+    public static function getAllowedTypesCustom(): array
+    {
+        return [];
     }
 
     /**
@@ -190,56 +210,6 @@ class ContactDetailType
     final public function setShowInPreview(?bool $showInPreview): void
     {
         $this->showInPreview = $showInPreview;
-    }
-
-    /**
-     * @return array
-     * @throws InvalidArgumentException
-     */
-    final public function getTypeAsArray(): array
-    {
-        $this->checkType();
-        if ($this->getType() && array_key_exists($this->getType(), self::ALLOWED_TYPES)) {
-            return self::ALLOWED_TYPES[$this->getType()];
-        }
-
-        return null;
-    }
-
-    /**
-     * @param string|null $type
-     *
-     * @throws InvalidArgumentException
-     */
-    final public function checkType(?string $type = null): void
-    {
-        $type = $type ?? $this->type;
-        if (!$type || array_key_exists($type, self::ALLOWED_TYPES)) {
-            return;
-        }
-        throw new InvalidArgumentException("Typ $type není povoleným typem akce.");
-    }
-
-    /**
-     * @return string|null
-     * @throws InvalidArgumentException
-     */
-    final public function getType(): ?string
-    {
-        $this->checkType();
-
-        return $this->type;
-    }
-
-    /**
-     * @param string|null $type
-     *
-     * @throws InvalidArgumentException
-     */
-    final public function setType(?string $type): void
-    {
-        $this->checkType($type);
-        $this->type = $type;
     }
 
     final public function addContact(?ContactDetail $contact): void

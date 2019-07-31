@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Exception;
 use InvalidArgumentException;
 use Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBook;
 use Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBookContactConnection;
@@ -17,12 +18,12 @@ use Zakjakub\OswisAddressBookBundle\Entity\ContactNote;
 use Zakjakub\OswisAddressBookBundle\Entity\Organization;
 use Zakjakub\OswisAddressBookBundle\Entity\Person;
 use Zakjakub\OswisAddressBookBundle\Entity\Position;
-use Zakjakub\OswisCalendarBundle\Entity\EventParticipant\EventParticipantNote;
 use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevisionContainer;
 use Zakjakub\OswisCoreBundle\Entity\AppUser;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\TypeTrait;
 use function assert;
+use function implode;
 use function in_array;
 
 /**
@@ -345,16 +346,6 @@ abstract class AbstractContact extends AbstractRevisionContainer
     }
 
     /**
-     * @param ContactNote|null $personNote
-     */
-    final public function removeNote(?ContactNote $personNote): void
-    {
-        if ($personNote && $this->notes->removeElement($personNote)) {
-            $personNote->setContact(null);
-        }
-    }
-
-    /**
      * @param ContactImageConnection|null $contactImageConnection
      */
     final public function addImageConnection(?ContactImageConnection $contactImageConnection): void
@@ -392,29 +383,6 @@ abstract class AbstractContact extends AbstractRevisionContainer
     }
 
     /**
-     * @param ContactDetail|null $contactDetail
-     */
-    final public function removeContactDetail(?ContactDetail $contactDetail): void
-    {
-        if ($contactDetail && $this->contactDetails->removeElement($contactDetail)) {
-            $contactDetail->setContact(null);
-        }
-    }
-
-    /**
-     * @param ContactAddress|null $address
-     */
-    final public function removeAddress(?ContactAddress $address): void
-    {
-        if (!$address) {
-            return;
-        }
-        if ($this->addresses->removeElement($address)) {
-            $address->setContact(null);
-        }
-    }
-
-    /**
      * @return Collection
      */
     final public function getContactDetails(): Collection
@@ -441,6 +409,29 @@ abstract class AbstractContact extends AbstractRevisionContainer
                     $this->addContactDetail($newContactDetail);
                 }
             }
+        }
+    }
+
+    /**
+     * @param ContactDetail|null $contactDetail
+     */
+    final public function removeContactDetail(?ContactDetail $contactDetail): void
+    {
+        if ($contactDetail && $this->contactDetails->removeElement($contactDetail)) {
+            $contactDetail->setContact(null);
+        }
+    }
+
+    /**
+     * @param ContactAddress|null $address
+     */
+    final public function removeAddress(?ContactAddress $address): void
+    {
+        if (!$address) {
+            return;
+        }
+        if ($this->addresses->removeElement($address)) {
+            $address->setContact(null);
         }
     }
 
@@ -500,6 +491,19 @@ abstract class AbstractContact extends AbstractRevisionContainer
     }
 
     /**
+     * Remove notes where no content is present.
+     */
+    final public function removeEmptyNotes(): void
+    {
+        foreach ($this->getNotes() as $note) {
+            assert($note instanceof ContactNote);
+            if (!$note->getTextValue() || '' === $note->getTextValue()) {
+                $this->removeNote($note);
+            }
+        }
+    }
+
+    /**
      * @return Collection
      */
     final public function getNotes(): Collection
@@ -530,15 +534,12 @@ abstract class AbstractContact extends AbstractRevisionContainer
     }
 
     /**
-     * Remove notes where no content is present.
+     * @param ContactNote|null $personNote
      */
-    final public function removeEmptyNotes(): void
+    final public function removeNote(?ContactNote $personNote): void
     {
-        foreach ($this->getNotes() as $note) {
-            assert($note instanceof ContactNote);
-            if (!$note->getTextValue() || '' === $note->getTextValue()) {
-                $this->removeNote($note);
-            }
+        if ($personNote && $this->notes->removeElement($personNote)) {
+            $personNote->setContact(null);
         }
     }
 
@@ -548,8 +549,27 @@ abstract class AbstractContact extends AbstractRevisionContainer
      */
     final public function getUrls(): ?Collection
     {
-        // TODO: Return Urls as strings.
-        return new ArrayCollection();
+        return $this->getContactDetails()->filter(
+            static function (ContactDetail $contactDetail) {
+                return 'url' === $contactDetail->getTypeString();
+            }
+        );
+    }
+
+    /**
+     * @ApiProperty(iri="http://schema.org/url")
+     * @return string All urls in one string.
+     */
+    final public function getUrlsAsString(): ?string
+    {
+        return implode(
+            [', '],
+            $this->getContactDetails()->filter(
+                static function (ContactDetail $contactDetail) {
+                    return 'url' === $contactDetail->getTypeString();
+                }
+            )
+        );
     }
 
     /** @noinspection MethodShouldBeFinalInspection */
@@ -561,7 +581,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
             try {
                 return $this->getAppUser() && $this->getAppUser()->isActive($referenceDateTime)
                     ? new ArrayCollection([$this]) : new ArrayCollection();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 return new ArrayCollection();
             }
         }
@@ -570,13 +590,38 @@ abstract class AbstractContact extends AbstractRevisionContainer
     }
 
     /**
+     * User associated with this contact.
+     * @return AppUser
+     */
+    final public function getAppUser(): ?AppUser
+    {
+        return $this->appUser;
+    }
+
+    /**
+     * @param AppUser|null $appUser
+     */
+    final public function setAppUser(?AppUser $appUser): void
+    {
+        if (!$appUser) {
+            return;
+        }
+        if ($this->appUser !== $appUser) {
+            $this->appUser = $appUser;
+        }
+    }
+
+    /**
      * @ApiProperty(iri="http://schema.org/email")
      * @return Collection Collection of e-mail addresses from contact details
      */
     final public function getEmails(): ?Collection
     {
-        // TODO: Return Emails as strings.
-        return new ArrayCollection();
+        return $this->getContactDetails()->filter(
+            static function (ContactDetail $contactDetail) {
+                return 'email' === $contactDetail->getTypeString();
+            }
+        );
     }
 
     /**
@@ -585,8 +630,11 @@ abstract class AbstractContact extends AbstractRevisionContainer
      */
     final public function getTelephones(): ?Collection
     {
-        // TODO: Return telephones as strings.
-        return new ArrayCollection();
+        return $this->getContactDetails()->filter(
+            static function (ContactDetail $contactDetail) {
+                return 'phone' === $contactDetail->getTypeString();
+            }
+        );
     }
 
     final public function getEmail(): ?string
@@ -737,28 +785,6 @@ abstract class AbstractContact extends AbstractRevisionContainer
         }
 
         return $persons;
-    }
-
-    /**
-     * User associated with this contact.
-     * @return AppUser
-     */
-    final public function getAppUser(): ?AppUser
-    {
-        return $this->appUser;
-    }
-
-    /**
-     * @param AppUser|null $appUser
-     */
-    final public function setAppUser(?AppUser $appUser): void
-    {
-        if (!$appUser) {
-            return;
-        }
-        if ($this->appUser !== $appUser) {
-            $this->appUser = $appUser;
-        }
     }
 
     /**
