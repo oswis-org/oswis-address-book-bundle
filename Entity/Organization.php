@@ -75,6 +75,13 @@ class Organization extends AbstractOrganization
     protected $revisions;
 
     /**
+     * @var OrganizationRevision
+     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="Zakjakub\OswisAddressBookBundle\Entity\OrganizationRevision")
+     * @Doctrine\ORM\Mapping\JoinColumn(name="active_revision_id", referencedColumnName="id")
+     */
+    protected $activeRevision;
+
+    /**
      * @var Organization|null $parentOrganization Parent organization (if this is not top level org)
      * @Doctrine\ORM\Mapping\ManyToOne(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Organization",

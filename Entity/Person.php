@@ -80,6 +80,13 @@ class Person extends AbstractPerson
     protected $revisions;
 
     /**
+     * @var PersonRevision
+     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="Zakjakub\OswisAddressBookBundle\Entity\PersonRevision")
+     * @Doctrine\ORM\Mapping\JoinColumn(name="active_revision_id", referencedColumnName="id")
+     */
+    protected $activeRevision;
+
+    /**
      * Positions (jobs, studies...).
      * @var Collection|null $positions
      * @Doctrine\ORM\Mapping\OneToMany(
