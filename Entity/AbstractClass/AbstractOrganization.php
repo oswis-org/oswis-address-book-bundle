@@ -2,7 +2,7 @@
 
 namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
 
-use Zakjakub\OswisCoreBundle\Exceptions\RevisionMissingException;
+use Exception;
 use Zakjakub\OswisCoreBundle\Traits\Entity\ColorContainerTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\IdentificationNumberContainerTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicContainerTrait;
@@ -32,18 +32,18 @@ abstract class AbstractOrganization extends AbstractContact
     use IdentificationNumberContainerTrait;
     use ColorContainerTrait;
 
-    final public function getContactName(): string
+    final public function setFullName(?string $fullName): void
+    {
+        try {
+            $this->setName($fullName);
+        } catch (Exception $e) {
+            return;
+        }
+    }
+
+    final public function getFullName(): ?string
     {
         return $this->getName();
     }
 
-    /**
-     * @param string|null $name
-     *
-     * @throws RevisionMissingException
-     */
-    final public function setContactName(?string $name): void
-    {
-        $this->setName($name);
-    }
 }

@@ -63,4 +63,15 @@ class OrganizationManager
             return null;
         }
     }
+
+    final public function updateActiveRevisions(): void
+    {
+        $organizations = $this->em->getRepository(Organization::class)->findAll();
+        foreach ($organizations as $organization) {
+            assert($organization instanceof Organization);
+            $organization->updateActiveRevision();
+        }
+        $this->em->flush();
+    }
+
 }

@@ -10,13 +10,4 @@ abstract class AbstractPerson extends AbstractContact
 
     use PersonBasicContainerTrait;
 
-    final public function getContactName(): string
-    {
-        return $this->getFullName();
-    }
-
-    final public function setContactName(?string $name): void
-    {
-        $this->setFullName($name);
-    }
 }

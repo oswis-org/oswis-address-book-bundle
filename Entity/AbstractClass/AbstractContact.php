@@ -6,6 +6,7 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use Exception;
 use InvalidArgumentException;
 use Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBook;
@@ -77,6 +78,12 @@ abstract class AbstractContact extends AbstractRevisionContainer
      * @ApiProperty(iri="http://schema.org/image")
      */
     public $image;
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $contactName;
 
     /**
      * Images of person.
@@ -325,11 +332,6 @@ abstract class AbstractContact extends AbstractRevisionContainer
     {
         return in_array($this->getType(), self::STUDENT_ORGANIZATION_TYPES, true);
     }
-
-    /**
-     * @param string|null $name
-     */
-    abstract public function setContactName(?string $name): void;
 
     /**
      * @param ContactNote|null $personNote
@@ -690,7 +692,27 @@ abstract class AbstractContact extends AbstractRevisionContainer
     /**
      * @return string
      */
-    abstract public function getContactName(): string;
+    final public function getContactName(): string
+    {
+        $this->updateContactName();
+
+        return $this->contactName;
+    }
+
+    final public function setContactName(?string $contactName): void
+    {
+        $this->setFullName($contactName);
+        $this->updateContactName();
+    }
+
+    final public function updateContactName(): void
+    {
+        $this->contactName = $this->getFullName();
+    }
+
+    abstract public function getFullName(): ?string;
+
+    abstract public function setFullName(?string $contactName): void;
 
     /**
      * @param $user

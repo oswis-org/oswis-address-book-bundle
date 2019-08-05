@@ -48,4 +48,15 @@ class AddressBookManager
             return null;
         }
     }
+
+    final public function updateActiveRevisions(): void
+    {
+        $addressBooks = $this->em->getRepository(AddressBook::class)->findAll();
+        foreach ($addressBooks as $addressBook) {
+            assert($addressBook instanceof AddressBook);
+            $addressBook->updateActiveRevision();
+        }
+        $this->em->flush();
+    }
+
 }
