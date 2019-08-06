@@ -55,6 +55,7 @@ class AddressBookManager
         foreach ($addressBooks as $addressBook) {
             assert($addressBook instanceof AddressBook);
             $addressBook->updateActiveRevision();
+            $this->em->persist($addressBook);
         }
         $this->em->flush();
     }

@@ -70,6 +70,7 @@ class OrganizationManager
         foreach ($organizations as $organization) {
             assert($organization instanceof Organization);
             $organization->updateActiveRevision();
+            $this->em->persist($organization);
         }
         $this->em->flush();
     }

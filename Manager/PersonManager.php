@@ -24,6 +24,7 @@ class PersonManager
         foreach ($people as $person) {
             assert($person instanceof Person);
             $person->updateActiveRevision();
+            $this->em->persist($person);
         }
         $this->em->flush();
     }

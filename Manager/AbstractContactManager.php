@@ -25,6 +25,7 @@ class AbstractContactManager
         foreach ($contacts as $contact) {
             assert($contact instanceof AbstractContact);
             $contact->updateContactName();
+            $this->em->persist($contact);
         }
         $this->em->flush();
     }
