@@ -52,5 +52,4 @@ class AddressBookRevision extends AbstractRevision
     {
         assert($revision instanceof AddressBook);
     }
-
 }

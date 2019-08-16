@@ -9,5 +9,4 @@ abstract class AbstractPerson extends AbstractContact
     public const ALLOWED_TYPES = ['person'];
 
     use PersonBasicContainerTrait;
-
 }

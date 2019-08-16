@@ -271,5 +271,4 @@ class Position
     {
         $this->isContactPerson = $isContactPerson ?? false;
     }
-
 }

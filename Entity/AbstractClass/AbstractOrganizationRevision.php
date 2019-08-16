@@ -32,5 +32,4 @@ abstract class AbstractOrganizationRevision extends AbstractContactRevision
     {
         $this->setName($fullName);
     }
-
 }

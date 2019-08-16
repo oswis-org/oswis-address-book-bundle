@@ -74,5 +74,4 @@ class OrganizationManager
         }
         $this->em->flush();
     }
-
 }

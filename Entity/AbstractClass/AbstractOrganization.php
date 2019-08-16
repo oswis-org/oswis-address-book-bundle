@@ -45,5 +45,4 @@ abstract class AbstractOrganization extends AbstractContact
     {
         return $this->getName();
     }
-
 }

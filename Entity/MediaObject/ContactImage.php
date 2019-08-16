@@ -37,5 +37,4 @@ class ContactImage extends AbstractImage
      * )
      */
     public $file;
-
 }

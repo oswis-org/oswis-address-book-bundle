@@ -217,7 +217,6 @@ class Organization extends AbstractOrganization
      */
     final public function getDirectStudies(?DateTime $referenceDateTime = null): Collection
     {
-
         if (!$this->isSchool()) {
             return new ArrayCollection();
         }

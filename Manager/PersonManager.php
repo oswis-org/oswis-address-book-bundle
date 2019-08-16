@@ -28,5 +28,4 @@ class PersonManager
         }
         $this->em->flush();
     }
-
 }

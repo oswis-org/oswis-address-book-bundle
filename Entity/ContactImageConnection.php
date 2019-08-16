@@ -186,5 +186,4 @@ class ContactImageConnection
     {
         $this->contactImage = $contactImage;
     }
-
 }

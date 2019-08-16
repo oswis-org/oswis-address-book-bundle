@@ -59,5 +59,4 @@ class AddressBookManager
         }
         $this->em->flush();
     }
-
 }

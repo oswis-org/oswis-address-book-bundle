@@ -168,6 +168,4 @@ class AddressBook extends AbstractRevisionContainer
             }
         }
     }
-
-
 }

@@ -15,7 +15,6 @@ use Zakjakub\OswisCoreBundle\Utils\FileUtils;
 
 class OrganizationType extends AbstractType
 {
-
     final public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $maxSize = FileUtils::humanReadableFileUploadMaxSize();
@@ -93,7 +92,6 @@ class OrganizationType extends AbstractType
                     'entry_options' => array('label' => false),
                 )
             );
-
     }
 
     /**

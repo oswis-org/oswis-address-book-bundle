@@ -15,5 +15,4 @@ final class ContactImageType extends AbstractImageType
     {
         return ContactImage::class;
     }
-
 }

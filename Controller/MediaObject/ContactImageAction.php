@@ -21,5 +21,4 @@ final class ContactImageAction extends AbstractImageAction
     {
         return new ContactImage();
     }
-
 }

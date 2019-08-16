@@ -29,5 +29,4 @@ class AbstractContactManager
         }
         $this->em->flush();
     }
-
 }

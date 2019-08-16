@@ -59,7 +59,6 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\TypeTrait;
  */
 class ContactDetailType
 {
-
     public const TYPE_EMAIL = 'email';
     public const TYPE_URL = 'url';
     public const TYPE_PHONE = 'phone';

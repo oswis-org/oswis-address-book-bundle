@@ -141,5 +141,4 @@ class PersonSkill
             $personSkillConnection->setPersonSkill(null);
         }
     }
-
 }

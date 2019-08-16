@@ -208,5 +208,4 @@ class PersonSkillConnection
     {
         $this->publicOnWeb = $publicOnWeb;
     }
-
 }
