@@ -690,7 +690,6 @@ abstract class AbstractContact extends AbstractRevisionContainer
     }
 
     /** @noinspection MethodShouldBeFinalInspection */
-
     /**
      * @return string
      */
@@ -716,6 +715,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
 
     abstract public function setFullName(?string $contactName): void;
 
+    /** @noinspection MethodShouldBeFinalInspection */
     public function updateActiveRevision(): void
     {
         parent::updateActiveRevision();
