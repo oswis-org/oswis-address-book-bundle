@@ -86,6 +86,12 @@ abstract class AbstractContact extends AbstractRevisionContainer
     protected $contactName;
 
     /**
+     * @var string|null
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $sortableName;
+
+    /**
      * Images of person.
      *
      * @var Collection|null
@@ -95,7 +101,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
      *     cascade={"all"},
      *     orphanRemoval=true,
      *     fetch="EAGER"
-     * )
+     * )activeRevision.event.activeRevision.name
      */
     protected $imageConnections;
 
@@ -706,12 +712,20 @@ abstract class AbstractContact extends AbstractRevisionContainer
         $this->updateContactName();
     }
 
+    /** @noinspection MethodShouldBeFinalInspection */
+
     final public function updateContactName(): void
     {
         $this->contactName = $this->getFullName();
+        $this->sortableName = $this->getSortableContactName();
     }
 
     abstract public function getFullName(): ?string;
+
+    public function getSortableContactName(): string
+    {
+        return $this->getFullName();
+    }
 
     abstract public function setFullName(?string $contactName): void;
 

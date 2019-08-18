@@ -296,4 +296,10 @@ class Person extends AbstractPerson
             }
         }
     }
+
+    /** @noinspection MethodShouldBeFinalInspection */
+    public function getSortableContactName(): string
+    {
+        return $this->getFamilyName().' '.$this->getGivenName();
+    }
 }
