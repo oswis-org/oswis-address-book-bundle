@@ -12,23 +12,21 @@ class EmployerPositionOptionalType extends AbstractType
 {
     final public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
-            ->add(
-                'person',
-                EmployeePersonOptionalType::class,
-                array(
-                    'label'    => false,
-                    'required' => false,
-                )
+        $builder->add(
+            'person',
+            EmployeePersonOptionalType::class,
+            array(
+                'label'    => false,
+                'required' => false,
             )
-            ->add(
-                'name',
-                null,
-                array(
-                    'label'    => 'Pozice ve společnosti',
-                    'required' => false,
-                )
-            );
+        )->add(
+            'name',
+            null,
+            array(
+                'label'    => 'Pozice ve společnosti',
+                'required' => false,
+            )
+        );
     }
 
     /**

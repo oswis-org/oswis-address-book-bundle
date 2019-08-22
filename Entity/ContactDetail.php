@@ -73,7 +73,6 @@ class ContactDetail
     {
         $value = filter_var($this->getContent(), FILTER_SANITIZE_URL);
         $description = htmlspecialchars($this->getDescription());
-
         if (!$this->getContactType()) {
             return null;
         }

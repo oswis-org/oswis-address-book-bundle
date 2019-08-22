@@ -19,79 +19,71 @@ class OrganizationType extends AbstractType
     {
         $maxSize = FileUtils::humanReadableFileUploadMaxSize();
         $maxSize = $maxSize ? ' (max. '.$maxSize.')' : '';
-
-        $builder
-            ->add(
-                'name',
-                TextType::class,
-                array(
-                    'label'    => 'Název organizace',
-                    'required' => true,
-                    'help'     => 'Zadejte oficiální název organizace.',
-                    'attr'     => [
-                        'autocomplete' => 'organization',
-                    ],
-                )
+        $builder->add(
+            'name',
+            TextType::class,
+            array(
+                'label'    => 'Název organizace',
+                'required' => true,
+                'help'     => 'Zadejte oficiální název organizace.',
+                'attr'     => [
+                    'autocomplete' => 'organization',
+                ],
             )
-            ->add(
-                'identificationNumber',
-                TextType::class,
-                array(
-                    'label'    => 'Název organizace',
-                    'required' => false,
-                    'help'     => 'Zadejte IČ (nepovinné).',
-                )
+        )->add(
+            'identificationNumber',
+            TextType::class,
+            array(
+                'label'    => 'Název organizace',
+                'required' => false,
+                'help'     => 'Zadejte IČ (nepovinné).',
             )
-            ->add(
-                'description',
-                TextareaType::class,
-                array(
-                    'label'    => 'Zaměření (krátký popis)',
-                    'required' => false,
-                    'help'     => 'Zadejte stručné shrnutí informací o Vaší organizaci. Tyto informace budou zveřejněny na webu.',
-                    'attr'     => [],
-                )
+        )->add(
+            'description',
+            TextareaType::class,
+            array(
+                'label'    => 'Zaměření (krátký popis)',
+                'required' => false,
+                'help'     => 'Zadejte stručné shrnutí informací o Vaší organizaci. Tyto informace budou zveřejněny na webu.',
+                'attr'     => [],
             )
-            ->add(
-                'contactDetails',
-                CollectionType::class,
-                array(
-                    'label'         => false,
-                    'entry_type'    => ContactDetailOptionalType::class,
-                    'entry_options' => array('label' => false),
-                )
+        )->add(
+            'contactDetails',
+            CollectionType::class,
+            array(
+                'label'         => false,
+                'entry_type'    => ContactDetailOptionalType::class,
+                'entry_options' => array('label' => false),
             )
-            ->add(
-                'image',
-                ContactImageType::class,
-                array(
-                    'label'    => 'Logo organizace',
-                    'required' => false,
-                    'help'     => 'Nahrajte logo Vaší organizace, nejlépe ve formátu png'.$maxSize.'. Bude uvedeno např. na webových stránkách.',
-                )
+        )->add(
+            'image',
+            ContactImageType::class,
+            array(
+                'label'    => 'Logo organizace',
+                'required' => false,
+                'help'     => 'Nahrajte logo Vaší organizace, nejlépe ve formátu png'.$maxSize.'. Bude uvedeno např. na webových stránkách.',
             )
-            ->add(
-                'regularPositions',
-                CollectionType::class,
-                array(
-                    'label'         => 'Zástupci/kontaktní osoby organizace',
-                    'entry_type'    => EmployerPositionOptionalType::class,
-                    'entry_options' => array('label' => false),
-                    'attr'          => [
-                        'class' => 'box',
-                    ],
-                    'delete_empty'  => true,
-                )
+        )->add(
+            'regularPositions',
+            CollectionType::class,
+            array(
+                'label'         => 'Zástupci/kontaktní osoby organizace',
+                'entry_type'    => EmployerPositionOptionalType::class,
+                'entry_options' => array('label' => false),
+                'attr'          => [
+                    'class' => 'box',
+                ],
+                'delete_empty'  => true,
             )
-            ->add(
-                'notes',
-                CollectionType::class,
-                array(
-                    'label'         => false,
-                    'entry_type'    => ContactNoteType::class,
-                    'entry_options' => array('label' => false),
-                )
-            );
+        )->add(
+            'notes',
+            CollectionType::class,
+            array(
+                'label'         => false,
+                'entry_type'    => ContactNoteType::class,
+                'entry_options' => array('label' => false),
+            )
+        );
     }
 
     /**

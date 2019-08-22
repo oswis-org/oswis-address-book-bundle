@@ -42,14 +42,7 @@ class OrganizationManager
         try {
             $em = $this->em;
             $entity = new Organization(
-                $nameable,
-                $identificationNumber,
-                $parentOrganization,
-                $color,
-                $type,
-                $addresses,
-                $contactDetails,
-                $notes
+                $nameable, $identificationNumber, $parentOrganization, $color, $type, $addresses, $contactDetails, $notes
             );
             $em->persist($entity);
             $em->flush();

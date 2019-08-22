@@ -18,38 +18,35 @@ class EmployeePersonOptionalType extends AbstractType
      */
     final public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
-            ->add(
-                'fullName',
-                TextType::class,
-                array(
-                    'label'    => 'Celé jméno',
-                    'required' => false,
-                )
+        $builder->add(
+            'fullName',
+            TextType::class,
+            array(
+                'label'    => 'Celé jméno',
+                'required' => false,
             )
-            ->add(
-                'contactDetails',
-                CollectionType::class,
-                array(
-                    'label'         => false,
-                    'entry_type'    => ContactDetailOptionalType::class,
-                    'entry_options' => array(
-                        'label' => false,
-                    ),
-                )
+        )->add(
+            'contactDetails',
+            CollectionType::class,
+            array(
+                'label'         => false,
+                'entry_type'    => ContactDetailOptionalType::class,
+                'entry_options' => array(
+                    'label' => false,
+                ),
             )
-            ->add(
-                'studies',
-                CollectionType::class,
-                array(
-                    'label'         => 'Student/absolvent UP',
-                    'help'          => 'Pokud osoba studoval(a) nebo absolvoval(a) studium na Univerzitě Palackého, vyberte příslušnou fakultu, jinak nechte pole prázdné.',
-                    'entry_type'    => SchoolPositionType::class,
-                    'entry_options' => array(
-                        'label' => false,
-                    ),
-                )
-            );
+        )->add(
+            'studies',
+            CollectionType::class,
+            array(
+                'label'         => 'Student/absolvent UP',
+                'help'          => 'Pokud osoba studoval(a) nebo absolvoval(a) studium na Univerzitě Palackého, vyberte příslušnou fakultu, jinak nechte pole prázdné.',
+                'entry_type'    => SchoolPositionType::class,
+                'entry_options' => array(
+                    'label' => false,
+                ),
+            )
+        );
     }
 
     final public function configureOptions(OptionsResolver $resolver): void

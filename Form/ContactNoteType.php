@@ -17,17 +17,15 @@ class ContactNoteType extends AbstractType
 {
     final public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
-            ->add(
-                'content',
-                TextType::class,
-                array(
-                    'label'    => 'Poznámka',
-                    'required' => true,
-                    'attr'     => ['placeholder' => false],
-                )
-            );
-
+        $builder->add(
+            'content',
+            TextType::class,
+            array(
+                'label'    => 'Poznámka',
+                'required' => true,
+                'attr'     => ['placeholder' => false],
+            )
+        );
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
             static function (FormEvent $event) {

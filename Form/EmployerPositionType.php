@@ -12,23 +12,21 @@ class EmployerPositionType extends AbstractType
 {
     final public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
-            ->add(
-                'person',
-                EmployeePersonType::class,
-                array('label' => false, 'required' => false)
+        $builder->add(
+            'person',
+            EmployeePersonType::class,
+            array('label' => false, 'required' => false)
+        )->add(
+            'name',
+            null,
+            array(
+                'label'    => 'Pozice ve společnosti',
+                'required' => false,
+                'attr'     => [
+                    'autocomplete' => 'organization-title',
+                ],
             )
-            ->add(
-                'name',
-                null,
-                array(
-                    'label'    => 'Pozice ve společnosti',
-                    'required' => false,
-                    'attr'     => [
-                        'autocomplete' => 'organization-title',
-                    ],
-                )
-            );
+        );
     }
 
     /**

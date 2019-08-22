@@ -254,10 +254,7 @@ class Organization extends AbstractOrganization
     ): Collection {
         return $this->getPositions($referenceDateTime ?? new DateTime())->filter(
             static function (Position $position) use ($onlyWithActivatedUser) {
-                if ($onlyWithActivatedUser
-                    && (!$position->getPerson()
-                        || !$position->getPerson()->getAppUser()
-                        || !$position->getPerson()->getAppUser()->getAccountActivationDateTime())) {
+                if ($onlyWithActivatedUser && (!$position->getPerson() || !$position->getPerson()->getAppUser() || !$position->getPerson()->getAppUser()->getAccountActivationDateTime())) {
                     return false;
                 }
 

@@ -43,15 +43,7 @@ class PlaceManager
         try {
             $em = $this->em;
             $entity = new Place(
-                $nameable,
-                $address,
-                $parentPlace,
-                $floorNumber,
-                $roomNumber,
-                $url,
-                $geoLatitude,
-                $geoLongitude,
-                $geoElevation
+                $nameable, $address, $parentPlace, $floorNumber, $roomNumber, $url, $geoLatitude, $geoLongitude, $geoElevation
             );
             $em->persist($entity);
             $em->flush();

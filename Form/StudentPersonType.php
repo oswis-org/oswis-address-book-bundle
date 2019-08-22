@@ -18,35 +18,32 @@ class StudentPersonType extends AbstractType
      */
     final public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
-            ->add(
-                'fullName',
-                TextType::class,
-                array(
-                    'label' => 'Celé jméno',
-                    'attr'  => [
-                        'autocomplete' => 'section-student name',
-                    ],
-                )
+        $builder->add(
+            'fullName',
+            TextType::class,
+            array(
+                'label' => 'Celé jméno',
+                'attr'  => [
+                    'autocomplete' => 'section-student name',
+                ],
             )
-            ->add(
-                'contactDetails',
-                CollectionType::class,
-                array(
-                    'label'         => false,
-                    'entry_type'    => ContactDetailType::class,
-                    'entry_options' => array('label' => false),
-                )
+        )->add(
+            'contactDetails',
+            CollectionType::class,
+            array(
+                'label'         => false,
+                'entry_type'    => ContactDetailType::class,
+                'entry_options' => array('label' => false),
             )
-            ->add(
-                'studies',
-                CollectionType::class,
-                array(
-                    'label'         => 'Fakulta',
-                    'entry_type'    => SchoolPositionType::class,
-                    'entry_options' => array('label' => false),
-                )
-            );
+        )->add(
+            'studies',
+            CollectionType::class,
+            array(
+                'label'         => 'Fakulta',
+                'entry_type'    => SchoolPositionType::class,
+                'entry_options' => array('label' => false),
+            )
+        );
     }
 
     final public function configureOptions(OptionsResolver $resolver): void

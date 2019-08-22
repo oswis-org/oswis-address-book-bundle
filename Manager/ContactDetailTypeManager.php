@@ -39,12 +39,7 @@ class ContactDetailTypeManager
         try {
             $em = $this->em;
             $entity = new ContactDetailType(
-                $nameable,
-                $schema,
-                $showInPreview,
-                $type,
-                $formLabel,
-                $formHelp
+                $nameable, $schema, $showInPreview, $type, $formLabel, $formHelp
             );
             $em->persist($entity);
             $em->flush();

@@ -55,16 +55,16 @@
     },
     {
       "name": "api-platform/core",
-      "version": "v2.4.5",
+      "version": "v2.4.6",
       "source": {
         "type": "git",
         "url": "https://github.com/api-platform/core.git",
-        "reference": "e056f5d9248588f228c88fb34f8ae2312fbb6387"
+        "reference": "96bfc4da9ea4bdc0d8285f10df5227033445c1e5"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/api-platform/core/zipball/e056f5d9248588f228c88fb34f8ae2312fbb6387",
-        "reference": "e056f5d9248588f228c88fb34f8ae2312fbb6387",
+        "url": "https://api.github.com/repos/api-platform/core/zipball/96bfc4da9ea4bdc0d8285f10df5227033445c1e5",
+        "reference": "96bfc4da9ea4bdc0d8285f10df5227033445c1e5",
         "shasum": ""
       },
       "require": {
@@ -82,8 +82,7 @@
       },
       "conflict": {
         "doctrine/common": "<2.7",
-        "doctrine/mongodb-odm": "<2.0",
-        "symfony/messenger": ">=4.3"
+        "doctrine/mongodb-odm": "<2.0"
       },
       "require-dev": {
         "behat/behat": "^3.1",
@@ -104,16 +103,16 @@
         "guzzlehttp/guzzle": "^6.0",
         "jangregor/phpstan-prophecy": "^0.3",
         "justinrainbow/json-schema": "^5.0",
-        "nelmio/api-doc-bundle": "^2.13.3",
+        "nelmio/api-doc-bundle": "^2.13.4",
         "phpdocumentor/reflection-docblock": "^3.0 || ^4.0",
         "phpdocumentor/type-resolver": "^0.3 || ^0.4",
         "phpspec/prophecy": "^1.8",
         "phpstan/extension-installer": "^1.0",
-        "phpstan/phpstan": "^0.11",
+        "phpstan/phpstan": "^0.11.10",
         "phpstan/phpstan-doctrine": "^0.11",
         "phpstan/phpstan-phpunit": "^0.11",
         "phpstan/phpstan-symfony": "^0.11",
-        "phpunit/phpunit": "^7.5.2",
+        "phpunit/phpunit": "^7.5.2 || ^8.0",
         "psr/log": "^1.0",
         "ramsey/uuid": "^3.7",
         "ramsey/uuid-doctrine": "^1.4",
@@ -134,7 +133,7 @@
         "symfony/framework-bundle": "^4.2",
         "symfony/mercure-bundle": "*",
         "symfony/messenger": "^4.2",
-        "symfony/phpunit-bridge": "^4.3",
+        "symfony/phpunit-bridge": "^4.3@dev",
         "symfony/routing": "^3.4 || ^4.0",
         "symfony/security-bundle": "^3.4 || ^4.0",
         "symfony/security-core": "^3.4 || ^4.0",
@@ -195,7 +194,7 @@
         "rest",
         "swagger"
       ],
-      "time": "2019-06-22T10:48:51+00:00"
+      "time": "2019-08-19T23:11:34+00:00"
     },
     {
       "name": "behat/transliterator",
@@ -7352,16 +7351,16 @@
     },
     {
       "name": "zakjakub/oswis-core-bundle",
-      "version": "v0.0.289",
+      "version": "v0.0.295",
       "source": {
         "type": "git",
         "url": "git@github.com:zakjakub/oswis-core-bundle.git",
-        "reference": "f4cef953636220717c75136e78c82cdaaa08f148"
+        "reference": "a6e5c100533761a0b91d65114504b9d2c90aa569"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/zakjakub/oswis-core-bundle/zipball/f4cef953636220717c75136e78c82cdaaa08f148",
-        "reference": "f4cef953636220717c75136e78c82cdaaa08f148",
+        "url": "https://api.github.com/repos/zakjakub/oswis-core-bundle/zipball/a6e5c100533761a0b91d65114504b9d2c90aa569",
+        "reference": "a6e5c100533761a0b91d65114504b9d2c90aa569",
         "shasum": ""
       },
       "require": {
@@ -7436,10 +7435,10 @@
         "zakjakub"
       ],
       "support": {
-        "source": "https://github.com/zakjakub/oswis-core-bundle/tree/v0.0.289",
+        "source": "https://github.com/zakjakub/oswis-core-bundle/tree/v0.0.295",
         "issues": "https://github.com/zakjakub/oswis-core-bundle/issues"
       },
-      "time": "2019-08-16T13:12:52+00:00"
+      "time": "2019-08-22T15:14:16+00:00"
     },
     {
       "name": "zendframework/zend-code",

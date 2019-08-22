@@ -18,39 +18,36 @@ class EmployeePersonType extends AbstractType
      */
     final public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
-            ->add(
-                'fullName',
-                TextType::class,
-                array(
-                    'label' => 'Celé jméno',
-                    'attr'  => [
-                        'autocomplete' => 'section-organization-employee name',
-                    ],
-                )
+        $builder->add(
+            'fullName',
+            TextType::class,
+            array(
+                'label' => 'Celé jméno',
+                'attr'  => [
+                    'autocomplete' => 'section-organization-employee name',
+                ],
             )
-            ->add(
-                'contactDetails',
-                CollectionType::class,
-                array(
-                    'label'         => false,
-                    'entry_type'    => ContactDetailType::class,
-                    'entry_options' => array('label' => false),
-                )
+        )->add(
+            'contactDetails',
+            CollectionType::class,
+            array(
+                'label'         => false,
+                'entry_type'    => ContactDetailType::class,
+                'entry_options' => array('label' => false),
             )
-            ->add(
-                'studies',
-                CollectionType::class,
-                array(
-                    'label'         => 'Student/absolvent UP',
-                    'help'          => 'Pokud studoval(a) nebo absolvoval(a) studium na Univerzitě Palackého, vyberte příslušnou fakultu, jinak nechte pole prázdné.',
-                    'entry_type'    => SchoolPositionType::class,
-                    'entry_options' => array('label' => false),
-                    'attr'          => [
-                        'autocomplete' => 'section-organization-employee email',
-                    ],
-                )
-            );
+        )->add(
+            'studies',
+            CollectionType::class,
+            array(
+                'label'         => 'Student/absolvent UP',
+                'help'          => 'Pokud studoval(a) nebo absolvoval(a) studium na Univerzitě Palackého, vyberte příslušnou fakultu, jinak nechte pole prázdné.',
+                'entry_type'    => SchoolPositionType::class,
+                'entry_options' => array('label' => false),
+                'attr'          => [
+                    'autocomplete' => 'section-organization-employee email',
+                ],
+            )
+        );
     }
 
     final public function configureOptions(OptionsResolver $resolver): void

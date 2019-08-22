@@ -22,17 +22,15 @@ class ContactDetailType extends AbstractType
 {
     final public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
-            ->add(
-                'content',
-                TextType::class,
-                array(
-                    'label'    => false,
-                    'required' => true,
-                    'attr'     => ['placeholder' => 'Kontakt'],
-                )
-            );
-
+        $builder->add(
+            'content',
+            TextType::class,
+            array(
+                'label'    => false,
+                'required' => true,
+                'attr'     => ['placeholder' => 'Kontakt'],
+            )
+        );
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
             static function (FormEvent $event) {
@@ -68,21 +66,17 @@ class ContactDetailType extends AbstractType
                             break;
                     }
                 }
-
                 $options = array(
                     'label'       => $contactDetail->getContactType() ? $contactDetail->getContactType()->getFormLabel() : false,
                     'required'    => true,
-                    'attr'        => [
-                        // 'autocomplete' => $contactDetail->getContactType() ? $contactDetail->getContactType()->getType() : true,
+                    'attr'        => [// 'autocomplete' => $contactDetail->getContactType() ? $contactDetail->getContactType()->getType() : true,
                     ],
                     'help'        => $contactDetail->getContactType() ? $contactDetail->getContactType()->getFormHelp() : null,
                     'constraints' => $constraints,
                 );
-
                 if ($pattern) {
                     $options['attr']['pattern'] = $pattern;
                 }
-
                 $form->add('content', $type, $options);
             }
         );
