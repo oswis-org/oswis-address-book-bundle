@@ -197,30 +197,6 @@ abstract class AbstractContact extends AbstractRevisionContainer
         $this->setAddressBooks($addressBooks);
     }
 
-    public static function getAllowedTypesDefault(): array
-    {
-        return [
-            self::TYPE_ORGANIZATION,
-            self::TYPE_PERSON,
-            self::TYPE_UNIVERSITY,
-            self::TYPE_FACULTY,
-            self::TYPE_FACULTY_DEPARTMENT,
-            self::TYPE_STUDENT_ORGANIZATION,
-            self::TYPE_HIGH_SCHOOL,
-            self::TYPE_PRIMARY_SCHOOL,
-            self::TYPE_KINDERGARTEN,
-            self::TYPE_COMPANY,
-        ];
-    }
-
-    use BasicEntityTrait;
-    use TypeTrait;
-
-    public static function getAllowedTypesCustom(): array
-    {
-        return [];
-    }
-
     final public function setAddressBooks(?Collection $newAddressBooks): void
     {
         if (!$this->addressBookContactConnections) {
@@ -242,6 +218,9 @@ abstract class AbstractContact extends AbstractRevisionContainer
             }
         }
     }
+
+    use BasicEntityTrait;
+    use TypeTrait;
 
     final public function getAddressBooks(): Collection
     {
@@ -317,6 +296,27 @@ abstract class AbstractContact extends AbstractRevisionContainer
             $this->addressBookContactConnections->add($addressBookContactConnection);
             $addressBookContactConnection->setContact($this);
         }
+    }
+
+    public static function getAllowedTypesDefault(): array
+    {
+        return [
+            self::TYPE_ORGANIZATION,
+            self::TYPE_PERSON,
+            self::TYPE_UNIVERSITY,
+            self::TYPE_FACULTY,
+            self::TYPE_FACULTY_DEPARTMENT,
+            self::TYPE_STUDENT_ORGANIZATION,
+            self::TYPE_HIGH_SCHOOL,
+            self::TYPE_PRIMARY_SCHOOL,
+            self::TYPE_KINDERGARTEN,
+            self::TYPE_COMPANY,
+        ];
+    }
+
+    public static function getAllowedTypesCustom(): array
+    {
+        return [];
     }
 
     final public function isPerson(): bool
