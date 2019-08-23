@@ -1,6 +1,6 @@
-# Accommodation module for OSWIS
+# Address book module for OSWIS
 
-Accommodation module for One Simple Web IS.
+Address book module for One Simple Web IS.
 
 ## Installation
 
