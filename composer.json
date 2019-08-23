@@ -20,12 +20,6 @@
       "role": "author"
     }
   ],
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/zakjakub/oswis-core-bundle"
-    }
-  ],
   "require": {
     "zakjakub/oswis-core-bundle": "^0.0",
     "bigit/vokativ": "dev-master"
