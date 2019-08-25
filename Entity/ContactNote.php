@@ -7,11 +7,9 @@ use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 
 /**
- * Class PersonNote
- *
  * @Doctrine\ORM\Mapping\Entity()
  * @Doctrine\ORM\Mapping\Table(name="address_book_contact_note")
- * @Doctrine\ORM\Mapping\Cache(usage="READ_WRITE", region="address_book_contact")
+ * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
 class ContactNote
 {

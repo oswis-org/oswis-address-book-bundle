@@ -38,7 +38,7 @@ use function in_array;
  *   "address_book_person" = "Zakjakub\OswisAddressBookBundle\Entity\Person",
  *   "address_book_organization" = "Zakjakub\OswisAddressBookBundle\Entity\Organization"
  * })
- * @Doctrine\ORM\Mapping\Cache(usage="READ_WRITE", region="address_book_contact")
+ * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
 abstract class AbstractContact extends AbstractRevisionContainer
 {

@@ -58,7 +58,7 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\UrlTrait;
  *     "note",
  *     "roomCode"
  * })
- * @Doctrine\ORM\Mapping\Cache(usage="READ_WRITE", region="address_book_contact")
+ * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
 class Place
 {

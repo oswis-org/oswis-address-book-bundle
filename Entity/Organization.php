@@ -58,7 +58,7 @@ use function assert;
  *     "description",
  *     "note"
  * })
- * @Doctrine\ORM\Mapping\Cache(usage="READ_WRITE", region="address_book_contact")
+ * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
 class Organization extends AbstractOrganization
 {

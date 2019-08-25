@@ -17,7 +17,7 @@ use function assert;
 /**
  * @Doctrine\ORM\Mapping\Entity()
  * @Doctrine\ORM\Mapping\Table(name="address_book_address_book")
- * @Doctrine\ORM\Mapping\Cache(usage="READ_WRITE", region="address_book_contact")
+ * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_address_book")
  */
 class AddressBook extends AbstractRevisionContainer
 {

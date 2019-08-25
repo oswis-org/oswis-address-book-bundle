@@ -53,6 +53,7 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\PriorityTrait;
  *     "description",
  *     "note"
  * })
+ * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
 class ContactImageConnection
 {

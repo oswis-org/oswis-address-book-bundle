@@ -47,6 +47,7 @@ use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
  *     "appUser.username",
  *     "appUser.description"
  * })
+ * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_user")
  */
 class AddressBookUser extends AbstractBundleUser
 {
