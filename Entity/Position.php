@@ -53,6 +53,7 @@ use function in_array;
  *     "description",
  *     "note"
  * })
+ * @Doctrine\ORM\Mapping\Cache(usage="READ_WRITE", region="address_book_contact")
  */
 class Position
 {

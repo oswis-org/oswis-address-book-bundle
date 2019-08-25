@@ -11,6 +11,7 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
  *
  * @Doctrine\ORM\Mapping\Entity()
  * @Doctrine\ORM\Mapping\Table(name="address_book_contact_note")
+ * @Doctrine\ORM\Mapping\Cache(usage="READ_WRITE", region="address_book_contact")
  */
 class ContactNote
 {

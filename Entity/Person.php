@@ -63,6 +63,7 @@ use function trim;
  *     "description",
  *     "note"
  * })
+ * @Doctrine\ORM\Mapping\Cache(usage="READ_WRITE", region="address_book_contact")
  */
 class Person extends AbstractPerson
 {

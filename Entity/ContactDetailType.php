@@ -56,6 +56,7 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\TypeTrait;
  *     "appUser.description",
  *     "appUser.note"
  * })
+ * @Doctrine\ORM\Mapping\Cache(usage="READ_WRITE", region="address_book_contact")
  */
 class ContactDetailType
 {
