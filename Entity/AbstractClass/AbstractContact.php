@@ -836,7 +836,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
      */
     final public function getManagedDepartments(): ArrayCollection
     {
-        // TODO: Return managed departmenmts.
+        // TODO: Return managed departments.
         return new ArrayCollection();
     }
 
