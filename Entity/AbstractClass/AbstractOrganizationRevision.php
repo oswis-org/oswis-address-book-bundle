@@ -23,6 +23,7 @@ abstract class AbstractOrganizationRevision extends AbstractContactRevision
         $this->setColor($color);
     }
 
+
     final public function getContactName(): string
     {
         return $this->getName();

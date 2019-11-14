@@ -67,7 +67,6 @@ use function trim;
  */
 class Person extends AbstractPerson
 {
-
     /**
      * @var Collection
      * @Doctrine\ORM\Mapping\OneToMany(
@@ -142,9 +141,8 @@ class Person extends AbstractPerson
         ?Collection $personSkillConnections = null,
         ?Collection $addressBooks = null
     ) {
-        parent::__construct($type, $notes, $contactDetails, $addresses, $image, $addressBooks);
+        parent::__construct($fullName, $description, $birthDate, $type, $notes, $contactDetails, $addresses, $image, $addressBooks);
         $this->revisions = new ArrayCollection();
-        $this->addRevision(new PersonRevision($fullName, $description, $birthDate));
         $this->setPositions($positions);
         $this->setPersonSkillConnections($personSkillConnections);
     }

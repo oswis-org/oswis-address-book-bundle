@@ -125,12 +125,21 @@ class Organization extends AbstractOrganization
         ?Collection $notes = null,
         ?Collection $addressBooks = null
     ) {
-        parent::__construct($type, $notes, $contactDetails, $addresses, null, $addressBooks);
+        parent::__construct(
+            $nameable,
+            $identificationNumber,
+            $color,
+            $type,
+            $notes,
+            $contactDetails,
+            $addresses,
+            null,
+            $addressBooks
+        );
         $this->positions = new ArrayCollection();
         $this->subOrganizations = new ArrayCollection();
         $this->setParentOrganization($parentOrganization);
         $this->revisions = new ArrayCollection();
-        $this->addRevision(new OrganizationRevision($nameable, $identificationNumber, $color));
     }
 
     /**

@@ -11,7 +11,7 @@ use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevisionContainer;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
 use Zakjakub\OswisCoreBundle\Exceptions\RevisionMissingException;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
-use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicContainerTrait;
+use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
 use function assert;
 
 /**
@@ -22,7 +22,7 @@ use function assert;
 class AddressBook extends AbstractRevisionContainer
 {
     use BasicEntityTrait;
-    use NameableBasicContainerTrait;
+    use NameableBasicTrait;
 
     /**
      * @var Collection
@@ -75,20 +75,6 @@ class AddressBook extends AbstractRevisionContainer
     public static function checkRevision(?AbstractRevision $revision): void
     {
         assert($revision instanceof AddressBookRevision);
-    }
-
-    /**
-     * @param DateTime|null $dateTime
-     *
-     * @return AddressBookRevision
-     * @throws RevisionMissingException
-     */
-    final public function getRevisionByDate(?DateTime $dateTime = null): AddressBookRevision
-    {
-        $revision = $this->getRevision($dateTime);
-        assert($revision instanceof AddressBookRevision);
-
-        return $revision;
     }
 
     final public function addContact(AbstractContact $contact): void
@@ -169,4 +155,30 @@ class AddressBook extends AbstractRevisionContainer
             }
         }
     }
+
+    final public function destroyRevisions(): void
+    {
+        try {
+            $this->setFieldsFromNameable($this->getRevisionByDate()->getNameable());
+            foreach ($this->getRevisions() as $revision) {
+                $this->removeRevision($revision);
+            }
+        } catch (RevisionMissingException $e) {
+        }
+    }
+
+    /**
+     * @param DateTime|null $dateTime
+     *
+     * @return AddressBookRevision
+     * @throws RevisionMissingException
+     */
+    final public function getRevisionByDate(?DateTime $dateTime = null): AddressBookRevision
+    {
+        $revision = $this->getRevision($dateTime);
+        assert($revision instanceof AddressBookRevision);
+
+        return $revision;
+    }
+
 }

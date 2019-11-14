@@ -2,10 +2,16 @@
 
 namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
 
+use Doctrine\Common\Collections\Collection;
 use Exception;
-use Zakjakub\OswisCoreBundle\Traits\Entity\ColorContainerTrait;
-use Zakjakub\OswisCoreBundle\Traits\Entity\IdentificationNumberContainerTrait;
-use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicContainerTrait;
+use Zakjakub\OswisAddressBookBundle\Entity\ContactImage;
+use Zakjakub\OswisAddressBookBundle\Entity\OrganizationRevision;
+use Zakjakub\OswisCoreBundle\Entity\Nameable;
+use Zakjakub\OswisCoreBundle\Exceptions\RevisionMissingException;
+use Zakjakub\OswisCoreBundle\Traits\Entity\ColorTrait;
+use Zakjakub\OswisCoreBundle\Traits\Entity\IdentificationNumberTrait;
+use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
+use function assert;
 
 abstract class AbstractOrganization extends AbstractContact
 {
@@ -24,13 +30,46 @@ abstract class AbstractOrganization extends AbstractContact
         self::DEPARTMENT,
         self::UNIVERSITY,
         self::FACULTY,
+        self::SCHOOL,
         self::HIGH_SCHOOL,
         self::STUDENT_ORGANIZATION,
     ];
 
-    use NameableBasicContainerTrait;
-    use IdentificationNumberContainerTrait;
-    use ColorContainerTrait;
+    use NameableBasicTrait;
+    use IdentificationNumberTrait;
+    use ColorTrait;
+
+    public function __construct(
+        ?Nameable $nameable = null,
+        ?string $identificationNumber = null,
+        ?string $color = null,
+        ?string $type = null,
+        ?Collection $notes = null,
+        ?Collection $contactDetails = null,
+        ?Collection $addresses = null,
+        ?ContactImage $image = null,
+        ?Collection $addressBooks = null
+    ) {
+        parent::__construct($type, $notes, $contactDetails, $addresses, $image, $addressBooks);
+        $this->setFieldsFromNameable($nameable);
+        $this->setIdentificationNumber($identificationNumber);
+        $this->setColor($color);
+    }
+
+    final public function destroyRevisions(): void
+    {
+        try {
+            $actualRevision = $this->getRevisionByDate();
+            assert($actualRevision instanceof OrganizationRevision);
+            $this->setFieldsFromNameable($actualRevision->getNameable());
+            $this->setIdentificationNumber($actualRevision->getIdentificationNumber());
+            $this->setColor($actualRevision->getColor());
+            foreach ($this->getRevisions() as $revision) {
+                $this->removeRevision($revision);
+            }
+        } catch (RevisionMissingException $e) {
+        }
+    }
 
     final public function setFullName(?string $fullName): void
     {
