@@ -7,7 +7,6 @@ use Exception;
 use Zakjakub\OswisAddressBookBundle\Entity\ContactImage;
 use Zakjakub\OswisAddressBookBundle\Entity\OrganizationRevision;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
-use Zakjakub\OswisCoreBundle\Exceptions\RevisionMissingException;
 use Zakjakub\OswisCoreBundle\Traits\Entity\ColorTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\IdentificationNumberTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
@@ -58,16 +57,13 @@ abstract class AbstractOrganization extends AbstractContact
 
     final public function destroyRevisions(): void
     {
-        try {
-            $actualRevision = $this->getRevisionByDate();
-            assert($actualRevision instanceof OrganizationRevision);
-            $this->setFieldsFromNameable($actualRevision->getNameable());
-            $this->setIdentificationNumber($actualRevision->getIdentificationNumber());
-            $this->setColor($actualRevision->getColor());
-            foreach ($this->getRevisions() as $revision) {
-                $this->removeRevision($revision);
-            }
-        } catch (RevisionMissingException $e) {
+        $actualRevision = $this->getRevisionByDate();
+        assert($actualRevision instanceof OrganizationRevision);
+        $this->setFieldsFromNameable($actualRevision->getNameable());
+        $this->setIdentificationNumber($actualRevision->getIdentificationNumber());
+        $this->setColor($actualRevision->getColor());
+        foreach ($this->getRevisions() as $revision) {
+            $this->removeRevision($revision);
         }
     }
 
