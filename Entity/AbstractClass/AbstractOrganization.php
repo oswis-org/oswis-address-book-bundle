@@ -65,6 +65,7 @@ abstract class AbstractOrganization extends AbstractContact
         foreach ($this->getRevisions() as $revision) {
             $this->removeRevision($revision);
         }
+        $this->setActiveRevision(null);
     }
 
     final public function setFullName(?string $fullName): void

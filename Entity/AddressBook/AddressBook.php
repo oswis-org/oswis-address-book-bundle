@@ -163,6 +163,7 @@ class AddressBook extends AbstractRevisionContainer
             foreach ($this->getRevisions() as $revision) {
                 $this->removeRevision($revision);
             }
+            $this->setActiveRevision(null);
         } catch (RevisionMissingException $e) {
         }
     }

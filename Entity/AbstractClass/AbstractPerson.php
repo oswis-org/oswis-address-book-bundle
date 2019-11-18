@@ -46,6 +46,7 @@ abstract class AbstractPerson extends AbstractContact
             foreach ($this->getRevisions() as $revision) {
                 $this->removeRevision($revision);
             }
+            $this->setActiveRevision(null);
         } catch (Exception $e) {
         }
     }
