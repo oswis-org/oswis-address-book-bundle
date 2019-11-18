@@ -62,7 +62,7 @@ class OrganizationManager
         $organizations = $this->em->getRepository(Organization::class)->findAll();
         foreach ($organizations as $organization) {
             assert($organization instanceof Organization);
-            $organization->updateActiveRevision();
+            // $organization->updateActiveRevision();
             $organization->destroyRevisions();
             $this->em->persist($organization);
         }

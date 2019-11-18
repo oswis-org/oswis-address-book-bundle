@@ -54,7 +54,7 @@ class AddressBookManager
         $addressBooks = $this->em->getRepository(AddressBook::class)->findAll();
         foreach ($addressBooks as $addressBook) {
             assert($addressBook instanceof AddressBook);
-            $addressBook->updateActiveRevision();
+            // $addressBook->updateActiveRevision();
             $addressBook->destroyRevisions();
             $this->em->persist($addressBook);
         }

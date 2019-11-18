@@ -23,7 +23,7 @@ class PersonManager
         $people = $this->em->getRepository(Person::class)->findAll();
         foreach ($people as $person) {
             assert($person instanceof Person);
-            $person->updateActiveRevision();
+            // $person->updateActiveRevision();
             $person->destroyRevisions();
             $this->em->persist($person);
         }
