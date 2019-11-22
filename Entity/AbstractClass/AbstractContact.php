@@ -695,7 +695,6 @@ abstract class AbstractContact extends AbstractRevisionContainer
         return $this->getContactName();
     }
 
-    /** @noinspection MethodShouldBeFinalInspection */
     /**
      * @return string
      */
@@ -712,7 +711,6 @@ abstract class AbstractContact extends AbstractRevisionContainer
         $this->updateContactName();
     }
 
-    /** @noinspection MethodShouldBeFinalInspection */
     final public function updateContactName(): void
     {
         $this->contactName = $this->getFullName();

@@ -29,7 +29,6 @@ final class SearchFilter extends AbstractContextAwareFilter
             new ReflectionClass(new $resourceClass),
             SearchAnnotation::class
         );
-        /** @noinspection NullPointerExceptionInspection */
         $description['search'] = [
             'property' => 'search',
             'type'     => 'string',

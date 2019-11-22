@@ -130,7 +130,7 @@
   </component>
   <component name="PhpInterpreters">
     <interpreters>
-      <interpreter id="7d9c9d5a-7067-4a72-aa4e-5ba94994782a" name="PHP latest" home="$USER_HOME$/.PhpStorm2018.3/system/plugins/idea-php-latest-plugin/php-v7.2.12/php.sh" debugger_id="php.debugger.XDebug" />
+      <interpreter id="4c6df0e5-8567-4133-9761-3ee54c331ff8" name="PHP latest" home="$USER_HOME$/.PhpStorm2019.3/system/plugins/idea-php-latest-plugin/php-v7.3.1/php.sh" debugger_id="php.debugger.XDebug" />
     </interpreters>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.1" />
