@@ -24,9 +24,7 @@
     "zakjakub/oswis-core-bundle": "^0.0",
     "bigit/vokativ": "dev-master"
   },
-  "require-dev": {
-    "roave/security-advisories": "dev-master"
-  },
+  "require-dev": {},
   "autoload": {
     "psr-4": {
       "Zakjakub\\OswisAddressBookBundle\\": ""
