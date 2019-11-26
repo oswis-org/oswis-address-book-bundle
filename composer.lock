@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cd80d4014e8607ed79ba1eec953e6204",
+    "content-hash": "7268bfc189e94c69ff8d9f994d66e36a",
     "packages": [
         {
             "name": "adci/full-name-parser",
@@ -8251,16 +8251,16 @@
         },
         {
             "name": "zakjakub/oswis-core-bundle",
-            "version": "v0.0.332",
+            "version": "v0.0.333",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zakjakub/oswis-core-bundle.git",
-                "reference": "3a204821d68033e883aa56e08e89351dd34b6815"
+                "reference": "abb789193019d0049c95b003689087713666e72b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zakjakub/oswis-core-bundle/zipball/3a204821d68033e883aa56e08e89351dd34b6815",
-                "reference": "3a204821d68033e883aa56e08e89351dd34b6815",
+                "url": "https://api.github.com/repos/zakjakub/oswis-core-bundle/zipball/abb789193019d0049c95b003689087713666e72b",
+                "reference": "abb789193019d0049c95b003689087713666e72b",
                 "shasum": ""
             },
             "require": {
@@ -8340,7 +8340,7 @@
                 "php",
                 "zakjakub"
             ],
-            "time": "2019-11-25T23:46:33+00:00"
+            "time": "2019-11-26T19:49:01+00:00"
         },
         {
             "name": "zendframework/zend-code",
@@ -8458,6 +8458,8 @@
     },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": "^7.4"
+    },
     "platform-dev": []
 }
