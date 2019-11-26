@@ -12,7 +12,7 @@ use Doctrine\Common\Annotations\AnnotationException;
  */
 final class SearchAnnotation
 {
-    public $fields = [];
+    public array $fields = [];
 
     /**
      * Constructor.

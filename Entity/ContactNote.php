@@ -20,14 +20,14 @@ class ContactNote
      * @var bool|null
      * @ORM\Column(type="boolean", nullable=true)
      */
-    protected $public;
+    protected ?bool $public;
 
     /**
      * Content of note.
      * @var string|null $content
      * @Doctrine\ORM\Mapping\Column(type="text", nullable=true)
      */
-    private $content;
+    private ?string $content;
 
     /**
      * Contact that this not belongs to.
@@ -38,7 +38,7 @@ class ContactNote
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")
      */
-    private $contact;
+    private ?AbstractContact $contact;
 
     /**
      * ContactNote constructor.

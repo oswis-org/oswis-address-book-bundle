@@ -73,14 +73,14 @@ class Organization extends AbstractOrganization
      *     fetch="EAGER"
      * )
      */
-    protected $revisions;
+    protected Collection $revisions;
 
     /**
-     * @var OrganizationRevision
+     * @var AbstractRevision|null
      * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="Zakjakub\OswisAddressBookBundle\Entity\OrganizationRevision")
      * @Doctrine\ORM\Mapping\JoinColumn(name="active_revision_id", referencedColumnName="id")
      */
-    protected $activeRevision;
+    protected ?AbstractRevision $activeRevision;
 
     /**
      * @var Organization|null $parentOrganization Parent organization (if this is not top level org)
@@ -92,7 +92,7 @@ class Organization extends AbstractOrganization
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(nullable=true)
      */
-    protected $parentOrganization;
+    protected ?Organization $parentOrganization;
 
     /**
      * @var Collection|null $subOrganizations Sub organizations

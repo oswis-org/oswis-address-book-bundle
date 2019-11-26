@@ -78,7 +78,7 @@ class Position
      * True if person is intended for receiving messages about organization.
      * @var bool|null
      */
-    protected $isContactPerson;
+    protected ?bool $isContactPerson;
 
     /**
      * Person in this position.
@@ -91,7 +91,7 @@ class Position
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(name="person_id", referencedColumnName="id")
      */
-    private $person;
+    private ?Person $person;
 
     /**
      * Organization of this position.
@@ -104,7 +104,7 @@ class Position
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(name="organization_id", referencedColumnName="id")
      */
-    private $organization;
+    private ?Organization $organization;
 
     /**
      * Position constructor.

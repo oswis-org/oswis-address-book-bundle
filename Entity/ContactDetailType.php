@@ -95,7 +95,7 @@ class ContactDetailType
      * @var string|null $contactSchema Schema of type of contact
      * @Doctrine\ORM\Mapping\Column(type="string", nullable=true)
      */
-    protected $contactSchema;
+    protected ?string $contactSchema;
 
     /**
      * Show in address book preview?
@@ -103,19 +103,19 @@ class ContactDetailType
      * @var bool|null $showInPreview
      * @Doctrine\ORM\Mapping\Column(type="boolean", nullable=true)
      */
-    protected $showInPreview;
+    protected ?bool $showInPreview;
 
     /**
      * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $formLabel;
+    protected ?string $formLabel;
 
     /**
      * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $formHelp;
+    protected ?string $formHelp;
 
     /**
      * ContactDetailType constructor.

@@ -79,7 +79,7 @@ class PersonSkillConnection
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(name="person_id", referencedColumnName="id")
      */
-    protected $person;
+    protected ?Person $person;
 
     /**
      * Skill.
@@ -92,21 +92,21 @@ class PersonSkillConnection
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(name="person_skill_id", referencedColumnName="id")
      */
-    protected $personSkill;
+    protected ?PersonSkill $personSkill;
 
     /**
      * Level of skill.
      * @var int|null
      * @Doctrine\ORM\Mapping\Column(type="smallint", nullable=true)
      */
-    protected $level;
+    protected ?int $level;
 
     /**
      * Is public on website?
      * @var boolean
      * @ORM\Column(type="boolean", nullable=true)
      */
-    protected $publicOnWeb;
+    protected bool $publicOnWeb;
 
     /**
      * PersonSkill constructor.

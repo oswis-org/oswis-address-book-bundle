@@ -14,12 +14,12 @@ class OrganizationManager
     /**
      * @var EntityManagerInterface
      */
-    protected $em;
+    protected EntityManagerInterface $em;
 
     /**
      * @var LoggerInterface|null
      */
-    protected $logger;
+    protected ?LoggerInterface $logger;
 
     public function __construct(
         EntityManagerInterface $em,

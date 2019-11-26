@@ -25,7 +25,7 @@ class ContactAddress extends AbstractAddress
      * @Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")
      * @Assert\NotNull
      */
-    private $contact;
+    private ?AbstractContact $contact;
 
     /**
      * @return AbstractContact

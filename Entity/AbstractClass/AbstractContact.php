@@ -78,19 +78,19 @@ abstract class AbstractContact extends AbstractRevisionContainer
      * @Doctrine\ORM\Mapping\JoinColumn(nullable=true)
      * @ApiProperty(iri="http://schema.org/image")
      */
-    public $image;
+    public ?ContactImage $image;
 
     /**
      * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $contactName;
+    protected ?string $contactName;
 
     /**
      * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected $sortableName;
+    protected ?string $sortableName;
 
     /**
      * Images of person.
@@ -104,7 +104,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
      *     fetch="EAGER"
      * )activeRevision.event.activeRevision.name
      */
-    protected $imageConnections;
+    protected ?Collection $imageConnections;
 
     /**
      * Notes about person.
@@ -118,7 +118,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
      *     fetch="EAGER"
      * )
      */
-    protected $notes;
+    protected ?Collection $notes;
 
     /**
      *  Contact details (e-mails, phones...)
@@ -132,7 +132,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
      *     fetch="EAGER"
      * )
      */
-    protected $contactDetails;
+    protected ?Collection $contactDetails;
 
     /**
      * Postal addresses of AbstractContact (Person, Organization).
@@ -147,7 +147,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
      * )
      * @ApiProperty(iri="http://schema.org/address")
      */
-    protected $addresses;
+    protected ?Collection $addresses;
 
     /**
      * @var Collection|null
@@ -158,7 +158,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
      *     fetch="EAGER"
      * )
      */
-    protected $addressBookContactConnections;
+    protected ?Collection $addressBookContactConnections;
 
     /**
      * @var AppUser|null $appUser User
@@ -168,7 +168,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
      *     fetch="EAGER"
      * )
      */
-    private $appUser;
+    private ?AppUser $appUser;
 
     /**
      * AbstractContact constructor.

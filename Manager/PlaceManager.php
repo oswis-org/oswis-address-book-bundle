@@ -14,12 +14,12 @@ class PlaceManager
     /**
      * @var EntityManagerInterface
      */
-    protected $em;
+    protected EntityManagerInterface $em;
 
     /**
      * @var LoggerInterface
      */
-    protected $logger;
+    protected ?LoggerInterface $logger;
 
     public function __construct(
         EntityManagerInterface $em,

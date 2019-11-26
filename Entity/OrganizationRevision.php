@@ -15,14 +15,14 @@ class OrganizationRevision extends AbstractOrganizationRevision
 {
 
     /**
-     * @var Organization
+     * @var AbstractRevisionContainer|null
      * @Doctrine\ORM\Mapping\ManyToOne(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Organization",
      *     inversedBy="revisions"
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(name="container_id", referencedColumnName="id")
      */
-    protected $container;
+    protected ?AbstractRevisionContainer $container;
 
     /**
      * @param AbstractRevisionContainer|null $revisionContainer

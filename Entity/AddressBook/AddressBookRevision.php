@@ -20,14 +20,14 @@ class AddressBookRevision extends AbstractRevision
     use NameableBasicTrait;
 
     /**
-     * @var AddressBook
+     * @var AbstractRevisionContainer|null
      * @Doctrine\ORM\Mapping\ManyToOne(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBook",
      *     inversedBy="revisions"
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(name="container_id", referencedColumnName="id")
      */
-    protected $container;
+    protected ?AbstractRevisionContainer $container;
 
     /**
      * @param Nameable|null $nameable

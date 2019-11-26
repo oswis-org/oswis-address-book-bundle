@@ -77,14 +77,14 @@ class Person extends AbstractPerson
      *     fetch="EAGER"
      * )
      */
-    protected $revisions;
+    protected Collection $revisions;
 
     /**
-     * @var PersonRevision
+     * @var AbstractRevision|null
      * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="Zakjakub\OswisAddressBookBundle\Entity\PersonRevision")
      * @Doctrine\ORM\Mapping\JoinColumn(name="active_revision_id", referencedColumnName="id")
      */
-    protected $activeRevision;
+    protected ?AbstractRevision $activeRevision;
 
     /**
      * Positions (jobs, studies...).
@@ -96,7 +96,7 @@ class Person extends AbstractPerson
      *     orphanRemoval=true
      * )
      */
-    private $positions;
+    private ?Collection $positions;
 
     /**
      * Connections to skills.
@@ -108,7 +108,7 @@ class Person extends AbstractPerson
      *     orphanRemoval=true
      * )
      */
-    private $personSkillConnections;
+    private ?Collection $personSkillConnections;
 
     /**
      * Person constructor.

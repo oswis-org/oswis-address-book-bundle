@@ -33,14 +33,14 @@ class AddressBook extends AbstractRevisionContainer
      *     fetch="EAGER"
      * )
      */
-    protected $revisions;
+    protected Collection $revisions;
 
     /**
-     * @var AddressBookRevision
+     * @var AbstractRevision|null
      * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBookRevision")
      * @Doctrine\ORM\Mapping\JoinColumn(name="active_revision_id", referencedColumnName="id")
      */
-    protected $activeRevision;
+    protected ?AbstractRevision $activeRevision;
 
     /**
      * @var Collection|null

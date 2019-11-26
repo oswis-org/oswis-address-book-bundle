@@ -65,14 +65,14 @@ class PersonSkill
      * @var boolean
      * @ORM\Column(type="boolean", nullable=true)
      */
-    protected $publicOnWebDefault;
+    protected bool $publicOnWebDefault;
 
     /**
      * Can user edit connections with this skill?
      * @var boolean
      * @ORM\Column(type="boolean", nullable=true)
      */
-    protected $connectionsUserEditable;
+    protected bool $connectionsUserEditable;
 
     /**
      * Connections to persons.
@@ -84,7 +84,7 @@ class PersonSkill
      *     orphanRemoval=true
      * )
      */
-    private $personSkillConnections;
+    private ?Collection $personSkillConnections;
 
     /**
      * Position constructor.
