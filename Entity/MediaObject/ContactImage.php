@@ -36,5 +36,5 @@ class ContactImage extends AbstractImage
      *     mimeType="contentMimeType"
      * )
      */
-    public ?Symfony\Component\HttpFoundation\File\File $file;
+    public ?File $file;
 }
