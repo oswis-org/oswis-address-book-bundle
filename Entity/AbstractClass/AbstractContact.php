@@ -225,9 +225,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
     final public function getAddressBooks(): Collection
     {
         return $this->getAddressBookContactConnections()->map(
-            static function (AddressBookContactConnection $addressBookContactConnection) {
-                return $addressBookContactConnection->getAddressBook();
-            }
+            fn(AddressBookContactConnection $addressBookContactConnection) => $addressBookContactConnection->getAddressBook()
         );
     }
 
@@ -557,11 +555,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
      */
     final public function getUrls(): ?Collection
     {
-        return $this->getContactDetails()->filter(
-            static function (ContactDetail $contactDetail) {
-                return 'url' === $contactDetail->getTypeString();
-            }
-        );
+        return $this->getContactDetails()->filter(fn(ContactDetail $contactDetail) => 'url' === $contactDetail->getTypeString());
     }
 
     /**
@@ -572,11 +566,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
     {
         return implode(
             [', '],
-            $this->getContactDetails()->filter(
-                static function (ContactDetail $contactDetail) {
-                    return 'url' === $contactDetail->getTypeString();
-                }
-            )
+            $this->getContactDetails()->filter(fn(ContactDetail $contactDetail) => 'url' === $contactDetail->getTypeString())
         );
     }
 
@@ -782,14 +772,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
      */
     final public function getUsersOfPersons(): Collection
     {
-        $users = new ArrayCollection();
-        $this->getPersons()->forAll(
-            static function (Person $person) use ($users) {
-                $users->add($person->getAppUser());
-            }
-        );
-
-        return $users;
+        return $this->getPersons()->map(fn(Person $person) => $person->getAppUser());
     }
 
     /**
@@ -797,24 +780,20 @@ abstract class AbstractContact extends AbstractRevisionContainer
      */
     final public function getPersons(): Collection
     {
-        $persons = new ArrayCollection();
         if ($this instanceof Person) {
-            $persons->add($this);
-        } elseif ($this instanceof OrganizationRevision) {
-            $this->getPositions()->forAll(
-                static function (Person $person) use ($persons) {
-                    $persons->add($person);
-                }
-            );
+            return new ArrayCollection([$this]);
+        }
+        if ($this instanceof Organization) {
+            return $this->getPositions()->map(fn(Position $position) => $position->getPerson());
         }
 
-        return $persons;
+        return new ArrayCollection();
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    final public function getManagedDepartments(): ArrayCollection
+    final public function getManagedDepartments(): Collection
     {
         // TODO: Return managed departments.
         return new ArrayCollection();
@@ -825,7 +804,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
      */
     final public function __toString(): string
     {
-        return $this->getContactName();
+        return $this->getContactName() ?? '';
     }
 
     /**
@@ -833,11 +812,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
      */
     final public function getStudies(): Collection
     {
-        return $this->getPositions()->filter(
-            static function (Position $position) {
-                return $position->isStudy();
-            }
-        );
+        return $this->getPositions()->filter(fn(Position $position) => $position->isStudy());
     }
 
     /**
@@ -850,20 +825,19 @@ abstract class AbstractContact extends AbstractRevisionContainer
      */
     final public function getRegularPositions(): Collection
     {
-        return $this->getPositions()->filter(
-            static function (Position $position) {
-                return $position->isRegularPosition();
-            }
-        );
+        return $this->getPositions()->filter(fn(Position $position) => $position->isRegularPosition());
     }
 
     /**
-     * @param Position $position
+     * @param Position|null $position
      *
      * @throws InvalidArgumentException
      */
-    final public function addStudy(Position $position): void
+    final public function addStudy(?Position $position): void
     {
+        if (!$position) {
+            return;
+        }
         if (!$position->isStudy()) {
             throw new InvalidArgumentException('Špatný typ pozice ('.$position->getType().' není typ studia)');
         }
@@ -876,12 +850,15 @@ abstract class AbstractContact extends AbstractRevisionContainer
     abstract public function addPosition(?Position $position): void;
 
     /**
-     * @param Position $position
+     * @param Position|null $position
      *
      * @throws InvalidArgumentException
      */
-    final public function addRegularPosition(Position $position): void
+    final public function addRegularPosition(?Position $position): void
     {
+        if (!$position) {
+            return;
+        }
         if (!$position->isRegularPosition()) {
             throw new InvalidArgumentException('Špatný typ pozice ('.$position->getType().' není typ zaměstnání)');
         }
@@ -889,12 +866,15 @@ abstract class AbstractContact extends AbstractRevisionContainer
     }
 
     /**
-     * @param Position $position
+     * @param Position|null $position
      *
      * @throws InvalidArgumentException
      */
-    final public function removeStudy(Position $position): void
+    final public function removeStudy(?Position $position): void
     {
+        if (!$position) {
+            return;
+        }
         if (!$position->isStudy()) {
             throw new InvalidArgumentException('Špatný typ pozice ('.$position->getType().' není typ studia)');
         }
@@ -907,12 +887,15 @@ abstract class AbstractContact extends AbstractRevisionContainer
     abstract public function removePosition(?Position $position): void;
 
     /**
-     * @param Position $position
+     * @param Position|null $position
      *
      * @throws InvalidArgumentException
      */
-    final public function removeRegularPosition(Position $position): void
+    final public function removeRegularPosition(?Position $position): void
     {
+        if (!$position) {
+            return;
+        }
         if (!$position->isRegularPosition()) {
             throw new InvalidArgumentException('Špatný typ pozice ('.$position->getType().' není typ zaměstnání)');
         }

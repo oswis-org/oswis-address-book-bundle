@@ -144,7 +144,7 @@ class Place
      */
     final public function getSubPlaces(): Collection
     {
-        return $this->subPlaces;
+        return $this->subPlaces ?? new ArrayCollection();
     }
 
     /**

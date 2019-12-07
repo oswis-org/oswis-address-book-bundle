@@ -92,9 +92,7 @@ class AddressBook extends AbstractRevisionContainer
     final public function getContacts(): Collection
     {
         return $this->getAddressBookContactConnections()->map(
-            static function (AddressBookContactConnection $addressBookContactConnection) {
-                return $addressBookContactConnection->getContact();
-            }
+            fn(AddressBookContactConnection $addressBookContactConnection) => $addressBookContactConnection->getContact()
         );
     }
 

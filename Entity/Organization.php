@@ -284,21 +284,18 @@ class Organization extends AbstractOrganization
      */
     final public function getAllStudies(): Collection
     {
-        if ($this->isSchool()) {
-            $studies = $this->getDirectStudies();
-            foreach ($this->getSubOrganizations() as $organization) {
-                assert($organization instanceof self);
-                $organization->getAllStudies()->map(
-                    static function (Position $position) use ($studies) {
-                        $studies->add($position);
-                    }
-                );
-            }
-
-            return $studies;
+        if (!$this->isSchool()) {
+            return new ArrayCollection();
+        }
+        $studies = $this->getDirectStudies();
+        foreach ($this->getSubOrganizations() as $organization) {
+            assert($organization instanceof self);
+            $organization->getAllStudies()->map(
+                fn(Position $position) => $studies->add($position)
+            );
         }
 
-        return new ArrayCollection();
+        return $studies;
     }
 
     /**
@@ -314,16 +311,7 @@ class Organization extends AbstractOrganization
      */
     final public function getAllEmployees(): Collection
     {
-        $employees = new ArrayCollection();
-        if ($this->isSchool()) {
-            $this->getAllStudies()->map(
-                static function (Position $position) use ($employees) {
-                    $employees->add($position->getPerson());
-                }
-            );
-        }
-
-        return $employees;
+        return $this->getAllStudies()->map(fn(Position $position) => $position->getPerson());
     }
 
     /**
@@ -334,11 +322,7 @@ class Organization extends AbstractOrganization
         $positions = $this->getDirectEmployeesPositions();
         foreach ($this->getSubOrganizations() as $organization) {
             assert($organization instanceof self);
-            $organization->getAllEmployeesPositions()->map(
-                static function (Position $position) use ($positions) {
-                    $positions->add($position);
-                }
-            );
+            $organization->getAllEmployeesPositions()->map(fn(Position $position) => $positions->add($position));
         }
 
         return $positions;
@@ -407,11 +391,7 @@ class Organization extends AbstractOrganization
         $employees = $this->getDirectEmployees();
         foreach ($this->getDepartments() as $department) {
             assert($department instanceof self);
-            $department->getDirectEmployees()->map(
-                static function (Position $position) use ($employees) {
-                    $employees->add($position);
-                }
-            );
+            $department->getDirectEmployees()->map(fn(Position $position) => $employees->add($position));
         }
 
         return $employees;
@@ -422,15 +402,7 @@ class Organization extends AbstractOrganization
      */
     final public function getDirectEmployees(): Collection
     {
-        $employees = new ArrayCollection();
-        $positionsOfEmployees = $this->getDirectEmployeesPositions();
-        $positionsOfEmployees->map(
-            static function (Position $position) use ($employees) {
-                $employees->add($position->getPerson());
-            }
-        );
-
-        return $employees;
+        return $this->getDirectEmployeesPositions()->map(fn(Position $position) => $position->getPerson());
     }
 
     /**
