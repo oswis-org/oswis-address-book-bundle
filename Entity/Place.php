@@ -72,13 +72,13 @@ class Place
      * @var int|null
      * @ORM\Column(type="integer", nullable=true)
      */
-    protected ?int $floorNumber;
+    protected ?int $floorNumber = null;
 
     /**
      * @var int|null
      * @ORM\Column(type="integer", nullable=true)
      */
-    protected ?int $roomNumber;
+    protected ?int $roomNumber = null;
 
     /**
      * Parent place (if this is not top level place).
@@ -90,7 +90,7 @@ class Place
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(nullable=true)
      */
-    protected ?Place $parentPlace;
+    protected ?Place $parentPlace = null;
 
     /**
      * Sub events.
@@ -101,7 +101,7 @@ class Place
      *     fetch="EAGER"
      * )
      */
-    protected $subPlaces;
+    protected ?Collection $subPlaces = null;
 
     /**
      * Place constructor.

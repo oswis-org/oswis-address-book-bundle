@@ -62,17 +62,17 @@ class PersonSkill
     use NameableBasicTrait;
 
     /**
-     * @var boolean
+     * @var boolean|null
      * @ORM\Column(type="boolean", nullable=true)
      */
-    protected bool $publicOnWebDefault;
+    protected ?bool $publicOnWebDefault = null;
 
     /**
      * Can user edit connections with this skill?
-     * @var boolean
+     * @var boolean|null
      * @ORM\Column(type="boolean", nullable=true)
      */
-    protected bool $connectionsUserEditable;
+    protected ?bool $connectionsUserEditable = null;
 
     /**
      * Connections to persons.
@@ -84,7 +84,7 @@ class PersonSkill
      *     orphanRemoval=true
      * )
      */
-    private ?Collection $personSkillConnections;
+    private ?Collection $personSkillConnections = null;
 
     /**
      * Position constructor.

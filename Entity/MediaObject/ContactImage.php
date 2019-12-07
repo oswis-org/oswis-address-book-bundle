@@ -36,5 +36,5 @@ class ContactImage extends AbstractImage
      *     mimeType="contentMimeType"
      * )
      */
-    public ?File $file;
+    public ?File $file = null;
 }

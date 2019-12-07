@@ -23,7 +23,7 @@ class AddressBookContactConnection
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(nullable=true)
      */
-    protected ?AbstractContact $contact;
+    protected ?AbstractContact $contact = null;
 
     /**
      * @var AddressBook|null
@@ -34,7 +34,7 @@ class AddressBookContactConnection
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(nullable=true)
      */
-    protected ?AddressBook $addressBook;
+    protected ?AddressBook $addressBook = null;
 
     public function __construct(
         ?AddressBook $addressBook = null,

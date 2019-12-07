@@ -71,7 +71,7 @@ class ContactImageConnection
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")
      */
-    private ?Person $contact;
+    private ?Person $contact = null;
 
     /**
      * Contact image.
@@ -82,21 +82,21 @@ class ContactImageConnection
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(name="contact_image_id", referencedColumnName="id")
      */
-    private ?ContactImage $contactImage;
+    private ?ContactImage $contactImage = null;
 
     /**
      * Is public on website?
      * @var bool|null
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      */
-    private ?bool $isPublicOnWebsite;
+    private ?bool $isPublicOnWebsite = null;
 
     /**
      * Is profile photo?
      * @var bool|null
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      */
-    private ?bool $isProfilePhoto;
+    private ?bool $isProfilePhoto = null;
 
     /**
      * ContactImageConnection constructor.

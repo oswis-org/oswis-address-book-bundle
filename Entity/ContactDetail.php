@@ -30,14 +30,14 @@ class ContactDetail
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(name="type_id", referencedColumnName="id")
      */
-    private ?ContactDetailType $contactType;
+    private ?ContactDetailType $contactType = null;
 
     /**
      * Text content of note.
      * @var string|null $content
      * @Doctrine\ORM\Mapping\Column(type="text", nullable=true)
      */
-    private ?string $content;
+    private ?string $content = null;
 
     /**
      * Contact, that this contact belongs to.
@@ -48,7 +48,7 @@ class ContactDetail
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")
      */
-    private ?AbstractContact $contact;
+    private ?AbstractContact $contact = null;
 
     /**
      * ContactDetail constructor.

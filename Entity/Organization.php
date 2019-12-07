@@ -73,14 +73,14 @@ class Organization extends AbstractOrganization
      *     fetch="EAGER"
      * )
      */
-    protected Collection $revisions;
+    protected ?Collection $revisions = null;
 
     /**
      * @var AbstractRevision|null
      * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="Zakjakub\OswisAddressBookBundle\Entity\OrganizationRevision")
      * @Doctrine\ORM\Mapping\JoinColumn(name="active_revision_id", referencedColumnName="id")
      */
-    protected ?AbstractRevision $activeRevision;
+    protected ?AbstractRevision $activeRevision = null;
 
     /**
      * @var Organization|null $parentOrganization Parent organization (if this is not top level org)
@@ -92,7 +92,7 @@ class Organization extends AbstractOrganization
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(nullable=true)
      */
-    protected ?Organization $parentOrganization;
+    protected ?Organization $parentOrganization = null;
 
     /**
      * @var Collection|null $subOrganizations Sub organizations
@@ -101,7 +101,7 @@ class Organization extends AbstractOrganization
      *     mappedBy="parentOrganization"
      * )
      */
-    protected $subOrganizations;
+    protected ?Collection $subOrganizations = null;
 
     /**
      * @var Collection|null $positions Positions
@@ -112,7 +112,7 @@ class Organization extends AbstractOrganization
      *     orphanRemoval=true
      * )
      */
-    protected $positions;
+    protected ?Collection $positions = null;
 
     public function __construct(
         ?Nameable $nameable = null,
@@ -136,10 +136,10 @@ class Organization extends AbstractOrganization
             null,
             $addressBooks
         );
+        $this->revisions = new ArrayCollection();
         $this->positions = new ArrayCollection();
         $this->subOrganizations = new ArrayCollection();
         $this->setParentOrganization($parentOrganization);
-        $this->revisions = new ArrayCollection();
     }
 
     /**
@@ -231,11 +231,7 @@ class Organization extends AbstractOrganization
             return new ArrayCollection();
         }
 
-        return $this->getPositions($referenceDateTime)->filter(
-            static function (Position $position) {
-                return $position->isStudy();
-            }
-        );
+        return $this->getPositions($referenceDateTime)->filter(fn(Position $position) => $position->isStudy());
     }
 
     /**
@@ -248,11 +244,7 @@ class Organization extends AbstractOrganization
     final public function getPositions(?DateTime $referenceDateTime = null): Collection
     {
         if ($referenceDateTime) {
-            return $this->positions->filter(
-                static function (Position $position) use ($referenceDateTime) {
-                    return $position->containsDateTimeInRange($referenceDateTime);
-                }
-            );
+            return $this->positions->filter(fn(Position $position) => $position->containsDateTimeInRange($referenceDateTime));
         }
 
         return $this->positions ?? new ArrayCollection();
@@ -283,18 +275,8 @@ class Organization extends AbstractOrganization
         }
 
         return $this->getAllStudies()->map(
-            static function (Position $position) {
-                if ($position->isStudy() && $position->getPerson()) {
-                    return $position->getPerson();
-                }
-
-                return null;
-            }
-        )->filter(
-            static function (AbstractContact $contact) {
-                return $contact;
-            }
-        );
+            fn(Position $position) => $position->isStudy() && $position->getPerson() ? $position->getPerson() : null
+        )->filter(fn(AbstractContact $contact) => $contact);
     }
 
     /**
@@ -306,7 +288,7 @@ class Organization extends AbstractOrganization
             $studies = $this->getDirectStudies();
             foreach ($this->getSubOrganizations() as $organization) {
                 assert($organization instanceof self);
-                $organization->getAllStudies()->forAll(
+                $organization->getAllStudies()->map(
                     static function (Position $position) use ($studies) {
                         $studies->add($position);
                     }
@@ -352,7 +334,7 @@ class Organization extends AbstractOrganization
         $positions = $this->getDirectEmployeesPositions();
         foreach ($this->getSubOrganizations() as $organization) {
             assert($organization instanceof self);
-            $organization->getAllEmployeesPositions()->forAll(
+            $organization->getAllEmployeesPositions()->map(
                 static function (Position $position) use ($positions) {
                     $positions->add($position);
                 }
@@ -377,11 +359,7 @@ class Organization extends AbstractOrganization
      */
     final public function filterPositionsByType(string $positionName): Collection
     {
-        return $this->getPositions()->filter(
-            static function (Position $position) use ($positionName) {
-                return $positionName === $position->getType();
-            }
-        );
+        return $this->getPositions()->filter(fn(Position $position) => $positionName === $position->getType());
     }
 
     /**
@@ -429,7 +407,7 @@ class Organization extends AbstractOrganization
         $employees = $this->getDirectEmployees();
         foreach ($this->getDepartments() as $department) {
             assert($department instanceof self);
-            $department->getDirectEmployees()->forAll(
+            $department->getDirectEmployees()->map(
                 static function (Position $position) use ($employees) {
                     $employees->add($position);
                 }
@@ -446,7 +424,7 @@ class Organization extends AbstractOrganization
     {
         $employees = new ArrayCollection();
         $positionsOfEmployees = $this->getDirectEmployeesPositions();
-        $positionsOfEmployees->forAll(
+        $positionsOfEmployees->map(
             static function (Position $position) use ($employees) {
                 $employees->add($position->getPerson());
             }
@@ -470,11 +448,7 @@ class Organization extends AbstractOrganization
      */
     final public function filterSubOrganizationsByType(string $type): Collection
     {
-        return $this->getSubOrganizations()->filter(
-            static function (Organization $organization) use ($type) {
-                return $type === $organization->getType();
-            }
-        );
+        return $this->getSubOrganizations()->filter(fn(Organization $organization) => $type === $organization->getType());
     }
 
     /**

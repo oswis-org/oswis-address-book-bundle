@@ -25,7 +25,7 @@ class AddressBook extends AbstractRevisionContainer
     use NameableBasicTrait;
 
     /**
-     * @var Collection
+     * @var Collection|null
      * @Doctrine\ORM\Mapping\OneToMany(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBookRevision",
      *     mappedBy="container",
@@ -33,14 +33,14 @@ class AddressBook extends AbstractRevisionContainer
      *     fetch="EAGER"
      * )
      */
-    protected Collection $revisions;
+    protected ?Collection $revisions = null;
 
     /**
      * @var AbstractRevision|null
      * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBookRevision")
      * @Doctrine\ORM\Mapping\JoinColumn(name="active_revision_id", referencedColumnName="id")
      */
-    protected ?AbstractRevision $activeRevision;
+    protected ?AbstractRevision $activeRevision = null;
 
     /**
      * @var Collection|null
@@ -51,14 +51,14 @@ class AddressBook extends AbstractRevisionContainer
      *     fetch="EAGER"
      * )
      */
-    protected $addressBookContactConnections;
+    protected ?Collection $addressBookContactConnections = null;
 
     public function __construct(
         ?Nameable $nameable = null
     ) {
+        $this->addressBookContactConnections = new ArrayCollection();
         $this->revisions = new ArrayCollection();
         $this->addRevision(new AddressBookRevision($nameable));
-        $this->addressBookContactConnections = new ArrayCollection();
     }
 
     /**

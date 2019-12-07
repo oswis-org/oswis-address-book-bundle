@@ -7,7 +7,6 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Exception;
 use InvalidArgumentException;
 use Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBook;
 use Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBookContactConnection;
@@ -78,19 +77,19 @@ abstract class AbstractContact extends AbstractRevisionContainer
      * @Doctrine\ORM\Mapping\JoinColumn(nullable=true)
      * @ApiProperty(iri="http://schema.org/image")
      */
-    public ?ContactImage $image;
+    public ?ContactImage $image = null;
 
     /**
      * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $contactName;
+    protected ?string $contactName = null;
 
     /**
      * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $sortableName;
+    protected ?string $sortableName = null;
 
     /**
      * Images of person.
@@ -104,7 +103,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
      *     fetch="EAGER"
      * )activeRevision.event.activeRevision.name
      */
-    protected ?Collection $imageConnections;
+    protected ?Collection $imageConnections = null;
 
     /**
      * Notes about person.
@@ -118,7 +117,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
      *     fetch="EAGER"
      * )
      */
-    protected ?Collection $notes;
+    protected ?Collection $notes = null;
 
     /**
      *  Contact details (e-mails, phones...)
@@ -132,7 +131,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
      *     fetch="EAGER"
      * )
      */
-    protected ?Collection $contactDetails;
+    protected ?Collection $contactDetails = null;
 
     /**
      * Postal addresses of AbstractContact (Person, Organization).
@@ -147,7 +146,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
      * )
      * @ApiProperty(iri="http://schema.org/address")
      */
-    protected ?Collection $addresses;
+    protected ?Collection $addresses = null;
 
     /**
      * @var Collection|null
@@ -158,7 +157,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
      *     fetch="EAGER"
      * )
      */
-    protected ?Collection $addressBookContactConnections;
+    protected ?Collection $addressBookContactConnections = null;
 
     /**
      * @var AppUser|null $appUser User
@@ -168,7 +167,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
      *     fetch="EAGER"
      * )
      */
-    private ?AppUser $appUser;
+    private ?AppUser $appUser = null;
 
     /**
      * AbstractContact constructor.
@@ -587,11 +586,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
         bool $onlyWithActivatedUser = false
     ): Collection {
         if ($onlyWithActivatedUser) {
-            try {
-                return $this->getAppUser() && $this->getAppUser()->isActive($referenceDateTime) ? new ArrayCollection([$this]) : new ArrayCollection();
-            } catch (Exception $e) {
-                return new ArrayCollection();
-            }
+            return $this->getAppUser() && $this->getAppUser()->isActive($referenceDateTime) ? new ArrayCollection([$this]) : new ArrayCollection();
         }
 
         return new ArrayCollection([$this]);
@@ -599,7 +594,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
 
     /**
      * User associated with this contact.
-     * @return AppUser
+     * @return AppUser|null
      */
     final public function getAppUser(): ?AppUser
     {
@@ -611,9 +606,6 @@ abstract class AbstractContact extends AbstractRevisionContainer
      */
     final public function setAppUser(?AppUser $appUser): void
     {
-        if (!$appUser) {
-            return;
-        }
         if ($this->appUser !== $appUser) {
             $this->appUser = $appUser;
         }
@@ -626,9 +618,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
     final public function getEmails(): ?Collection
     {
         return $this->getContactDetails()->filter(
-            static function (ContactDetail $contactDetail) {
-                return 'email' === $contactDetail->getTypeString();
-            }
+            fn(ContactDetail $contactDetail) => 'email' === $contactDetail->getTypeString()
         );
     }
 
@@ -639,18 +629,14 @@ abstract class AbstractContact extends AbstractRevisionContainer
     final public function getTelephones(): ?Collection
     {
         return $this->getContactDetails()->filter(
-            static function (ContactDetail $contactDetail) {
-                return 'phone' === $contactDetail->getTypeString();
-            }
+            fn(ContactDetail $contactDetail) => 'phone' === $contactDetail->getTypeString()
         );
     }
 
     final public function getEmail(): ?string
     {
         $result = $this->contactDetails->filter(
-            static function (ContactDetail $contactDetail) {
-                return ($contactDetail->getContactType() && $contactDetail->getContactType()->getType() === 'email');
-            }
+            fn(ContactDetail $contactDetail) => $contactDetail->getContactType() && $contactDetail->getContactType()->getType() === 'email'
         )->first();
         assert($result instanceof ContactDetail);
 
@@ -660,9 +646,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
     final public function getUrl(): ?string
     {
         $result = $this->contactDetails->filter(
-            static function (ContactDetail $contactDetail) {
-                return ($contactDetail->getContactType() && $contactDetail->getContactType()->getType() === 'url');
-            }
+            fn(ContactDetail $contactDetail) => $contactDetail->getContactType() && $contactDetail->getContactType()->getType() === 'url'
         )->first();
         assert($result instanceof ContactDetail);
 
@@ -672,9 +656,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
     final public function getPhone(): ?string
     {
         $result = $this->contactDetails->filter(
-            static function (ContactDetail $contactDetail) {
-                return ($contactDetail->getContactType() && $contactDetail->getContactType()->getType() === 'phone');
-            }
+            fn(ContactDetail $contactDetail) => $contactDetail->getContactType() && $contactDetail->getContactType()->getType() === 'phone'
         )->first();
         assert($result instanceof ContactDetail);
 

@@ -24,11 +24,7 @@ class AddressBookRevisionRepository extends EntityRepository
         $eventRevisions = new ArrayCollection(
             $this->createQueryBuilder('address_book_revision')->where('address_book_revision.slug = :slug')->setParameter('slug', $slug)->getQuery()->getResult(Query::HYDRATE_OBJECT)
         );
-        $eventRevisions->filter(
-            static function (AddressBookRevision $addressBookRevision) use ($referenceDateTime) {
-                return $addressBookRevision->isActive($referenceDateTime);
-            }
-        );
+        $eventRevisions->filter(fn(AddressBookRevision $addressBookRevision) => $addressBookRevision->isActive($referenceDateTime));
         if ($eventRevisions->count() === 1) {
             return $eventRevisions->first();
         }

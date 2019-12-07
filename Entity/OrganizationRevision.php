@@ -22,7 +22,7 @@ class OrganizationRevision extends AbstractOrganizationRevision
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(name="container_id", referencedColumnName="id")
      */
-    protected ?AbstractRevisionContainer $container;
+    protected ?AbstractRevisionContainer $container = null;
 
     /**
      * @param AbstractRevisionContainer|null $revisionContainer

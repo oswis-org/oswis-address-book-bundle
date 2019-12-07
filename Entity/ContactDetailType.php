@@ -89,13 +89,13 @@ class ContactDetailType
      *     orphanRemoval=true
      * )
      */
-    protected $contacts;
+    protected ?Collection $contacts = null;
 
     /**
      * @var string|null $contactSchema Schema of type of contact
      * @Doctrine\ORM\Mapping\Column(type="string", nullable=true)
      */
-    protected ?string $contactSchema;
+    protected ?string $contactSchema = null;
 
     /**
      * Show in address book preview?
@@ -103,19 +103,19 @@ class ContactDetailType
      * @var bool|null $showInPreview
      * @Doctrine\ORM\Mapping\Column(type="boolean", nullable=true)
      */
-    protected ?bool $showInPreview;
+    protected ?bool $showInPreview = null;
 
     /**
      * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $formLabel;
+    protected ?string $formLabel = null;
 
     /**
      * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
-    protected ?string $formHelp;
+    protected ?string $formHelp = null;
 
     /**
      * ContactDetailType constructor.
