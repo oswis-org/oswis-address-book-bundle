@@ -57,15 +57,18 @@ abstract class AbstractOrganization extends AbstractContact
 
     final public function destroyRevisions(): void
     {
-        $actualRevision = $this->getRevisionByDate();
-        assert($actualRevision instanceof OrganizationRevision);
-        $this->setFieldsFromNameable($actualRevision->getNameable());
-        $this->setIdentificationNumber($actualRevision->getIdentificationNumber());
-        $this->setColor($actualRevision->getColor());
-        foreach ($this->getRevisions() as $revision) {
-            $this->removeRevision($revision);
+        try {
+            $actualRevision = $this->getRevisionByDate();
+            assert($actualRevision instanceof OrganizationRevision);
+            $this->setFieldsFromNameable($actualRevision->getNameable());
+            $this->setIdentificationNumber($actualRevision->getIdentificationNumber());
+            $this->setColor($actualRevision->getColor());
+            foreach ($this->getRevisions() as $revision) {
+                $this->removeRevision($revision);
+            }
+            $this->setActiveRevision(null);
+        } catch (Exception $e) {
         }
-        $this->setActiveRevision(null);
     }
 
     final public function setFullName(?string $fullName): void
