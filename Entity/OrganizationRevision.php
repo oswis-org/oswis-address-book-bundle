@@ -2,6 +2,8 @@
 
 namespace Zakjakub\OswisAddressBookBundle\Entity;
 
+use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
+
 /**
  * @Doctrine\ORM\Mapping\Entity
  * @Doctrine\ORM\Mapping\Table(name="address_book_organization_revision")
@@ -9,4 +11,5 @@ namespace Zakjakub\OswisAddressBookBundle\Entity;
  */
 class OrganizationRevision
 {
+    use BasicEntityTrait;
 }

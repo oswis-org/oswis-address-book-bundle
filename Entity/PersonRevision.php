@@ -3,6 +3,7 @@
 namespace Zakjakub\OswisAddressBookBundle\Entity;
 
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractPersonRevision;
+use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 
 /**
  * Class Person
@@ -15,4 +16,5 @@ use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractPersonRevision;
  */
 class PersonRevision extends AbstractPersonRevision
 {
+    use BasicEntityTrait;
 }
