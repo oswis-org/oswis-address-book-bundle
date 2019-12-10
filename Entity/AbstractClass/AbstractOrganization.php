@@ -4,7 +4,6 @@ namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
 
 use Doctrine\Common\Collections\Collection;
 use Exception;
-use Zakjakub\OswisAddressBookBundle\Entity\ContactImage;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
 use Zakjakub\OswisCoreBundle\Traits\Entity\ColorTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\IdentificationNumberTrait;
@@ -44,10 +43,9 @@ abstract class AbstractOrganization extends AbstractContact
         ?Collection $notes = null,
         ?Collection $contactDetails = null,
         ?Collection $addresses = null,
-        ?ContactImage $image = null,
         ?Collection $addressBooks = null
     ) {
-        parent::__construct($type, $notes, $contactDetails, $addresses, $image, $addressBooks);
+        parent::__construct($type, $notes, $contactDetails, $addresses, $addressBooks);
         $this->setFieldsFromNameable($nameable);
         $this->setIdentificationNumber($identificationNumber);
         $this->setColor($color);

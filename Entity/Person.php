@@ -92,18 +92,17 @@ class Person extends AbstractPerson
     /**
      * Person constructor.
      *
-     * @param string|null       $fullName
-     * @param string|null       $description
-     * @param DateTime|null     $birthDate
-     * @param string|null       $type
-     * @param Collection|null   $notes
-     * @param Collection|null   $contactDetails
-     * @param Collection|null   $addresses
-     * @param ContactImage|null $image
-     * @param Collection|null   $positions
-     * @param Collection|null   $personSkillConnections
+     * @param string|null     $fullName
+     * @param string|null     $description
+     * @param DateTime|null   $birthDate
+     * @param string|null     $type
+     * @param Collection|null $notes
+     * @param Collection|null $contactDetails
+     * @param Collection|null $addresses
+     * @param Collection|null $positions
+     * @param Collection|null $personSkillConnections
      *
-     * @param Collection|null   $addressBooks
+     * @param Collection|null $addressBooks
      *
      * @throws Exception
      */
@@ -115,12 +114,11 @@ class Person extends AbstractPerson
         ?Collection $notes = null,
         ?Collection $contactDetails = null,
         ?Collection $addresses = null,
-        ?ContactImage $image = null,
         ?Collection $positions = null,
         ?Collection $personSkillConnections = null,
         ?Collection $addressBooks = null
     ) {
-        parent::__construct($fullName, $description, $birthDate, $type, $notes, $contactDetails, $addresses, $image, $addressBooks);
+        parent::__construct($fullName, $description, $birthDate, $type, $notes, $contactDetails, $addresses, $addressBooks);
         $this->setPositions($positions);
         $this->setPersonSkillConnections($personSkillConnections);
     }

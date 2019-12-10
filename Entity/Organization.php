@@ -111,7 +111,6 @@ class Organization extends AbstractOrganization
             $notes,
             $contactDetails,
             $addresses,
-            null,
             $addressBooks
         );
         $this->positions = new ArrayCollection();

@@ -3,7 +3,6 @@
 namespace Zakjakub\OswisAddressBookBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 
 /**
@@ -30,29 +29,15 @@ class ContactNote
     private ?string $content = null;
 
     /**
-     * Contact that this not belongs to.
-     * @var AbstractContact|null $contact Contact, that this note belongs to
-     * @Doctrine\ORM\Mapping\ManyToOne(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact",
-     *     inversedBy="notes"
-     * )
-     * @Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")
-     */
-    private ?AbstractContact $contact = null;
-
-    /**
      * ContactNote constructor.
      *
-     * @param string|null          $content
-     * @param AbstractContact|null $contact
-     * @param bool|null            $public
+     * @param string|null $content
+     * @param bool|null   $public
      */
     public function __construct(
         ?string $content = null,
-        ?AbstractContact $contact = null,
         ?bool $public = null
     ) {
-        $this->setContact($contact);
         $this->setContent($content);
         $this->setPublic($public);
     }
@@ -79,28 +64,6 @@ class ContactNote
     final public function isPublic(): ?bool
     {
         return $this->public;
-    }
-
-    /**
-     * @return AbstractContact
-     */
-    final public function getContact(): ?AbstractContact
-    {
-        return $this->contact;
-    }
-
-    /**
-     * @param AbstractContact|null $contact
-     */
-    final public function setContact(?AbstractContact $contact): void
-    {
-        if ($this->contact && $this->contact !== $contact) {
-            $this->contact->removeNote($this);
-        }
-        $this->contact = $contact;
-        if ($contact && $this->contact !== $contact) {
-            $contact->addNote($this);
-        }
     }
 
     final public function __toString(): string

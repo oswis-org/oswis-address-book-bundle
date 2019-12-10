@@ -5,7 +5,6 @@ namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Exception;
-use Zakjakub\OswisAddressBookBundle\Entity\ContactImage;
 use Zakjakub\OswisCoreBundle\Traits\Entity\PersonBasicTrait;
 
 abstract class AbstractPerson extends AbstractContact
@@ -22,10 +21,9 @@ abstract class AbstractPerson extends AbstractContact
         ?Collection $notes = null,
         ?Collection $contactDetails = null,
         ?Collection $addresses = null,
-        ?ContactImage $image = null,
         ?Collection $addressBooks = null
     ) {
-        parent::__construct($type, $notes, $contactDetails, $addresses, $image, $addressBooks);
+        parent::__construct($type, $notes, $contactDetails, $addresses, $addressBooks);
         $this->setFullName($fullName);
         $this->setDescription($description);
         try {

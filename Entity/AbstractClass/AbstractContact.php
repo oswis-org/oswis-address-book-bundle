@@ -88,7 +88,7 @@ abstract class AbstractContact
      *     fetch="EAGER"
      * )
      * @Doctrine\ORM\Mapping\JoinTable(
-     *     name="users_phonenumbers",
+     *     name="address_book_contact_image_connection_connection",
      *     joinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")},
      *     inverseJoinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="image_id", referencedColumnName="id", unique=true)}
      * )
@@ -99,12 +99,16 @@ abstract class AbstractContact
      * Notes about person.
      *
      * @var Collection|null
-     * @Doctrine\ORM\Mapping\OneToMany(
+     * @Doctrine\ORM\Mapping\ManyToMany(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactNote",
-     *     mappedBy="contact",
      *     cascade={"all"},
      *     orphanRemoval=true,
      *     fetch="EAGER"
+     * )
+     * @Doctrine\ORM\Mapping\JoinTable(
+     *     name="address_book_contact_note_connection",
+     *     joinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="note_id", referencedColumnName="id", unique=true)}
      * )
      */
     protected ?Collection $notes = null;
@@ -127,14 +131,18 @@ abstract class AbstractContact
      * Postal addresses of AbstractContact (Person, Organization).
      *
      * @var Collection|null
-     * @Doctrine\ORM\Mapping\OneToMany(
+     * @Doctrine\ORM\Mapping\ManyToMany(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactAddress",
-     *     mappedBy="contact",
      *     cascade={"all"},
      *     orphanRemoval=true,
      *     fetch="EAGER"
      * )
      * @ApiProperty(iri="http://schema.org/address")
+     * @Doctrine\ORM\Mapping\JoinTable(
+     *     name="address_book_contact_address_connection",
+     *     joinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="address_id", referencedColumnName="id", unique=true)}
+     * )
      */
     protected ?Collection $addresses = null;
 
@@ -330,13 +338,9 @@ abstract class AbstractContact
      */
     final public function addNote(?ContactNote $personNote): void
     {
-        if (!$personNote) {
-            return;
-        }
-        if (!$this->notes->contains($personNote)) {
+        if ($personNote) {
             $this->notes->add($personNote);
         }
-        $personNote->setContact($this);
     }
 
     /**
@@ -417,11 +421,8 @@ abstract class AbstractContact
      */
     final public function removeAddress(?ContactAddress $address): void
     {
-        if (!$address) {
-            return;
-        }
-        if ($this->addresses->removeElement($address)) {
-            $address->setContact(null);
+        if ($address) {
+            $this->addresses->removeElement($address);
         }
     }
 
@@ -446,24 +447,7 @@ abstract class AbstractContact
 
     final public function setAddresses(?Collection $newAddresses): void
     {
-        if (!$this->addresses) {
-            $this->addresses = new ArrayCollection();
-        }
-        if (!$newAddresses) {
-            $newAddresses = new ArrayCollection();
-        }
-        foreach ($this->addresses as $oldAddress) {
-            if (!$newAddresses->contains($oldAddress)) {
-                $this->removeAddress($oldAddress);
-            }
-        }
-        if ($newAddresses) {
-            foreach ($newAddresses as $newAddress) {
-                if (!$this->addresses->contains($newAddress)) {
-                    $this->addAddress($newAddress);
-                }
-            }
-        }
+        $this->addresses = $newAddresses ?? new ArrayCollection();
     }
 
     /**
@@ -471,12 +455,8 @@ abstract class AbstractContact
      */
     final public function addAddress(?ContactAddress $address): void
     {
-        if (!$address) {
-            return;
-        }
-        if (!$this->addresses->contains($address)) {
+        if ($address && !$this->addresses->contains($address)) {
             $this->addresses->add($address);
-            $address->setContact($this);
         }
     }
 
@@ -498,29 +478,12 @@ abstract class AbstractContact
      */
     final public function getNotes(): Collection
     {
-        return $this->notes;
+        return $this->notes ?? new ArrayCollection();
     }
 
     final public function setNotes(?Collection $newNotes): void
     {
-        if (!$this->notes) {
-            $this->notes = new ArrayCollection();
-        }
-        if (!$newNotes) {
-            $newNotes = new ArrayCollection();
-        }
-        foreach ($this->notes as $oldNote) {
-            if (!$newNotes->contains($oldNote)) {
-                $this->removeNote($oldNote);
-            }
-        }
-        if ($newNotes) {
-            foreach ($newNotes as $newNote) {
-                if (!$this->notes->contains($newNote)) {
-                    $this->addNote($newNote);
-                }
-            }
-        }
+        $this->notes = $newNotes ?? new ArrayCollection();
     }
 
     /**
@@ -528,8 +491,8 @@ abstract class AbstractContact
      */
     final public function removeNote(?ContactNote $personNote): void
     {
-        if ($personNote && $this->notes->removeElement($personNote)) {
-            $personNote->setContact(null);
+        if ($personNote) {
+            $this->notes->removeElement($personNote);
         }
     }
 
