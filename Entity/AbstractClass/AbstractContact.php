@@ -96,10 +96,14 @@ abstract class AbstractContact
      * @var Collection|null
      * @Doctrine\ORM\Mapping\OneToMany(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactImageConnection",
-     *     mappedBy="contact",
      *     cascade={"all"},
      *     orphanRemoval=true,
      *     fetch="EAGER"
+     * )
+     * @Doctrine\ORM\Mapping\JoinTable(
+     *     name="users_phonenumbers",
+     *     joinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="image_id", referencedColumnName="id", unique=true)}
      * )
      */
     protected ?Collection $imageConnections = null;
@@ -188,6 +192,7 @@ abstract class AbstractContact
         ?ContactImage $image = null,
         ?Collection $addressBooks = null
     ) {
+        $this->imageConnections = new ArrayCollection();
         $this->image = $image;
         $this->setType($type);
         $this->setNotes($notes);
@@ -355,13 +360,9 @@ abstract class AbstractContact
      */
     final public function addImageConnection(?ContactImageConnection $contactImageConnection): void
     {
-        if (!$contactImageConnection) {
-            return;
-        }
-        if (!$this->imageConnections->contains($contactImageConnection)) {
+        if ($contactImageConnection) {
             $this->imageConnections->add($contactImageConnection);
         }
-        $contactImageConnection->setContact($this);
     }
 
     /**
@@ -369,8 +370,8 @@ abstract class AbstractContact
      */
     final public function removeImageConnection(?ContactImageConnection $contactImageConnection): void
     {
-        if ($contactImageConnection && $this->imageConnections->removeElement($contactImageConnection)) {
-            $contactImageConnection->setContact(null);
+        if ($contactImageConnection) {
+            $this->imageConnections->removeElement($contactImageConnection);
         }
     }
 

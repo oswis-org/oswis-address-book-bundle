@@ -6,7 +6,6 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use Doctrine\ORM\Mapping as ORM;
-use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\DescriptionTrait;
@@ -62,18 +61,6 @@ class ContactImageConnection
     use DescriptionTrait;
 
     /**
-     * Person in this position.
-     * @var Person|null $contact
-     * @Doctrine\ORM\Mapping\ManyToOne(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact",
-     *     inversedBy="imageConnections",
-     *     fetch="EAGER"
-     * )
-     * @Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")
-     */
-    private ?Person $contact = null;
-
-    /**
      * Contact image.
      * @var ContactImage|null $contactImage
      * @Doctrine\ORM\Mapping\ManyToOne(
@@ -101,18 +88,15 @@ class ContactImageConnection
     /**
      * ContactImageConnection constructor.
      *
-     * @param AbstractContact|null $contact
-     * @param ContactImage|null    $contactImage
-     * @param bool|null            $isProfilePhoto
-     * @param bool|null            $isPublicOnWebsite
+     * @param ContactImage|null $contactImage
+     * @param bool|null         $isProfilePhoto
+     * @param bool|null         $isPublicOnWebsite
      */
     public function __construct(
-        ?AbstractContact $contact = null,
         ?ContactImage $contactImage = null,
         ?bool $isProfilePhoto = null,
         ?bool $isPublicOnWebsite = null
     ) {
-        $this->setContact($contact);
         $this->setContactImage($contactImage);
         $this->setIsProfilePhoto($isProfilePhoto);
         $this->setIsPublicOnWebsite($isPublicOnWebsite);
@@ -148,28 +132,6 @@ class ContactImageConnection
     final public function setIsProfilePhoto(?bool $isProfilePhoto): void
     {
         $this->isProfilePhoto = $isProfilePhoto;
-    }
-
-    /**
-     * @return Person
-     */
-    final public function getContact(): ?AbstractContact
-    {
-        return $this->contact;
-    }
-
-    /**
-     * @param AbstractContact $contact
-     */
-    final public function setContact(?AbstractContact $contact): void
-    {
-        if ($this->contact && $contact !== $this->contact) {
-            $this->contact->removeImageConnection($this);
-        }
-        $this->contact = $contact;
-        if ($contact && $this->contact !== $contact) {
-            $contact->addImageConnection($this);
-        }
     }
 
     /**
