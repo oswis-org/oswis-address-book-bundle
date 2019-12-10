@@ -2,14 +2,10 @@
 
 namespace Zakjakub\OswisAddressBookBundle\Entity\AddressBook;
 
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
-use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevision;
-use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevisionContainer;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
-use Zakjakub\OswisCoreBundle\Exceptions\RevisionMissingException;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
 use function assert;
@@ -19,28 +15,10 @@ use function assert;
  * @Doctrine\ORM\Mapping\Table(name="address_book_address_book")
  * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_address_book")
  */
-class AddressBook extends AbstractRevisionContainer
+class AddressBook
 {
     use BasicEntityTrait;
     use NameableBasicTrait;
-
-    /**
-     * @var Collection|null
-     * @Doctrine\ORM\Mapping\OneToMany(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBookRevision",
-     *     mappedBy="container",
-     *     cascade={"all"},
-     *     fetch="EAGER"
-     * )
-     */
-    protected ?Collection $revisions = null;
-
-    /**
-     * @var AbstractRevision|null
-     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBookRevision")
-     * @Doctrine\ORM\Mapping\JoinColumn(name="active_revision_id", referencedColumnName="id")
-     */
-    protected ?AbstractRevision $activeRevision = null;
 
     /**
      * @var Collection|null
@@ -56,26 +34,10 @@ class AddressBook extends AbstractRevisionContainer
     public function __construct(
         ?Nameable $nameable = null
     ) {
+        $this->setFieldsFromNameable($nameable);
         $this->addressBookContactConnections = new ArrayCollection();
-        $this->revisions = new ArrayCollection();
-        $this->addRevision(new AddressBookRevision($nameable));
     }
 
-    /**
-     * @return string
-     */
-    public static function getRevisionClassName(): string
-    {
-        return AddressBookRevision::class;
-    }
-
-    /**
-     * @param AbstractRevision|null $revision
-     */
-    public static function checkRevision(?AbstractRevision $revision): void
-    {
-        assert($revision instanceof AddressBookRevision);
-    }
 
     final public function addContact(AbstractContact $contact): void
     {
@@ -156,28 +118,14 @@ class AddressBook extends AbstractRevisionContainer
 
     final public function destroyRevisions(): void
     {
-        try {
-            $this->setFieldsFromNameable($this->getRevisionByDate()->getNameable());
-            foreach ($this->getRevisions() as $revision) {
-                $this->removeRevision($revision);
-            }
-            $this->setActiveRevision(null);
-        } catch (RevisionMissingException $e) {
-        }
-    }
-
-    /**
-     * @param DateTime|null $dateTime
-     *
-     * @return AddressBookRevision
-     * @throws RevisionMissingException
-     */
-    final public function getRevisionByDate(?DateTime $dateTime = null): AddressBookRevision
-    {
-        $revision = $this->getRevision($dateTime);
-        assert($revision instanceof AddressBookRevision);
-
-        return $revision;
+//        try {
+//            $this->setFieldsFromNameable($this->getRevisionByDate()->getNameable());
+//            foreach ($this->getRevisions() as $revision) {
+//                $this->removeRevision($revision);
+//            }
+//            $this->setActiveRevision(null);
+//        } catch (RevisionMissingException $e) {
+//        }
     }
 
 }

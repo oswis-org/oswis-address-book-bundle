@@ -3,8 +3,6 @@
 namespace Zakjakub\OswisAddressBookBundle\Entity;
 
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractPersonRevision;
-use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevisionContainer;
-use function assert;
 
 /**
  * Class Person
@@ -17,30 +15,4 @@ use function assert;
  */
 class PersonRevision extends AbstractPersonRevision
 {
-
-    /**
-     * @var AbstractRevisionContainer|null
-     * @Doctrine\ORM\Mapping\ManyToOne(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Person",
-     *     inversedBy="revisions"
-     * )
-     * @Doctrine\ORM\Mapping\JoinColumn(name="container_id", referencedColumnName="id")
-     */
-    protected ?AbstractRevisionContainer $container = null;
-
-    /**
-     * @param AbstractRevisionContainer|null $revisionContainer
-     */
-    public static function checkRevisionContainer(?AbstractRevisionContainer $revisionContainer): void
-    {
-        assert($revisionContainer instanceof Person);
-    }
-
-    /**
-     * @return string
-     */
-    public static function getRevisionContainerClassName(): string
-    {
-        return Person::class;
-    }
 }

@@ -11,9 +11,7 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractOrganization;
-use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevision;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
-use Zakjakub\OswisCoreBundle\Exceptions\RevisionMissingException;
 use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
 use function assert;
 
@@ -62,26 +60,6 @@ use function assert;
  */
 class Organization extends AbstractOrganization
 {
-
-    /**
-     * @var Collection
-     * @Doctrine\ORM\Mapping\OneToMany(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\OrganizationRevision",
-     *     mappedBy="container",
-     *     cascade={"all"},
-     *     orphanRemoval=true,
-     *     fetch="EAGER"
-     * )
-     */
-    protected ?Collection $revisions = null;
-
-    /**
-     * @var AbstractRevision|null
-     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="Zakjakub\OswisAddressBookBundle\Entity\OrganizationRevision")
-     * @Doctrine\ORM\Mapping\JoinColumn(name="active_revision_id", referencedColumnName="id")
-     */
-    protected ?AbstractRevision $activeRevision = null;
-
     /**
      * @var Organization|null $parentOrganization Parent organization (if this is not top level org)
      * @Doctrine\ORM\Mapping\ManyToOne(
@@ -136,40 +114,9 @@ class Organization extends AbstractOrganization
             null,
             $addressBooks
         );
-        $this->revisions = new ArrayCollection();
         $this->positions = new ArrayCollection();
         $this->subOrganizations = new ArrayCollection();
         $this->setParentOrganization($parentOrganization);
-    }
-
-    /**
-     * @param AbstractRevision|null $revision
-     */
-    public static function checkRevision(?AbstractRevision $revision): void
-    {
-        assert($revision instanceof OrganizationRevision);
-    }
-
-    /**
-     * @return string
-     */
-    public static function getRevisionClassName(): string
-    {
-        return OrganizationRevision::class;
-    }
-
-    /**
-     * @param DateTime|null $dateTime
-     *
-     * @return OrganizationRevision
-     * @throws RevisionMissingException
-     */
-    final public function getRevisionByDate(?DateTime $dateTime = null): OrganizationRevision
-    {
-        $revision = $this->getRevision($dateTime);
-        assert($revision instanceof OrganizationRevision);
-
-        return $revision;
     }
 
     /**

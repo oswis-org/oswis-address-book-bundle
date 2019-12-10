@@ -10,8 +10,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Exception;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractPerson;
-use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevision;
-use Zakjakub\OswisCoreBundle\Exceptions\RevisionMissingException;
 use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
 use function assert;
 use function rtrim;
@@ -68,25 +66,6 @@ use function trim;
 class Person extends AbstractPerson
 {
     /**
-     * @var Collection
-     * @Doctrine\ORM\Mapping\OneToMany(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\PersonRevision",
-     *     mappedBy="container",
-     *     cascade={"all"},
-     *     orphanRemoval=true,
-     *     fetch="EAGER"
-     * )
-     */
-    protected ?Collection $revisions = null;
-
-    /**
-     * @var AbstractRevision|null
-     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="Zakjakub\OswisAddressBookBundle\Entity\PersonRevision")
-     * @Doctrine\ORM\Mapping\JoinColumn(name="active_revision_id", referencedColumnName="id")
-     */
-    protected ?AbstractRevision $activeRevision = null;
-
-    /**
      * Positions (jobs, studies...).
      * @var Collection|null $positions
      * @Doctrine\ORM\Mapping\OneToMany(
@@ -141,40 +120,9 @@ class Person extends AbstractPerson
         ?Collection $personSkillConnections = null,
         ?Collection $addressBooks = null
     ) {
-        $this->revisions = new ArrayCollection();
         parent::__construct($fullName, $description, $birthDate, $type, $notes, $contactDetails, $addresses, $image, $addressBooks);
         $this->setPositions($positions);
         $this->setPersonSkillConnections($personSkillConnections);
-    }
-
-    /**
-     * @param AbstractRevision|null $revision
-     */
-    public static function checkRevision(?AbstractRevision $revision): void
-    {
-        assert($revision instanceof PersonRevision);
-    }
-
-    /**
-     * @return string
-     */
-    public static function getRevisionClassName(): string
-    {
-        return PersonRevision::class;
-    }
-
-    /**
-     * @param DateTime|null $dateTime
-     *
-     * @return PersonRevision
-     * @throws RevisionMissingException
-     */
-    final public function getRevisionByDate(?DateTime $dateTime = null): PersonRevision
-    {
-        $revision = $this->getRevision($dateTime);
-        assert($revision instanceof PersonRevision);
-
-        return $revision;
     }
 
     final public function addPosition(?Position $position): void

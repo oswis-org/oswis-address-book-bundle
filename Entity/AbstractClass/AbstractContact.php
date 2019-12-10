@@ -18,7 +18,6 @@ use Zakjakub\OswisAddressBookBundle\Entity\ContactNote;
 use Zakjakub\OswisAddressBookBundle\Entity\Organization;
 use Zakjakub\OswisAddressBookBundle\Entity\Person;
 use Zakjakub\OswisAddressBookBundle\Entity\Position;
-use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevisionContainer;
 use Zakjakub\OswisCoreBundle\Entity\AppUser;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\TypeTrait;
@@ -39,7 +38,7 @@ use function in_array;
  * })
  * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
-abstract class AbstractContact extends AbstractRevisionContainer
+abstract class AbstractContact
 {
     public const TYPE_ORGANIZATION = 'organization';
     public const TYPE_PERSON = 'person';
@@ -101,7 +100,7 @@ abstract class AbstractContact extends AbstractRevisionContainer
      *     cascade={"all"},
      *     orphanRemoval=true,
      *     fetch="EAGER"
-     * )activeRevision.event.activeRevision.name
+     * )
      */
     protected ?Collection $imageConnections = null;
 
@@ -698,13 +697,6 @@ abstract class AbstractContact extends AbstractRevisionContainer
     }
 
     abstract public function setFullName(?string $contactName): void;
-
-    /** @noinspection MethodShouldBeFinalInspection */
-    public function updateActiveRevision(): void
-    {
-        parent::updateActiveRevision();
-        $this->updateContactName();
-    }
 
     /**
      * @param $user

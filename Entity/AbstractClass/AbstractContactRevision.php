@@ -2,24 +2,9 @@
 
 namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
 
-use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractRevision;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 
-abstract class AbstractContactRevision extends AbstractRevision
+abstract class AbstractContactRevision
 {
     use BasicEntityTrait;
-
-    /**
-     * @inheritdoc
-     *
-     * @return string
-     */
-    final public function __toString(): string
-    {
-        return $this->getContactName();
-    }
-
-    abstract public function getContactName(): string;
-
-    abstract public function setContactName(?string $fullName): void;
 }
