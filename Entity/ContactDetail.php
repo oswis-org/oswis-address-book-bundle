@@ -25,7 +25,6 @@ class ContactDetail
      * @var ContactDetailType|null $contactType
      * @Doctrine\ORM\Mapping\ManyToOne(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactDetailType",
-     *     inversedBy="contacts",
      *     fetch="EAGER"
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(name="type_id", referencedColumnName="id")
@@ -110,13 +109,7 @@ class ContactDetail
      */
     final public function setContactType(?ContactDetailType $contactType): void
     {
-        if ($this->contactType && $contactType !== $this->contactType) {
-            $this->contactType->removeContact($this);
-        }
         $this->contactType = $contactType;
-        if ($contactType && $this->contactType !== $contactType) {
-            $contactType->addContact($this);
-        }
     }
 
     /**

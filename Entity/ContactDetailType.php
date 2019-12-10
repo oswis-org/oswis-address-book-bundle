@@ -5,8 +5,6 @@ namespace Zakjakub\OswisAddressBookBundle\Entity;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
@@ -81,17 +79,6 @@ class ContactDetailType
     use TypeTrait;
 
     /**
-     * @var Collection|null $contacts Contacts of this type
-     * @Doctrine\ORM\Mapping\OneToMany(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactDetail",
-     *     mappedBy="contactType",
-     *     cascade={"all"},
-     *     orphanRemoval=true
-     * )
-     */
-    protected ?Collection $contacts = null;
-
-    /**
      * @var string|null $contactSchema Schema of type of contact
      * @Doctrine\ORM\Mapping\Column(type="string", nullable=true)
      */
@@ -138,7 +125,6 @@ class ContactDetailType
         ?string $formLabel = null,
         ?string $formHelp = null
     ) {
-        $this->contacts = new ArrayCollection();
         $this->setFieldsFromNameable($nameable);
         $this->setContactSchema($schema);
         $this->setShowInPreview($showInPreview);
@@ -210,29 +196,6 @@ class ContactDetailType
     final public function setShowInPreview(?bool $showInPreview): void
     {
         $this->showInPreview = $showInPreview;
-    }
-
-    final public function addContact(?ContactDetail $contact): void
-    {
-        if ($contact && !$this->contacts->contains($contact)) {
-            $this->contacts->add($contact);
-            $contact->setContactType($this);
-        }
-    }
-
-    final public function removeContact(?ContactDetail $contact): void
-    {
-        if ($contact && $this->contacts->removeElement($contact)) {
-            $contact->setContactType(null);
-        }
-    }
-
-    /**
-     * @return Collection
-     */
-    final public function getContacts(): Collection
-    {
-        return $this->contacts;
     }
 
     final public function getFormatted(string $value, ?string $description): string
