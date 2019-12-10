@@ -12,7 +12,6 @@ use Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBook;
 use Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBookContactConnection;
 use Zakjakub\OswisAddressBookBundle\Entity\ContactAddress;
 use Zakjakub\OswisAddressBookBundle\Entity\ContactDetail;
-use Zakjakub\OswisAddressBookBundle\Entity\ContactImage;
 use Zakjakub\OswisAddressBookBundle\Entity\ContactImageConnection;
 use Zakjakub\OswisAddressBookBundle\Entity\ContactNote;
 use Zakjakub\OswisAddressBookBundle\Entity\Organization;
@@ -67,18 +66,6 @@ abstract class AbstractContact
     public const PERSON_TYPES = [self::TYPE_PERSON];
 
     /**
-     * @var ContactImage|null
-     * @Doctrine\ORM\Mapping\ManyToOne(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactImage",
-     *     cascade={"all"},
-     *     fetch="EAGER"
-     * )
-     * @Doctrine\ORM\Mapping\JoinColumn(nullable=true)
-     * @ApiProperty(iri="http://schema.org/image")
-     */
-    public ?ContactImage $image = null;
-
-    /**
      * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
@@ -94,7 +81,7 @@ abstract class AbstractContact
      * Images of person.
      *
      * @var Collection|null
-     * @Doctrine\ORM\Mapping\OneToMany(
+     * @Doctrine\ORM\Mapping\ManyToMany(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactImageConnection",
      *     cascade={"all"},
      *     orphanRemoval=true,
@@ -175,12 +162,11 @@ abstract class AbstractContact
     /**
      * AbstractContact constructor.
      *
-     * @param string|null       $type
-     * @param Collection|null   $notes
-     * @param Collection|null   $contactDetails
-     * @param Collection|null   $addresses
-     * @param ContactImage|null $image
-     * @param Collection|null   $addressBooks
+     * @param string|null     $type
+     * @param Collection|null $notes
+     * @param Collection|null $contactDetails
+     * @param Collection|null $addresses
+     * @param Collection|null $addressBooks
      *
      * @throws InvalidArgumentException
      */
@@ -189,11 +175,9 @@ abstract class AbstractContact
         ?Collection $notes = null,
         ?Collection $contactDetails = null,
         ?Collection $addresses = null,
-        ?ContactImage $image = null,
         ?Collection $addressBooks = null
     ) {
         $this->imageConnections = new ArrayCollection();
-        $this->image = $image;
         $this->setType($type);
         $this->setNotes($notes);
         $this->setContactDetails($contactDetails);
