@@ -87,7 +87,6 @@ class PersonSkillConnection
      * @Doctrine\ORM\Mapping\ManyToOne(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\PersonSkill",
      *     cascade={"all"},
-     *     inversedBy="personSkillConnections",
      *     fetch="EAGER"
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(name="person_skill_id", referencedColumnName="id")
@@ -107,6 +106,8 @@ class PersonSkillConnection
      * @ORM\Column(type="boolean", nullable=true)
      */
     protected ?bool $publicOnWeb = null;
+
+    protected ?bool $canGiveSkill = null;
 
     /**
      * PersonSkill constructor.
@@ -132,6 +133,22 @@ class PersonSkillConnection
         $this->setNote($note);
         $this->setStartDateTime($startDateTime);
         $this->setEndDateTime($endDateTime);
+    }
+
+    /**
+     * @return bool|null
+     */
+    final public function getCanGiveSkill(): ?bool
+    {
+        return $this->canGiveSkill;
+    }
+
+    /**
+     * @param bool|null $canGiveSkill
+     */
+    final public function setCanGiveSkill(?bool $canGiveSkill): void
+    {
+        $this->canGiveSkill = $canGiveSkill;
     }
 
     /**
@@ -169,13 +186,7 @@ class PersonSkillConnection
      */
     final public function setPersonSkill(?PersonSkill $personSkill): void
     {
-        if ($this->personSkill && $personSkill !== $this->personSkill) {
-            $this->personSkill->removePersonSkillConnection($this);
-        }
         $this->personSkill = $personSkill;
-        if ($personSkill && $this->personSkill !== $personSkill) {
-            $personSkill->addPersonSkillConnection($this);
-        }
     }
 
     /**

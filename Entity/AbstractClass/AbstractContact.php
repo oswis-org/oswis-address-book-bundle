@@ -132,6 +132,24 @@ abstract class AbstractContact
      *
      * @var Collection|null
      * @Doctrine\ORM\Mapping\ManyToMany(
+     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactDetail",
+     *     cascade={"all"},
+     *     orphanRemoval=true,
+     *     fetch="EAGER"
+     * )
+     * @Doctrine\ORM\Mapping\JoinTable(
+     *     name="address_book_contact_detail_connection",
+     *     joinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="contact_detail_id", referencedColumnName="id", unique=true)}
+     * )
+     */
+    protected ?Collection $newContactDetails = null;
+
+    /**
+     * Postal addresses of AbstractContact (Person, Organization).
+     *
+     * @var Collection|null
+     * @Doctrine\ORM\Mapping\ManyToMany(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactAddress",
      *     cascade={"all"},
      *     orphanRemoval=true,
@@ -344,6 +362,16 @@ abstract class AbstractContact
     }
 
     /**
+     * @param ContactDetail|null $contactDetail
+     */
+    final public function addNewContactDetail(?ContactDetail $contactDetail): void
+    {
+        if ($contactDetail) {
+            $this->contactDetails->add($contactDetail);
+        }
+    }
+
+    /**
      * @param ContactImageConnection|null $contactImageConnection
      */
     final public function addImageConnection(?ContactImageConnection $contactImageConnection): void
@@ -417,12 +445,30 @@ abstract class AbstractContact
     }
 
     /**
+     * @return Collection
+     */
+    final public function getNewContactDetails(): Collection
+    {
+        return $this->contactDetails ?? new ArrayCollection();
+    }
+
+    /**
      * @param ContactAddress|null $address
      */
     final public function removeAddress(?ContactAddress $address): void
     {
         if ($address) {
             $this->addresses->removeElement($address);
+        }
+    }
+
+    /**
+     * @param ContactDetail|null $contactDetail
+     */
+    final public function removeNewContactDetail(?ContactDetail $contactDetail): void
+    {
+        if ($contactDetail) {
+            $this->contactDetails->removeElement($contactDetail);
         }
     }
 
@@ -630,10 +676,11 @@ abstract class AbstractContact
         $this->updateContactName();
     }
 
-    final public function updateContactName(): void
+    final public function updateContactName(): string
     {
         $this->contactName = $this->getFullName();
-        $this->sortableName = $this->getSortableContactName();
+
+        return $this->sortableName = $this->getSortableContactName();
     }
 
     abstract public function getFullName(): ?string;

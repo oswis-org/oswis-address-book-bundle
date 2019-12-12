@@ -5,8 +5,6 @@ namespace Zakjakub\OswisAddressBookBundle\Entity;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
 use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
@@ -74,72 +72,8 @@ class PersonSkill
      */
     protected ?bool $connectionsUserEditable = null;
 
-    /**
-     * Connections to persons.
-     * @var Collection|null $positions
-     * @Doctrine\ORM\Mapping\OneToMany(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\PersonSkillConnection",
-     *     mappedBy="personSkill",
-     *     cascade={"all"},
-     *     orphanRemoval=true
-     * )
-     */
-    private ?Collection $personSkillConnections = null;
-
-    /**
-     * Position constructor.
-     *
-     * @param Nameable|null   $nameable
-     * @param Collection|null $personSkillConnections
-     */
-    public function __construct(
-        ?Nameable $nameable = null,
-        ?Collection $personSkillConnections = null
-    ) {
+    public function __construct(?Nameable $nameable = null)
+    {
         $this->setFieldsFromNameable($nameable);
-        $this->setPersonSkillConnections($personSkillConnections);
-    }
-
-    final public function setPersonSkillConnections(?Collection $newPersonSkillConnections): void
-    {
-        if (!$this->personSkillConnections) {
-            $this->personSkillConnections = new ArrayCollection();
-        }
-        if (!$newPersonSkillConnections) {
-            $newPersonSkillConnections = new ArrayCollection();
-        }
-        foreach ($this->personSkillConnections as $oldPersonSkillConnection) {
-            if (!$newPersonSkillConnections->contains($oldPersonSkillConnection)) {
-                $this->personSkillConnections->removeElement($oldPersonSkillConnection);
-            }
-        }
-        if ($newPersonSkillConnections) {
-            foreach ($newPersonSkillConnections as $newPersonSkillConnection) {
-                if (!$this->personSkillConnections->contains($newPersonSkillConnection)) {
-                    $this->addPersonSkillConnection($newPersonSkillConnection);
-                }
-            }
-        }
-    }
-
-    final public function addPersonSkillConnection(?PersonSkillConnection $personSkillConnection): void
-    {
-        if (!$personSkillConnection) {
-            return;
-        }
-        if (!$this->personSkillConnections->contains($personSkillConnection)) {
-            $this->personSkillConnections->add($personSkillConnection);
-            $personSkillConnection->setPersonSkill($this);
-        }
-    }
-
-    final public function removePersonSkillConnection(?PersonSkillConnection $personSkillConnection): void
-    {
-        if (!$personSkillConnection) {
-            return;
-        }
-        if ($this->personSkillConnections->removeElement($personSkillConnection)) {
-            $personSkillConnection->setPersonSkill(null);
-        }
     }
 }

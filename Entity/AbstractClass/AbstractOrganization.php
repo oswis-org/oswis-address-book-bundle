@@ -53,6 +53,9 @@ abstract class AbstractOrganization extends AbstractContact
 
     final public function destroyRevisions(): void
     {
+        foreach ($this->getContactDetails() as $contactDetail) {
+            $this->addNewContactDetail($contactDetail);
+        }
 //        try {
 //            $actualRevision = $this->getRevisionByDate();
 //            assert($actualRevision instanceof OrganizationRevision);
