@@ -8,14 +8,10 @@ use function assert;
 
 class AbstractContactManager
 {
-    /**
-     * @var EntityManagerInterface
-     */
     protected EntityManagerInterface $em;
 
-    public function __construct(
-        EntityManagerInterface $em
-    ) {
+    public function __construct(EntityManagerInterface $em)
+    {
         $this->em = $em;
     }
 

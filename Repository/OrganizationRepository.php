@@ -9,14 +9,11 @@ class OrganizationRepository extends EntityRepository
 {
     final public function getFacultiesOfUniversity(?string $universitySlug = null): array
     {
+        $qb = $this->createQueryBuilder('o')->where('o.type = faculty');
         if ($universitySlug) {
-            // Returning faculties of one university defined by slug.
-            return $this->createQueryBuilder('organization')->where('organization.type = :faculty')->andWhere('organization.parent.type = :university')->andWhere(
-                'organization.parent.slug = :slug'
-            )->setParameter('faculty', 'faculty')->setParameter('university', 'university')->setParameter('slug', $universitySlug)->getQuery()->execute([], Query::HYDRATE_OBJECT);
+            $qb->andWhere('o.parent.type = university')->andWhere('o.parent.slug = :slug')->setParameter('slug', $universitySlug);
         }
 
-        // Returning faculties of one university defined by slug.
-        return $this->createQueryBuilder('organization')->where('organization.type = :type')->setParameter('type', 'faculty')->getQuery()->execute([], Query::HYDRATE_OBJECT);
+        return $qb->getQuery()->execute([], Query::HYDRATE_OBJECT);
     }
 }

@@ -9,7 +9,6 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractOrganization;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
 use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
@@ -103,24 +102,12 @@ class Organization extends AbstractOrganization
         ?Collection $notes = null,
         ?Collection $addressBooks = null
     ) {
-        parent::__construct(
-            $nameable,
-            $identificationNumber,
-            $color,
-            $type,
-            $notes,
-            $contactDetails,
-            $addresses,
-            $addressBooks
-        );
+        parent::__construct($nameable, $identificationNumber, $color, $type, $notes, $contactDetails, $addresses, $addressBooks);
         $this->positions = new ArrayCollection();
         $this->subOrganizations = new ArrayCollection();
         $this->setParentOrganization($parentOrganization);
     }
 
-    /**
-     * @param Position|null $position
-     */
     final public function addPosition(?Position $position): void
     {
         if ($position && !$this->positions->contains($position)) {
@@ -129,9 +116,6 @@ class Organization extends AbstractOrganization
         }
     }
 
-    /**
-     * @param Position|null $position
-     */
     final public function removePosition(?Position $position): void
     {
         if ($position && $this->positions->removeElement($position)) {
@@ -156,7 +140,7 @@ class Organization extends AbstractOrganization
     }
 
     /**
-     * Returns positions marked as study (student,
+     * Returns positions marked as study.
      *
      * @param DateTime|null $referenceDateTime
      *
@@ -168,7 +152,7 @@ class Organization extends AbstractOrganization
             return new ArrayCollection();
         }
 
-        return $this->getPositions($referenceDateTime)->filter(fn(Position $position) => $position->isStudy());
+        return $this->getPositions($referenceDateTime)->filter(fn(Position $position): bool => $position->isStudy());
     }
 
     /**
@@ -180,23 +164,17 @@ class Organization extends AbstractOrganization
      */
     final public function getPositions(?DateTime $referenceDateTime = null): Collection
     {
-        if ($referenceDateTime) {
-            return $this->positions->filter(fn(Position $position) => $position->containsDateTimeInRange($referenceDateTime));
-        }
+        $positions = $this->positions ?? new ArrayCollection();
 
-        return $this->positions ?? new ArrayCollection();
+        return $referenceDateTime ? $positions->filter(fn(Position $p): bool => $p->containsDateTimeInRange($referenceDateTime)) : $positions;
     }
 
-    final public function getContactPersons(?DateTime $referenceDateTime = null, bool $onlyWithActivatedUser = false): Collection
+    final public function getContactPersons(?DateTime $dateTime = null, bool $onlyWithActivatedUser = false): Collection
     {
-        return $this->getPositions($referenceDateTime ?? new DateTime())->filter(
-            static function (Position $pos) use ($onlyWithActivatedUser) {
-                if ($onlyWithActivatedUser && (!$pos->getPerson() || !$pos->getPerson()->getAppUser() || !$pos->getPerson()->getAppUser()->getAccountActivationDateTime())) {
-                    return false;
-                }
+        $onAc = $onlyWithActivatedUser;
 
-                return $pos->getIsContactPerson();
-            }
+        return $this->getPositions($dateTime ?? new DateTime())->filter(
+            fn(Position $p) => ($onAc && (!$p->getPerson() || !$p->getPerson()->getAppUser() || !$p->getPerson()->getAppUser()->getAccountActivationDateTime())) ? false : $p->getIsContactPerson()
         );
     }
 
@@ -205,9 +183,7 @@ class Organization extends AbstractOrganization
      */
     final public function getAllStudents(): Collection
     {
-        return !$this->isSchool() ? new ArrayCollection() : $this->getAllStudies()->map(
-            fn(Position $position) => $position->isStudy() && $position->getPerson() ? $position->getPerson() : null
-        )->filter(fn(AbstractContact $contact) => $contact);
+        return $this->getAllStudies()->map(fn(Position $position): ?Person => $position->isStudy() && $position->getPerson() ? $position->getPerson() : null);
     }
 
     /**
@@ -242,7 +218,7 @@ class Organization extends AbstractOrganization
      */
     final public function getAllEmployees(): Collection
     {
-        return $this->getAllStudies()->map(fn(Position $position) => $position->getPerson());
+        return $this->getAllEmployeesPositions()->map(fn(Position $position) => $position->getPerson());
     }
 
     final public function getAllEmployeesPositions(): Collection
@@ -261,7 +237,7 @@ class Organization extends AbstractOrganization
      */
     final public function getDirectEmployeesPositions(): Collection
     {
-        return $this->filterPositionsByType('employee');
+        return $this->filterPositionsByType('employee'); // TODO: Probably bug here.
     }
 
     /**
@@ -287,9 +263,6 @@ class Organization extends AbstractOrganization
      */
     final public function addSubOrganization(?Organization $organization): void
     {
-        if (!$organization) {
-            return;
-        }
         if ($organization && !$this->subOrganizations->contains($organization)) {
             $this->subOrganizations->add($organization);
             $organization->setParentOrganization($this);
@@ -309,7 +282,7 @@ class Organization extends AbstractOrganization
     }
 
     /**
-     * @return Collection Get employees of this Organization and departments (without sub organizations)
+     * @return Collection Get employees of this Organization and departments (without sub organizations).
      */
     final public function getEmployees(): Collection
     {
@@ -323,11 +296,11 @@ class Organization extends AbstractOrganization
     }
 
     /**
-     * @return Collection Get employees of this Organization (without sub organizations, without departments)
+     * @return Collection Get employees of this Organization (without sub organizations, without departments).
      */
     final public function getDirectEmployees(): Collection
     {
-        return $this->getDirectEmployeesPositions()->map(fn(Position $position) => $position->getPerson());
+        return $this->getDirectEmployeesPositions()->map(fn(Position $position): Person => $position->getPerson());
     }
 
     /**
@@ -345,7 +318,7 @@ class Organization extends AbstractOrganization
      */
     final public function filterSubOrganizationsByType(string $type): Collection
     {
-        return $this->getSubOrganizations()->filter(fn(Organization $organization) => $type === $organization->getType());
+        return $this->getSubOrganizations()->filter(fn(Organization $organization): bool => $type === $organization->getType());
     }
 
     /**
@@ -385,14 +358,6 @@ class Organization extends AbstractOrganization
 
     final public function getIdentificationNumberFromParents(): ?string
     {
-        if ($this->getParentOrganization()) {
-            if ($this->getParentOrganization()->getIdentificationNumber()) {
-                return $this->getParentOrganization()->getIdentificationNumber();
-            }
-
-            return $this->getParentOrganization()->getIdentificationNumberFromParents();
-        }
-
-        return $this->getIdentificationNumber();
+        return $this->getIdentificationNumber() ?? ($this->getParentOrganization() ? $this->getParentOrganization()->getIdentificationNumberFromParents() : null) ?? null;
     }
 }

@@ -10,20 +10,12 @@ use Zakjakub\OswisCoreBundle\Entity\Nameable;
 
 class ContactDetailTypeManager
 {
-    /**
-     * @var EntityManagerInterface
-     */
     protected EntityManagerInterface $em;
 
-    /**
-     * @var LoggerInterface|null
-     */
     protected ?LoggerInterface $logger;
 
-    public function __construct(
-        EntityManagerInterface $em,
-        ?LoggerInterface $logger = null
-    ) {
+    public function __construct(EntityManagerInterface $em, ?LoggerInterface $logger = null)
+    {
         $this->em = $em;
         $this->logger = $logger;
     }
@@ -37,12 +29,9 @@ class ContactDetailTypeManager
         ?string $formHelp = null
     ): ContactDetailType {
         try {
-            $em = $this->em;
-            $entity = new ContactDetailType(
-                $nameable, $schema, $showInPreview, $type, $formLabel, $formHelp
-            );
-            $em->persist($entity);
-            $em->flush();
+            $entity = new ContactDetailType($nameable, $schema, $showInPreview, $type, $formLabel, $formHelp);
+            $this->em->persist($entity);
+            $this->em->flush();
             $infoMessage = 'Created contact detail type: '.$entity->getId().' '.$entity->getName().'.';
             $this->logger ? $this->logger->info($infoMessage) : null;
 

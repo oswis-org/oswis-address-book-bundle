@@ -37,16 +37,8 @@ class ContactDetail
      */
     private ?string $content = null;
 
-    /**
-     * ContactDetail constructor.
-     *
-     * @param ContactDetailType|null $contactType
-     * @param string|null            $content
-     */
-    public function __construct(
-        ?ContactDetailType $contactType = null,
-        ?string $content = null
-    ) {
+    public function __construct(?ContactDetailType $contactType = null, ?string $content = null)
+    {
         $this->setContactType($contactType);
         $this->setContent($content);
     }

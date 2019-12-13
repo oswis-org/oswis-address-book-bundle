@@ -198,10 +198,16 @@ class ContactDetailType
         $this->showInPreview = $showInPreview;
     }
 
+    /**
+     * @param string      $value
+     * @param string|null $description
+     *
+     * @return string
+     * @noinspection UnknownInspectionInspection
+     * @noinspection HtmlUnknownTag
+     */
     final public function getFormatted(string $value, ?string $description): string
     {
-        /** @noinspection UnknownInspectionInspection */
-        /** @noinspection HtmlUnknownTag */
         return strtr($this->getContactSchema(), array('$<value>' => $value, '$<description>' => $description));
     }
 

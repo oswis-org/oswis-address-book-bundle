@@ -11,20 +11,12 @@ use Zakjakub\OswisCoreBundle\Entity\Nameable;
 
 class OrganizationManager
 {
-    /**
-     * @var EntityManagerInterface
-     */
     protected EntityManagerInterface $em;
 
-    /**
-     * @var LoggerInterface|null
-     */
     protected ?LoggerInterface $logger;
 
-    public function __construct(
-        EntityManagerInterface $em,
-        ?LoggerInterface $logger = null
-    ) {
+    public function __construct(EntityManagerInterface $em, ?LoggerInterface $logger = null)
+    {
         $this->em = $em;
         $this->logger = $logger;
     }
@@ -40,12 +32,9 @@ class OrganizationManager
         ?Collection $notes = null
     ): Organization {
         try {
-            $em = $this->em;
-            $entity = new Organization(
-                $nameable, $identificationNumber, $parentOrganization, $color, $type, $addresses, $contactDetails, $notes
-            );
-            $em->persist($entity);
-            $em->flush();
+            $entity = new Organization($nameable, $identificationNumber, $parentOrganization, $color, $type, $addresses, $contactDetails, $notes);
+            $this->em->persist($entity);
+            $this->em->flush();
             $infoMessage = 'Created organization: '.$entity->getId().' '.$entity->getName().'.';
             $this->logger ? $this->logger->info($infoMessage) : null;
 
@@ -59,10 +48,8 @@ class OrganizationManager
 
     final public function updateActiveRevisions(): void
     {
-        $organizations = $this->em->getRepository(Organization::class)->findAll();
-        foreach ($organizations as $organization) {
+        foreach ($this->em->getRepository(Organization::class)->findAll() as $organization) {
             assert($organization instanceof Organization);
-            // $organization->updateActiveRevision();
             $organization->destroyRevisions();
             $this->em->persist($organization);
         }

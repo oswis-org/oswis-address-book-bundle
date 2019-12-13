@@ -76,13 +76,11 @@ class Position
 
     /**
      * True if person is intended for receiving messages about organization.
-     * @var bool|null
      */
     protected ?bool $isContactPerson = null;
 
     /**
      * Person in this position.
-     * @var Person|null $person
      * @Doctrine\ORM\Mapping\ManyToOne(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Person",
      *     cascade={"all"},
@@ -95,7 +93,6 @@ class Position
 
     /**
      * Organization of this position.
-     * @var Organization|null $organization
      * @Doctrine\ORM\Mapping\ManyToOne(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Organization",
      *     cascade={"all"},
@@ -149,8 +146,6 @@ class Position
 
     /**
      * Get organization of this position.
-     *
-     * @return string
      */
     final public function getEmployerString(): string
     {
@@ -159,7 +154,6 @@ class Position
 
     /**
      * Get person of this position.
-     * @return string
      */
     final public function getEmployeeString(): string
     {
@@ -180,17 +174,11 @@ class Position
         // }
     }
 
-    /**
-     * @return Person
-     */
     final public function getPerson(): ?Person
     {
         return $this->person;
     }
 
-    /**
-     * @param Person $person
-     */
     final public function setPerson(?Person $person): void
     {
         if ($this->person && $person !== $this->person) {
@@ -202,17 +190,11 @@ class Position
         }
     }
 
-    /**
-     * @return Organization
-     */
     final public function getOrganization(): ?Organization
     {
         return $this->organization;
     }
 
-    /**
-     * @param Organization $organization
-     */
     final public function setOrganization(?Organization $organization): void
     {
         // if (null != $this->department) {

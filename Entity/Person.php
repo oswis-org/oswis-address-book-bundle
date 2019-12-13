@@ -8,7 +8,6 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Exception;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractPerson;
 use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
 use function assert;
@@ -89,23 +88,6 @@ class Person extends AbstractPerson
      */
     private ?Collection $personSkillConnections = null;
 
-    /**
-     * Person constructor.
-     *
-     * @param string|null     $fullName
-     * @param string|null     $description
-     * @param DateTime|null   $birthDate
-     * @param string|null     $type
-     * @param Collection|null $notes
-     * @param Collection|null $contactDetails
-     * @param Collection|null $addresses
-     * @param Collection|null $positions
-     * @param Collection|null $personSkillConnections
-     *
-     * @param Collection|null $addressBooks
-     *
-     * @throws Exception
-     */
     public function __construct(
         ?string $fullName = null,
         ?string $description = null,
@@ -125,10 +107,7 @@ class Person extends AbstractPerson
 
     final public function addPosition(?Position $position): void
     {
-        if (!$position) {
-            return;
-        }
-        if (!$this->positions->contains($position)) {
+        if ($position && !$this->positions->contains($position)) {
             $this->positions->add($position);
             $position->setPerson($this);
         }
@@ -166,22 +145,15 @@ class Person extends AbstractPerson
         $output = '';
         foreach ($this->getPositions() as $position) {
             assert($position instanceof Position);
-            if ($output !== '') {
-                $output .= ', ';
-            }
-            $output .= $position->getEmployerString();
+            $output .= (!empty($output) ? ', ' : null).$position->getEmployerString();
         }
-        $output = preg_replace('/[,]+/', ',', $output);
-        $output = trim($output);
-        $output = rtrim($output, ',');
-        $output = preg_replace('!\s+!', ' ', $output);
 
-        return $output;
+        return preg_replace('!\s+!', ' ', rtrim(trim(preg_replace('/[,]+/', ',', $output)), ','));
     }
 
     final public function getPositions(): Collection
     {
-        return $this->positions;
+        return $this->positions ?? new ArrayCollection();
     }
 
     final public function setPositions(?Collection $newPositions): void

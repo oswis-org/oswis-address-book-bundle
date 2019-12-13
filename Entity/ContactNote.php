@@ -28,39 +28,22 @@ class ContactNote
      */
     private ?string $content = null;
 
-    /**
-     * ContactNote constructor.
-     *
-     * @param string|null $content
-     * @param bool|null   $public
-     */
-    public function __construct(
-        ?string $content = null,
-        ?bool $public = null
-    ) {
+    public function __construct(?string $content = null, ?bool $public = null)
+    {
         $this->setContent($content);
         $this->setPublic($public);
     }
 
-    /**
-     * @return bool|null
-     */
     final public function getPublic(): ?bool
     {
         return $this->public;
     }
 
-    /**
-     * @param bool|null $public
-     */
     final public function setPublic(?bool $public): void
     {
         $this->public = $public;
     }
 
-    /**
-     * @return bool|null
-     */
     final public function isPublic(): ?bool
     {
         return $this->public;
@@ -71,17 +54,11 @@ class ContactNote
         return $this->getContent() ?? '';
     }
 
-    /**
-     * @return string
-     */
     final public function getContent(): ?string
     {
         return $this->content;
     }
 
-    /**
-     * @param string $content
-     */
     final public function setContent(?string $content): void
     {
         $this->content = $content;

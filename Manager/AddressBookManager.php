@@ -10,34 +10,22 @@ use Zakjakub\OswisCoreBundle\Entity\Nameable;
 
 class AddressBookManager
 {
-    /**
-     * @var EntityManagerInterface
-     */
     protected EntityManagerInterface $em;
 
-    /**
-     * @var LoggerInterface|null
-     */
     protected ?LoggerInterface $logger;
 
-    public function __construct(
-        EntityManagerInterface $em,
-        ?LoggerInterface $logger = null
-    ) {
+    public function __construct(EntityManagerInterface $em, ?LoggerInterface $logger = null)
+    {
         $this->em = $em;
         $this->logger = $logger;
     }
 
-    final public function create(
-        ?Nameable $nameable = null
-    ): AddressBook {
+    final public function create(?Nameable $nameable = null): AddressBook
+    {
         try {
-            $em = $this->em;
-            $entity = new AddressBook(
-                $nameable
-            );
-            $em->persist($entity);
-            $em->flush();
+            $entity = new AddressBook($nameable);
+            $this->em->persist($entity);
+            $this->em->flush();
             $infoMessage = 'Created address book (by manager): '.$entity->getId().', '.$entity->getName().'.';
             $this->logger ? $this->logger->info($infoMessage) : null;
 
@@ -51,10 +39,8 @@ class AddressBookManager
 
     final public function updateActiveRevisions(): void
     {
-        $addressBooks = $this->em->getRepository(AddressBook::class)->findAll();
-        foreach ($addressBooks as $addressBook) {
+        foreach ($this->em->getRepository(AddressBook::class)->findAll() as $addressBook) {
             assert($addressBook instanceof AddressBook);
-            // $addressBook->updateActiveRevision();
             $addressBook->destroyRevisions();
             $this->em->persist($addressBook);
         }

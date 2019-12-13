@@ -85,66 +85,38 @@ class ContactImageConnection
      */
     private ?bool $isProfilePhoto = null;
 
-    /**
-     * ContactImageConnection constructor.
-     *
-     * @param ContactImage|null $contactImage
-     * @param bool|null         $isProfilePhoto
-     * @param bool|null         $isPublicOnWebsite
-     */
-    public function __construct(
-        ?ContactImage $contactImage = null,
-        ?bool $isProfilePhoto = null,
-        ?bool $isPublicOnWebsite = null
-    ) {
+    public function __construct(?ContactImage $contactImage = null, ?bool $isProfilePhoto = null, ?bool $isPublicOnWebsite = null)
+    {
         $this->setContactImage($contactImage);
         $this->setIsProfilePhoto($isProfilePhoto);
         $this->setIsPublicOnWebsite($isPublicOnWebsite);
     }
 
-    /**
-     * @return bool|null
-     */
     final public function getIsPublicOnWebsite(): ?bool
     {
         return $this->isPublicOnWebsite;
     }
 
-    /**
-     * @param bool|null $isPublicOnWebsite
-     */
     final public function setIsPublicOnWebsite(?bool $isPublicOnWebsite): void
     {
         $this->isPublicOnWebsite = $isPublicOnWebsite;
     }
 
-    /**
-     * @return bool|null
-     */
     final public function getIsProfilePhoto(): ?bool
     {
         return $this->isProfilePhoto;
     }
 
-    /**
-     * @param bool|null $isProfilePhoto
-     */
     final public function setIsProfilePhoto(?bool $isProfilePhoto): void
     {
         $this->isProfilePhoto = $isProfilePhoto;
     }
 
-    /**
-     * @return ContactImage
-     */
     final public function getContactImage(): ?ContactImage
     {
         return $this->contactImage;
     }
 
-    /**
-     * @param ContactImage|null $contactImage
-     */
     final public function setContactImage(?ContactImage $contactImage): void
     {
         $this->contactImage = $contactImage;

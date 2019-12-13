@@ -15,8 +15,7 @@ class Configuration implements ConfigurationInterface
     final public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('zakjakub_oswis_address_book');
-        $rootNode = $treeBuilder->getRootNode();
-        $rootNode->info('Default configuration for address book module for OSWIS (One Simple Web IS).')->children()->end()->end();
+        $treeBuilder->getRootNode()->info('Default configuration for address book module for OSWIS (One Simple Web IS).')->children()->end()->end();
 
         return $treeBuilder;
     }

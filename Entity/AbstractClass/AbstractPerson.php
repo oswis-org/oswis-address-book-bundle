@@ -34,18 +34,6 @@ abstract class AbstractPerson extends AbstractContact
 
     final public function destroyRevisions(): void
     {
-//        try {
-//            $actualRevision = $this->getRevisionByDate();
-//            assert($actualRevision instanceof PersonRevision);
-//            $this->setFullName($actualRevision->getFullName());
-//            $this->setDescription($actualRevision->getDescription());
-//            $this->setBirthDate($actualRevision->getBirthDate());
-//            foreach ($this->getRevisions() as $revision) {
-//                $this->removeRevision($revision);
-//            }
-//            $this->setActiveRevision(null);
-//        } catch (Exception $e) {
-//        }
     }
 
 }

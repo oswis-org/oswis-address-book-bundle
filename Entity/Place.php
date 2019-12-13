@@ -103,19 +103,6 @@ class Place
      */
     protected ?Collection $subPlaces = null;
 
-    /**
-     * Place constructor.
-     *
-     * @param Nameable|null $nameable
-     * @param Address|null  $address
-     * @param Place|null    $parentPlace
-     * @param int|null      $floorNumber
-     * @param int|null      $roomNumber
-     * @param string|null   $url
-     * @param float|null    $geoLatitude
-     * @param float|null    $geoLongitude
-     * @param int|null      $geoElevation
-     */
     public function __construct(
         ?Nameable $nameable = null,
         ?Address $address = null,
@@ -139,9 +126,6 @@ class Place
         $this->setGeoElevation($geoElevation);
     }
 
-    /**
-     * @return Collection
-     */
     final public function getSubPlaces(): Collection
     {
         return $this->subPlaces ?? new ArrayCollection();
@@ -165,10 +149,7 @@ class Place
 
     final public function removeSubPlace(?Place $event): void
     {
-        if (!$event) {
-            return;
-        }
-        if ($this->subPlaces->removeElement($event)) {
+        if ($event && $this->subPlaces->removeElement($event)) {
             $event->setParentPlace(null);
         }
     }

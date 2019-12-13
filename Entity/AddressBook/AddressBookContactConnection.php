@@ -36,10 +36,8 @@ class AddressBookContactConnection
      */
     protected ?AddressBook $addressBook = null;
 
-    public function __construct(
-        ?AddressBook $addressBook = null,
-        ?AbstractContact $contact = null
-    ) {
+    public function __construct(?AddressBook $addressBook = null, ?AbstractContact $contact = null)
+    {
         $this->setAddressBook($addressBook);
         $this->setContact($contact);
     }
@@ -70,8 +68,8 @@ class AddressBookContactConnection
         if ($this->contact && $contact !== $this->contact) {
             $this->contact->removeAddressBookContactConnection($this);
         }
+        $this->contact = $contact;
         if ($contact && $this->contact !== $contact) {
-            $this->contact = $contact;
             $contact->addAddressBookContactConnection($this);
         }
     }

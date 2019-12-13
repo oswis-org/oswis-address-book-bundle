@@ -8,9 +8,6 @@ use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractImage;
 
 final class ContactImageAction extends AbstractImageAction
 {
-    /**
-     * @return string
-     */
     public static function getImageClassName(): string
     {
         return ContactImage::class;

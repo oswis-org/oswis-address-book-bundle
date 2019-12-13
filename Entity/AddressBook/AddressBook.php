@@ -31,17 +31,16 @@ class AddressBook
      */
     protected ?Collection $addressBookContactConnections = null;
 
-    public function __construct(
-        ?Nameable $nameable = null
-    ) {
-        $this->setFieldsFromNameable($nameable);
+    public function __construct(?Nameable $nameable = null)
+    {
         $this->addressBookContactConnections = new ArrayCollection();
+        $this->setFieldsFromNameable($nameable);
     }
 
 
     final public function addContact(AbstractContact $contact): void
     {
-        if (!$this->containsContact($contact)) {
+        if ($contact && !$this->containsContact($contact)) {
             $this->addAddressBookContactConnection(new AddressBookContactConnection(null, $contact));
         }
     }
@@ -54,7 +53,7 @@ class AddressBook
     final public function getContacts(): Collection
     {
         return $this->getAddressBookContactConnections()->map(
-            fn(AddressBookContactConnection $addressBookContactConnection) => $addressBookContactConnection->getContact()
+            fn(AddressBookContactConnection $addressBookContactConnection): AbstractContact => $addressBookContactConnection->getContact()
         );
     }
 
@@ -65,31 +64,23 @@ class AddressBook
 
     final public function setAddressBookContactConnections(?Collection $newAddressBookContactConnections): void
     {
-        if (!$this->addressBookContactConnections) {
-            $this->addressBookContactConnections = new ArrayCollection();
-        }
-        if (!$newAddressBookContactConnections) {
-            $newAddressBookContactConnections = new ArrayCollection();
-        }
+        $this->addressBookContactConnections ??= new ArrayCollection();
+        $newAddressBookContactConnections ??= new ArrayCollection();
         foreach ($this->addressBookContactConnections as $oldAddressBookContactConnection) {
             if (!$newAddressBookContactConnections->contains($oldAddressBookContactConnection)) {
                 $this->removeAddressBookContactConnection($oldAddressBookContactConnection);
             }
         }
-        if ($newAddressBookContactConnections) {
-            foreach ($newAddressBookContactConnections as $newAddressBookContactConnection) {
-                if (!$this->addressBookContactConnections->contains($newAddressBookContactConnection)) {
-                    $this->addAddressBookContactConnection($newAddressBookContactConnection);
-                }
+        foreach ($newAddressBookContactConnections as $newAddressBookContactConnection) {
+            if (!$this->addressBookContactConnections->contains($newAddressBookContactConnection)) {
+                $this->addAddressBookContactConnection($newAddressBookContactConnection);
             }
         }
     }
 
     final public function addAddressBookContactConnection(?AddressBookContactConnection $addressBookContactConnection): void
     {
-        if (!$this->addressBookContactConnections) {
-            $this->addressBookContactConnections = new ArrayCollection();
-        }
+        $this->addressBookContactConnections ??= new ArrayCollection();
         if ($addressBookContactConnection && !$this->addressBookContactConnections->contains($addressBookContactConnection)) {
             $this->addressBookContactConnections->add($addressBookContactConnection);
             $addressBookContactConnection->setAddressBook($this);
@@ -98,10 +89,7 @@ class AddressBook
 
     final public function removeAddressBookContactConnection(?AddressBookContactConnection $addressBookContactConnection): void
     {
-        if (!$addressBookContactConnection) {
-            return;
-        }
-        if ($this->addressBookContactConnections->removeElement($addressBookContactConnection)) {
+        if ($addressBookContactConnection && $this->addressBookContactConnections->removeElement($addressBookContactConnection)) {
             $addressBookContactConnection->setAddressBook(null);
         }
     }
@@ -110,7 +98,7 @@ class AddressBook
     {
         foreach ($this->getAddressBookContactConnections() as $addressBookContactConnection) {
             assert($addressBookContactConnection instanceof AddressBookContactConnection);
-            if ($contact->getId() === $addressBookContactConnection->getId()) {
+            if ($addressBookContactConnection->getContact() && $contact->getId() === $addressBookContactConnection->getContact()->getId()) {
                 $this->removeAddressBookContactConnection($addressBookContactConnection);
             }
         }
@@ -118,14 +106,5 @@ class AddressBook
 
     final public function destroyRevisions(): void
     {
-//        try {
-//            $this->setFieldsFromNameable($this->getRevisionByDate()->getNameable());
-//            foreach ($this->getRevisions() as $revision) {
-//                $this->removeRevision($revision);
-//            }
-//            $this->setActiveRevision(null);
-//        } catch (RevisionMissingException $e) {
-//        }
     }
-
 }

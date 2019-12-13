@@ -60,14 +60,12 @@ class PersonSkill
     use NameableBasicTrait;
 
     /**
-     * @var boolean|null
      * @ORM\Column(type="boolean", nullable=true)
      */
     protected ?bool $publicOnWebDefault = null;
 
     /**
      * Can user edit connections with this skill?
-     * @var boolean|null
      * @ORM\Column(type="boolean", nullable=true)
      */
     protected ?bool $connectionsUserEditable = null;

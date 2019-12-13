@@ -107,18 +107,13 @@ class PersonSkillConnection
      */
     protected ?bool $publicOnWeb = null;
 
+    /**
+     * Can give skill to other person?
+     * @var boolean|null
+     * @ORM\Column(type="boolean", nullable=true)
+     */
     protected ?bool $canGiveSkill = null;
 
-    /**
-     * PersonSkill constructor.
-     *
-     * @param Person|null      $person
-     * @param PersonSkill|null $personSkill
-     * @param int|null         $level
-     * @param string|null      $note
-     * @param DateTime|null    $startDateTime
-     * @param DateTime|null    $endDateTime
-     */
     public function __construct(
         ?Person $person = null,
         ?PersonSkill $personSkill = null,
@@ -151,9 +146,6 @@ class PersonSkillConnection
         $this->canGiveSkill = $canGiveSkill;
     }
 
-    /**
-     * @return Person
-     */
     final public function getPerson(): ?Person
     {
         return $this->person;
@@ -173,49 +165,31 @@ class PersonSkillConnection
         }
     }
 
-    /**
-     * @return PersonSkill
-     */
     final public function getPersonSkill(): ?PersonSkill
     {
         return $this->personSkill;
     }
 
-    /**
-     * @param PersonSkill|null $personSkill
-     */
     final public function setPersonSkill(?PersonSkill $personSkill): void
     {
         $this->personSkill = $personSkill;
     }
 
-    /**
-     * @return int|null
-     */
     final public function getLevel(): ?int
     {
         return $this->level;
     }
 
-    /**
-     * @param int|null $level
-     */
     final public function setLevel(?int $level): void
     {
         $this->level = $level;
     }
 
-    /**
-     * @return bool
-     */
     final public function isPublicOnWeb(): bool
     {
         return $this->publicOnWeb;
     }
 
-    /**
-     * @param bool $publicOnWeb
-     */
     final public function setPublicOnWeb(bool $publicOnWeb): void
     {
         $this->publicOnWeb = $publicOnWeb;

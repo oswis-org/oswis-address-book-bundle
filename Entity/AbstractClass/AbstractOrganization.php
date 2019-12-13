@@ -3,7 +3,6 @@
 namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
 
 use Doctrine\Common\Collections\Collection;
-use Exception;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
 use Zakjakub\OswisCoreBundle\Traits\Entity\ColorTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\IdentificationNumberTrait;
@@ -53,27 +52,11 @@ abstract class AbstractOrganization extends AbstractContact
 
     final public function destroyRevisions(): void
     {
-//        try {
-//            $actualRevision = $this->getRevisionByDate();
-//            assert($actualRevision instanceof OrganizationRevision);
-//            $this->setFieldsFromNameable($actualRevision->getNameable());
-//            $this->setIdentificationNumber($actualRevision->getIdentificationNumber());
-//            $this->setColor($actualRevision->getColor());
-//            foreach ($this->getRevisions() as $revision) {
-//                $this->removeRevision($revision);
-//            }
-//            $this->setActiveRevision(null);
-//        } catch (Exception $e) {
-//        }
     }
 
     final public function setFullName(?string $fullName): void
     {
-        try {
-            $this->setName($fullName);
-        } catch (Exception $e) {
-            return;
-        }
+        $this->setName($fullName);
     }
 
     final public function getFullName(): ?string
