@@ -367,7 +367,7 @@ abstract class AbstractContact
     final public function addNewContactDetail(?ContactDetail $contactDetail): void
     {
         if ($contactDetail) {
-            $this->contactDetails->add($contactDetail);
+            $this->newContactDetails->add($contactDetail);
         }
     }
 
@@ -449,7 +449,7 @@ abstract class AbstractContact
      */
     final public function getNewContactDetails(): Collection
     {
-        return $this->contactDetails ?? new ArrayCollection();
+        return $this->newContactDetails ?? new ArrayCollection();
     }
 
     /**
@@ -468,7 +468,7 @@ abstract class AbstractContact
     final public function removeNewContactDetail(?ContactDetail $contactDetail): void
     {
         if ($contactDetail) {
-            $this->contactDetails->removeElement($contactDetail);
+            $this->newContactDetails->removeElement($contactDetail);
         }
     }
 
