@@ -136,10 +136,7 @@ class Person extends AbstractPerson
 
     final public function removePosition(?Position $position): void
     {
-        if (!$position) {
-            return;
-        }
-        if ($this->positions->removeElement($position)) {
+        if ($position && $this->positions->removeElement($position)) {
             $position->setOrganization(null);
             $position->setPerson(null);
         }
@@ -147,10 +144,7 @@ class Person extends AbstractPerson
 
     final public function addPersonSkillConnection(?PersonSkillConnection $personSkillConnection): void
     {
-        if (!$personSkillConnection) {
-            return;
-        }
-        if (!$this->personSkillConnections->contains($personSkillConnection)) {
+        if ($personSkillConnection && !$this->personSkillConnections->contains($personSkillConnection)) {
             $this->personSkillConnections->add($personSkillConnection);
             $personSkillConnection->setPerson($this);
         }
@@ -158,10 +152,7 @@ class Person extends AbstractPerson
 
     final public function removePersonSkillConnection(?PersonSkillConnection $personSkillConnection): void
     {
-        if (!$personSkillConnection) {
-            return;
-        }
-        if ($this->personSkillConnections->removeElement($personSkillConnection)) {
+        if ($personSkillConnection && $this->personSkillConnections->removeElement($personSkillConnection)) {
             $personSkillConnection->setPersonSkill(null);
             $personSkillConnection->setPerson(null);
         }
@@ -195,22 +186,16 @@ class Person extends AbstractPerson
 
     final public function setPositions(?Collection $newPositions): void
     {
-        if (!$this->positions) {
-            $this->positions = new ArrayCollection();
-        }
-        if (!$newPositions) {
-            $newPositions = new ArrayCollection();
-        }
+        $this->positions ??= new ArrayCollection();
+        $newPositions ??= new ArrayCollection();
         foreach ($this->positions as $oldPosition) {
             if (!$newPositions->contains($oldPosition)) {
                 $this->removePosition($oldPosition);
             }
         }
-        if ($newPositions) {
-            foreach ($newPositions as $newPosition) {
-                if (!$this->positions->contains($newPosition)) {
-                    $this->addPosition($newPosition);
-                }
+        foreach ($newPositions as $newPosition) {
+            if (!$this->positions->contains($newPosition)) {
+                $this->addPosition($newPosition);
             }
         }
     }
@@ -222,22 +207,16 @@ class Person extends AbstractPerson
 
     final public function setPersonSkillConnections(?Collection $newPersonSkillConnections): void
     {
-        if (!$this->personSkillConnections) {
-            $this->personSkillConnections = new ArrayCollection();
-        }
-        if (!$newPersonSkillConnections) {
-            $newPersonSkillConnections = new ArrayCollection();
-        }
+        $this->personSkillConnections ??= new ArrayCollection();
+        $newPersonSkillConnections ??= new ArrayCollection();
         foreach ($this->personSkillConnections as $oldPersonSkillConnection) {
             if (!$newPersonSkillConnections->contains($oldPersonSkillConnection)) {
                 $this->personSkillConnections->removeElement($oldPersonSkillConnection);
             }
         }
-        if ($newPersonSkillConnections) {
-            foreach ($newPersonSkillConnections as $newPersonSkillConnection) {
-                if (!$this->personSkillConnections->contains($newPersonSkillConnection)) {
-                    $this->addPersonSkillConnection($newPersonSkillConnection);
-                }
+        foreach ($newPersonSkillConnections as $newPersonSkillConnection) {
+            if (!$this->personSkillConnections->contains($newPersonSkillConnection)) {
+                $this->addPersonSkillConnection($newPersonSkillConnection);
             }
         }
     }

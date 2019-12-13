@@ -2,7 +2,6 @@
 
 namespace Zakjakub\OswisAddressBookBundle\Entity;
 
-use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\DescriptionTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\PriorityTrait;
@@ -39,31 +38,17 @@ class ContactDetail
     private ?string $content = null;
 
     /**
-     * Contact, that this contact belongs to.
-     * @var AbstractContact|null $contact
-     * @Doctrine\ORM\Mapping\ManyToOne(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact",
-     *     inversedBy="contactDetails"
-     * )
-     * @Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")
-     */
-    private ?AbstractContact $contact = null;
-
-    /**
      * ContactDetail constructor.
      *
      * @param ContactDetailType|null $contactType
      * @param string|null            $content
-     * @param AbstractContact|null   $contact
      */
     public function __construct(
         ?ContactDetailType $contactType = null,
-        ?string $content = null,
-        ?AbstractContact $contact = null
+        ?string $content = null
     ) {
         $this->setContactType($contactType);
         $this->setContent($content);
-        $this->setContact($contact);
     }
 
     /**
@@ -71,29 +56,7 @@ class ContactDetail
      */
     final public function getFormatted(): ?string
     {
-        $value = filter_var($this->getContent(), FILTER_SANITIZE_URL);
-        $description = htmlspecialchars($this->getDescription());
-        if (!$this->getContactType()) {
-            return null;
-        }
-
-        return $this->getContactType()->getFormatted($value, $description);
-    }
-
-    /**
-     * @return string
-     */
-    final public function getContent(): ?string
-    {
-        return $this->content;
-    }
-
-    /**
-     * @param string $content
-     */
-    final public function setContent(?string $content): void
-    {
-        $this->content = $content;
+        return $this->getContactType() ? $this->getContactType()->getFormatted(filter_var($this->getContent(), FILTER_SANITIZE_URL), htmlspecialchars($this->getDescription())) : null;
     }
 
     /**
@@ -113,48 +76,28 @@ class ContactDetail
     }
 
     /**
-     * @return null|string
+     * @return string
      */
+    final public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    /**
+     * @param string $content
+     */
+    final public function setContent(?string $content): void
+    {
+        $this->content = $content;
+    }
+
     final public function getSchemaString(): ?string
     {
-        if ($this->contactType) {
-            return $this->contactType->getContactSchema();
-        }
-
-        return null;
+        return $this->contactType ? $this->contactType->getContactSchema() : null;
     }
 
-    /**
-     * @return null|string
-     */
     final public function getTypeString(): ?string
     {
-        if ($this->contactType) {
-            return $this->contactType->getName();
-        }
-
-        return null;
-    }
-
-    /**
-     * @return AbstractContact|null
-     */
-    final public function getContact(): ?AbstractContact
-    {
-        return $this->contact;
-    }
-
-    /**
-     * @param AbstractContact|null $contact
-     */
-    final public function setContact(?AbstractContact $contact): void
-    {
-        if (null !== $this->contact && $contact !== $this->contact) {
-            $this->contact->removeContactDetail($this);
-        }
-        $this->contact = $contact;
-        if ($contact && $this->contact !== $contact) {
-            $contact->addContactDetail($this);
-        }
+        return $this->contactType ? $this->contactType->getName() : null;
     }
 }
