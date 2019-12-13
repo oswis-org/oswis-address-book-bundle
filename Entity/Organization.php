@@ -123,9 +123,6 @@ class Organization extends AbstractOrganization
      */
     final public function addPosition(?Position $position): void
     {
-        if (!$position) {
-            return;
-        }
         if ($position && !$this->positions->contains($position)) {
             $this->positions->add($position);
             $position->setOrganization($this);
@@ -137,25 +134,19 @@ class Organization extends AbstractOrganization
      */
     final public function removePosition(?Position $position): void
     {
-        if (!$position) {
-            return;
-        }
-        if ($this->positions->removeElement($position)) {
+        if ($position && $this->positions->removeElement($position)) {
             $position->setOrganization(null);
             $position->setPerson(null);
         }
     }
 
-    /**
-     * @return Collection
-     */
     final public function getDirectStudents(): Collection
     {
         $students = new ArrayCollection();
         if ($this->isSchool()) {
             foreach ($this->getDirectStudies() as $study) {
                 assert($study instanceof Position);
-                if ($study->isStudy() && !$students->contains($study->getPerson())) {
+                if (!$students->contains($study->getPerson())) {
                     $students->add($study->getPerson());
                 }
             }
@@ -196,17 +187,15 @@ class Organization extends AbstractOrganization
         return $this->positions ?? new ArrayCollection();
     }
 
-    final public function getContactPersons(
-        ?DateTime $referenceDateTime = null,
-        bool $onlyWithActivatedUser = false
-    ): Collection {
+    final public function getContactPersons(?DateTime $referenceDateTime = null, bool $onlyWithActivatedUser = false): Collection
+    {
         return $this->getPositions($referenceDateTime ?? new DateTime())->filter(
-            static function (Position $position) use ($onlyWithActivatedUser) {
-                if ($onlyWithActivatedUser && (!$position->getPerson() || !$position->getPerson()->getAppUser() || !$position->getPerson()->getAppUser()->getAccountActivationDateTime())) {
+            static function (Position $pos) use ($onlyWithActivatedUser) {
+                if ($onlyWithActivatedUser && (!$pos->getPerson() || !$pos->getPerson()->getAppUser() || !$pos->getPerson()->getAppUser()->getAccountActivationDateTime())) {
                     return false;
                 }
 
-                return $position->getIsContactPerson();
+                return $pos->getIsContactPerson();
             }
         );
     }
@@ -216,11 +205,7 @@ class Organization extends AbstractOrganization
      */
     final public function getAllStudents(): Collection
     {
-        if (!$this->isSchool()) {
-            return new ArrayCollection();
-        }
-
-        return $this->getAllStudies()->map(
+        return !$this->isSchool() ? new ArrayCollection() : $this->getAllStudies()->map(
             fn(Position $position) => $position->isStudy() && $position->getPerson() ? $position->getPerson() : null
         )->filter(fn(AbstractContact $contact) => $contact);
     }
@@ -249,7 +234,7 @@ class Organization extends AbstractOrganization
      */
     final public function getSubOrganizations(): Collection
     {
-        return $this->subOrganizations;
+        return $this->subOrganizations ?? new ArrayCollection();
     }
 
     /**
@@ -260,9 +245,6 @@ class Organization extends AbstractOrganization
         return $this->getAllStudies()->map(fn(Position $position) => $position->getPerson());
     }
 
-    /**
-     * @return Collection
-     */
     final public function getAllEmployeesPositions(): Collection
     {
         $positions = $this->getDirectEmployeesPositions();
@@ -320,10 +302,7 @@ class Organization extends AbstractOrganization
      */
     final public function removeSubOrganization(?Organization $organization): void
     {
-        if (!$organization) {
-            return;
-        }
-        if ($this->subOrganizations->removeElement($organization)) {
+        if ($organization && $this->subOrganizations->removeElement($organization)) {
             $organization->setParentOrganization(null);
         }
         // TODO: Check cycles!

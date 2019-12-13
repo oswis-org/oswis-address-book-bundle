@@ -154,11 +154,7 @@ class Position
      */
     final public function getEmployerString(): string
     {
-        if ($this->organization) {
-            return $this->organization->getName();
-        }
-
-        return '???';
+        return $this->organization ? $this->organization->getName() : '???';
     }
 
     /**
@@ -167,11 +163,7 @@ class Position
      */
     final public function getEmployeeString(): string
     {
-        if ($this->person) {
-            return $this->person->getFullName();
-        }
-
-        return '???';
+        return $this->person ? $this->person->getFullName() : '???';
     }
 
     /**
@@ -187,7 +179,6 @@ class Position
         //     return null;
         // }
     }
-
 
     /**
      * @return Person
@@ -257,17 +248,11 @@ class Position
         return $this->getIsContactPerson();
     }
 
-    /**
-     * @return bool|null
-     */
     final public function getIsContactPerson(): bool
     {
         return $this->isContactPerson ?? false;
     }
 
-    /**
-     * @param bool|null $isContactPerson
-     */
     final public function setIsContactPerson(?bool $isContactPerson): void
     {
         $this->isContactPerson = $isContactPerson ?? false;
