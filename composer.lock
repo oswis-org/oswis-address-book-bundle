@@ -1263,16 +1263,16 @@
     },
     {
       "name": "doctrine/persistence",
-      "version": "1.2.0",
+      "version": "1.3.3",
       "source": {
         "type": "git",
         "url": "https://github.com/doctrine/persistence.git",
-        "reference": "43526ae63312942e5316100bb3ed589ba1aba491"
+        "reference": "99b196bbd4715a94fa100fac664a351ffa46d6a5"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/doctrine/persistence/zipball/43526ae63312942e5316100bb3ed589ba1aba491",
-        "reference": "43526ae63312942e5316100bb3ed589ba1aba491",
+        "url": "https://api.github.com/repos/doctrine/persistence/zipball/99b196bbd4715a94fa100fac664a351ffa46d6a5",
+        "reference": "99b196bbd4715a94fa100fac664a351ffa46d6a5",
         "shasum": ""
       },
       "require": {
@@ -1287,19 +1287,20 @@
         "doctrine/common": "<2.10@dev"
       },
       "require-dev": {
-        "doctrine/coding-standard": "^5.0",
-        "phpstan/phpstan": "^0.8",
+        "doctrine/coding-standard": "^6.0",
+        "phpstan/phpstan": "^0.11",
         "phpunit/phpunit": "^7.0"
       },
       "type": "library",
       "extra": {
         "branch-alias": {
-          "dev-master": "1.2.x-dev"
+          "dev-master": "1.3.x-dev"
         }
       },
       "autoload": {
         "psr-4": {
-          "Doctrine\\Common\\": "lib/Doctrine/Common"
+          "Doctrine\\Common\\": "lib/Doctrine/Common",
+          "Doctrine\\Persistence\\": "lib/Doctrine/Persistence"
         }
       },
       "notification-url": "https://packagist.org/downloads/",
@@ -1341,7 +1342,7 @@
         "orm",
         "persistence"
       ],
-      "time": "2019-04-23T12:39:21+00:00"
+      "time": "2019-12-13T10:43:02+00:00"
     },
     {
       "name": "doctrine/reflection",
@@ -2044,16 +2045,16 @@
     },
     {
       "name": "league/commonmark",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "source": {
         "type": "git",
         "url": "https://github.com/thephpleague/commonmark.git",
-        "reference": "d74654d85954e3b9451d67faaebacd210fc70252"
+        "reference": "772e03fa9c6477ef5ef2d154fefd8a2a8d8ed03c"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/d74654d85954e3b9451d67faaebacd210fc70252",
-        "reference": "d74654d85954e3b9451d67faaebacd210fc70252",
+        "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/772e03fa9c6477ef5ef2d154fefd8a2a8d8ed03c",
+        "reference": "772e03fa9c6477ef5ef2d154fefd8a2a8d8ed03c",
         "shasum": ""
       },
       "require": {
@@ -2111,7 +2112,7 @@
         "markdown",
         "parser"
       ],
-      "time": "2019-11-11T22:23:29+00:00"
+      "time": "2019-12-10T02:55:03+00:00"
     },
     {
       "name": "league/commonmark-ext-autolink",
@@ -2471,16 +2472,16 @@
     },
     {
       "name": "league/csv",
-      "version": "9.4.1",
+      "version": "9.5.0",
       "source": {
         "type": "git",
         "url": "https://github.com/thephpleague/csv.git",
-        "reference": "bf83acc23a7d60978fce36a384f97bf9d7d2ea0c"
+        "reference": "b348d09d0d258a4f068efb50a2510dc63101c213"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/thephpleague/csv/zipball/bf83acc23a7d60978fce36a384f97bf9d7d2ea0c",
-        "reference": "bf83acc23a7d60978fce36a384f97bf9d7d2ea0c",
+        "url": "https://api.github.com/repos/thephpleague/csv/zipball/b348d09d0d258a4f068efb50a2510dc63101c213",
+        "reference": "b348d09d0d258a4f068efb50a2510dc63101c213",
         "shasum": ""
       },
       "require": {
@@ -2536,7 +2537,7 @@
         "read",
         "write"
       ],
-      "time": "2019-10-17T06:05:32+00:00"
+      "time": "2019-12-15T19:51:41+00:00"
     },
     {
       "name": "league/html-to-markdown",
@@ -2897,16 +2898,16 @@
     },
     {
       "name": "myclabs/deep-copy",
-      "version": "1.9.3",
+      "version": "1.9.4",
       "source": {
         "type": "git",
         "url": "https://github.com/myclabs/DeepCopy.git",
-        "reference": "007c053ae6f31bba39dfa19a7726f56e9763bbea"
+        "reference": "579bb7356d91f9456ccd505f24ca8b667966a0a7"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/007c053ae6f31bba39dfa19a7726f56e9763bbea",
-        "reference": "007c053ae6f31bba39dfa19a7726f56e9763bbea",
+        "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/579bb7356d91f9456ccd505f24ca8b667966a0a7",
+        "reference": "579bb7356d91f9456ccd505f24ca8b667966a0a7",
         "shasum": ""
       },
       "require": {
@@ -2941,7 +2942,7 @@
         "object",
         "object graph"
       ],
-      "time": "2019-08-09T12:45:53+00:00"
+      "time": "2019-12-15T19:12:40+00:00"
     },
     {
       "name": "namshi/jose",
@@ -3612,16 +3613,16 @@
     },
     {
       "name": "sensio/framework-extra-bundle",
-      "version": "v5.5.1",
+      "version": "v5.5.2",
       "source": {
         "type": "git",
         "url": "https://github.com/sensiolabs/SensioFrameworkExtraBundle.git",
-        "reference": "dfc2c4df9f7d465a65c770e9feb578fe071636f7"
+        "reference": "92acfcc610e2180c52790ec3ff2e893f67e76b32"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/dfc2c4df9f7d465a65c770e9feb578fe071636f7",
-        "reference": "dfc2c4df9f7d465a65c770e9feb578fe071636f7",
+        "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/92acfcc610e2180c52790ec3ff2e893f67e76b32",
+        "reference": "92acfcc610e2180c52790ec3ff2e893f67e76b32",
         "shasum": ""
       },
       "require": {
@@ -3686,7 +3687,7 @@
         "annotations",
         "controllers"
       ],
-      "time": "2019-10-16T18:54:45+00:00"
+      "time": "2019-12-12T16:21:49+00:00"
     },
     {
       "name": "setasign/fpdi",
@@ -8249,16 +8250,16 @@
     },
     {
       "name": "zakjakub/oswis-core-bundle",
-      "version": "v0.0.340",
+      "version": "v0.0.345",
       "source": {
         "type": "git",
         "url": "https://github.com/zakjakub/oswis-core-bundle.git",
-        "reference": "b87dd0c662efc677ce0970207934b689c28f6951"
+        "reference": "a4743521ff9fe31ef40b904829922c17fa2c27ac"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/zakjakub/oswis-core-bundle/zipball/b87dd0c662efc677ce0970207934b689c28f6951",
-        "reference": "b87dd0c662efc677ce0970207934b689c28f6951",
+        "url": "https://api.github.com/repos/zakjakub/oswis-core-bundle/zipball/a4743521ff9fe31ef40b904829922c17fa2c27ac",
+        "reference": "a4743521ff9fe31ef40b904829922c17fa2c27ac",
         "shasum": ""
       },
       "require": {
@@ -8306,6 +8307,7 @@
       },
       "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.16",
+        "phpstan/extension-installer": "^1.0",
         "roave/security-advisories": "dev-master",
         "symfony/debug": "^4.4"
       },
@@ -8345,28 +8347,31 @@
         "php",
         "zakjakub"
       ],
-      "time": "2019-12-07T19:11:40+00:00"
+      "time": "2019-12-15T23:18:30+00:00"
     },
     {
       "name": "zendframework/zend-code",
-      "version": "3.4.0",
+      "version": "3.4.1",
       "source": {
         "type": "git",
         "url": "https://github.com/zendframework/zend-code.git",
-        "reference": "46feaeecea14161734b56c1ace74f28cb329f194"
+        "reference": "268040548f92c2bfcba164421c1add2ba43abaaa"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/zendframework/zend-code/zipball/46feaeecea14161734b56c1ace74f28cb329f194",
-        "reference": "46feaeecea14161734b56c1ace74f28cb329f194",
+        "url": "https://api.github.com/repos/zendframework/zend-code/zipball/268040548f92c2bfcba164421c1add2ba43abaaa",
+        "reference": "268040548f92c2bfcba164421c1add2ba43abaaa",
         "shasum": ""
       },
       "require": {
         "php": "^7.1",
         "zendframework/zend-eventmanager": "^2.6 || ^3.0"
       },
+      "conflict": {
+        "phpspec/prophecy": "<1.9.0"
+      },
       "require-dev": {
-        "doctrine/annotations": "^1.0",
+        "doctrine/annotations": "^1.7",
         "ext-phar": "*",
         "phpunit/phpunit": "^7.5.16 || ^8.4",
         "zendframework/zend-coding-standard": "^1.0",
@@ -8380,7 +8385,8 @@
       "extra": {
         "branch-alias": {
           "dev-master": "3.4.x-dev",
-          "dev-develop": "3.5.x-dev"
+          "dev-develop": "3.5.x-dev",
+          "dev-dev-4.0": "4.0.x-dev"
         }
       },
       "autoload": {
@@ -8398,7 +8404,7 @@
         "code",
         "zf"
       ],
-      "time": "2019-10-05T23:18:22+00:00"
+      "time": "2019-12-10T19:21:15+00:00"
     },
     {
       "name": "zendframework/zend-eventmanager",
