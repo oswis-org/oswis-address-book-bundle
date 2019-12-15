@@ -140,6 +140,9 @@
       <path value="$PROJECT_DIR$/vendor/league/commonmark-extras" />
       <path value="$PROJECT_DIR$/vendor/league/commonmark-ext-smartpunct" />
       <path value="$PROJECT_DIR$/vendor/league/commonmark-ext-task-list" />
+      <path value="$PROJECT_DIR$/vendor/nikic/php-parser" />
+      <path value="$PROJECT_DIR$/vendor/phpstan/phpstan" />
+      <path value="$PROJECT_DIR$/vendor/phpstan/extension-installer" />
     </include_path>
   </component>
   <component name="PhpInterpreters">

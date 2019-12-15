@@ -26,7 +26,8 @@
     "bigit/vokativ": "dev-master"
   },
   "require-dev": {
-    "roave/security-advisories": "dev-master"
+    "roave/security-advisories": "dev-master",
+    "phpstan/extension-installer": "^1.0"
   },
   "autoload": {
     "psr-4": {
