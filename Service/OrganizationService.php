@@ -1,6 +1,6 @@
 <?php /** @noinspection PhpUnused */
 
-namespace Zakjakub\OswisAddressBookBundle\Manager;
+namespace Zakjakub\OswisAddressBookBundle\Service;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -9,7 +9,7 @@ use Psr\Log\LoggerInterface;
 use Zakjakub\OswisAddressBookBundle\Entity\Organization;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
 
-class OrganizationManager
+class OrganizationService
 {
     protected EntityManagerInterface $em;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Zakjakub\OswisAddressBookBundle\Manager;
+namespace Zakjakub\OswisAddressBookBundle\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -9,7 +9,7 @@ use Zakjakub\OswisAddressBookBundle\Entity\Place;
 use Zakjakub\OswisCoreBundle\Entity\Address;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
 
-class PlaceManager
+class PlaceService
 {
     protected EntityManagerInterface $em;
 

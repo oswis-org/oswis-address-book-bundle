@@ -1,6 +1,6 @@
 <?php /** @noinspection PhpUnused */
 
-namespace Zakjakub\OswisAddressBookBundle\Manager;
+namespace Zakjakub\OswisAddressBookBundle\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -8,7 +8,7 @@ use Psr\Log\LoggerInterface;
 use Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBook;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
 
-class AddressBookManager
+class AddressBookService
 {
     protected EntityManagerInterface $em;
 

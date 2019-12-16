@@ -45,7 +45,3 @@ Zakjakub\OswisAddressBookBundle\Entity\Place:
             groups: ['address_book_place_get']
         updatedAuthor:
             groups: ['address_book_place_get']
-        createdIp:
-            groups: ['address_book_place_get']
-        updatedIp:
-            groups: ['address_book_place_get']

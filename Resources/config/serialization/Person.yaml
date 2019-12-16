@@ -28,6 +28,12 @@ Zakjakub\OswisAddressBookBundle\Entity\Person:
                 - 'address_book_persons_post'
                 - 'address_book_person_get'
                 - 'address_book_person_put'
+        birthDate:
+            groups:
+                - 'address_book_persons_get'
+                - 'address_book_persons_post'
+                - 'address_book_person_get'
+                - 'address_book_person_put'
         image:
             groups:
                 - 'address_book_persons_get'
@@ -44,10 +50,6 @@ Zakjakub\OswisAddressBookBundle\Entity\Person:
         createdAuthor:
             groups: ['address_book_person_get']
         updatedAuthor:
-            groups: ['address_book_person_get']
-        createdIp:
-            groups: ['address_book_person_get']
-        updatedIp:
             groups: ['address_book_person_get']
         type:
             groups:
@@ -73,24 +75,6 @@ Zakjakub\OswisAddressBookBundle\Entity\Person:
         #                - 'address_book_persons_post'
         #                - 'address_book_person_get'
         #                - 'address_book_person_put'
-        identificationNumber:
-            groups:
-                - 'address_book_persons_get'
-                - 'address_book_persons_post'
-                - 'address_book_person_get'
-                - 'address_book_person_put'
-        color:
-            groups:
-                - 'address_book_persons_get'
-                - 'address_book_persons_post'
-                - 'address_book_person_get'
-                - 'address_book_person_put'
-        parentOrganization:
-            groups:
-                - 'address_book_persons_get'
-                - 'address_book_persons_post'
-                - 'address_book_person_get'
-                - 'address_book_person_put'
         positions:
             groups:
                 - 'address_book_persons_get'
