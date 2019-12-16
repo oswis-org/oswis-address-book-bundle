@@ -30,7 +30,7 @@ class OrganizationService
         ?Collection $addresses = null,
         ?Collection $contactDetails = null,
         ?Collection $notes = null
-    ): Organization {
+    ): ?Organization {
         try {
             $entity = new Organization($nameable, $identificationNumber, $parentOrganization, $color, $type, $addresses, $contactDetails, $notes);
             $this->em->persist($entity);

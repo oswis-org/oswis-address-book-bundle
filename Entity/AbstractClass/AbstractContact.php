@@ -203,22 +203,16 @@ abstract class AbstractContact
 
     final public function setAddressBooks(?Collection $newAddressBooks): void
     {
-        if (!$this->addressBookContactConnections) {
-            $this->addressBookContactConnections = new ArrayCollection();
-        }
-        if (!$newAddressBooks) {
-            $newAddressBooks = new ArrayCollection();
-        }
+        $this->addressBookContactConnections ??= new ArrayCollection();
+        $newAddressBooks ??= new ArrayCollection();
         foreach ($this->getAddressBooks() as $oldAddressBook) {
             if (!$newAddressBooks->contains($oldAddressBook)) {
                 $this->removeAddressBook($oldAddressBook);
             }
         }
-        if ($newAddressBooks) {
-            foreach ($newAddressBooks as $newAddressBook) {
-                if (!$this->containsAddressBook($newAddressBook)) {
-                    $this->addAddressBook($newAddressBook);
-                }
+        foreach ($newAddressBooks as $newAddressBook) {
+            if (!$this->containsAddressBook($newAddressBook)) {
+                $this->addAddressBook($newAddressBook);
             }
         }
     }
@@ -275,7 +269,7 @@ abstract class AbstractContact
 
     final public function addAddressBook(AddressBook $addressBook): void
     {
-        if ($addressBook && !$this->containsAddressBook($addressBook)) {
+        if (null !== $addressBook && !$this->containsAddressBook($addressBook)) {
             $this->addAddressBookContactConnection(new AddressBookContactConnection($addressBook));
         }
     }
@@ -598,11 +592,6 @@ abstract class AbstractContact
 
     abstract public function setFullName(?string $contactName): void;
 
-    /**
-     * @param $user
-     *
-     * @return bool
-     */
     final public function canRead(AppUser $user): bool
     {
         if (!($user instanceof AppUser)) { // User is not logged in.
@@ -612,19 +601,11 @@ abstract class AbstractContact
         return $user->hasRole('ROLE_MEMBER') && $user->hasRole('ROLE_USER') && $user === $this->getUser();
     }
 
-    /**
-     * @return AppUser|null
-     */
     final public function getUser(): ?AppUser
     {
         return $this->getAppUser();
     }
 
-    /**
-     * @param $user
-     *
-     * @return bool
-     */
     final public function canEdit(AppUser $user): bool
     {
         if (!($user instanceof AppUser)) {// User is not logged in.
@@ -634,11 +615,6 @@ abstract class AbstractContact
         return $user->hasRole('ROLE_MEMBER') && $user->hasRole('ROLE_USER') && $user === $this->getUser();
     }
 
-    /**
-     * @param AppUser $user
-     *
-     * @return bool
-     */
     final public function containsUserInPersons(AppUser $user): bool
     {
         return $this->getUsersOfPersons()->contains($user);

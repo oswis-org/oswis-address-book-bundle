@@ -20,7 +20,7 @@ class AddressBookService
         $this->logger = $logger;
     }
 
-    final public function create(?Nameable $nameable = null): AddressBook
+    final public function create(?Nameable $nameable = null): ?AddressBook
     {
         try {
             $entity = new AddressBook($nameable);

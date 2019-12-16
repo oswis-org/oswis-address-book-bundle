@@ -31,7 +31,7 @@ class PlaceService
         ?float $geoLatitude = null,
         ?float $geoLongitude = null,
         ?int $geoElevation = null
-    ): Place {
+    ): ?Place {
         try {
             $entity = new Place($nameable, $address, $parentPlace, $floorNumber, $roomNumber, $url, $geoLatitude, $geoLongitude, $geoElevation);
             $this->em->persist($entity);

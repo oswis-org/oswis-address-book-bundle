@@ -6,7 +6,6 @@ use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-use InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Zakjakub\OswisAddressBookBundle\Entity\Person;
 
@@ -33,22 +32,21 @@ class PersonService
         ?Collection $positions = null,
         ?Collection $personSkillConnections = null,
         ?Collection $addressBooks = null
-    ): Person {
+    ): ?Person {
         try {
             $entity = new Person($fullName, $description, $birthDate, $type, $notes, $contactDetails, $addresses, $positions, $personSkillConnections, $addressBooks);
             $this->em->persist($entity);
             $this->em->flush();
             $infoMessage = 'Created organization: '.$entity->getId().' '.$entity->getContactName().'.';
-            $this->logger ? $this->logger->info($infoMessage) : null;
+            $this->logger->info($infoMessage);
 
             return $entity;
         } catch (Exception $e) {
-            $this->logger ? $this->logger->info('ERROR: Organization not created: '.$e->getMessage()) : null;
+            $this->logger->info('ERROR: Organization not created: '.$e->getMessage());
 
             return null;
         }
     }
-
 
     final public function updateActiveRevisions(): void
     {

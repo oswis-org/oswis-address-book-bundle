@@ -27,7 +27,7 @@ class ContactDetailTypeService
         ?string $type = null,
         ?string $formLabel = null,
         ?string $formHelp = null
-    ): ContactDetailType {
+    ): ?ContactDetailType {
         try {
             $entity = new ContactDetailType($nameable, $schema, $showInPreview, $type, $formLabel, $formHelp);
             $this->em->persist($entity);

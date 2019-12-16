@@ -40,7 +40,7 @@ class AddressBook
 
     final public function addContact(AbstractContact $contact): void
     {
-        if ($contact && !$this->containsContact($contact)) {
+        if (null !== $contact && !$this->containsContact($contact)) {
             $this->addAddressBookContactConnection(new AddressBookContactConnection(null, $contact));
         }
     }
