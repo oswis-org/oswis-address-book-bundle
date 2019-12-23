@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpUnused */
+<?php /** @noinspection MethodShouldBeFinalInspection */
+
+/** @noinspection PhpUnused */
 
 namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
 
@@ -8,6 +10,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Exception\LogicException;
+use Symfony\Component\Mime\Exception\RfcComplianceException;
 use Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBook;
 use Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBookContactConnection;
 use Zakjakub\OswisAddressBookBundle\Entity\ContactAddress;
@@ -21,6 +26,7 @@ use Zakjakub\OswisAddressBookBundle\Entity\Position;
 use Zakjakub\OswisCoreBundle\Entity\AppUser;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\TypeTrait;
+use Zakjakub\OswisCoreBundle\Utils\EmailUtils;
 use function assert;
 use function implode;
 use function in_array;
@@ -476,11 +482,8 @@ abstract class AbstractContact
         return $this->getContactDetails()->filter(fn(ContactDetail $contactDetail) => ContactDetailType::TYPE_URL === $contactDetail->getTypeString());
     }
 
-    /** @noinspection MethodShouldBeFinalInspection */
-    public function getContactPersons(
-        ?DateTime $referenceDateTime = null,
-        bool $onlyWithActivatedUser = false
-    ): Collection {
+    public function getContactPersons(?DateTime $referenceDateTime = null, bool $onlyWithActivatedUser = false): Collection
+    {
         if ($onlyWithActivatedUser) {
             return $this->getAppUser() && $this->getAppUser()->isActive($referenceDateTime) ? new ArrayCollection([$this]) : new ArrayCollection();
         }
@@ -505,22 +508,6 @@ abstract class AbstractContact
         if ($this->appUser !== $appUser) {
             $this->appUser = $appUser;
         }
-    }
-
-    final public function getEmail(): ?string
-    {
-        $eMails = $this->getEmails();
-
-        return $eMails->count() > 0 ? $eMails->first()->getContent() : null;
-    }
-
-    /**
-     * @ApiProperty(iri="http://schema.org/email")
-     * @return Collection Collection of e-mail addresses from contact details
-     */
-    final public function getEmails(): Collection
-    {
-        return $this->getContactDetails()->filter(fn(ContactDetail $contactDetail) => ContactDetailType::TYPE_EMAIL === $contactDetail->getTypeString());
     }
 
     final public function getUrl(): ?string
@@ -560,9 +547,6 @@ abstract class AbstractContact
         return $this->getContactName();
     }
 
-    /**
-     * @return string
-     */
     final public function getContactName(): string
     {
         return $this->updateContactName();
@@ -584,7 +568,6 @@ abstract class AbstractContact
 
     abstract public function getFullName(): ?string;
 
-    /** @noinspection MethodShouldBeFinalInspection */
     public function getSortableContactName(): string
     {
         return $this->getFullName() ?? '';
@@ -592,6 +575,7 @@ abstract class AbstractContact
 
     abstract public function setFullName(?string $contactName): void;
 
+    /** @noinspection MethodShouldBeFinalInspection */
     final public function canRead(AppUser $user): bool
     {
         if (!($user instanceof AppUser)) { // User is not logged in.
@@ -604,6 +588,35 @@ abstract class AbstractContact
     final public function getUser(): ?AppUser
     {
         return $this->getAppUser();
+    }
+
+    /**
+     * @return Address
+     * @throws LogicException
+     * @throws RfcComplianceException
+     */
+    public function getMailerAddress(): Address
+    {
+        $name = $this->getContactName() ?? ($this->getAppUser() ? $this->getAppUser()->getFullName() : '') ?? '';
+        $eMail = ($this->getAppUser() ? $this->getAppUser()->getEmail() : $this->getEmail()) ?? '';
+
+        return new Address($eMail, EmailUtils::mime_header_encode($name));
+    }
+
+    final public function getEmail(): ?string
+    {
+        $eMails = $this->getEmails();
+
+        return $eMails->count() > 0 ? $eMails->first()->getContent() : null;
+    }
+
+    /**
+     * @ApiProperty(iri="http://schema.org/email")
+     * @return Collection Collection of e-mail addresses from contact details
+     */
+    final public function getEmails(): Collection
+    {
+        return $this->getContactDetails()->filter(fn(ContactDetail $contactDetail) => ContactDetailType::TYPE_EMAIL === $contactDetail->getTypeString());
     }
 
     final public function canEdit(AppUser $user): bool

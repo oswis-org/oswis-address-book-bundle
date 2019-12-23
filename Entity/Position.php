@@ -5,7 +5,9 @@ namespace Zakjakub\OswisAddressBookBundle\Entity;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
+use Vokativ\Name as VokativName;
 use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\DateRangeTrait;
@@ -76,8 +78,15 @@ class Position
 
     /**
      * True if person is intended for receiving messages about organization.
+     * @ORM\Column(type="boolean", nullable=true)
      */
     protected ?bool $isContactPerson = null;
+
+    /**
+     * True if position is kind of "special" (and to be displayed in web profile).
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    protected ?bool $isSpecial = null;
 
     /**
      * Person in this position.
@@ -113,12 +122,8 @@ class Position
      *
      * @throws InvalidArgumentException
      */
-    public function __construct(
-        ?Person $person = null,
-        ?Organization $organization = null,
-        ?string $type = null,
-        ?bool $isContactPerson = null
-    ) {
+    public function __construct(?Person $person = null, ?Organization $organization = null, ?string $type = null, ?bool $isContactPerson = null)
+    {
         $this->setPerson($person);
         $this->setOrganization($organization);
         $this->setType($type);
@@ -144,6 +149,16 @@ class Position
         return [];
     }
 
+    final public function getIsSpecial(): ?bool
+    {
+        return $this->isSpecial;
+    }
+
+    final public function setIsSpecial(?bool $isSpecial): void
+    {
+        $this->isSpecial = $isSpecial;
+    }
+
     /**
      * Get organization of this position.
      */
@@ -162,7 +177,6 @@ class Position
 
     /**
      * Get organization of this position.
-     * @return string|null
      */
     final public function getDepartmentString(): ?string
     {
@@ -172,22 +186,6 @@ class Position
         // } else {
         //     return null;
         // }
-    }
-
-    final public function getPerson(): ?Person
-    {
-        return $this->person;
-    }
-
-    final public function setPerson(?Person $person): void
-    {
-        if ($this->person && $person !== $this->person) {
-            $this->person->removePosition($this);
-        }
-        $this->person = $person;
-        if ($person && $this->person !== $person) {
-            $person->addPosition($this);
-        }
     }
 
     final public function getOrganization(): ?Organization
@@ -238,5 +236,33 @@ class Position
     final public function setIsContactPerson(?bool $isContactPerson): void
     {
         $this->isContactPerson = $isContactPerson ?? false;
+    }
+
+    final public function getGenderCssClass(): string
+    {
+        if ($this->getPerson() === null || !$this->getPerson()->getGivenName()) {
+            return 'unisex';
+        }
+        try {
+            return (new VokativName())->isMale($this->getPerson()->getGivenName()) ? 'male' : 'female';
+        } catch (InvalidArgumentException $e) {
+            return 'unisex';
+        }
+    }
+
+    final public function getPerson(): ?Person
+    {
+        return $this->person;
+    }
+
+    final public function setPerson(?Person $person): void
+    {
+        if ($this->person && $person !== $this->person) {
+            $this->person->removePosition($this);
+        }
+        $this->person = $person;
+        if ($person && $this->person !== $person) {
+            $person->addPosition($this);
+        }
     }
 }
