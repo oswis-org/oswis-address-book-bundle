@@ -605,9 +605,7 @@ abstract class AbstractContact
 
     final public function getEmail(): ?string
     {
-        $eMails = $this->getEmails();
-
-        return $eMails->count() > 0 ? $eMails->first()->getContent() : null;
+        return $this->getEmails()->first() ? $this->getEmails()->first()->getContent() : null;
     }
 
     /**
