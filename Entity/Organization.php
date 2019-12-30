@@ -174,7 +174,8 @@ class Organization extends AbstractOrganization
         $onAc = $onlyWithActivatedUser;
 
         return $this->getPositions($dateTime ?? new DateTime())->filter(
-            fn(Position $p) => ($onAc && (!$p->getPerson() || !$p->getPerson()->getAppUser() || !$p->getPerson()->getAppUser()->getAccountActivationDateTime())) ? false : $p->getIsContactPerson()
+            fn(Position $p) => ($onAc && (!$p->getPerson() || !$p->getPerson()->getAppUser() || !$p->getPerson()->getAppUser()->getAccountActivationDateTime(
+                    ))) ? false : $p->getIsContactPerson()
         );
     }
 

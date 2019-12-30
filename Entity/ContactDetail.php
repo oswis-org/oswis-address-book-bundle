@@ -48,7 +48,10 @@ class ContactDetail
      */
     final public function getFormatted(): ?string
     {
-        return $this->getContactType() ? $this->getContactType()->getFormatted(filter_var($this->getContent(), FILTER_SANITIZE_URL), htmlspecialchars($this->getDescription())) : null;
+        return $this->getContactType() ? $this->getContactType()->getFormatted(
+            filter_var($this->getContent(), FILTER_SANITIZE_URL),
+            htmlspecialchars($this->getDescription())
+        ) : null;
     }
 
     /**

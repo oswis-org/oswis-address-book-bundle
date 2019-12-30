@@ -15,9 +15,7 @@ use function rtrim;
 use function trim;
 
 /**
- * Class Person
- *
- * Represents a person.
+ * Class Person. Represents a person.
  *
  * @Doctrine\ORM\Mapping\Entity()
  * @Doctrine\ORM\Mapping\Table(name="address_book_person")

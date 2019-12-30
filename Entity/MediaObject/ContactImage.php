@@ -1,6 +1,6 @@
 <?php
 
-namespace Zakjakub\OswisAddressBookBundle\Entity;
+namespace Zakjakub\OswisAddressBookBundle\Entity\MediaObject;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\HttpFoundation\File\File;
@@ -26,7 +26,6 @@ use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractImage;
  */
 class ContactImage extends AbstractImage
 {
-
     /**
      * @var File|null
      * @Symfony\Component\Validator\Constraints\NotNull()

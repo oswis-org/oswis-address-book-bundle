@@ -1,6 +1,8 @@
-<?php /** @noinspection MethodShouldBeFinalInspection */
-
-/** @noinspection PhpUnused */
+<?php
+/**
+ * @noinspection MethodShouldBeFinalInspection
+ * @noinspection PhpUnused
+ */
 
 namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
 
@@ -18,8 +20,8 @@ use Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBookContactConnect
 use Zakjakub\OswisAddressBookBundle\Entity\ContactAddress;
 use Zakjakub\OswisAddressBookBundle\Entity\ContactDetail;
 use Zakjakub\OswisAddressBookBundle\Entity\ContactDetailType;
-use Zakjakub\OswisAddressBookBundle\Entity\ContactImageConnection;
 use Zakjakub\OswisAddressBookBundle\Entity\ContactNote;
+use Zakjakub\OswisAddressBookBundle\Entity\MediaObject\ContactImage;
 use Zakjakub\OswisAddressBookBundle\Entity\Organization;
 use Zakjakub\OswisAddressBookBundle\Entity\Person;
 use Zakjakub\OswisAddressBookBundle\Entity\Position;
@@ -76,39 +78,17 @@ abstract class AbstractContact
     public const PERSON_TYPES = [self::TYPE_PERSON];
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
     protected ?string $contactName = null;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
     protected ?string $sortableName = null;
 
     /**
-     * Images of person.
-     *
-     * @var Collection|null
-     * @Doctrine\ORM\Mapping\ManyToMany(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactImageConnection",
-     *     cascade={"all"},
-     *     orphanRemoval=true,
-     *     fetch="EAGER"
-     * )
-     * @Doctrine\ORM\Mapping\JoinTable(
-     *     name="address_book_contact_image_connection_connection",
-     *     joinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="image_id", referencedColumnName="id", unique=true)}
-     * )
-     */
-    protected ?Collection $imageConnections = null;
-
-    /**
      * Notes about person.
-     *
-     * @var Collection|null
      * @Doctrine\ORM\Mapping\ManyToMany(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactNote",
      *     cascade={"all"},
@@ -125,8 +105,6 @@ abstract class AbstractContact
 
     /**
      * Postal addresses of AbstractContact (Person, Organization).
-     *
-     * @var Collection|null
      * @Doctrine\ORM\Mapping\ManyToMany(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactDetail",
      *     cascade={"all"},
@@ -143,8 +121,6 @@ abstract class AbstractContact
 
     /**
      * Postal addresses of AbstractContact (Person, Organization).
-     *
-     * @var Collection|null
      * @Doctrine\ORM\Mapping\ManyToMany(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactAddress",
      *     cascade={"all"},
@@ -161,7 +137,6 @@ abstract class AbstractContact
     protected ?Collection $addresses = null;
 
     /**
-     * @var Collection|null
      * @Doctrine\ORM\Mapping\OneToMany(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBookContactConnection",
      *     cascade={"all"},
@@ -172,18 +147,24 @@ abstract class AbstractContact
     protected ?Collection $addressBookContactConnections = null;
 
     /**
-     * @var AppUser|null $appUser User
      * @Doctrine\ORM\Mapping\OneToOne(
      *     targetEntity="Zakjakub\OswisCoreBundle\Entity\AppUser",
      *     cascade={"all"},
      *     fetch="EAGER"
      * )
      */
-    private ?AppUser $appUser = null;
+    protected ?AppUser $appUser = null;
 
     /**
-     * AbstractContact constructor.
-     *
+     * @Doctrine\ORM\Mapping\OneToOne(
+     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\MediaObject\ContactImage",
+     *     cascade={"all"},
+     *     fetch="EAGER"
+     * )
+     */
+    protected ?ContactImage $image = null;
+
+    /**
      * @param string|null     $type
      * @param Collection|null $notes
      * @param Collection|null $contactDetails
@@ -199,7 +180,6 @@ abstract class AbstractContact
         ?Collection $addresses = null,
         ?Collection $addressBooks = null
     ) {
-        $this->imageConnections = new ArrayCollection();
         $this->setType($type);
         $this->setNotes($notes);
         $this->setContactDetails($contactDetails);
@@ -207,7 +187,7 @@ abstract class AbstractContact
         $this->setAddressBooks($addressBooks);
     }
 
-    final public function setAddressBooks(?Collection $newAddressBooks): void
+    public function setAddressBooks(?Collection $newAddressBooks): void
     {
         $this->addressBookContactConnections ??= new ArrayCollection();
         $newAddressBooks ??= new ArrayCollection();
@@ -223,19 +203,19 @@ abstract class AbstractContact
         }
     }
 
-    final public function getAddressBooks(): Collection
+    public function getAddressBooks(): Collection
     {
         return $this->getAddressBookContactConnections()->map(
             fn(AddressBookContactConnection $addressBookContactConnection) => $addressBookContactConnection->getAddressBook()
         );
     }
 
-    final public function getAddressBookContactConnections(): Collection
+    public function getAddressBookContactConnections(): Collection
     {
         return $this->addressBookContactConnections ?? new ArrayCollection();
     }
 
-    final public function setAddressBookContactConnections(?Collection $newAddressBookContactConnections): void
+    public function setAddressBookContactConnections(?Collection $newAddressBookContactConnections): void
     {
         $this->addressBookContactConnections ??= new ArrayCollection();
         $newAddressBookContactConnections ??= new ArrayCollection();
@@ -251,7 +231,7 @@ abstract class AbstractContact
         }
     }
 
-    final public function removeAddressBook(AddressBook $addressBook): void
+    public function removeAddressBook(AddressBook $addressBook): void
     {
         foreach ($this->getAddressBookContactConnections() as $addressBookContactConnection) {
             assert($addressBookContactConnection instanceof AddressBookContactConnection);
@@ -261,26 +241,26 @@ abstract class AbstractContact
         }
     }
 
-    final public function removeAddressBookContactConnection(?AddressBookContactConnection $addressBookContactConnection): void
+    public function removeAddressBookContactConnection(?AddressBookContactConnection $addressBookContactConnection): void
     {
         if ($addressBookContactConnection && $this->addressBookContactConnections->removeElement($addressBookContactConnection)) {
             $addressBookContactConnection->setContact(null);
         }
     }
 
-    final public function containsAddressBook(AddressBook $addressBook): bool
+    public function containsAddressBook(AddressBook $addressBook): bool
     {
         return $this->getAddressBooks()->contains($addressBook);
     }
 
-    final public function addAddressBook(AddressBook $addressBook): void
+    public function addAddressBook(AddressBook $addressBook): void
     {
         if (null !== $addressBook && !$this->containsAddressBook($addressBook)) {
             $this->addAddressBookContactConnection(new AddressBookContactConnection($addressBook));
         }
     }
 
-    final public function addAddressBookContactConnection(?AddressBookContactConnection $addressBookContactConnection): void
+    public function addAddressBookContactConnection(?AddressBookContactConnection $addressBookContactConnection): void
     {
         if ($addressBookContactConnection && !$this->addressBookContactConnections->contains($addressBookContactConnection)) {
             $this->addressBookContactConnections->add($addressBookContactConnection);
@@ -309,30 +289,37 @@ abstract class AbstractContact
         return [];
     }
 
-    final public function isPerson(): bool
+    public function getImage(): ?ContactImage
+    {
+        return $this->image;
+    }
+
+    public function setImage(?ContactImage $image): void
+    {
+        $this->image = $image;
+    }
+
+    public function isPerson(): bool
     {
         return $this instanceof Person;
     }
 
-    final public function isOrganization(): bool
+    public function isOrganization(): bool
     {
         return $this instanceof Organization;
     }
 
-    final public function isSchool(): bool
+    public function isSchool(): bool
     {
         return in_array($this->getType(), self::SCHOOL_TYPES, true);
     }
 
-    final public function isStudentOrganization(): bool
+    public function isStudentOrganization(): bool
     {
         return in_array($this->getType(), self::STUDENT_ORGANIZATION_TYPES, true);
     }
 
-    /**
-     * @param ContactNote|null $personNote
-     */
-    final public function addNote(?ContactNote $personNote): void
+    public function addNote(?ContactNote $personNote): void
     {
         if ($personNote) {
             $this->notes->add($personNote);
@@ -340,93 +327,55 @@ abstract class AbstractContact
     }
 
     /**
-     * @param ContactImageConnection|null $contactImageConnection
-     */
-    final public function addImageConnection(?ContactImageConnection $contactImageConnection): void
-    {
-        if ($contactImageConnection && !$this->imageConnections->contains($contactImageConnection)) {
-            $this->imageConnections->add($contactImageConnection);
-        }
-    }
-
-    /**
-     * @param ContactImageConnection|null $contactImageConnection
-     */
-    final public function removeImageConnection(?ContactImageConnection $contactImageConnection): void
-    {
-        if ($contactImageConnection) {
-            $this->imageConnections->removeElement($contactImageConnection);
-        }
-    }
-
-    /**
      * Remove contact details where no content is present.
      */
-    final public function removeEmptyContactDetails(): void
+    public function removeEmptyContactDetails(): void
     {
         $this->setContactDetails($this->getContactDetails()->filter(fn(ContactDetail $detail) => !empty($detail->getContent())));
     }
 
-    /**
-     * @return Collection
-     */
-    final public function getContactDetails(): Collection
+    public function getContactDetails(): Collection
     {
         return $this->contactDetails ?? new ArrayCollection();
     }
 
-    final public function setContactDetails(?Collection $newContactDetails): void
+    public function setContactDetails(?Collection $newContactDetails): void
     {
         $this->contactDetails = $newContactDetails ?? new ArrayCollection();
     }
 
-    /**
-     * @param ContactDetail|null $contactDetail
-     */
-    final public function removeContactDetail(?ContactDetail $contactDetail): void
+    public function removeContactDetail(?ContactDetail $contactDetail): void
     {
         if ($contactDetail) {
             $this->contactDetails->removeElement($contactDetail);
         }
     }
 
-    /**
-     * @param ContactAddress|null $address
-     */
-    final public function removeAddress(?ContactAddress $address): void
+    public function removeAddress(?ContactAddress $address): void
     {
-        if ($address) {
+        if (null !== $address) {
             $this->addresses->removeElement($address);
         }
     }
 
-    /**
-     * @param ContactDetail|null $contactDetail
-     */
-    final public function addContactDetail(?ContactDetail $contactDetail): void
+    public function addContactDetail(?ContactDetail $contactDetail): void
     {
-        if ($contactDetail && !$this->contactDetails->contains($contactDetail)) {
+        if (null !== $contactDetail && !$this->contactDetails->contains($contactDetail)) {
             $this->contactDetails->add($contactDetail);
         }
     }
 
-    /**
-     * @return Collection
-     */
-    final public function getAddresses(): Collection
+    public function getAddresses(): Collection
     {
         return $this->addresses ?? new ArrayCollection();
     }
 
-    final public function setAddresses(?Collection $newAddresses): void
+    public function setAddresses(?Collection $newAddresses): void
     {
         $this->addresses = $newAddresses ?? new ArrayCollection();
     }
 
-    /**
-     * @param ContactAddress|null $address
-     */
-    final public function addAddress(?ContactAddress $address): void
+    public function addAddress(?ContactAddress $address): void
     {
         if ($address && !$this->addresses->contains($address)) {
             $this->addresses->add($address);
@@ -436,28 +385,22 @@ abstract class AbstractContact
     /**
      * Remove notes where no content is present.
      */
-    final public function removeEmptyNotes(): void
+    public function removeEmptyNotes(): void
     {
         $this->setNotes($this->getNotes()->filter(fn(ContactNote $note) => empty($note->getContent())));
     }
 
-    /**
-     * @return Collection
-     */
-    final public function getNotes(): Collection
+    public function getNotes(): Collection
     {
         return $this->notes ?? new ArrayCollection();
     }
 
-    final public function setNotes(?Collection $newNotes): void
+    public function setNotes(?Collection $newNotes): void
     {
         $this->notes = $newNotes ?? new ArrayCollection();
     }
 
-    /**
-     * @param ContactNote|null $personNote
-     */
-    final public function removeNote(?ContactNote $personNote): void
+    public function removeNote(?ContactNote $personNote): void
     {
         if ($personNote) {
             $this->notes->removeElement($personNote);
@@ -468,7 +411,7 @@ abstract class AbstractContact
      * @ApiProperty(iri="http://schema.org/url")
      * @return string All urls in one string.
      */
-    final public function getUrlsAsString(): ?string
+    public function getUrlsAsString(): ?string
     {
         return implode([', '], $this->getUrls());
     }
@@ -477,7 +420,7 @@ abstract class AbstractContact
      * @ApiProperty(iri="http://schema.org/url")
      * @return Collection Collection of URL addresses from contact details
      */
-    final public function getUrls(): Collection
+    public function getUrls(): Collection
     {
         return $this->getContactDetails()->filter(fn(ContactDetail $contactDetail) => ContactDetailType::TYPE_URL === $contactDetail->getTypeString());
     }
@@ -491,33 +434,26 @@ abstract class AbstractContact
         return new ArrayCollection([$this]);
     }
 
-    /**
-     * User associated with this contact.
-     * @return AppUser|null
-     */
-    final public function getAppUser(): ?AppUser
+    public function getAppUser(): ?AppUser
     {
         return $this->appUser;
     }
 
-    /**
-     * @param AppUser|null $appUser
-     */
-    final public function setAppUser(?AppUser $appUser): void
+    public function setAppUser(?AppUser $appUser): void
     {
         if ($this->appUser !== $appUser) {
             $this->appUser = $appUser;
         }
     }
 
-    final public function getUrl(): ?string
+    public function getUrl(): ?string
     {
         $urls = $this->getUrls();
 
         return $urls->count() > 0 ? $urls->first()->getContent() : null;
     }
 
-    final public function getPhone(): ?string
+    public function getPhone(): ?string
     {
         $phones = $this->getPhones();
 
@@ -528,12 +464,12 @@ abstract class AbstractContact
      * @ApiProperty(iri="http://schema.org/telephone")
      * @return Collection Collection of telephone numbers of AbstractContact (Person or Organization)
      */
-    final public function getPhones(): Collection
+    public function getPhones(): Collection
     {
         return $this->getContactDetails()->filter(fn(ContactDetail $contactDetail) => ContactDetailType::TYPE_PHONE === $contactDetail->getTypeString());
     }
 
-    final public function getAddress(): ?string
+    public function getAddress(): ?string
     {
         return $this->contactDetails->first();
     }
@@ -542,23 +478,23 @@ abstract class AbstractContact
      * @ApiProperty(iri="http://schema.org/legalName")
      * @return string (Official) Name of AbstractContact (Person or Organization)
      */
-    final public function getLegalName(): string
+    public function getLegalName(): string
     {
         return $this->getContactName();
     }
 
-    final public function getContactName(): string
+    public function getContactName(): string
     {
         return $this->updateContactName();
     }
 
-    final public function setContactName(?string $contactName): void
+    public function setContactName(?string $contactName): void
     {
         $this->setFullName($contactName);
         $this->updateContactName();
     }
 
-    final public function updateContactName(): string
+    public function updateContactName(): string
     {
         $this->contactName = $this->getFullName();
         $this->sortableName = $this->getSortableContactName();
@@ -575,8 +511,7 @@ abstract class AbstractContact
 
     abstract public function setFullName(?string $contactName): void;
 
-    /** @noinspection MethodShouldBeFinalInspection */
-    final public function canRead(AppUser $user): bool
+    public function canRead(AppUser $user): bool
     {
         if (!($user instanceof AppUser)) { // User is not logged in.
             return false;
@@ -585,7 +520,7 @@ abstract class AbstractContact
         return $user->hasRole('ROLE_MEMBER') && $user->hasRole('ROLE_USER') && $user === $this->getUser();
     }
 
-    final public function getUser(): ?AppUser
+    public function getUser(): ?AppUser
     {
         return $this->getAppUser();
     }
@@ -603,7 +538,7 @@ abstract class AbstractContact
         return new Address($eMail, EmailUtils::mime_header_encode($name));
     }
 
-    final public function getEmail(): ?string
+    public function getEmail(): ?string
     {
         return $this->getEmails()->first() ? $this->getEmails()->first()->getContent() : null;
     }
@@ -612,12 +547,12 @@ abstract class AbstractContact
      * @ApiProperty(iri="http://schema.org/email")
      * @return Collection Collection of e-mail addresses from contact details
      */
-    final public function getEmails(): Collection
+    public function getEmails(): Collection
     {
         return $this->getContactDetails()->filter(fn(ContactDetail $contactDetail) => ContactDetailType::TYPE_EMAIL === $contactDetail->getTypeString());
     }
 
-    final public function canEdit(AppUser $user): bool
+    public function canEdit(AppUser $user): bool
     {
         if (!($user instanceof AppUser)) {// User is not logged in.
             return false;
@@ -626,7 +561,7 @@ abstract class AbstractContact
         return $user->hasRole('ROLE_MEMBER') && $user->hasRole('ROLE_USER') && $user === $this->getUser();
     }
 
-    final public function containsUserInPersons(AppUser $user): bool
+    public function containsUserInPersons(AppUser $user): bool
     {
         return $this->getUsersOfPersons()->contains($user);
     }
@@ -634,7 +569,7 @@ abstract class AbstractContact
     /**
      * @return Collection
      */
-    final public function getUsersOfPersons(): Collection
+    public function getUsersOfPersons(): Collection
     {
         return $this->getPersons()->map(fn(Person $person) => $person->getAppUser());
     }
@@ -642,7 +577,7 @@ abstract class AbstractContact
     /**
      * @return Collection
      */
-    final public function getPersons(): Collection
+    public function getPersons(): Collection
     {
         if ($this instanceof Person) {
             return new ArrayCollection([$this]);
@@ -657,7 +592,7 @@ abstract class AbstractContact
     /**
      * @return Collection
      */
-    final public function getManagedDepartments(): Collection
+    public function getManagedDepartments(): Collection
     {
         // TODO: Return managed departments.
         return new ArrayCollection();
@@ -666,7 +601,7 @@ abstract class AbstractContact
     /**
      * @return string
      */
-    final public function __toString(): string
+    public function __toString(): string
     {
         return $this->getContactName() ?? '';
     }
@@ -674,7 +609,7 @@ abstract class AbstractContact
     /**
      * @return Collection
      */
-    final public function getStudies(): Collection
+    public function getStudies(): Collection
     {
         return $this->getPositions()->filter(fn(Position $position) => $position->isStudy());
     }
@@ -687,7 +622,7 @@ abstract class AbstractContact
     /**
      * @return Collection
      */
-    final public function getRegularPositions(): Collection
+    public function getRegularPositions(): Collection
     {
         return $this->getPositions()->filter(fn(Position $position) => $position->isRegularPosition());
     }
@@ -697,7 +632,7 @@ abstract class AbstractContact
      *
      * @throws InvalidArgumentException
      */
-    final public function addStudy(?Position $position): void
+    public function addStudy(?Position $position): void
     {
         if (!$position) {
             return;
@@ -718,7 +653,7 @@ abstract class AbstractContact
      *
      * @throws InvalidArgumentException
      */
-    final public function addRegularPosition(?Position $position): void
+    public function addRegularPosition(?Position $position): void
     {
         if (!$position) {
             return;
@@ -734,7 +669,7 @@ abstract class AbstractContact
      *
      * @throws InvalidArgumentException
      */
-    final public function removeStudy(?Position $position): void
+    public function removeStudy(?Position $position): void
     {
         if (!$position) {
             return;
@@ -755,7 +690,7 @@ abstract class AbstractContact
      *
      * @throws InvalidArgumentException
      */
-    final public function removeRegularPosition(?Position $position): void
+    public function removeRegularPosition(?Position $position): void
     {
         if (!$position) {
             return;
