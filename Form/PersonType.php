@@ -10,7 +10,7 @@ use Symfony\Component\OptionsResolver\Exception\AccessException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Zakjakub\OswisAddressBookBundle\Entity\Person;
 
-class StudentPersonType extends AbstractType
+class PersonType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -19,11 +19,13 @@ class StudentPersonType extends AbstractType
     final public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add(
-            'fullName',
+            'name',
             TextType::class,
             array(
                 'label' => 'Celé jméno',
-                'attr'  => ['autocomplete' => 'section-student name'],
+                'attr'  => [
+                    'autocomplete' => 'section-student name',
+                ],
             )
         )->add(
             'contactDetails',

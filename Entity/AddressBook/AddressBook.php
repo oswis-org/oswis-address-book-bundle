@@ -21,7 +21,6 @@ class AddressBook
     use NameableBasicTrait;
 
     /**
-     * @var Collection|null
      * @Doctrine\ORM\Mapping\OneToMany(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBookContactConnection",
      *     cascade={"all"},
@@ -102,9 +101,5 @@ class AddressBook
                 $this->removeAddressBookContactConnection($addressBookContactConnection);
             }
         }
-    }
-
-    final public function destroyRevisions(): void
-    {
     }
 }

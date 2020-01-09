@@ -15,7 +15,6 @@ class AddressBookContactConnection
     use BasicEntityTrait;
 
     /**
-     * @var AbstractContact|null
      * @Doctrine\ORM\Mapping\ManyToOne(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact",
      *     inversedBy="addressBookContactConnections",
@@ -26,7 +25,6 @@ class AddressBookContactConnection
     protected ?AbstractContact $contact = null;
 
     /**
-     * @var AddressBook|null
      * @Doctrine\ORM\Mapping\ManyToOne(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBook",
      *     inversedBy="addressBookContactConnections",

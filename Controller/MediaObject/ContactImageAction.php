@@ -2,7 +2,7 @@
 
 namespace Zakjakub\OswisAddressBookBundle\Controller\MediaObject;
 
-use Zakjakub\OswisAddressBookBundle\Entity\ContactImage;
+use Zakjakub\OswisAddressBookBundle\Entity\MediaObject\ContactImage;
 use Zakjakub\OswisCoreBundle\Controller\AbstractClass\AbstractImageAction;
 use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractImage;
 

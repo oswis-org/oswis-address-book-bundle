@@ -321,7 +321,7 @@ abstract class AbstractContact
 
     public function addNote(?ContactNote $personNote): void
     {
-        if ($personNote) {
+        if (null !== $personNote) {
             $this->notes->add($personNote);
         }
     }
@@ -346,7 +346,7 @@ abstract class AbstractContact
 
     public function removeContactDetail(?ContactDetail $contactDetail): void
     {
-        if ($contactDetail) {
+        if (null !== $contactDetail) {
             $this->contactDetails->removeElement($contactDetail);
         }
     }
@@ -377,7 +377,7 @@ abstract class AbstractContact
 
     public function addAddress(?ContactAddress $address): void
     {
-        if ($address && !$this->addresses->contains($address)) {
+        if (null !== $address && !$this->addresses->contains($address)) {
             $this->addresses->add($address);
         }
     }
@@ -402,7 +402,7 @@ abstract class AbstractContact
 
     public function removeNote(?ContactNote $personNote): void
     {
-        if ($personNote) {
+        if (null !== $personNote) {
             $this->notes->removeElement($personNote);
         }
     }
@@ -478,12 +478,12 @@ abstract class AbstractContact
      * @ApiProperty(iri="http://schema.org/legalName")
      * @return string (Official) Name of AbstractContact (Person or Organization)
      */
-    public function getLegalName(): string
+    public function getLegalName(): ?string
     {
         return $this->getContactName();
     }
 
-    public function getContactName(): string
+    public function getContactName(): ?string
     {
         return $this->updateContactName();
     }
@@ -494,7 +494,7 @@ abstract class AbstractContact
         $this->updateContactName();
     }
 
-    public function updateContactName(): string
+    public function updateContactName(): ?string
     {
         $this->contactName = $this->getFullName();
         $this->sortableName = $this->getSortableContactName();
@@ -507,6 +507,16 @@ abstract class AbstractContact
     public function getSortableContactName(): string
     {
         return $this->getFullName() ?? '';
+    }
+
+    public function getName(): ?string
+    {
+        return $this->getContactName();
+    }
+
+    public function setName(?string $name): void
+    {
+        $this->setContactName($name);
     }
 
     abstract public function setFullName(?string $contactName): void;
