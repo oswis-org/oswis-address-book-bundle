@@ -21,7 +21,7 @@ use function trim;
 /**
  * Class Person. Represents a person.
  *
- * @Doctrine\ORM\Mapping\Entity()
+ * @Doctrine\ORM\Mapping\Entity(repositoryClass="Zakjakub\OswisAddressBookBundle\Repository\PersonRepository")
  * @Doctrine\ORM\Mapping\Table(name="address_book_person")
  * @ApiResource(
  *   iri="http://schema.org/Person",

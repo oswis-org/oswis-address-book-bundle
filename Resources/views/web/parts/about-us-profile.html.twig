@@ -1,0 +1,14 @@
+<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" title="{{ contact.nickname|default() }}">
+    <article class="contact {{ contact.genderClass|default('') }}" id="{{ contact.slug|default('') }}"
+             itemscope itemtype='{{ contact.person ? 'http://schema.org/Person' : 'http://schema.org/Organization' }}'>
+        <div content="{{ asset('/images/contacts/'~contact.image) }}" class="contact-image-box text-uppercase"
+             style="background-image: url({{ asset('/images/contacts/'~contact.image) }})" itemprop="image">
+            <h3 itemprop="name">{{ contact.name }}</h3>
+            {% for position in contact.positions if position.active and position.special %}
+                <h4 itemprop="jobTitle" class="text-uppercase" title="{{ position.name }}">{{ position.shortName }}</h4>
+            {% endfor %}
+        </div>
+        <div class="first-line" title="contact.description|markdown_to_html|striptags">{{ contact.description|markdown_to_html }}</div>
+        <div itemprop="description">{{ contact.note|markdown_to_html }}</div>
+    </article>
+</div>

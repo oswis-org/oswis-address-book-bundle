@@ -1,0 +1,11 @@
+<!-- START: PROFILES -->
+{% if organization.members|length > 0 %}
+    {% for contact in contacts %}
+        {% include '@ZakjakubOswisAddressBook/web/parts/about-us-profile.html.twig' %}
+    {% endfor %}
+{% else %}
+    <div class="col-12">
+        <p>Aktuálně nejsou k dispozici žádné kontakty k zobrazení.</p>
+    </div>
+{% endif %}
+<!-- END: PROFILES -->

@@ -64,7 +64,7 @@ class ContactDetailType
 {
     public const TYPE_EMAIL = 'email';
     public const TYPE_URL = 'url';
-    public const TYPE_PHONE = 'phone';
+    public const TYPE_PHONE = 'telephone';
     public const TYPE_SOCIAL = 'social';
     public const TYPE_MESSENGER = 'messenger';
     public const TYPE_VOIP = 'voip';

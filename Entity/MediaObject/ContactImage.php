@@ -8,7 +8,7 @@ use Zakjakub\OswisAddressBookBundle\Controller\MediaObject\ContactImageAction;
 use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractImage;
 
 /**
- * @Doctrine\ORM\Mapping\Entity
+ * @Doctrine\ORM\Mapping\Entity()
  * @Doctrine\ORM\Mapping\Table(name="address_book_contact_image")
  * @ApiResource(
  *   iri="http://schema.org/ImageObject",
@@ -22,7 +22,7 @@ use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractImage;
  *     },
  *   }
  * )
- * @Vich\UploaderBundle\Mapping\Annotation\Uploadable
+ * @Vich\UploaderBundle\Mapping\Annotation\Uploadable()
  */
 class ContactImage extends AbstractImage
 {

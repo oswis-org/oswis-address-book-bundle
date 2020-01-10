@@ -1,5 +1,6 @@
 <?php
 /**
+ * @noinspection MethodShouldBeFinalInspection
  * @noinspection PhpUnused
  */
 
@@ -10,7 +11,7 @@ use Doctrine\ORM\Query;
 
 class OrganizationRepository extends EntityRepository
 {
-    final public function getFacultiesOfUniversity(?string $universitySlug = null): array
+    public function getFacultiesOfUniversity(?string $universitySlug = null): array
     {
         $qb = $this->createQueryBuilder('o')->where('o.type = faculty');
         if ($universitySlug) {

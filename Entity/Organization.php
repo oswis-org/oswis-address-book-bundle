@@ -12,6 +12,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractOrganization;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
 use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
@@ -63,7 +64,6 @@ use function assert;
 class Organization extends AbstractOrganization
 {
     /**
-     * @var Organization|null $parentOrganization Parent organization (if this is not top level org)
      * @Doctrine\ORM\Mapping\ManyToOne(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Organization",
      *     inversedBy="subOrganizations",
@@ -75,7 +75,6 @@ class Organization extends AbstractOrganization
     protected ?Organization $parentOrganization = null;
 
     /**
-     * @var Collection|null $subOrganizations Sub organizations
      * @Doctrine\ORM\Mapping\OneToMany(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Organization",
      *     mappedBy="parentOrganization"
@@ -131,7 +130,7 @@ class Organization extends AbstractOrganization
     {
         $students = new ArrayCollection();
         if ($this->isSchool()) {
-            foreach ($this->getDirectStudies() as $study) {
+            foreach ($this->getStudyPositions() as $study) {
                 assert($study instanceof Position);
                 if (!$students->contains($study->getPerson())) {
                     $students->add($study->getPerson());
@@ -142,65 +141,29 @@ class Organization extends AbstractOrganization
         return $students;
     }
 
-    /**
-     * Returns positions marked as study.
-     *
-     * @param DateTime|null $referenceDateTime
-     *
-     * @return Collection
-     */
-    public function getDirectStudies(?DateTime $referenceDateTime = null): Collection
+    public function getStudyPositions(?DateTime $dateTime = null, bool $recursive = false): Collection
     {
-        if (!$this->isSchool()) {
-            return new ArrayCollection();
+        return $this->getPositions($dateTime, Position::STUDY_POSITION_TYPES, $recursive);
+    }
+
+    public function getPositions(?DateTime $dateTime = null, array $types = [], bool $recursive = false): Collection
+    {
+        $out = $this->positions ?? new ArrayCollection();
+        if (null !== $dateTime) {
+            $out = $out->filter(fn(Position $p): bool => $p->containsDateTimeInRange($dateTime));
+        }
+        if (!empty($types)) {
+            $out = $out->filter(fn(Position $position) => in_array($position->getType(), $types, true));
+        }
+        if (true === $recursive) {
+            foreach ($this->getSubOrganizations() as $subOrganization) {
+                if ($subOrganization instanceof self) {
+                    $subOrganization->getPositions($dateTime, $types, true)->map(fn(Position $p) => $out->add($p));
+                }
+            }
         }
 
-        return $this->getPositions($referenceDateTime)->filter(fn(Position $position): bool => $position->isStudy());
-    }
-
-    /**
-     * Returns positions in organization. If referenceDateTime is specified, only valid positions (in that datetime) are returned.
-     *
-     * @param DateTime|null $referenceDateTime
-     *
-     * @return Collection
-     */
-    public function getPositions(?DateTime $referenceDateTime = null): Collection
-    {
-        $positions = $this->positions ?? new ArrayCollection();
-
-        return $referenceDateTime ? $positions->filter(fn(Position $p): bool => $p->containsDateTimeInRange($referenceDateTime)) : $positions;
-    }
-
-    public function getContactPersons(?DateTime $dateTime = null, bool $onlyWithActivatedUser = false): Collection
-    {
-        $onAc = $onlyWithActivatedUser;
-
-        return $this->getPositions($dateTime ?? new DateTime())->filter(
-            fn(Position $p) => ($onAc && (!$p->getPerson() || !$p->getPerson()->getAppUser() || !$p->getPerson()->getAppUser()->getAccountActivationDateTime(
-                    ))) ? false : $p->getIsContactPerson()
-        );
-    }
-
-    public function getAllStudents(): Collection
-    {
-        return $this->getAllStudies()->map(fn(Position $position): ?Person => $position->isStudy() && $position->getPerson() ? $position->getPerson() : null);
-    }
-
-    public function getAllStudies(): Collection
-    {
-        if (!$this->isSchool()) {
-            return new ArrayCollection();
-        }
-        $studies = $this->getDirectStudies();
-        foreach ($this->getSubOrganizations() as $organization) {
-            assert($organization instanceof self);
-            $organization->getAllStudies()->map(
-                fn(Position $position) => $studies->add($position)
-            );
-        }
-
-        return $studies;
+        return $out;
     }
 
     public function getSubOrganizations(): Collection
@@ -208,33 +171,78 @@ class Organization extends AbstractOrganization
         return $this->subOrganizations ?? new ArrayCollection();
     }
 
-    public function getAllEmployees(): Collection
+    public function getStudents(?DateTime $dateTime = null, bool $recursive = false): Collection
     {
-        return $this->getAllEmployeesPositions()->map(fn(Position $position) => $position->getPerson());
+        $out = new ArrayCollection();
+        $this->getStudyPositions($dateTime, $recursive)->map(fn(AbstractContact $c) => $out->contains($c) ? null : $out->add($c));
+
+        return $out;
     }
 
-    public function getAllEmployeesPositions(): Collection
+    public function getMembers(?DateTime $dateTime = null, bool $recursive = false): Collection
     {
-        $positions = $this->getDirectEmployeesPositions();
-        foreach ($this->getSubOrganizations() as $organization) {
-            assert($organization instanceof self);
-            $organization->getAllEmployeesPositions()->map(fn(Position $position) => $positions->add($position));
-        }
+        $out = new ArrayCollection();
+        $this->getMemberPositions($dateTime, $recursive)->map(fn(AbstractContact $c) => $out->contains($c) ? null : $out->add($c));
 
-        return $positions;
+        return $out;
     }
 
-    public function getDirectEmployeesPositions(): Collection
+    public function getMemberPositions(?DateTime $dateTime = null, bool $recursive = false): Collection
     {
-        return $this->filterPositionsByType('employee'); // TODO: Probably bug here.
+        return $this->getPositions($dateTime, Position::MEMBER_POSITION_TYPES, $recursive);
     }
 
-    public function filterPositionsByType(string $positionName): Collection
+    public function getMembersAndEmployees(?DateTime $dateTime = null, bool $recursive = false): Collection
     {
-        return $this->getPositions()->filter(fn(Position $position) => $positionName === $position->getType());
+        $out = new ArrayCollection();
+        $this->getMemberAndEmployeePositions($dateTime, $recursive)->map(fn(AbstractContact $c) => $out->contains($c) ? null : $out->add($c));
+
+        return $out;
     }
 
-    public function isRootOrganization(): bool
+    public function getMemberAndEmployeePositions(?DateTime $dateTime = null, bool $recursive = false): Collection
+    {
+        return $this->getPositions($dateTime, Position::EMPLOYEE_MEMBER_POSITION_TYPES, $recursive);
+    }
+
+    public function getEmployees(?DateTime $dateTime = null, bool $recursive = false): Collection
+    {
+        $out = new ArrayCollection();
+        $this->getEmployeePositions($dateTime, $recursive)->map(fn(AbstractContact $c) => $out->contains($c) ? null : $out->add($c));
+
+        return $out;
+    }
+
+    public function getEmployeePositions(?DateTime $dateTime = null, bool $recursive = false): Collection
+    {
+        return $this->getPositions($dateTime, Position::EMPLOYEE_POSITION_TYPES, $recursive);
+    }
+
+    public function getManagers(?DateTime $dateTime = null, bool $recursive = false): Collection
+    {
+        $out = new ArrayCollection();
+        $this->getManagerPositions($dateTime, $recursive)->map(fn(AbstractContact $c) => $out->contains($c) ? null : $out->add($c));
+
+        return $out;
+    }
+
+    public function getManagerPositions(?DateTime $dateTime = null, bool $recursive = false): Collection
+    {
+        return $this->getPositions($dateTime, Position::STUDY_POSITION_TYPES, $recursive);
+    }
+
+    public function getContactPersons(?DateTime $dateTime = null, bool $onlyWithActivatedUser = false): Collection
+    {
+        $act = $onlyWithActivatedUser;
+        $positions = $this->getPositions($dateTime ?? new DateTime());
+
+        return $positions->filter(
+            fn(Position $p) => ($act && (!$p->getPerson() || !$p->getPerson()->getAppUser() || !$p->getPerson()->getAppUser()->getAccountActivationDateTime(
+                    ))) ? false : $p->getIsContactPerson()
+        );
+    }
+
+    public function isRoot(): bool
     {
         return $this->parentOrganization ? false : true;
     }
@@ -256,38 +264,14 @@ class Organization extends AbstractOrganization
         // TODO: Check cycles!
     }
 
-    public function getEmployees(): Collection
-    {
-        $employees = $this->getDirectEmployees();
-        foreach ($this->getDepartments() as $department) {
-            assert($department instanceof self);
-            $department->getDirectEmployees()->map(fn(Position $position) => $employees->add($position));
-        }
-
-        return $employees;
-    }
-
-    public function getDirectEmployees(): Collection
-    {
-        return $this->getDirectEmployeesPositions()->map(fn(Position $position): Person => $position->getPerson());
-    }
-
-    public function getDepartments(): Collection
-    {
-        return $this->filterSubOrganizationsByType('department');
-    }
-
     public function filterSubOrganizationsByType(string $type): Collection
     {
         return $this->getSubOrganizations()->filter(fn(Organization $organization): bool => $type === $organization->getType());
     }
 
-    /**
-     * @return string Path (from parent organizations tree).
-     */
     public function getPath(): string
     {
-        return $this->getParentOrganization() ? '-&gt;'.$this->getParentOrganization()->getPath() : '';
+        return $this->getParentOrganization() ? '-&gt;'.$this->getParentOrganization()->getPath() : $this->getName();
     }
 
     public function getParentOrganization(): ?Organization

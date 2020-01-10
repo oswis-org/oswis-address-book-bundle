@@ -1,5 +1,6 @@
 <?php
 /**
+ * @noinspection MethodShouldBeFinalInspection
  * @noinspection PhpUnused
  */
 
@@ -10,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Psr\Log\LoggerInterface;
 use Zakjakub\OswisAddressBookBundle\Entity\Organization;
+use Zakjakub\OswisAddressBookBundle\Repository\OrganizationRepository;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
 
 class OrganizationService
@@ -49,13 +51,15 @@ class OrganizationService
         }
     }
 
-    final public function updateActiveRevisions(): void
+    public function getRepository(): OrganizationRepository
     {
-        foreach ($this->em->getRepository(Organization::class)->findAll() as $organization) {
-            assert($organization instanceof Organization);
-            $organization->destroyRevisions();
-            $this->em->persist($organization);
-        }
-        $this->em->flush();
+        $repo = $this->em->getRepository(Organization::class);
+        assert($repo instanceof OrganizationRepository);
+
+        return $repo;
+    }
+
+    public function updateActiveRevisions(): void
+    {
     }
 }

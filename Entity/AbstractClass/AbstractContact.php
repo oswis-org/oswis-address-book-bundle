@@ -575,17 +575,11 @@ abstract class AbstractContact
         return $this->getUsersOfPersons()->contains($user);
     }
 
-    /**
-     * @return Collection
-     */
     public function getUsersOfPersons(): Collection
     {
         return $this->getPersons()->map(fn(Person $person) => $person->getAppUser());
     }
 
-    /**
-     * @return Collection
-     */
     public function getPersons(): Collection
     {
         if ($this instanceof Person) {
@@ -598,9 +592,6 @@ abstract class AbstractContact
         return new ArrayCollection();
     }
 
-    /**
-     * @return Collection
-     */
     public function getManagedDepartments(): Collection
     {
         // TODO: Return managed departments.
@@ -615,22 +606,13 @@ abstract class AbstractContact
         return $this->getContactName() ?? '';
     }
 
-    /**
-     * @return Collection
-     */
-    public function getStudies(): Collection
+    public function getStudyPositions(): Collection
     {
         return $this->getPositions()->filter(fn(Position $position) => $position->isStudy());
     }
 
-    /**
-     * @return Collection
-     */
     abstract public function getPositions(): Collection;
 
-    /**
-     * @return Collection
-     */
     public function getRegularPositions(): Collection
     {
         return $this->getPositions()->filter(fn(Position $position) => $position->isRegularPosition());

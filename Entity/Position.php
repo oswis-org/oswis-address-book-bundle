@@ -67,13 +67,15 @@ class Position
     public const TYPE_MEMBER = 'member';
     public const TYPE_MANAGER = 'manager';
     public const TYPE_DIRECTOR = 'director';
-    public const TYPE_BOSS = 'boss';
     public const TYPE_STUDENT = 'student';
     public const TYPE_GRADUATED = 'graduated';
     public const TYPE_STUDENT_OR_GRADUATED = 'student/graduated';
 
-    public const MANAGER_POSITION_TYPES = [self::TYPE_MANAGER, self::TYPE_DIRECTOR, self::TYPE_BOSS];
+    public const MANAGER_POSITION_TYPES = [self::TYPE_MANAGER, self::TYPE_DIRECTOR];
     public const STUDY_POSITION_TYPES = [self::TYPE_STUDENT, self::TYPE_GRADUATED, self::TYPE_STUDENT_OR_GRADUATED];
+    public const EMPLOYEE_POSITION_TYPES = [self::TYPE_EMPLOYEE, ...self::MANAGER_POSITION_TYPES];
+    public const MEMBER_POSITION_TYPES = [self::TYPE_MEMBER, ...self::MANAGER_POSITION_TYPES];
+    public const EMPLOYEE_MEMBER_POSITION_TYPES = [self::TYPE_MEMBER, self::TYPE_EMPLOYEE, ...self::MANAGER_POSITION_TYPES];
 
     use BasicEntityTrait;
     use NameableBasicTrait;
@@ -90,7 +92,7 @@ class Position
      * True if position is kind of "special" (and to be displayed in web profile).
      * @ORM\Column(type="boolean", nullable=true)
      */
-    protected ?bool $isSpecial = null;
+    protected ?bool $special = null;
 
     /**
      * Person in this position.
@@ -141,7 +143,6 @@ class Position
             self::TYPE_MEMBER,
             self::TYPE_MANAGER,
             self::TYPE_DIRECTOR,
-            self::TYPE_BOSS,
             self::TYPE_STUDENT,
             self::TYPE_GRADUATED,
             self::TYPE_STUDENT_OR_GRADUATED,
@@ -153,14 +154,14 @@ class Position
         return [];
     }
 
-    public function getIsSpecial(): ?bool
+    public function isSpecial(): ?bool
     {
-        return $this->isSpecial;
+        return $this->special;
     }
 
-    public function setIsSpecial(?bool $isSpecial): void
+    public function setSpecial(?bool $special): void
     {
-        $this->isSpecial = $isSpecial;
+        $this->special = $special;
     }
 
     /**
@@ -169,6 +170,11 @@ class Position
     public function getEmployerString(): string
     {
         return $this->organization ? $this->organization->getName() : '???';
+    }
+
+    public function isActive(): bool
+    {
+        return $this->containsDateTimeInRange();
     }
 
     /**
