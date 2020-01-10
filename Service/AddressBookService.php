@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpUnused */
+<?php /** @noinspection MethodShouldBeFinalInspection */
+
+/** @noinspection PhpUnused */
 
 namespace Zakjakub\OswisAddressBookBundle\Service;
 
@@ -6,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Psr\Log\LoggerInterface;
 use Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBook;
+use Zakjakub\OswisAddressBookBundle\Repository\AddressBookRepository;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
 
 class AddressBookService
@@ -20,7 +23,7 @@ class AddressBookService
         $this->logger = $logger;
     }
 
-    final public function create(?Nameable $nameable = null): ?AddressBook
+    public function create(?Nameable $nameable = null): ?AddressBook
     {
         try {
             $entity = new AddressBook($nameable);
@@ -37,7 +40,15 @@ class AddressBookService
         }
     }
 
-    final public function updateActiveRevisions(): void
+    public function getRepository(): AddressBookRepository
+    {
+        $repo = $this->em->getRepository(AddressBook::class);
+        assert($repo instanceof AddressBookRepository);
+
+        return $repo;
+    }
+
+    public function updateActiveRevisions(): void
     {
     }
 }

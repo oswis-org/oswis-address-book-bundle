@@ -22,7 +22,7 @@ class AbstractContactService
         $this->logger = $logger;
     }
 
-    final public function updateNames(): void
+    public function updateNames(): void
     {
         $contacts = $this->em->getRepository(AbstractContact::class)->findAll();
         foreach ($contacts as $contact) {

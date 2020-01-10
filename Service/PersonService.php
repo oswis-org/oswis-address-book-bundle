@@ -24,7 +24,7 @@ class PersonService
         $this->logger = $logger;
     }
 
-    final public function create(
+    public function create(
         ?string $fullName = null,
         ?string $description = null,
         ?DateTime $birthDate = null,
@@ -51,7 +51,7 @@ class PersonService
         }
     }
 
-    final public function updateActiveRevisions(): void
+    public function updateActiveRevisions(): void
     {
         foreach ($this->em->getRepository(Person::class)->findAll() as $person) {
             assert($person instanceof Person);

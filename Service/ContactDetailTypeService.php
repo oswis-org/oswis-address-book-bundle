@@ -20,7 +20,7 @@ class ContactDetailTypeService
         $this->logger = $logger;
     }
 
-    final public function create(
+    public function create(
         ?Nameable $nameable = null,
         ?string $schema = null,
         ?bool $showInPreview = null,

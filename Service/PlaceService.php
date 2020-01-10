@@ -21,7 +21,7 @@ class PlaceService
         $this->logger = $logger;
     }
 
-    final public function create(
+    public function create(
         ?Nameable $nameable = null,
         ?Address $address = null,
         ?Place $parentPlace = null,

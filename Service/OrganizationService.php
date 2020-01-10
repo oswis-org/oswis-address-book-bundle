@@ -26,7 +26,7 @@ class OrganizationService
         $this->logger = $logger;
     }
 
-    final public function create(
+    public function create(
         ?Nameable $nameable = null,
         ?string $identificationNumber = null,
         ?Organization $parentOrganization = null,
