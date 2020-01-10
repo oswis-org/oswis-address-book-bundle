@@ -1,4 +1,8 @@
-<?php /** @noinspection PhpUnused */
+<?php
+/**
+ * @noinspection PhpUnused
+ * @noinspection MethodShouldBeFinalInspection
+ */
 
 namespace Zakjakub\OswisAddressBookBundle\Entity;
 
@@ -149,12 +153,12 @@ class Position
         return [];
     }
 
-    final public function getIsSpecial(): ?bool
+    public function getIsSpecial(): ?bool
     {
         return $this->isSpecial;
     }
 
-    final public function setIsSpecial(?bool $isSpecial): void
+    public function setIsSpecial(?bool $isSpecial): void
     {
         $this->isSpecial = $isSpecial;
     }
@@ -162,7 +166,7 @@ class Position
     /**
      * Get organization of this position.
      */
-    final public function getEmployerString(): string
+    public function getEmployerString(): string
     {
         return $this->organization ? $this->organization->getName() : '???';
     }
@@ -170,7 +174,7 @@ class Position
     /**
      * Get person of this position.
      */
-    final public function getEmployeeString(): string
+    public function getEmployeeString(): string
     {
         return $this->person ? $this->person->getFullName() : '???';
     }
@@ -178,7 +182,7 @@ class Position
     /**
      * Get organization of this position.
      */
-    final public function getDepartmentString(): ?string
+    public function getDepartmentString(): ?string
     {
         return ''; // TODO
         // if ($this->department) {
@@ -188,12 +192,12 @@ class Position
         // }
     }
 
-    final public function getOrganization(): ?Organization
+    public function getOrganization(): ?Organization
     {
         return $this->organization;
     }
 
-    final public function setOrganization(?Organization $organization): void
+    public function setOrganization(?Organization $organization): void
     {
         // if (null != $this->department) {
         //     $this->department->removePosition($this);
@@ -208,37 +212,37 @@ class Position
         }
     }
 
-    final public function isManager(): bool
+    public function isManager(): bool
     {
         return in_array($this->getType(), self::MANAGER_POSITION_TYPES, true);
     }
 
-    final public function isRegularPosition(): bool
+    public function isRegularPosition(): bool
     {
         return !$this->isStudy();
     }
 
-    final public function isStudy(): bool
+    public function isStudy(): bool
     {
         return in_array($this->getType(), self::STUDY_POSITION_TYPES, true);
     }
 
-    final public function isContactPerson(): bool
+    public function isContactPerson(): bool
     {
         return $this->getIsContactPerson();
     }
 
-    final public function getIsContactPerson(): bool
+    public function getIsContactPerson(): bool
     {
         return $this->isContactPerson ?? false;
     }
 
-    final public function setIsContactPerson(?bool $isContactPerson): void
+    public function setIsContactPerson(?bool $isContactPerson): void
     {
         $this->isContactPerson = $isContactPerson ?? false;
     }
 
-    final public function getGenderCssClass(): string
+    public function getGenderCssClass(): string
     {
         if ($this->getPerson() === null || !$this->getPerson()->getGivenName()) {
             return 'unisex';
@@ -250,12 +254,12 @@ class Position
         }
     }
 
-    final public function getPerson(): ?Person
+    public function getPerson(): ?Person
     {
         return $this->person;
     }
 
-    final public function setPerson(?Person $person): void
+    public function setPerson(?Person $person): void
     {
         if ($this->person && $person !== $this->person) {
             $this->person->removePosition($this);

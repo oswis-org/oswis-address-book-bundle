@@ -25,8 +25,8 @@ class ZakjakubOswisAddressBookExtension extends Extension implements PrependExte
         $loader->load('services.yaml');
         $configuration = $this->getConfiguration($configs, $container);
         if ($configuration) {
+            /** @noinspection PhpUnusedLocalVariableInspection */
             $config = $this->processConfiguration($configuration, $configs);
-            assert($config);
         }
     }
 

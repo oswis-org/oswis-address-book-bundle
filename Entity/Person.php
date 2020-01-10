@@ -1,4 +1,8 @@
-<?php /** @noinspection PhpUnused */
+<?php
+/**
+ * @noinspection PhpUnused
+ * @noinspection MethodShouldBeFinalInspection
+ */
 
 namespace Zakjakub\OswisAddressBookBundle\Entity;
 
@@ -64,7 +68,6 @@ class Person extends AbstractPerson
 {
     /**
      * Positions (jobs, studies...).
-     * @var Collection|null $positions
      * @Doctrine\ORM\Mapping\OneToMany(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Position",
      *     mappedBy="person",
@@ -76,7 +79,6 @@ class Person extends AbstractPerson
 
     /**
      * Connections to skills.
-     * @var Collection|null $positions
      * @Doctrine\ORM\Mapping\OneToMany(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\PersonSkillConnection",
      *     mappedBy="person",
@@ -103,7 +105,7 @@ class Person extends AbstractPerson
         $this->setPersonSkillConnections($personSkillConnections);
     }
 
-    final public function addPosition(?Position $position): void
+    public function addPosition(?Position $position): void
     {
         if ($position && !$this->positions->contains($position)) {
             $this->positions->add($position);
@@ -111,7 +113,7 @@ class Person extends AbstractPerson
         }
     }
 
-    final public function removePosition(?Position $position): void
+    public function removePosition(?Position $position): void
     {
         if ($position && $this->positions->removeElement($position)) {
             $position->setOrganization(null);
@@ -119,7 +121,7 @@ class Person extends AbstractPerson
         }
     }
 
-    final public function addPersonSkillConnection(?PersonSkillConnection $personSkillConnection): void
+    public function addPersonSkillConnection(?PersonSkillConnection $personSkillConnection): void
     {
         if ($personSkillConnection && !$this->personSkillConnections->contains($personSkillConnection)) {
             $this->personSkillConnections->add($personSkillConnection);
@@ -127,7 +129,7 @@ class Person extends AbstractPerson
         }
     }
 
-    final public function removePersonSkillConnection(?PersonSkillConnection $personSkillConnection): void
+    public function removePersonSkillConnection(?PersonSkillConnection $personSkillConnection): void
     {
         if ($personSkillConnection && $this->personSkillConnections->removeElement($personSkillConnection)) {
             $personSkillConnection->setPersonSkill(null);
@@ -135,10 +137,7 @@ class Person extends AbstractPerson
         }
     }
 
-    /**
-     * @return string
-     */
-    final public function getOrganizationsString(): string
+    public function getOrganizationsString(): string
     {
         $output = '';
         foreach ($this->getPositions() as $position) {
@@ -149,12 +148,12 @@ class Person extends AbstractPerson
         return preg_replace('!\s+!', ' ', rtrim(trim(preg_replace('/[,]+/', ',', $output)), ','));
     }
 
-    final public function getPositions(): Collection
+    public function getPositions(): Collection
     {
         return $this->positions ?? new ArrayCollection();
     }
 
-    final public function setPositions(?Collection $newPositions): void
+    public function setPositions(?Collection $newPositions): void
     {
         $this->positions ??= new ArrayCollection();
         $newPositions ??= new ArrayCollection();
@@ -170,12 +169,12 @@ class Person extends AbstractPerson
         }
     }
 
-    final public function getPersonSkillConnections(): Collection
+    public function getPersonSkillConnections(): Collection
     {
         return $this->personSkillConnections;
     }
 
-    final public function setPersonSkillConnections(?Collection $newPersonSkillConnections): void
+    public function setPersonSkillConnections(?Collection $newPersonSkillConnections): void
     {
         $this->personSkillConnections ??= new ArrayCollection();
         $newPersonSkillConnections ??= new ArrayCollection();
@@ -191,7 +190,6 @@ class Person extends AbstractPerson
         }
     }
 
-    /** @noinspection MethodShouldBeFinalInspection */
     public function getSortableContactName(): string
     {
         return $this->getFamilyName().' '.$this->getGivenName();

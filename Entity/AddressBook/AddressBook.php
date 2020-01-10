@@ -1,4 +1,8 @@
-<?php /** @noinspection PhpUnused */
+<?php
+/**
+ * @noinspection PhpUnused
+ * @noinspection MethodShouldBeFinalInspection
+ */
 
 namespace Zakjakub\OswisAddressBookBundle\Entity\AddressBook;
 
@@ -37,31 +41,31 @@ class AddressBook
     }
 
 
-    final public function addContact(AbstractContact $contact): void
+    public function addContact(AbstractContact $contact): void
     {
         if (null !== $contact && !$this->containsContact($contact)) {
             $this->addAddressBookContactConnection(new AddressBookContactConnection(null, $contact));
         }
     }
 
-    final public function containsContact(AbstractContact $contact): bool
+    public function containsContact(AbstractContact $contact): bool
     {
         return $this->getContacts()->contains($contact);
     }
 
-    final public function getContacts(): Collection
+    public function getContacts(): Collection
     {
         return $this->getAddressBookContactConnections()->map(
             fn(AddressBookContactConnection $addressBookContactConnection): AbstractContact => $addressBookContactConnection->getContact()
         );
     }
 
-    final public function getAddressBookContactConnections(): Collection
+    public function getAddressBookContactConnections(): Collection
     {
         return $this->addressBookContactConnections ?? new ArrayCollection();
     }
 
-    final public function setAddressBookContactConnections(?Collection $newAddressBookContactConnections): void
+    public function setAddressBookContactConnections(?Collection $newAddressBookContactConnections): void
     {
         $this->addressBookContactConnections ??= new ArrayCollection();
         $newAddressBookContactConnections ??= new ArrayCollection();
@@ -77,7 +81,7 @@ class AddressBook
         }
     }
 
-    final public function addAddressBookContactConnection(?AddressBookContactConnection $addressBookContactConnection): void
+    public function addAddressBookContactConnection(?AddressBookContactConnection $addressBookContactConnection): void
     {
         $this->addressBookContactConnections ??= new ArrayCollection();
         if ($addressBookContactConnection && !$this->addressBookContactConnections->contains($addressBookContactConnection)) {
@@ -86,14 +90,14 @@ class AddressBook
         }
     }
 
-    final public function removeAddressBookContactConnection(?AddressBookContactConnection $addressBookContactConnection): void
+    public function removeAddressBookContactConnection(?AddressBookContactConnection $addressBookContactConnection): void
     {
         if ($addressBookContactConnection && $this->addressBookContactConnections->removeElement($addressBookContactConnection)) {
             $addressBookContactConnection->setAddressBook(null);
         }
     }
 
-    final public function removeContact(AbstractContact $contact): void
+    public function removeContact(AbstractContact $contact): void
     {
         foreach ($this->getAddressBookContactConnections() as $addressBookContactConnection) {
             assert($addressBookContactConnection instanceof AddressBookContactConnection);

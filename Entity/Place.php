@@ -1,4 +1,8 @@
-<?php /** @noinspection PhpUnused */
+<?php
+/**
+ * @noinspection PhpUnused
+ * @noinspection MethodShouldBeFinalInspection
+ */
 
 namespace Zakjakub\OswisAddressBookBundle\Entity;
 
@@ -69,20 +73,17 @@ class Place
     use GeoCoordinatesTrait;
 
     /**
-     * @var int|null
      * @ORM\Column(type="integer", nullable=true)
      */
     protected ?int $floorNumber = null;
 
     /**
-     * @var int|null
      * @ORM\Column(type="integer", nullable=true)
      */
     protected ?int $roomNumber = null;
 
     /**
      * Parent place (if this is not top level place).
-     * @var Place|null $parentPlace
      * @Doctrine\ORM\Mapping\ManyToOne(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Place",
      *     inversedBy="subPlaces",
@@ -94,7 +95,6 @@ class Place
 
     /**
      * Sub events.
-     * @var Collection|null $subPlaces
      * @Doctrine\ORM\Mapping\OneToMany(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Place",
      *     mappedBy="parentPlace",
@@ -126,7 +126,7 @@ class Place
         $this->setGeoElevation($geoElevation);
     }
 
-    final public function getSubPlaces(): Collection
+    public function getSubPlaces(): Collection
     {
         return $this->subPlaces ?? new ArrayCollection();
     }
@@ -134,12 +134,12 @@ class Place
     /**
      * @return bool
      */
-    final public function isRootPlace(): bool
+    public function isRootPlace(): bool
     {
         return $this->parentPlace ? false : true;
     }
 
-    final public function addSubPlace(?Place $event): void
+    public function addSubPlace(?Place $event): void
     {
         if ($event && !$this->subPlaces->contains($event)) {
             $this->subPlaces->add($event);
@@ -147,19 +147,19 @@ class Place
         }
     }
 
-    final public function removeSubPlace(?Place $event): void
+    public function removeSubPlace(?Place $event): void
     {
         if ($event && $this->subPlaces->removeElement($event)) {
             $event->setParentPlace(null);
         }
     }
 
-    final public function getParentPlace(): ?Place
+    public function getParentPlace(): ?Place
     {
         return $this->parentPlace;
     }
 
-    final public function setParentPlace(?Place $event): void
+    public function setParentPlace(?Place $event): void
     {
         if ($this->parentPlace && $event !== $this->parentPlace) {
             $this->parentPlace->removeSubPlace($this);
@@ -173,7 +173,7 @@ class Place
     /**
      * @return int|null
      */
-    final public function getFloorNumber(): ?int
+    public function getFloorNumber(): ?int
     {
         return $this->floorNumber;
     }
@@ -181,7 +181,7 @@ class Place
     /**
      * @param int|null $floorNumber
      */
-    final public function setFloorNumber(?int $floorNumber): void
+    public function setFloorNumber(?int $floorNumber): void
     {
         $this->floorNumber = $floorNumber;
     }
@@ -189,7 +189,7 @@ class Place
     /**
      * @return int|null
      */
-    final public function getRoomNumber(): ?int
+    public function getRoomNumber(): ?int
     {
         return $this->roomNumber;
     }
@@ -197,12 +197,12 @@ class Place
     /**
      * @param int|null $roomNumber
      */
-    final public function setRoomNumber(?int $roomNumber): void
+    public function setRoomNumber(?int $roomNumber): void
     {
         $this->roomNumber = $roomNumber;
     }
 
-    final public function getStreetAddress(): string
+    public function getStreetAddress(): string
     {
         $output = $this->getStreet();
         $output .= (!empty($this->getStreet()) && $this->getHouseNumber() !== null) ? ' ' : null;

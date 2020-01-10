@@ -1,4 +1,8 @@
-<?php /** @noinspection PhpUnused */
+<?php
+/**
+ * @noinspection PhpUnused
+ * @noinspection MethodShouldBeFinalInspection
+ */
 
 namespace Zakjakub\OswisAddressBookBundle\Entity;
 
@@ -133,7 +137,7 @@ class PersonSkillConnection
     /**
      * @return bool|null
      */
-    final public function getCanGiveSkill(): ?bool
+    public function getCanGiveSkill(): ?bool
     {
         return $this->canGiveSkill;
     }
@@ -141,12 +145,12 @@ class PersonSkillConnection
     /**
      * @param bool|null $canGiveSkill
      */
-    final public function setCanGiveSkill(?bool $canGiveSkill): void
+    public function setCanGiveSkill(?bool $canGiveSkill): void
     {
         $this->canGiveSkill = $canGiveSkill;
     }
 
-    final public function getPerson(): ?Person
+    public function getPerson(): ?Person
     {
         return $this->person;
     }
@@ -154,7 +158,7 @@ class PersonSkillConnection
     /**
      * @param Person $person
      */
-    final public function setPerson(?Person $person): void
+    public function setPerson(?Person $person): void
     {
         if ($this->person && $person !== $this->person) {
             $this->person->removePersonSkillConnection($this);
@@ -165,32 +169,32 @@ class PersonSkillConnection
         }
     }
 
-    final public function getPersonSkill(): ?PersonSkill
+    public function getPersonSkill(): ?PersonSkill
     {
         return $this->personSkill;
     }
 
-    final public function setPersonSkill(?PersonSkill $personSkill): void
+    public function setPersonSkill(?PersonSkill $personSkill): void
     {
         $this->personSkill = $personSkill;
     }
 
-    final public function getLevel(): ?int
+    public function getLevel(): ?int
     {
         return $this->level;
     }
 
-    final public function setLevel(?int $level): void
+    public function setLevel(?int $level): void
     {
         $this->level = $level;
     }
 
-    final public function isPublicOnWeb(): bool
+    public function isPublicOnWeb(): bool
     {
         return $this->publicOnWeb;
     }
 
-    final public function setPublicOnWeb(bool $publicOnWeb): void
+    public function setPublicOnWeb(bool $publicOnWeb): void
     {
         $this->publicOnWeb = $publicOnWeb;
     }

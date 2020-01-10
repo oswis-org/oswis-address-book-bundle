@@ -39,11 +39,5 @@ class AddressBookService
 
     final public function updateActiveRevisions(): void
     {
-        foreach ($this->em->getRepository(AddressBook::class)->findAll() as $addressBook) {
-            assert($addressBook instanceof AddressBook);
-            $addressBook->destroyRevisions();
-            $this->em->persist($addressBook);
-        }
-        $this->em->flush();
     }
 }

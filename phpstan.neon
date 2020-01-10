@@ -1,3 +1,7 @@
 parameters:
     excludes_analyse:
         - vendor/*
+        - var/*
+    checkGenericClassInNonGenericObjectType: false
+    checkMissingIterableValueType: false
+

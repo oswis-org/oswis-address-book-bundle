@@ -1,4 +1,8 @@
-<?php /** @noinspection PhpUnused */
+<?php
+/**
+ * @noinspection PhpUnused
+ * @noinspection MethodShouldBeFinalInspection
+ */
 
 namespace Zakjakub\OswisAddressBookBundle\Entity;
 
@@ -65,13 +69,24 @@ class PersonSkill
     protected ?bool $publicOnWebDefault = null;
 
     /**
-     * Can user edit connections with this skill?
+     * Can user with this skill edit connections with this skill?
      * @ORM\Column(type="boolean", nullable=true)
      */
     protected ?bool $connectionsUserEditable = null;
 
-    public function __construct(?Nameable $nameable = null)
+    public function __construct(?Nameable $nameable = null, ?bool $publicOnWebDefault = null)
     {
         $this->setFieldsFromNameable($nameable);
+        $this->setPublicOnWebDefault($publicOnWebDefault);
+    }
+
+    public function getPublicOnWebDefault(): ?bool
+    {
+        return $this->publicOnWebDefault;
+    }
+
+    public function setPublicOnWebDefault(?bool $publicOnWebDefault): void
+    {
+        $this->publicOnWebDefault = $publicOnWebDefault;
     }
 }

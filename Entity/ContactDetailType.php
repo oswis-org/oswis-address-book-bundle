@@ -1,4 +1,8 @@
-<?php /** @noinspection PhpUnused */
+<?php
+/**
+ * @noinspection PhpUnused
+ * @noinspection MethodShouldBeFinalInspection
+ */
 
 namespace Zakjakub\OswisAddressBookBundle\Entity;
 
@@ -86,20 +90,16 @@ class ContactDetailType
 
     /**
      * Show in address book preview?
-     *
-     * @var bool|null $showInPreview
      * @Doctrine\ORM\Mapping\Column(type="boolean", nullable=true)
      */
     protected ?bool $showInPreview = null;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
     protected ?string $formLabel = null;
 
     /**
-     * @var string|null
      * @ORM\Column(type="string", nullable=true)
      */
     protected ?string $formHelp = null;
@@ -111,7 +111,6 @@ class ContactDetailType
      * @param string|null   $schema
      * @param bool|null     $showInPreview
      * @param string|null   $type
-     *
      * @param string|null   $formLabel
      * @param string|null   $formHelp
      *
@@ -133,7 +132,7 @@ class ContactDetailType
         $this->setFormHelp($formHelp);
     }
 
-    final public static function getAllowedTypesDefault(): array
+    public static function getAllowedTypesDefault(): array
     {
         return [
             self::TYPE_URL,
@@ -150,50 +149,32 @@ class ContactDetailType
         return [];
     }
 
-    /**
-     * @return string|null
-     */
-    final public function getFormLabel(): ?string
+    public function getFormLabel(): ?string
     {
         return $this->formLabel;
     }
 
-    /**
-     * @param string|null $formLabel
-     */
-    final public function setFormLabel(?string $formLabel): void
+    public function setFormLabel(?string $formLabel): void
     {
         $this->formLabel = $formLabel;
     }
 
-    /**
-     * @return string|null
-     */
-    final public function getFormHelp(): ?string
+    public function getFormHelp(): ?string
     {
         return $this->formHelp;
     }
 
-    /**
-     * @param string|null $formHelp
-     */
-    final public function setFormHelp(?string $formHelp): void
+    public function setFormHelp(?string $formHelp): void
     {
         $this->formHelp = $formHelp;
     }
 
-    /**
-     * @return bool|null
-     */
-    final public function getShowInPreview(): ?bool
+    public function getShowInPreview(): ?bool
     {
         return $this->showInPreview;
     }
 
-    /**
-     * @param bool|null $showInPreview
-     */
-    final public function setShowInPreview(?bool $showInPreview): void
+    public function setShowInPreview(?bool $showInPreview): void
     {
         $this->showInPreview = $showInPreview;
     }
@@ -206,7 +187,7 @@ class ContactDetailType
      * @noinspection UnknownInspectionInspection
      * @noinspection HtmlUnknownTag
      */
-    final public function getFormatted(string $value, ?string $description): string
+    public function getFormatted(string $value, ?string $description): string
     {
         return strtr($this->getContactSchema(), array('$<value>' => $value, '$<description>' => $description));
     }
@@ -215,7 +196,7 @@ class ContactDetailType
      * Get schema of contact detail.
      * @return string
      */
-    final public function getContactSchema(): ?string
+    public function getContactSchema(): ?string
     {
         return $this->contactSchema;
     }
@@ -225,7 +206,7 @@ class ContactDetailType
      *
      * @param string $contactSchema
      */
-    final public function setContactSchema(?string $contactSchema): void
+    public function setContactSchema(?string $contactSchema): void
     {
         $this->contactSchema = $contactSchema;
     }

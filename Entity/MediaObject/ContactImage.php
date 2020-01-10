@@ -27,7 +27,6 @@ use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractImage;
 class ContactImage extends AbstractImage
 {
     /**
-     * @var File|null
      * @Symfony\Component\Validator\Constraints\NotNull()
      * @Vich\UploaderBundle\Mapping\Annotation\UploadableField(
      *     mapping="address_book_contact_image",

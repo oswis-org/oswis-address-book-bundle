@@ -1,4 +1,7 @@
 <?php
+/**
+ * @noinspection MethodShouldBeFinalInspection
+ */
 
 namespace Zakjakub\OswisAddressBookBundle\Entity\AddressBook;
 
@@ -40,12 +43,12 @@ class AddressBookContactConnection
         $this->setContact($contact);
     }
 
-    final public function getAddressBook(): ?AddressBook
+    public function getAddressBook(): ?AddressBook
     {
         return $this->addressBook;
     }
 
-    final public function setAddressBook(?AddressBook $addressBook): void
+    public function setAddressBook(?AddressBook $addressBook): void
     {
         if ($this->addressBook && $addressBook !== $this->addressBook) {
             $this->addressBook->removeAddressBookContactConnection($this);
@@ -56,12 +59,12 @@ class AddressBookContactConnection
         }
     }
 
-    final public function getContact(): ?AbstractContact
+    public function getContact(): ?AbstractContact
     {
         return $this->contact;
     }
 
-    final public function setContact(?AbstractContact $contact): void
+    public function setContact(?AbstractContact $contact): void
     {
         if ($this->contact && $contact !== $this->contact) {
             $this->contact->removeAddressBookContactConnection($this);

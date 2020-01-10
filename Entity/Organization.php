@@ -1,4 +1,8 @@
-<?php /** @noinspection PhpUnused */
+<?php
+/**
+ * @noinspection PhpUnused
+ * @noinspection MethodShouldBeFinalInspection
+ */
 
 namespace Zakjakub\OswisAddressBookBundle\Entity;
 
@@ -8,7 +12,6 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractOrganization;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
 use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
@@ -108,7 +111,7 @@ class Organization extends AbstractOrganization
         $this->setParentOrganization($parentOrganization);
     }
 
-    final public function addPosition(?Position $position): void
+    public function addPosition(?Position $position): void
     {
         if ($position && !$this->positions->contains($position)) {
             $this->positions->add($position);
@@ -116,7 +119,7 @@ class Organization extends AbstractOrganization
         }
     }
 
-    final public function removePosition(?Position $position): void
+    public function removePosition(?Position $position): void
     {
         if ($position && $this->positions->removeElement($position)) {
             $position->setOrganization(null);
@@ -124,7 +127,7 @@ class Organization extends AbstractOrganization
         }
     }
 
-    final public function getDirectStudents(): Collection
+    public function getDirectStudents(): Collection
     {
         $students = new ArrayCollection();
         if ($this->isSchool()) {
@@ -146,7 +149,7 @@ class Organization extends AbstractOrganization
      *
      * @return Collection
      */
-    final public function getDirectStudies(?DateTime $referenceDateTime = null): Collection
+    public function getDirectStudies(?DateTime $referenceDateTime = null): Collection
     {
         if (!$this->isSchool()) {
             return new ArrayCollection();
@@ -162,14 +165,14 @@ class Organization extends AbstractOrganization
      *
      * @return Collection
      */
-    final public function getPositions(?DateTime $referenceDateTime = null): Collection
+    public function getPositions(?DateTime $referenceDateTime = null): Collection
     {
         $positions = $this->positions ?? new ArrayCollection();
 
         return $referenceDateTime ? $positions->filter(fn(Position $p): bool => $p->containsDateTimeInRange($referenceDateTime)) : $positions;
     }
 
-    final public function getContactPersons(?DateTime $dateTime = null, bool $onlyWithActivatedUser = false): Collection
+    public function getContactPersons(?DateTime $dateTime = null, bool $onlyWithActivatedUser = false): Collection
     {
         $onAc = $onlyWithActivatedUser;
 
@@ -179,18 +182,12 @@ class Organization extends AbstractOrganization
         );
     }
 
-    /**
-     * @return Collection
-     */
-    final public function getAllStudents(): Collection
+    public function getAllStudents(): Collection
     {
         return $this->getAllStudies()->map(fn(Position $position): ?Person => $position->isStudy() && $position->getPerson() ? $position->getPerson() : null);
     }
 
-    /**
-     * @return Collection
-     */
-    final public function getAllStudies(): Collection
+    public function getAllStudies(): Collection
     {
         if (!$this->isSchool()) {
             return new ArrayCollection();
@@ -206,23 +203,17 @@ class Organization extends AbstractOrganization
         return $studies;
     }
 
-    /**
-     * @return Collection
-     */
-    final public function getSubOrganizations(): Collection
+    public function getSubOrganizations(): Collection
     {
         return $this->subOrganizations ?? new ArrayCollection();
     }
 
-    /**
-     * @return Collection
-     */
-    final public function getAllEmployees(): Collection
+    public function getAllEmployees(): Collection
     {
         return $this->getAllEmployeesPositions()->map(fn(Position $position) => $position->getPerson());
     }
 
-    final public function getAllEmployeesPositions(): Collection
+    public function getAllEmployeesPositions(): Collection
     {
         $positions = $this->getDirectEmployeesPositions();
         foreach ($this->getSubOrganizations() as $organization) {
@@ -233,36 +224,22 @@ class Organization extends AbstractOrganization
         return $positions;
     }
 
-    /**
-     * @return Collection
-     */
-    final public function getDirectEmployeesPositions(): Collection
+    public function getDirectEmployeesPositions(): Collection
     {
         return $this->filterPositionsByType('employee'); // TODO: Probably bug here.
     }
 
-    /**
-     * @param string $positionName
-     *
-     * @return Collection
-     */
-    final public function filterPositionsByType(string $positionName): Collection
+    public function filterPositionsByType(string $positionName): Collection
     {
         return $this->getPositions()->filter(fn(Position $position) => $positionName === $position->getType());
     }
 
-    /**
-     * @return bool
-     */
-    final public function isRootOrganization(): bool
+    public function isRootOrganization(): bool
     {
         return $this->parentOrganization ? false : true;
     }
 
-    /**
-     * @param Organization|null $organization
-     */
-    final public function addSubOrganization(?Organization $organization): void
+    public function addSubOrganization(?Organization $organization): void
     {
         if ($organization && !$this->subOrganizations->contains($organization)) {
             $this->subOrganizations->add($organization);
@@ -271,10 +248,7 @@ class Organization extends AbstractOrganization
         // TODO: Check cycles!
     }
 
-    /**
-     * @param Organization|null $organization
-     */
-    final public function removeSubOrganization(?Organization $organization): void
+    public function removeSubOrganization(?Organization $organization): void
     {
         if ($organization && $this->subOrganizations->removeElement($organization)) {
             $organization->setParentOrganization(null);
@@ -282,10 +256,7 @@ class Organization extends AbstractOrganization
         // TODO: Check cycles!
     }
 
-    /**
-     * @return Collection Get employees of this Organization and departments (without sub organizations).
-     */
-    final public function getEmployees(): Collection
+    public function getEmployees(): Collection
     {
         $employees = $this->getDirectEmployees();
         foreach ($this->getDepartments() as $department) {
@@ -296,56 +267,35 @@ class Organization extends AbstractOrganization
         return $employees;
     }
 
-    /**
-     * @return Collection Get employees of this Organization (without sub organizations, without departments).
-     */
-    final public function getDirectEmployees(): Collection
+    public function getDirectEmployees(): Collection
     {
         return $this->getDirectEmployeesPositions()->map(fn(Position $position): Person => $position->getPerson());
     }
 
-    /**
-     * @return Collection
-     */
-    final public function getDepartments(): Collection
+    public function getDepartments(): Collection
     {
         return $this->filterSubOrganizationsByType('department');
     }
 
-    /**
-     * @param string $type
-     *
-     * @return Collection
-     */
-    final public function filterSubOrganizationsByType(string $type): Collection
+    public function filterSubOrganizationsByType(string $type): Collection
     {
         return $this->getSubOrganizations()->filter(fn(Organization $organization): bool => $type === $organization->getType());
     }
 
     /**
-     * @return string Path (from parent organizations tree)
-     * @Groups({
-     *     "organizations_get",
-     *     "organization_get",
-     * })
+     * @return string Path (from parent organizations tree).
      */
-    final public function getPath(): string
+    public function getPath(): string
     {
         return $this->getParentOrganization() ? '-&gt;'.$this->getParentOrganization()->getPath() : '';
     }
 
-    /**
-     * @return Organization|null
-     */
-    final public function getParentOrganization(): ?Organization
+    public function getParentOrganization(): ?Organization
     {
         return $this->parentOrganization;
     }
 
-    /**
-     * @param Organization|null $organization
-     */
-    final public function setParentOrganization(?Organization $organization): void
+    public function setParentOrganization(?Organization $organization): void
     {
         if ($this->parentOrganization && $organization !== $this->parentOrganization) {
             $this->parentOrganization->removeSubOrganization($this);
@@ -357,7 +307,7 @@ class Organization extends AbstractOrganization
         // TODO: Check!
     }
 
-    final public function getIdentificationNumberFromParents(): ?string
+    public function getIdentificationNumberFromParents(): ?string
     {
         return $this->getIdentificationNumber() ?? ($this->getParentOrganization() ? $this->getParentOrganization()->getIdentificationNumberFromParents() : null) ?? null;
     }

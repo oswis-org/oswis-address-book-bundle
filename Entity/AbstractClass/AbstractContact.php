@@ -30,7 +30,6 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\TypeTrait;
 use Zakjakub\OswisCoreBundle\Utils\EmailUtils;
 use function assert;
-use function implode;
 use function in_array;
 
 /**
@@ -413,7 +412,7 @@ abstract class AbstractContact
      */
     public function getUrlsAsString(): ?string
     {
-        return implode([', '], $this->getUrls());
+        return implode(', ', $this->getUrls()->toArray());
     }
 
     /**

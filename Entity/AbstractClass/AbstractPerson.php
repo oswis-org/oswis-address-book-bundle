@@ -1,6 +1,7 @@
 <?php
 /**
  * @noinspection PhpUnused
+ * @noinspection MethodShouldBeFinalInspection
  */
 
 namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
@@ -35,7 +36,7 @@ abstract class AbstractPerson extends AbstractContact
         }
     }
 
-    final public function destroyRevisions(): void
+    public function destroyRevisions(): void
     {
     }
 

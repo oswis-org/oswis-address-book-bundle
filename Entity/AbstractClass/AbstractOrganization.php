@@ -1,6 +1,7 @@
 <?php
 /**
  * @noinspection PhpUnused
+ * @noinspection MethodShouldBeFinalInspection
  */
 
 namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
@@ -53,16 +54,16 @@ abstract class AbstractOrganization extends AbstractContact
         $this->setColor($color);
     }
 
-    final public function destroyRevisions(): void
+    public function destroyRevisions(): void
     {
     }
 
-    final public function setFullName(?string $fullName): void
+    public function setFullName(?string $fullName): void
     {
         $this->setName($fullName);
     }
 
-    final public function getFullName(): ?string
+    public function getFullName(): ?string
     {
         return $this->getName();
     }

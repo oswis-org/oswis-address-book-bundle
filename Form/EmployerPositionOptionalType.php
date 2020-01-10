@@ -1,4 +1,7 @@
 <?php
+/**
+ * @noinspection MethodShouldBeFinalInspection
+ */
 
 namespace Zakjakub\OswisAddressBookBundle\Form;
 
@@ -10,7 +13,7 @@ use Zakjakub\OswisAddressBookBundle\Entity\Position;
 
 class EmployerPositionOptionalType extends AbstractType
 {
-    final public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add(
             'person',
@@ -34,7 +37,7 @@ class EmployerPositionOptionalType extends AbstractType
      *
      * @throws AccessException
      */
-    final public function configureOptions(OptionsResolver $resolver): void
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(
             array(
@@ -44,7 +47,7 @@ class EmployerPositionOptionalType extends AbstractType
         );
     }
 
-    final public function getName(): string
+    public function getName(): string
     {
         return 'address_book_employer_position_optional';
     }

@@ -1,4 +1,8 @@
-<?php /** @noinspection PhpUnused */
+<?php
+/**
+ * @noinspection PhpUnused
+ * @noinspection MethodShouldBeFinalInspection
+ */
 
 namespace Zakjakub\OswisAddressBookBundle\Entity;
 
@@ -16,14 +20,12 @@ class ContactNote
 
     /**
      * Can be showed on website etc.
-     * @var bool|null
      * @ORM\Column(type="boolean", nullable=true)
      */
     protected ?bool $public = null;
 
     /**
      * Content of note.
-     * @var string|null $content
      * @Doctrine\ORM\Mapping\Column(type="text", nullable=true)
      */
     private ?string $content = null;
@@ -34,32 +36,32 @@ class ContactNote
         $this->setPublic($public);
     }
 
-    final public function getPublic(): ?bool
+    public function getPublic(): ?bool
     {
         return $this->public;
     }
 
-    final public function setPublic(?bool $public): void
+    public function setPublic(?bool $public): void
     {
         $this->public = $public;
     }
 
-    final public function isPublic(): ?bool
+    public function isPublic(): ?bool
     {
         return $this->public;
     }
 
-    final public function __toString(): string
+    public function __toString(): string
     {
         return $this->getContent() ?? '';
     }
 
-    final public function getContent(): ?string
+    public function getContent(): ?string
     {
         return $this->content;
     }
 
-    final public function setContent(?string $content): void
+    public function setContent(?string $content): void
     {
         $this->content = $content;
     }

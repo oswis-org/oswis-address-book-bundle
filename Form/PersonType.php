@@ -1,4 +1,8 @@
 <?php
+/**
+ * @noinspection PhpUnused
+ * @noinspection MethodShouldBeFinalInspection
+ */
 
 namespace Zakjakub\OswisAddressBookBundle\Form;
 
@@ -16,7 +20,7 @@ class PersonType extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array                $options
      */
-    final public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add(
             'name',
@@ -46,7 +50,7 @@ class PersonType extends AbstractType
         );
     }
 
-    final public function configureOptions(OptionsResolver $resolver): void
+    public function configureOptions(OptionsResolver $resolver): void
     {
         try {
             $resolver->setDefaults(
@@ -58,7 +62,7 @@ class PersonType extends AbstractType
         }
     }
 
-    final public function getName(): string
+    public function getName(): string
     {
         return 'address_book_student_person';
     }
