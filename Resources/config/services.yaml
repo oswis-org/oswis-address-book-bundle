@@ -94,5 +94,16 @@ services:
         alias: zakjakub_oswis_address_book.contact_detail_type_service
         public: true
 
+    ### AboutUs Controller
+    zakjakub_oswis_address_book.about_us_controller:
+        class: Zakjakub\OswisAddressBookBundle\Controller\AboutUsController
+        autowire: true
+        public: true
+        arguments:
+            - '@zakjakub_oswis_address_book.organization_service'
+    Zakjakub\OswisAddressBookBundle\Controller\AboutUsController:
+        alias: zakjakub_oswis_address_book.about_us_controller
+        public: true
+
 
 

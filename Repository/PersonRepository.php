@@ -1,8 +1,4 @@
 <?php
-/**
- * @noinspection MethodShouldBeFinalInspection
- * @noinspection PhpUnused
- */
 
 namespace Zakjakub\OswisAddressBookBundle\Repository;
 

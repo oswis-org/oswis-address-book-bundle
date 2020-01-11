@@ -1,1 +1,5 @@
 ### OSWIS AddressBook - routes
+
+zakjakub_oswis_address_book_about_us:
+    controller: zakjakub_oswis_address_book.about_us_controller::aboutUs
+    path: "/o-nas"

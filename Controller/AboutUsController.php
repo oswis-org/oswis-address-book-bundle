@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Zakjakub\OswisAddressBookBundle\Entity\Organization;
 use Zakjakub\OswisAddressBookBundle\Service\OrganizationService;
 
-class AboutUsWebController extends AbstractController
+class AboutUsController extends AbstractController
 {
     public OrganizationService $organizationService;
 
@@ -29,8 +29,8 @@ class AboutUsWebController extends AbstractController
     {
         return $this->render(
             '@ZakjakubOswisAddressBook/web/parts/about-us-profiles.html.twig',
-            ['organization' => $this->getAboutUsOrganization()]
-        );
+            ['organization' => $this->getAboutUsOrganization()],
+            );
     }
 
     /**
@@ -42,5 +42,18 @@ class AboutUsWebController extends AbstractController
         return $this->organizationService->getRepository()->findBy([], ['id' => 'ASC'])[0] ?? null;
     }
 
-
+    /**
+     * @return Response
+     * @throws LogicException
+     */
+    public function aboutUs(): Response
+    {
+        return $this->render(
+            '@ZakjakubOswisAddressBook/web/pages/about-us.html.twig',
+            [
+                'organization' => $this->getAboutUsOrganization(),
+                'title'        => 'O nás',
+            ]
+        );
+    }
 }
