@@ -12,7 +12,6 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractOrganization;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
 use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
@@ -125,7 +124,9 @@ class Organization extends AbstractOrganization
     public function getStudents(?DateTime $dateTime = null, bool $recursive = false): Collection
     {
         $out = new ArrayCollection();
-        $this->getStudyPositions($dateTime, $recursive)->map(fn(AbstractContact $c) => $out->contains($c) ? null : $out->add($c));
+        $this->getStudyPositions($dateTime, $recursive)->map(
+            fn(Position $p) => $out->contains($p->getPerson()) ? null : $out->add($p->getPerson())
+        );
 
         return $out;
     }
@@ -133,7 +134,9 @@ class Organization extends AbstractOrganization
     public function getMembers(?DateTime $dateTime = null, bool $recursive = false): Collection
     {
         $out = new ArrayCollection();
-        $this->getMemberPositions($dateTime, $recursive)->map(fn(AbstractContact $c) => $out->contains($c) ? null : $out->add($c));
+        $this->getMemberPositions($dateTime, $recursive)->map(
+            fn(Position $p) => $out->contains($p->getPerson()) ? null : $out->add($p->getPerson())
+        );
 
         return $out;
     }
@@ -141,7 +144,9 @@ class Organization extends AbstractOrganization
     public function getMembersAndEmployees(?DateTime $dateTime = null, bool $recursive = false): Collection
     {
         $out = new ArrayCollection();
-        $this->getMemberAndEmployeePositions($dateTime, $recursive)->map(fn(AbstractContact $c) => $out->contains($c) ? null : $out->add($c));
+        $this->getMemberAndEmployeePositions($dateTime, $recursive)->map(
+            fn(Position $p) => $out->contains($p->getPerson()) ? null : $out->add($p->getPerson())
+        );
 
         return $out;
     }
@@ -149,7 +154,9 @@ class Organization extends AbstractOrganization
     public function getEmployees(?DateTime $dateTime = null, bool $recursive = false): Collection
     {
         $out = new ArrayCollection();
-        $this->getEmployeePositions($dateTime, $recursive)->map(fn(AbstractContact $c) => $out->contains($c) ? null : $out->add($c));
+        $this->getEmployeePositions($dateTime, $recursive)->map(
+            fn(Position $p) => $out->contains($p->getPerson()) ? null : $out->add($p->getPerson())
+        );
 
         return $out;
     }
@@ -157,7 +164,9 @@ class Organization extends AbstractOrganization
     public function getManagers(?DateTime $dateTime = null, bool $recursive = false): Collection
     {
         $out = new ArrayCollection();
-        $this->getManagerPositions($dateTime, $recursive)->map(fn(AbstractContact $c) => $out->contains($c) ? null : $out->add($c));
+        $this->getManagerPositions($dateTime, $recursive)->map(
+            fn(Position $p) => $out->contains($p->getPerson()) ? null : $out->add($p->getPerson())
+        );
 
         return $out;
     }
