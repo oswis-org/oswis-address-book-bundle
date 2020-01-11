@@ -163,12 +163,16 @@ abstract class AbstractContact
      */
     protected ?ContactImage $image = null;
 
+    protected ?Collection $positions = null;
+
     /**
      * @param string|null     $type
      * @param Collection|null $notes
      * @param Collection|null $contactDetails
      * @param Collection|null $addresses
      * @param Collection|null $addressBooks
+     *
+     * @param Collection|null $positions
      *
      * @throws InvalidArgumentException
      */
@@ -177,12 +181,15 @@ abstract class AbstractContact
         ?Collection $notes = null,
         ?Collection $contactDetails = null,
         ?Collection $addresses = null,
-        ?Collection $addressBooks = null
+        ?Collection $addressBooks = null,
+        ?Collection $positions = null
     ) {
+        $this->positions = new ArrayCollection();
         $this->setType($type);
         $this->setNotes($notes);
         $this->setContactDetails($contactDetails);
         $this->setAddresses($addresses);
+        $this->setPositions($positions);
         $this->setAddressBooks($addressBooks);
     }
 
@@ -424,10 +431,10 @@ abstract class AbstractContact
         return $this->getContactDetails()->filter(fn(ContactDetail $contactDetail) => ContactDetailType::TYPE_URL === $contactDetail->getTypeString());
     }
 
-    public function getContactPersons(?DateTime $referenceDateTime = null, bool $onlyWithActivatedUser = false): Collection
+    public function getContactPersons(?DateTime $dateTime = null, bool $onlyWithActivatedUser = false): Collection
     {
         if ($onlyWithActivatedUser) {
-            return $this->getAppUser() && $this->getAppUser()->isActive($referenceDateTime) ? new ArrayCollection([$this]) : new ArrayCollection();
+            return $this->getAppUser() && $this->getAppUser()->isActive($dateTime) ? new ArrayCollection([$this]) : new ArrayCollection();
         }
 
         return new ArrayCollection([$this]);
@@ -443,6 +450,67 @@ abstract class AbstractContact
         if ($this->appUser !== $appUser) {
             $this->appUser = $appUser;
         }
+    }
+
+    public function getStudyPositions(?DateTime $dateTime = null, bool $recursive = false): Collection
+    {
+        return $this->getPositions($dateTime, Position::STUDY_POSITION_TYPES, $recursive);
+    }
+
+    public function getPositions(?DateTime $dateTime = null, ?array $types = null, bool $recursive = false): Collection
+    {
+        $out = $this->positions ?? new ArrayCollection();
+        if (null !== $dateTime) {
+            $out = $out->filter(fn(Position $p): bool => $p->containsDateTimeInRange($dateTime));
+        }
+        if (!empty($types)) {
+            $out = $out->filter(fn(Position $position) => in_array($position->getType(), $types, true));
+        }
+        if (true === $recursive && $this instanceof Organization) {
+            foreach ($this->getSubOrganizations() as $subOrganization) {
+                if ($subOrganization instanceof self) {
+                    $subOrganization->getPositions($dateTime, $types, true)->map(fn(Position $p) => $out->add($p));
+                }
+            }
+        }
+
+        return $out;
+    }
+
+    public function setPositions(?Collection $newPositions): void
+    {
+        $this->positions ??= new ArrayCollection();
+        $newPositions ??= new ArrayCollection();
+        foreach ($this->positions as $oldPosition) {
+            if (!$newPositions->contains($oldPosition)) {
+                $this->removePosition($oldPosition);
+            }
+        }
+        foreach ($newPositions as $newPosition) {
+            if (!$this->positions->contains($newPosition)) {
+                $this->addPosition($newPosition);
+            }
+        }
+    }
+
+    public function getMemberPositions(?DateTime $dateTime = null, bool $recursive = false): Collection
+    {
+        return $this->getPositions($dateTime, Position::MEMBER_POSITION_TYPES, $recursive);
+    }
+
+    public function getMemberAndEmployeePositions(?DateTime $dateTime = null, bool $recursive = false): Collection
+    {
+        return $this->getPositions($dateTime, Position::EMPLOYEE_MEMBER_POSITION_TYPES, $recursive);
+    }
+
+    public function getEmployeePositions(?DateTime $dateTime = null, bool $recursive = false): Collection
+    {
+        return $this->getPositions($dateTime, Position::EMPLOYEE_POSITION_TYPES, $recursive);
+    }
+
+    public function getManagerPositions(?DateTime $dateTime = null, bool $recursive = false): Collection
+    {
+        return $this->getPositions($dateTime, Position::STUDY_POSITION_TYPES, $recursive);
     }
 
     public function getUrl(): ?string
@@ -598,20 +666,10 @@ abstract class AbstractContact
         return new ArrayCollection();
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->getContactName() ?? '';
     }
-
-    public function getStudyPositions(): Collection
-    {
-        return $this->getPositions()->filter(fn(Position $position) => $position->isStudy());
-    }
-
-    abstract public function getPositions(): Collection;
 
     public function getRegularPositions(): Collection
     {
@@ -634,9 +692,6 @@ abstract class AbstractContact
         $this->addPosition($position);
     }
 
-    /**
-     * @param Position|null $position
-     */
     abstract public function addPosition(?Position $position): void;
 
     /**
@@ -671,9 +726,6 @@ abstract class AbstractContact
         $this->removePosition($position);
     }
 
-    /**
-     * @param Position|null $position
-     */
     abstract public function removePosition(?Position $position): void;
 
     /**

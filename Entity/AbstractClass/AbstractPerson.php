@@ -25,9 +25,10 @@ abstract class AbstractPerson extends AbstractContact
         ?Collection $notes = null,
         ?Collection $contactDetails = null,
         ?Collection $addresses = null,
-        ?Collection $addressBooks = null
+        ?Collection $addressBooks = null,
+        ?Collection $positions = null
     ) {
-        parent::__construct($type, $notes, $contactDetails, $addresses, $addressBooks);
+        parent::__construct($type, $notes, $contactDetails, $addresses, $addressBooks, $positions);
         $this->setFullName($fullName);
         $this->setDescription($description);
         try {

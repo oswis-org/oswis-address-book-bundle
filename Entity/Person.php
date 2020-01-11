@@ -67,7 +67,6 @@ use function trim;
 class Person extends AbstractPerson
 {
     /**
-     * Positions (jobs, studies...).
      * @Doctrine\ORM\Mapping\OneToMany(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Position",
      *     mappedBy="person",
@@ -75,10 +74,9 @@ class Person extends AbstractPerson
      *     orphanRemoval=true
      * )
      */
-    private ?Collection $positions = null;
+    protected ?Collection $positions = null;
 
     /**
-     * Connections to skills.
      * @Doctrine\ORM\Mapping\OneToMany(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\PersonSkillConnection",
      *     mappedBy="person",
@@ -86,7 +84,7 @@ class Person extends AbstractPerson
      *     orphanRemoval=true
      * )
      */
-    private ?Collection $personSkillConnections = null;
+    protected ?Collection $personSkillConnections = null;
 
     public function __construct(
         ?string $fullName = null,
@@ -100,14 +98,13 @@ class Person extends AbstractPerson
         ?Collection $personSkillConnections = null,
         ?Collection $addressBooks = null
     ) {
-        parent::__construct($fullName, $description, $birthDate, $type, $notes, $contactDetails, $addresses, $addressBooks);
-        $this->setPositions($positions);
+        parent::__construct($fullName, $description, $birthDate, $type, $notes, $contactDetails, $addresses, $addressBooks, $positions);
         $this->setPersonSkillConnections($personSkillConnections);
     }
 
     public function addPosition(?Position $position): void
     {
-        if ($position && !$this->positions->contains($position)) {
+        if (null !== $position && !$this->positions->contains($position)) {
             $this->positions->add($position);
             $position->setPerson($this);
         }
@@ -115,7 +112,7 @@ class Person extends AbstractPerson
 
     public function removePosition(?Position $position): void
     {
-        if ($position && $this->positions->removeElement($position)) {
+        if (null !== $position && $this->positions->removeElement($position)) {
             $position->setOrganization(null);
             $position->setPerson(null);
         }
@@ -123,7 +120,7 @@ class Person extends AbstractPerson
 
     public function addPersonSkillConnection(?PersonSkillConnection $personSkillConnection): void
     {
-        if ($personSkillConnection && !$this->personSkillConnections->contains($personSkillConnection)) {
+        if (null !== $personSkillConnection && !$this->personSkillConnections->contains($personSkillConnection)) {
             $this->personSkillConnections->add($personSkillConnection);
             $personSkillConnection->setPerson($this);
         }
@@ -140,7 +137,7 @@ class Person extends AbstractPerson
     public function getOrganizationsString(): string
     {
         $output = '';
-        foreach ($this->getPositions() as $position) {
+        foreach ($this->getPositions(new DateTime(), null, true) as $position) {
             assert($position instanceof Position);
             $output .= (!empty($output) ? ', ' : null).$position->getEmployerString();
         }
@@ -148,30 +145,9 @@ class Person extends AbstractPerson
         return preg_replace('!\s+!', ' ', rtrim(trim(preg_replace('/[,]+/', ',', $output)), ','));
     }
 
-    public function getPositions(): Collection
-    {
-        return $this->positions ?? new ArrayCollection();
-    }
-
-    public function setPositions(?Collection $newPositions): void
-    {
-        $this->positions ??= new ArrayCollection();
-        $newPositions ??= new ArrayCollection();
-        foreach ($this->positions as $oldPosition) {
-            if (!$newPositions->contains($oldPosition)) {
-                $this->removePosition($oldPosition);
-            }
-        }
-        foreach ($newPositions as $newPosition) {
-            if (!$this->positions->contains($newPosition)) {
-                $this->addPosition($newPosition);
-            }
-        }
-    }
-
     public function getPersonSkillConnections(): Collection
     {
-        return $this->personSkillConnections;
+        return $this->personSkillConnections ?? new ArrayCollection();
     }
 
     public function setPersonSkillConnections(?Collection $newPersonSkillConnections): void
@@ -192,6 +168,6 @@ class Person extends AbstractPerson
 
     public function getSortableContactName(): string
     {
-        return $this->getFamilyName().' '.$this->getGivenName();
+        return $this->getFamilyName().' '.$this->getAdditionalName().' '.$this->getGivenName().' '.$this->getHonorificSuffix().' '.$this->getHonorificPrefix();
     }
 }
