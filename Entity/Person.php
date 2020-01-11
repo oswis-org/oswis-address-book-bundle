@@ -12,6 +12,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractPerson;
 use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
 use function assert;
@@ -116,6 +117,22 @@ class Person extends AbstractPerson
             $position->setOrganization(null);
             $position->setPerson(null);
         }
+    }
+
+    public function getEmployers(?DateTime $dateTime = null): Collection
+    {
+        $out = new ArrayCollection();
+        $this->getMemberAndEmployeePositions($dateTime)->map(fn(AbstractContact $c) => $out->contains($c) ? null : $out->add($c));
+
+        return $out;
+    }
+
+    public function getSchools(?DateTime $dateTime = null): Collection
+    {
+        $out = new ArrayCollection();
+        $this->getStudyPositions($dateTime)->map(fn(AbstractContact $c) => $out->contains($c) ? null : $out->add($c));
+
+        return $out;
     }
 
     public function addPersonSkillConnection(?PersonSkillConnection $personSkillConnection): void
