@@ -8765,16 +8765,16 @@
     },
     {
       "name": "zakjakub/oswis-core-bundle",
-      "version": "v0.0.374",
+      "version": "v0.0.381",
       "source": {
         "type": "git",
         "url": "https://github.com/zakjakub/oswis-core-bundle.git",
-        "reference": "b6690dab5d0b5372f67f76a3a42bb548d986fd70"
+        "reference": "bff03a6350be09f844aa23724423b7656766079a"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/zakjakub/oswis-core-bundle/zipball/b6690dab5d0b5372f67f76a3a42bb548d986fd70",
-        "reference": "b6690dab5d0b5372f67f76a3a42bb548d986fd70",
+        "url": "https://api.github.com/repos/zakjakub/oswis-core-bundle/zipball/bff03a6350be09f844aa23724423b7656766079a",
+        "reference": "bff03a6350be09f844aa23724423b7656766079a",
         "shasum": ""
       },
       "require": {
@@ -8867,7 +8867,7 @@
         "php",
         "zakjakub"
       ],
-      "time": "2020-01-11T19:50:59+00:00"
+      "time": "2020-01-12T19:05:48+00:00"
     }
   ],
   "packages-dev": [
@@ -8917,16 +8917,16 @@
     },
     {
       "name": "phpstan/phpstan",
-      "version": "0.12.4",
+      "version": "0.12.5",
       "source": {
         "type": "git",
         "url": "https://github.com/phpstan/phpstan.git",
-        "reference": "100a25ba8561223f6bf5a5ff4204f951c0ec007c"
+        "reference": "71a20c18f06c53605251a00a8efe443fa85225d1"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/phpstan/phpstan/zipball/100a25ba8561223f6bf5a5ff4204f951c0ec007c",
-        "reference": "100a25ba8561223f6bf5a5ff4204f951c0ec007c",
+        "url": "https://api.github.com/repos/phpstan/phpstan/zipball/71a20c18f06c53605251a00a8efe443fa85225d1",
+        "reference": "71a20c18f06c53605251a00a8efe443fa85225d1",
         "shasum": ""
       },
       "require": {
@@ -8952,7 +8952,7 @@
         "MIT"
       ],
       "description": "PHPStan - PHP Static Analysis Tool",
-      "time": "2020-01-06T06:38:17+00:00"
+      "time": "2020-01-12T14:31:21+00:00"
     },
     {
       "name": "roave/security-advisories",

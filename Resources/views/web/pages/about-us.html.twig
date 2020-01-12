@@ -1,14 +1,14 @@
-<!-- START: ABOUT US -->
 {% extends '@ZakjakubOswisCore/web/page-skeleton-default.html.twig' %}
 
 {% block body_content %}
     <main class="container" id="main-content-container">
+        <!-- START: ABOUT US -->
         {% if organization is defined and organization %}
             <div itemscope itemtype="http://schema.org/Organization">
                 {% include '@ZakjakubOswisAddressBook/web/parts/about-us-info.html.twig' %}
                 {% include '@ZakjakubOswisAddressBook/web/parts/about-us-profiles.html.twig' %}
             </div>
         {% endif %}
+        <!-- END: ORGANIZATION INFO -->
     </main>
 {% endblock %}
-<!-- END: ORGANIZATION INFO -->
