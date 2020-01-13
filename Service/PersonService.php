@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Psr\Log\LoggerInterface;
 use Zakjakub\OswisAddressBookBundle\Entity\Person;
+use Zakjakub\OswisCoreBundle\Entity\AppUser;
 
 class PersonService
 {
@@ -35,18 +36,19 @@ class PersonService
         ?Collection $addresses = null,
         ?Collection $positions = null,
         ?Collection $personSkillConnections = null,
-        ?Collection $addressBooks = null
+        ?Collection $addressBooks = null,
+        ?AppUser $appUser = null
     ): ?Person {
         try {
-            $entity = new Person($fullName, $description, $birthDate, $type, $notes, $contactDetails, $addresses, $positions, $personSkillConnections, $addressBooks);
+            $entity = new Person($fullName, $description, $birthDate, $type, $notes, $contactDetails, $addresses, $positions, $personSkillConnections, $addressBooks, $appUser);
             $this->em->persist($entity);
             $this->em->flush();
-            $infoMessage = 'Created organization: '.$entity->getId().' '.$entity->getContactName().'.';
+            $infoMessage = 'Created person: '.$entity->getId().' '.$entity->getContactName().'.';
             $this->logger->info($infoMessage);
 
             return $entity;
         } catch (Exception $e) {
-            $this->logger->info('ERROR: Organization not created: '.$e->getMessage());
+            $this->logger->info('ERROR: Person not created: '.$e->getMessage());
 
             return null;
         }
