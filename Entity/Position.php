@@ -9,9 +9,11 @@ namespace Zakjakub\OswisAddressBookBundle\Entity;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
 use Vokativ\Name as VokativName;
+use Zakjakub\OswisCoreBundle\Entity\Nameable;
 use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\DateRangeTrait;
@@ -45,10 +47,6 @@ use function in_array;
  *     "put"={
  *       "access_control"="is_granted('ROLE_MANAGER')",
  *       "denormalization_context"={"groups"={"address_book_position_put"}}
- *     },
- *     "delete"={
- *       "access_control"="is_granted('ROLE_ADMIN')",
- *       "denormalization_context"={"groups"={"address_book_position_delete"}}
  *     }
  *   }
  * )
@@ -95,7 +93,6 @@ class Position
     protected ?bool $special = null;
 
     /**
-     * Person in this position.
      * @Doctrine\ORM\Mapping\ManyToOne(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Person",
      *     cascade={"all"},
@@ -104,10 +101,9 @@ class Position
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(name="person_id", referencedColumnName="id")
      */
-    private ?Person $person = null;
+    protected ?Person $person = null;
 
     /**
-     * Organization of this position.
      * @Doctrine\ORM\Mapping\ManyToOne(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Organization",
      *     cascade={"all"},
@@ -116,24 +112,35 @@ class Position
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(name="organization_id", referencedColumnName="id")
      */
-    private ?Organization $organization = null;
+    protected ?Organization $organization = null;
 
     /**
-     * Position constructor.
-     *
      * @param Person|null       $person
      * @param Organization|null $organization
      * @param string|null       $type
      * @param bool|null         $isContactPerson
+     * @param Nameable|null     $nameable
+     * @param DateTime|null     $startDateTime
+     * @param DateTime|null     $endDateTime
      *
      * @throws InvalidArgumentException
      */
-    public function __construct(?Person $person = null, ?Organization $organization = null, ?string $type = null, ?bool $isContactPerson = null)
-    {
+    public function __construct(
+        ?Person $person = null,
+        ?Organization $organization = null,
+        ?string $type = null,
+        ?bool $isContactPerson = null,
+        ?Nameable $nameable = null,
+        ?DateTime $startDateTime = null,
+        ?DateTime $endDateTime = null
+    ) {
         $this->setPerson($person);
         $this->setOrganization($organization);
         $this->setType($type);
         $this->setIsContactPerson($isContactPerson);
+        $this->setFieldsFromNameable($nameable);
+        $this->setStartDateTime($startDateTime);
+        $this->setEndDateTime($endDateTime);
     }
 
     public static function getAllowedTypesDefault(): array
