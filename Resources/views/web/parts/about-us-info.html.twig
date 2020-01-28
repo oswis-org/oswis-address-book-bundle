@@ -12,13 +12,15 @@
                 {% endif %}
             </p>
 
-            {% for detail in organization.contactDetails if detail.contactType is defined and detail.contactType %}
-                <p>
-                    <strong>{{ detail.name|default('Kontakt') }}:</strong>
-                    {% autoescape false %}
-                        {{ detail.formatted }}
-                    {% endautoescape %}
-                </p>
+            {% for detail in organization.contactDetails %}
+                {% if detail.contactType is defined and detail.contactType %}
+                    <p>
+                        <strong>{{ detail.name|default('Kontakt') }}:</strong>
+                        {% autoescape false %}
+                            {{ detail.formatted }}
+                        {% endautoescape %}
+                    </p>
+                {% endif %}
             {% endfor %}
 
             <span itemprop="url" content="{{ organization.url }}"></span>
