@@ -26,41 +26,6 @@ use function assert;
 
 class ContactDetailType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
-        $builder->add(
-            'content',
-            TextType::class,
-            array(
-                'label'    => false,
-                'required' => true,
-                'attr'     => ['placeholder' => 'Kontakt'],
-            )
-        );
-        $builder->addEventListener(
-            FormEvents::PRE_SET_DATA,
-            static function (FormEvent $event) {
-                $contactDetail = $event->getData();
-                assert($contactDetail instanceof ContactDetail);
-                $detailType = $contactDetail->getContactType();
-                $detailTypeType = $contactDetail->getContactType() ? $contactDetail->getContactType()->getType() : null;
-                $form = $event->getForm();
-                $options = array(
-                    'label'       => $detailType ? $detailType->getFormLabel() : false,
-                    'required'    => true,
-                    'attr'        => [/*'autocomplete' => $contactDetail->getContactType() ? $contactDetail->getContactType()->getType() : true*/],
-                    'help'        => $detailType ? $detailType->getFormHelp() : null,
-                    'constraints' => self::getConstraintsByType($detailTypeType),
-                );
-                $pattern = self::getPatternByType($detailTypeType);
-                if ($pattern) {
-                    $options['attr']['pattern'] = $pattern;
-                }
-                $form->add('content', self::getTypeByType($detailTypeType), $options);
-            }
-        );
-    }
-
     /**
      * @param string|null $type
      *
@@ -111,6 +76,41 @@ class ContactDetailType extends AbstractType
         }
 
         return TextType::class;
+    }
+
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder->add(
+            'content',
+            TextType::class,
+            array(
+                'label'    => false,
+                'required' => true,
+                'attr'     => ['placeholder' => 'Kontakt'],
+            )
+        );
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
+            static function (FormEvent $event) {
+                $contactDetail = $event->getData();
+                assert($contactDetail instanceof ContactDetail);
+                $detailType = $contactDetail->getContactType();
+                $detailTypeType = $contactDetail->getContactType() ? $contactDetail->getContactType()->getType() : null;
+                $form = $event->getForm();
+                $options = array(
+                    'label'       => $detailType ? $detailType->getFormLabel() : false,
+                    'required'    => true,
+                    'attr'        => [/*'autocomplete' => $contactDetail->getContactType() ? $contactDetail->getContactType()->getType() : true*/],
+                    'help'        => $detailType ? $detailType->getFormHelp() : null,
+                    'constraints' => self::getConstraintsByType($detailTypeType),
+                );
+                $pattern = self::getPatternByType($detailTypeType);
+                if ($pattern) {
+                    $options['attr']['pattern'] = $pattern;
+                }
+                $form->add('content', self::getTypeByType($detailTypeType), $options);
+            }
+        );
     }
 
     /**

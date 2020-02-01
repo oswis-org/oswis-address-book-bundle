@@ -24,7 +24,6 @@ class AddressBook
     use BasicEntityTrait;
     use NameableBasicTrait;
 
-
     /**
      * @Doctrine\ORM\Mapping\OneToMany(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBookContactConnection",
