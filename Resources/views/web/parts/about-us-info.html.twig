@@ -1,7 +1,7 @@
 {% if organization is defined and organization %}
     <div class="row">
         <header class="col-lg-12 text-justify"><h2 class="text-uppercase">{{ organization.shortName }}</h2></header>
-        <div itemprop="description" class="col-12">{{ organization.note|markdown_to_html }}</div>
+        <div itemprop="description" class="col-12">{{ organization.note ? organization.note|markdown_to_html : null }}</div>
     </div>
     <div class="row">
         <div class="col-lg-9">

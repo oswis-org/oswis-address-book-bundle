@@ -10,7 +10,11 @@
                 {% endif %}
             {% endfor %}
         </div>
-        <div class="first-line" title="contact.description|markdown_to_html|striptags">{{ contact.description|markdown_to_html }}</div>
-        <div itemprop="description">{{ contact.note|markdown_to_html }}</div>
+        <div class="first-line" title="{{ contact.description ? contact.description|markdown_to_html|striptags : null }}">
+            {{ contact.description ? contact.description|markdown_to_html : null }}
+        </div>
+        <div itemprop="description">
+            {{ contact.note ? contact.note|markdown_to_html : null }}
+        </div>
     </article>
 </div>
