@@ -10,14 +10,18 @@ use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Zakjakub\OswisAddressBookBundle\Entity\Organization;
+use Zakjakub\OswisAddressBookBundle\Provider\OswisAddressBookSettingsProvider;
 use Zakjakub\OswisAddressBookBundle\Service\OrganizationService;
 
 class AboutUsController extends AbstractController
 {
     public OrganizationService $organizationService;
 
-    public function __construct(OrganizationService $organizationService)
+    public OswisAddressBookSettingsProvider $addressBookSettings;
+
+    public function __construct(OrganizationService $organizationService, OswisAddressBookSettingsProvider $addressBookSettings)
     {
+        $this->addressBookSettings = $addressBookSettings;
         $this->organizationService = $organizationService;
     }
 
@@ -34,12 +38,18 @@ class AboutUsController extends AbstractController
     }
 
     /**
-     * Organization that is showed on web - REIMPLEMENT IT IN APP!
+     * Organization that is showed on web.
      * @return Organization|null Main organization.
      */
     public function getAboutUsOrganization(): ?Organization
     {
-        return $this->organizationService->getRepository()->findBy([], ['id' => 'ASC'])[0] ?? null;
+        $organization = null;
+        if (null !== $this->addressBookSettings->getOrganization()) {
+            $organization = $this->organizationService->getRepository()->findOneBy(['slug' => $this->addressBookSettings->getOrganization()]);
+        }
+        $organization ??= $this->organizationService->getRepository()->findBy([], ['id' => 'ASC'])[0];
+
+        return $organization;
     }
 
     /**

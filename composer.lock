@@ -8657,6 +8657,61 @@
       "time": "2019-12-28T07:09:27+00:00"
     },
     {
+      "name": "twig/string-extra",
+      "version": "v3.0.1",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/twigphp/string-extra.git",
+        "reference": "54fb5511c4a0189de1d48d0f7c98843c270084e8"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/twigphp/string-extra/zipball/54fb5511c4a0189de1d48d0f7c98843c270084e8",
+        "reference": "54fb5511c4a0189de1d48d0f7c98843c270084e8",
+        "shasum": ""
+      },
+      "require": {
+        "php": "^7.2.9",
+        "symfony/string": "^5.0",
+        "twig/twig": "^2.4|^3.0"
+      },
+      "require-dev": {
+        "symfony/phpunit-bridge": "^4.4|^5.0"
+      },
+      "type": "library",
+      "extra": {
+        "branch-alias": {
+          "dev-master": "2.12-dev"
+        }
+      },
+      "autoload": {
+        "psr-4": {
+          "Twig\\Extra\\String\\": "src/"
+        }
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "license": [
+        "MIT"
+      ],
+      "authors": [
+        {
+          "name": "Fabien Potencier",
+          "email": "fabien@symfony.com",
+          "homepage": "http://fabien.potencier.org",
+          "role": "Lead Developer"
+        }
+      ],
+      "description": "A Twig extension for Symfony String",
+      "homepage": "https://twig.symfony.com",
+      "keywords": [
+        "html",
+        "string",
+        "twig",
+        "unicode"
+      ],
+      "time": "2019-12-27T07:33:44+00:00"
+    },
+    {
       "name": "twig/twig",
       "version": "v3.0.1",
       "source": {
@@ -8720,16 +8775,16 @@
     },
     {
       "name": "vich/uploader-bundle",
-      "version": "1.13.0",
+      "version": "1.13.1",
       "source": {
         "type": "git",
         "url": "https://github.com/dustin10/VichUploaderBundle.git",
-        "reference": "83be1a5fc9415826b28b2947623b876c6f028e59"
+        "reference": "282321173e8a01a295d04fa642658b6b10c3ec9a"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/dustin10/VichUploaderBundle/zipball/83be1a5fc9415826b28b2947623b876c6f028e59",
-        "reference": "83be1a5fc9415826b28b2947623b876c6f028e59",
+        "url": "https://api.github.com/repos/dustin10/VichUploaderBundle/zipball/282321173e8a01a295d04fa642658b6b10c3ec9a",
+        "reference": "282321173e8a01a295d04fa642658b6b10c3ec9a",
         "shasum": ""
       },
       "require": {
@@ -8813,7 +8868,7 @@
         "file uploads",
         "upload"
       ],
-      "time": "2020-01-14T08:33:14+00:00"
+      "time": "2020-02-06T07:49:31+00:00"
     },
     {
       "name": "webimpress/safe-writer",
@@ -8965,16 +9020,16 @@
     },
     {
       "name": "zakjakub/oswis-core-bundle",
-      "version": "v0.0.392",
+      "version": "v0.0.393",
       "source": {
         "type": "git",
         "url": "https://github.com/zakjakub/oswis-core-bundle.git",
-        "reference": "fe7ea343e89a4f793892b366f43d344adb100e49"
+        "reference": "da2660cf90b310e182bdc3ad2e3350516805ab40"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/zakjakub/oswis-core-bundle/zipball/fe7ea343e89a4f793892b366f43d344adb100e49",
-        "reference": "fe7ea343e89a4f793892b366f43d344adb100e49",
+        "url": "https://api.github.com/repos/zakjakub/oswis-core-bundle/zipball/da2660cf90b310e182bdc3ad2e3350516805ab40",
+        "reference": "da2660cf90b310e182bdc3ad2e3350516805ab40",
         "shasum": ""
       },
       "require": {
@@ -9015,6 +9070,7 @@
         "symfony/proxy-manager-bridge": "^4.4",
         "symfony/security-bundle": "^4.4",
         "symfony/serializer-pack": "^1.0",
+        "symfony/string": "^5.0",
         "symfony/twig-bundle": "^4.4",
         "symfony/web-link": "^4.4",
         "symfony/web-profiler-bundle": "^4.4",
@@ -9023,6 +9079,7 @@
         "twig/extra-bundle": "^3.0",
         "twig/inky-extra": "^3.0",
         "twig/markdown-extra": "^3.0",
+        "twig/string-extra": "^3.0",
         "vich/uploader-bundle": "^1.11"
       },
       "require-dev": {
@@ -9067,7 +9124,7 @@
         "php",
         "zakjakub"
       ],
-      "time": "2020-02-04T22:24:15+00:00"
+      "time": "2020-02-05T17:30:54+00:00"
     }
   ],
   "packages-dev": [

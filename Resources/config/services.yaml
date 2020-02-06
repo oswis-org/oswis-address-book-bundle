@@ -22,6 +22,15 @@ services:
     #        resource: '../../Api/EventSubscriber/*'
     #        public: true
 
+    ### OSWIS AddressBook Settings Provider
+    zakjakub_oswis_address_book.oswis_address_book_settings_provider:
+        class: Zakjakub\OswisAddressBookBundle\Provider\OswisAddressBookSettingsProvider
+        autowire: true
+        public: true
+    Zakjakub\OswisAddressBookBundle\Provider\OswisAddressBookSettingsProvider:
+        alias: zakjakub_oswis_address_book.oswis_address_book_settings_provider
+        public: true
+
     ### Place Service
     zakjakub_oswis_address_book.place_service:
         class: Zakjakub\OswisAddressBookBundle\Service\PlaceService
@@ -101,9 +110,7 @@ services:
         public: true
         arguments:
             - '@zakjakub_oswis_address_book.organization_service'
+            - '@zakjakub_oswis_address_book.oswis_address_book_settings_provider'
     Zakjakub\OswisAddressBookBundle\Controller\AboutUsController:
         alias: zakjakub_oswis_address_book.about_us_controller
         public: true
-
-
-
