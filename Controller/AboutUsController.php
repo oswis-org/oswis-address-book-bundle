@@ -44,8 +44,8 @@ class AboutUsController extends AbstractController
     public function getAboutUsOrganization(): ?Organization
     {
         $organization = null;
-        if (null !== $this->addressBookSettings->getOrganization()) {
-            $organization = $this->organizationService->getRepository()->findOneBy(['slug' => $this->addressBookSettings->getOrganization()]);
+        if (null !== $this->addressBookSettings->getPrimary()) {
+            $organization = $this->organizationService->getRepository()->findOneBy(['slug' => $this->addressBookSettings->getPrimary()]);
         }
         $organization ??= $this->organizationService->getRepository()->findBy([], ['id' => 'ASC'])[0];
 

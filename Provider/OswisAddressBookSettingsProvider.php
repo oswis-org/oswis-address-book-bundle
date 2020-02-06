@@ -11,15 +11,19 @@ namespace Zakjakub\OswisAddressBookBundle\Provider;
  */
 class OswisAddressBookSettingsProvider
 {
-    protected ?string $organization = null;
+    protected ?array $primary = null;
 
-    public function __construct(?string $organization)
+    public function __construct(?array $primary)
     {
-        $this->organization = $organization;
+        $this->primary = $primary;
     }
 
-    final public function getOrganization(): ?string
+    public function getPrimary(): ?array
     {
-        return $this->organization;
+        return $this->primary;
+    }
+
+    public function getOrganization(): ?string {
+        return $this->getPrimary() ? $this->getPrimary()['organization'] ?? null : null;
     }
 }
