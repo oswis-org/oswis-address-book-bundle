@@ -27,7 +27,7 @@ class Configuration implements ConfigurationInterface
     private function addOrganizationConfig(ArrayNodeDefinition $rootNode): void
     {
         $rootNode->children()->arrayNode('primary')->info('Slugs of primary entities.')->addDefaultsIfNotSet()->children()->scalarNode('organization')->info(
-                'Primary organization.'
-            )->defaultValue(null)->example('some-organization')->end();
+            'Primary organization.'
+        )->defaultValue(null)->example('some-organization')->end();
     }
 }

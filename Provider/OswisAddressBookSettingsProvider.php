@@ -18,12 +18,13 @@ class OswisAddressBookSettingsProvider
         $this->primary = $primary;
     }
 
+    public function getOrganization(): ?string
+    {
+        return $this->getPrimary() ? $this->getPrimary()['organization'] ?? null : null;
+    }
+
     public function getPrimary(): ?array
     {
         return $this->primary;
-    }
-
-    public function getOrganization(): ?string {
-        return $this->getPrimary() ? $this->getPrimary()['organization'] ?? null : null;
     }
 }
