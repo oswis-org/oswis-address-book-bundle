@@ -6,6 +6,8 @@
 namespace Zakjakub\OswisAddressBookBundle\Entity;
 
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractAddress;
+use Zakjakub\OswisCoreBundle\Entity\Address;
+use Zakjakub\OswisCoreBundle\Entity\Nameable;
 use Zakjakub\OswisCoreBundle\Traits\Entity\PriorityTrait;
 
 /**
@@ -16,4 +18,11 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\PriorityTrait;
 class ContactAddress extends AbstractAddress
 {
     use PriorityTrait;
+
+    public function __construct(Nameable $nameable = null, Address $address = null, ?int $priority = null)
+    {
+        $this->setFieldsFromNameable($nameable);
+        $this->setFieldsFromAddress($address);
+        $this->setPriority($priority);
+    }
 }
