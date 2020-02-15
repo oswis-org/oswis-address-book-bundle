@@ -13,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
 use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
+use Zakjakub\OswisCoreBundle\Interfaces\BasicEntityInterface;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\TypeTrait;
@@ -60,7 +61,7 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\TypeTrait;
  * })
  * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
-class ContactDetailType
+class ContactDetailType implements BasicEntityInterface
 {
     public const TYPE_EMAIL = 'email';
     public const TYPE_URL = 'url';

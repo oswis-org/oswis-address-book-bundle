@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
+use Zakjakub\OswisCoreBundle\Interfaces\BasicEntityInterface;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
 use function assert;
@@ -19,7 +20,7 @@ use function assert;
  * @Doctrine\ORM\Mapping\Table(name="address_book_address_book")
  * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_address_book")
  */
-class AddressBook
+class AddressBook implements BasicEntityInterface
 {
     use BasicEntityTrait;
     use NameableBasicTrait;
@@ -39,7 +40,6 @@ class AddressBook
         $this->addressBookContactConnections = new ArrayCollection();
         $this->setFieldsFromNameable($nameable);
     }
-
 
     public function addContact(AbstractContact $contact): void
     {

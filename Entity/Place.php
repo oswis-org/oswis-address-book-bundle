@@ -15,6 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Zakjakub\OswisCoreBundle\Entity\Address;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
 use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
+use Zakjakub\OswisCoreBundle\Interfaces\BasicEntityInterface;
 use Zakjakub\OswisCoreBundle\Traits\Entity\AddressTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\GeoCoordinatesTrait;
@@ -64,7 +65,7 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\UrlTrait;
  * })
  * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
-class Place
+class Place implements BasicEntityInterface
 {
     use BasicEntityTrait;
     use NameableBasicTrait;

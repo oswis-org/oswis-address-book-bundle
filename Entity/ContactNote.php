@@ -7,6 +7,7 @@
 namespace Zakjakub\OswisAddressBookBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Zakjakub\OswisCoreBundle\Interfaces\BasicEntityInterface;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 
 /**
@@ -14,7 +15,7 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
  * @Doctrine\ORM\Mapping\Table(name="address_book_contact_note")
  * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
-class ContactNote
+class ContactNote implements BasicEntityInterface
 {
     use BasicEntityTrait;
 

@@ -12,6 +12,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
+use Zakjakub\OswisCoreBundle\Interfaces\BasicEntityInterface;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\DateRangeTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\NoteTrait;
@@ -59,7 +60,7 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\NoteTrait;
  * })
  * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
-class PersonSkillConnection
+class PersonSkillConnection implements BasicEntityInterface
 {
     use BasicEntityTrait;
     use DateRangeTrait;

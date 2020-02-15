@@ -31,15 +31,11 @@ class AboutUsController extends AbstractController
      */
     public function aboutUsProfiles(): Response
     {
-        return $this->render(
-            '@ZakjakubOswisAddressBook/web/parts/about-us-profiles.html.twig',
-            ['organization' => $this->getAboutUsOrganization()],
-            );
+        return $this->render('@ZakjakubOswisAddressBook/web/parts/about-us-profiles.html.twig', ['organization' => $this->getAboutUsOrganization()]);
     }
 
     /**
      * Organization that is showed on web.
-     * @return Organization|null Main organization.
      */
     public function getAboutUsOrganization(): ?Organization
     {

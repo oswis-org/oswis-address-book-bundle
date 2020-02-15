@@ -15,6 +15,7 @@ use InvalidArgumentException;
 use Vokativ\Name as VokativName;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
 use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
+use Zakjakub\OswisCoreBundle\Interfaces\BasicEntityInterface;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\DateRangeTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
@@ -59,7 +60,7 @@ use function in_array;
  * })
  * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
-class Position
+class Position implements BasicEntityInterface
 {
     public const TYPE_EMPLOYEE = 'employee';
     public const TYPE_MEMBER = 'member';
