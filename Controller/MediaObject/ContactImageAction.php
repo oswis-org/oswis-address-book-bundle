@@ -8,12 +8,12 @@ use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractImage;
 
 final class ContactImageAction extends AbstractImageAction
 {
-    public static function getImageClassName(): string
+    public static function getFileClassName(): string
     {
         return ContactImage::class;
     }
 
-    public static function getImageNewInstance(): AbstractImage
+    public static function getFileNewInstance(): AbstractImage
     {
         return new ContactImage();
     }

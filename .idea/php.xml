@@ -132,7 +132,6 @@
       <path value="$PROJECT_DIR$/vendor/league/commonmark-extras" />
       <path value="$PROJECT_DIR$/vendor/league/commonmark-ext-smartpunct" />
       <path value="$PROJECT_DIR$/vendor/league/commonmark-ext-task-list" />
-      <path value="$PROJECT_DIR$/vendor/phpstan/phpstan" />
       <path value="$PROJECT_DIR$/vendor/phpstan/extension-installer" />
       <path value="$PROJECT_DIR$/vendor/twig/extra-bundle" />
       <path value="$PROJECT_DIR$/vendor/laminas/laminas-zendframework-bridge" />

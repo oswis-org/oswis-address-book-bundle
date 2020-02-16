@@ -7,7 +7,7 @@ use Zakjakub\OswisCoreBundle\Form\AbstractClass\AbstractImageType;
 
 class ContactImageType extends AbstractImageType
 {
-    public static function getImageClassName(): string
+    public static function getFileClassName(): string
     {
         return ContactImage::class;
     }
