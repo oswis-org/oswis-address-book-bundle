@@ -7,7 +7,7 @@
 namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
-use DateTimeInterface;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -432,7 +432,7 @@ abstract class AbstractContact implements BasicEntityInterface
         return $this->getContactDetails()->filter(fn(ContactDetail $contactDetail) => ContactDetailType::TYPE_URL === $contactDetail->getTypeString());
     }
 
-    public function getContactPersons(?DateTimeInterface $dateTime = null, bool $onlyWithActivatedUser = false): Collection
+    public function getContactPersons(?DateTime $dateTime = null, bool $onlyWithActivatedUser = false): Collection
     {
         if ($onlyWithActivatedUser) {
             return $this->getAppUser() && $this->getAppUser()->isActive($dateTime) ? new ArrayCollection([$this]) : new ArrayCollection();
@@ -453,12 +453,12 @@ abstract class AbstractContact implements BasicEntityInterface
         }
     }
 
-    public function getStudyPositions(?DateTimeInterface $dateTime = null, bool $recursive = false): Collection
+    public function getStudyPositions(?DateTime $dateTime = null, bool $recursive = false): Collection
     {
         return $this->getPositions($dateTime, Position::STUDY_POSITION_TYPES, $recursive);
     }
 
-    public function getPositions(?DateTimeInterface $dateTime = null, ?array $types = null, bool $recursive = false): Collection
+    public function getPositions(?DateTime $dateTime = null, ?array $types = null, bool $recursive = false): Collection
     {
         $out = $this->positions ?? new ArrayCollection();
         if (null !== $dateTime) {
@@ -494,22 +494,22 @@ abstract class AbstractContact implements BasicEntityInterface
         }
     }
 
-    public function getMemberPositions(?DateTimeInterface $dateTime = null, bool $recursive = false): Collection
+    public function getMemberPositions(?DateTime $dateTime = null, bool $recursive = false): Collection
     {
         return $this->getPositions($dateTime, Position::MEMBER_POSITION_TYPES, $recursive);
     }
 
-    public function getMemberAndEmployeePositions(?DateTimeInterface $dateTime = null, bool $recursive = false): Collection
+    public function getMemberAndEmployeePositions(?DateTime $dateTime = null, bool $recursive = false): Collection
     {
         return $this->getPositions($dateTime, Position::EMPLOYEE_MEMBER_POSITION_TYPES, $recursive);
     }
 
-    public function getEmployeePositions(?DateTimeInterface $dateTime = null, bool $recursive = false): Collection
+    public function getEmployeePositions(?DateTime $dateTime = null, bool $recursive = false): Collection
     {
         return $this->getPositions($dateTime, Position::EMPLOYEE_POSITION_TYPES, $recursive);
     }
 
-    public function getManagerPositions(?DateTimeInterface $dateTime = null, bool $recursive = false): Collection
+    public function getManagerPositions(?DateTime $dateTime = null, bool $recursive = false): Collection
     {
         return $this->getPositions($dateTime, Position::STUDY_POSITION_TYPES, $recursive);
     }

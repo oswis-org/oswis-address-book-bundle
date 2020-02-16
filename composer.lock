@@ -1920,16 +1920,16 @@
     },
     {
       "name": "hirak/prestissimo",
-      "version": "0.3.9",
+      "version": "0.3.10",
       "source": {
         "type": "git",
         "url": "https://github.com/hirak/prestissimo.git",
-        "reference": "01bed92c45e84d01a96f5d15c6e49958cbd57f36"
+        "reference": "fb6724d5ee81c96bebd2255175d8c364ac9301e3"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/hirak/prestissimo/zipball/01bed92c45e84d01a96f5d15c6e49958cbd57f36",
-        "reference": "01bed92c45e84d01a96f5d15c6e49958cbd57f36",
+        "url": "https://api.github.com/repos/hirak/prestissimo/zipball/fb6724d5ee81c96bebd2255175d8c364ac9301e3",
+        "reference": "fb6724d5ee81c96bebd2255175d8c364ac9301e3",
         "shasum": ""
       },
       "require": {
@@ -1967,7 +1967,7 @@
         "parallel",
         "speedup"
       ],
-      "time": "2019-05-04T08:16:12+00:00"
+      "time": "2020-02-16T12:49:55+00:00"
     },
     {
       "name": "imagine/imagine",
@@ -9377,16 +9377,16 @@
     },
     {
       "name": "zakjakub/oswis-core-bundle",
-      "version": "v0.0.415",
+      "version": "v0.0.417",
       "source": {
         "type": "git",
         "url": "https://github.com/zakjakub/oswis-core-bundle.git",
-        "reference": "8af381eb7a230c236935c0384f5d42b8899212f1"
+        "reference": "cddcbefb97b56a9d93af31821117de30e213b52c"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/zakjakub/oswis-core-bundle/zipball/8af381eb7a230c236935c0384f5d42b8899212f1",
-        "reference": "8af381eb7a230c236935c0384f5d42b8899212f1",
+        "url": "https://api.github.com/repos/zakjakub/oswis-core-bundle/zipball/cddcbefb97b56a9d93af31821117de30e213b52c",
+        "reference": "cddcbefb97b56a9d93af31821117de30e213b52c",
         "shasum": ""
       },
       "require": {
@@ -9481,7 +9481,7 @@
         "php",
         "zakjakub"
       ],
-      "time": "2020-02-16T12:24:28+00:00"
+      "time": "2020-02-16T23:04:53+00:00"
     }
   ],
   "packages-dev": [
@@ -9531,16 +9531,16 @@
     },
     {
       "name": "phpstan/phpstan",
-      "version": "0.12.10",
+      "version": "0.12.11",
       "source": {
         "type": "git",
         "url": "https://github.com/phpstan/phpstan.git",
-        "reference": "39004edc7fc308752f625b89b70ad1710708f45e"
+        "reference": "ca5f2b7cf81c6d8fba74f9576970399c5817e03b"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/phpstan/phpstan/zipball/39004edc7fc308752f625b89b70ad1710708f45e",
-        "reference": "39004edc7fc308752f625b89b70ad1710708f45e",
+        "url": "https://api.github.com/repos/phpstan/phpstan/zipball/ca5f2b7cf81c6d8fba74f9576970399c5817e03b",
+        "reference": "ca5f2b7cf81c6d8fba74f9576970399c5817e03b",
         "shasum": ""
       },
       "require": {
@@ -9566,7 +9566,7 @@
         "MIT"
       ],
       "description": "PHPStan - PHP Static Analysis Tool",
-      "time": "2020-02-12T22:03:42+00:00"
+      "time": "2020-02-16T14:00:29+00:00"
     },
     {
       "name": "roave/security-advisories",

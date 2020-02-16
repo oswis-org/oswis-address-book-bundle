@@ -9,7 +9,7 @@ namespace Zakjakub\OswisAddressBookBundle\Entity;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
-use DateTimeInterface;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
 use Vokativ\Name as VokativName;
@@ -116,13 +116,13 @@ class Position implements BasicEntityInterface
     protected ?Organization $organization = null;
 
     /**
-     * @param Person|null            $person
-     * @param Organization|null      $organization
-     * @param string|null            $type
-     * @param bool|null              $isContactPerson
-     * @param Nameable|null          $nameable
-     * @param DateTimeInterface|null $startDateTime
-     * @param DateTimeInterface|null $endDateTime
+     * @param Person|null       $person
+     * @param Organization|null $organization
+     * @param string|null       $type
+     * @param bool|null         $isContactPerson
+     * @param Nameable|null     $nameable
+     * @param DateTime|null     $startDateTime
+     * @param DateTime|null     $endDateTime
      *
      * @throws InvalidArgumentException
      */
@@ -132,8 +132,8 @@ class Position implements BasicEntityInterface
         ?string $type = null,
         ?bool $isContactPerson = null,
         ?Nameable $nameable = null,
-        ?DateTimeInterface $startDateTime = null,
-        ?DateTimeInterface $endDateTime = null
+        ?DateTime $startDateTime = null,
+        ?DateTime $endDateTime = null
     ) {
         $this->setPerson($person);
         $this->setOrganization($organization);
