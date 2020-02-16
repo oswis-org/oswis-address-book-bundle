@@ -9,7 +9,7 @@ namespace Zakjakub\OswisAddressBookBundle\Entity;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
-use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
 use Zakjakub\OswisCoreBundle\Interfaces\BasicEntityInterface;
@@ -124,8 +124,8 @@ class PersonSkillConnection implements BasicEntityInterface
         ?PersonSkill $personSkill = null,
         ?int $level = null,
         ?string $note = null,
-        ?DateTime $startDateTime = null,
-        ?DateTime $endDateTime = null
+        ?DateTimeInterface $startDateTime = null,
+        ?DateTimeInterface $endDateTime = null
     ) {
         $this->setPerson($person);
         $this->setPersonSkill($personSkill);
@@ -135,17 +135,11 @@ class PersonSkillConnection implements BasicEntityInterface
         $this->setEndDateTime($endDateTime);
     }
 
-    /**
-     * @return bool|null
-     */
     public function getCanGiveSkill(): ?bool
     {
         return $this->canGiveSkill;
     }
 
-    /**
-     * @param bool|null $canGiveSkill
-     */
     public function setCanGiveSkill(?bool $canGiveSkill): void
     {
         $this->canGiveSkill = $canGiveSkill;
@@ -156,9 +150,6 @@ class PersonSkillConnection implements BasicEntityInterface
         return $this->person;
     }
 
-    /**
-     * @param Person $person
-     */
     public function setPerson(?Person $person): void
     {
         if ($this->person && $person !== $this->person) {

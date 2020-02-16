@@ -6,7 +6,7 @@
 
 namespace Zakjakub\OswisAddressBookBundle\Service;
 
-use DateTime;
+use DateTimeInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -29,7 +29,7 @@ class PersonService
     public function create(
         ?string $fullName = null,
         ?string $description = null,
-        ?DateTime $birthDate = null,
+        ?DateTimeInterface $birthDate = null,
         ?string $type = null,
         ?Collection $notes = null,
         ?Collection $contactDetails = null,

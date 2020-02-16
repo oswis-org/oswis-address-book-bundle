@@ -10,6 +10,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use DateTime;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractPerson;
@@ -90,7 +91,7 @@ class Person extends AbstractPerson
     public function __construct(
         ?string $fullName = null,
         ?string $description = null,
-        ?DateTime $birthDate = null,
+        ?DateTimeInterface $birthDate = null,
         ?string $type = self::TYPE_PERSON,
         ?Collection $notes = null,
         ?Collection $contactDetails = null,
@@ -122,7 +123,7 @@ class Person extends AbstractPerson
         }
     }
 
-    public function getEmployers(?DateTime $dateTime = null): Collection
+    public function getEmployers(?DateTimeInterface $dateTime = null): Collection
     {
         $out = new ArrayCollection();
         $this->getMemberAndEmployeePositions($dateTime)->map(fn(Position $p) => $out->contains($p->getOrganization()) ? null : $out->add($p->getOrganization()));
@@ -130,7 +131,7 @@ class Person extends AbstractPerson
         return $out;
     }
 
-    public function getSchools(?DateTime $dateTime = null): Collection
+    public function getSchools(?DateTimeInterface $dateTime = null): Collection
     {
         $out = new ArrayCollection();
         $this->getStudyPositions($dateTime)->map(fn(Position $p) => $out->contains($p->getOrganization()) ? null : $out->add($p->getOrganization()));

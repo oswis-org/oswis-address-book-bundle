@@ -6,7 +6,7 @@
 
 namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
 
-use DateTime;
+use DateTimeInterface;
 use Doctrine\Common\Collections\Collection;
 use Exception;
 use Zakjakub\OswisCoreBundle\Traits\Entity\PersonBasicTrait;
@@ -20,7 +20,7 @@ abstract class AbstractPerson extends AbstractContact
     public function __construct(
         ?string $fullName = null,
         ?string $description = null,
-        ?DateTime $birthDate = null,
+        ?DateTimeInterface $birthDate = null,
         ?string $type = null,
         ?Collection $notes = null,
         ?Collection $contactDetails = null,

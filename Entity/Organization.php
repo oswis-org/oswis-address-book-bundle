@@ -10,6 +10,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use DateTime;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractOrganization;
@@ -121,7 +122,7 @@ class Organization extends AbstractOrganization
         }
     }
 
-    public function getStudents(?DateTime $dateTime = null, bool $recursive = false): Collection
+    public function getStudents(?DateTimeInterface $dateTime = null, bool $recursive = false): Collection
     {
         $out = new ArrayCollection();
         $this->getStudyPositions($dateTime, $recursive)->map(
@@ -131,7 +132,7 @@ class Organization extends AbstractOrganization
         return $out;
     }
 
-    public function getMembers(?DateTime $dateTime = null, bool $recursive = false): Collection
+    public function getMembers(?DateTimeInterface $dateTime = null, bool $recursive = false): Collection
     {
         $out = new ArrayCollection();
         $this->getMemberPositions($dateTime, $recursive)->map(
@@ -141,7 +142,7 @@ class Organization extends AbstractOrganization
         return $out;
     }
 
-    public function getMembersAndEmployees(?DateTime $dateTime = null, bool $recursive = false): Collection
+    public function getMembersAndEmployees(?DateTimeInterface $dateTime = null, bool $recursive = false): Collection
     {
         $out = new ArrayCollection();
         $this->getMemberAndEmployeePositions($dateTime, $recursive)->map(
@@ -151,7 +152,7 @@ class Organization extends AbstractOrganization
         return $out;
     }
 
-    public function getEmployees(?DateTime $dateTime = null, bool $recursive = false): Collection
+    public function getEmployees(?DateTimeInterface $dateTime = null, bool $recursive = false): Collection
     {
         $out = new ArrayCollection();
         $this->getEmployeePositions($dateTime, $recursive)->map(
@@ -161,7 +162,7 @@ class Organization extends AbstractOrganization
         return $out;
     }
 
-    public function getManagers(?DateTime $dateTime = null, bool $recursive = false): Collection
+    public function getManagers(?DateTimeInterface $dateTime = null, bool $recursive = false): Collection
     {
         $out = new ArrayCollection();
         $this->getManagerPositions($dateTime, $recursive)->map(
@@ -171,7 +172,7 @@ class Organization extends AbstractOrganization
         return $out;
     }
 
-    public function getContactPersons(?DateTime $dateTime = null, bool $onlyWithActivatedUser = false): Collection
+    public function getContactPersons(?DateTimeInterface $dateTime = null, bool $onlyWithActivatedUser = false): Collection
     {
         $act = $onlyWithActivatedUser;
         $positions = $this->getPositions($dateTime ?? new DateTime());
