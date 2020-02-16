@@ -25,29 +25,28 @@ class ContactNoteType extends AbstractType
             TextType::class,
             array(
                 'label'    => 'Poznámka',
-                'required' => true,
+                'required' => $options['content_required'],
                 'attr'     => ['placeholder' => false],
             )
         );
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
-            static function (FormEvent $event) {
+            static function (FormEvent $event) use ($options) {
                 $contactNote = $event->getData();
                 assert($contactNote instanceof ContactNote);
                 $form = $event->getForm();
                 $form->add(
                     'content',
                     TextareaType::class,
-                    array(
-                        'label'    => $contactNote->isPublic() ? 'Poznámka pro účastníky' : 'Poznámka pro pořadatele',
-                        'required' => false,
-                        'help'     => $contactNote->isPublic() ? 'Poznámka, která bude zveřejněná účastníkům.' : 'Neveřejná poznámka, určená pouze pro pořadatele.',
+                    array( // TODO: Types.
+                        'label'    => $contactNote->isPublic() ? 'Veřejná poznámka' : 'Interní poznámka',
+                        'required' => $options['content_required'],
+                        'help'     => $contactNote->isPublic() ? 'Poznámka, která může být zveřejněná.' : 'Neveřejná poznámka, určená pouze pro pořadatele.',
                     )
                 );
             }
         );
     }
-
 
     /**
      * @param OptionsResolver $resolver
@@ -58,7 +57,8 @@ class ContactNoteType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-                'data_class' => ContactNote::class,
+                'data_class'       => ContactNote::class,
+                'content_required' => false,
 //                'attr' => ['class' => 'col-md-6'],
             )
         );

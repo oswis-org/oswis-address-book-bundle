@@ -37,7 +37,7 @@ class OrganizationType extends AbstractType
             'identificationNumber',
             TextType::class,
             array(
-                'label'    => 'Název organizace',
+                'label'    => 'Identifikační číslo',
                 'required' => false,
                 'help'     => 'Zadejte IČ (nepovinné).',
             )
@@ -45,9 +45,9 @@ class OrganizationType extends AbstractType
             'description',
             TextareaType::class,
             array(
-                'label'    => 'Zaměření (krátký popis)',
+                'label'    => 'Krátký popis',
                 'required' => false,
-                'help'     => 'Zadejte stručné shrnutí informací o Vaší organizaci. Tyto informace budou zveřejněny na webu.',
+                'help'     => 'Zadejte stručné shrnutí informací o Vaší organizaci. Tyto informace můžou být zveřejněny na webu.',
                 'attr'     => [],
             )
         )->add(
@@ -55,24 +55,24 @@ class OrganizationType extends AbstractType
             CollectionType::class,
             array(
                 'label'         => false,
-                'entry_type'    => ContactDetailOptionalType::class,
-                'entry_options' => array('label' => false),
+                'entry_type'    => ContactDetailType::class,
+                'entry_options' => ['label' => false, 'content_required' => false],
             )
         )->add(
             'image',
             ContactImageType::class,
-            array(
+            [
                 'label'    => 'Logo organizace',
                 'required' => false,
                 'help'     => 'Nahrajte logo Vaší organizace, nejlépe ve formátu png'.$maxSize.'. Bude uvedeno např. na webových stránkách.',
-            )
+            ]
         )->add(
             'regularPositions',
             CollectionType::class,
             array(
                 'label'         => 'Zástupci/kontaktní osoby organizace',
-                'entry_type'    => EmployerPositionOptionalType::class,
-                'entry_options' => array('label' => false),
+                'entry_type'    => EmployerPositionType::class,
+                'entry_options' => ['label' => false, 'content_required' => false],
                 'attr'          => [
                     'class' => 'box',
                 ],
@@ -84,7 +84,7 @@ class OrganizationType extends AbstractType
             array(
                 'label'         => false,
                 'entry_type'    => ContactNoteType::class,
-                'entry_options' => array('label' => false),
+                'entry_options' => ['label' => false],
             )
         );
     }

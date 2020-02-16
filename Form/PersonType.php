@@ -64,6 +64,6 @@ class PersonType extends AbstractType
 
     public function getName(): string
     {
-        return 'address_book_student_person';
+        return 'address_book_person';
     }
 }

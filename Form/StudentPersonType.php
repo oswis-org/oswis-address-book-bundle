@@ -43,16 +43,18 @@ class StudentPersonType extends AbstractType
         );
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     *
+     * @throws AccessException
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        try {
-            $resolver->setDefaults(
-                array(
-                    'data_class' => Person::class,
-                )
-            );
-        } catch (AccessException $e) {
-        }
+        $resolver->setDefaults(
+            array(
+                'data_class' => Person::class,
+            )
+        );
     }
 
     public function getName(): string

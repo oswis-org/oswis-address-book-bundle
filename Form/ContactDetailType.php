@@ -26,6 +26,17 @@ use function assert;
 
 class ContactDetailType extends AbstractType
 {
+
+    protected const PATTERNS = [
+        \Zakjakub\OswisAddressBookBundle\Entity\ContactDetailType::TYPE_URL => "^(\+420|\+421)? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$",
+    ];
+
+    protected const TYPES = [
+        \Zakjakub\OswisAddressBookBundle\Entity\ContactDetailType::TYPE_EMAIL => EmailType::class,
+        \Zakjakub\OswisAddressBookBundle\Entity\ContactDetailType::TYPE_PHONE => TelType::class,
+        \Zakjakub\OswisAddressBookBundle\Entity\ContactDetailType::TYPE_URL   => UrlType::class,
+    ];
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add(
@@ -33,13 +44,13 @@ class ContactDetailType extends AbstractType
             TextType::class,
             array(
                 'label'    => false,
-                'required' => true,
+                'required' => $options['content_required'],
                 'attr'     => ['placeholder' => 'Kontakt'],
             )
         );
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
-            static function (FormEvent $event) {
+            static function (FormEvent $event) use ($options) {
                 $contactDetail = $event->getData();
                 assert($contactDetail instanceof ContactDetail);
                 $detailType = $contactDetail->getContactType();
@@ -47,7 +58,7 @@ class ContactDetailType extends AbstractType
                 $form = $event->getForm();
                 $options = array(
                     'label'       => $detailType ? $detailType->getFormLabel() : false,
-                    'required'    => true,
+                    'required'    => $options['content_required'],
                     'attr'        => [/*'autocomplete' => $contactDetail->getContactType() ? $contactDetail->getContactType()->getType() : true*/],
                     'help'        => $detailType ? $detailType->getFormHelp() : null,
                     'constraints' => self::getConstraintsByType($detailTypeType),
@@ -91,26 +102,12 @@ class ContactDetailType extends AbstractType
 
     public static function getPatternByType(?string $type = null): ?string
     {
-        if (\Zakjakub\OswisAddressBookBundle\Entity\ContactDetailType::TYPE_URL === $type) {
-            return "^(\+420|\+421)? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$";
-        }
-
-        return null;
+        return self::PATTERNS[$type] ?? null;
     }
 
     public static function getTypeByType(?string $type = null): string
     {
-        if (\Zakjakub\OswisAddressBookBundle\Entity\ContactDetailType::TYPE_EMAIL === $type) {
-            return EmailType::class;
-        }
-        if (\Zakjakub\OswisAddressBookBundle\Entity\ContactDetailType::TYPE_PHONE === $type) {
-            return TelType::class;
-        }
-        if (\Zakjakub\OswisAddressBookBundle\Entity\ContactDetailType::TYPE_URL === $type) {
-            return UrlType::class;
-        }
-
-        return TextType::class;
+        return self::TYPES[$type] ?? TextType::class;
     }
 
     /**
@@ -122,8 +119,9 @@ class ContactDetailType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-                'data_class' => ContactDetail::class,
-//                'attr' => ['class' => 'col-md-6'],
+                'data_class'       => ContactDetail::class,
+                'content_required' => false,
+                // 'attr' => ['class' => 'col-md-6'],
             )
         );
     }

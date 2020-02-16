@@ -20,19 +20,20 @@ class EmployeePersonType extends AbstractType
         $builder->add(
             'fullName',
             TextType::class,
-            array(
-                'label' => 'Celé jméno',
-                'attr'  => [
+            [
+                'label'    => 'Celé jméno',
+                'required' => $options['content_required'],
+                'attr'     => [
                     'autocomplete' => 'section-organization-employee name',
                 ],
-            )
+            ]
         )->add(
             'contactDetails',
             CollectionType::class,
             array(
                 'label'         => false,
                 'entry_type'    => ContactDetailType::class,
-                'entry_options' => array('label' => false),
+                'entry_options' => ['label' => false, 'content_required' => $options['content_required']],
             )
         )->add(
             'studies',
@@ -41,7 +42,7 @@ class EmployeePersonType extends AbstractType
                 'label'         => 'Student/absolvent UP',
                 'help'          => 'Pokud studoval(a) nebo absolvoval(a) studium na Univerzitě Palackého, vyberte příslušnou fakultu, jinak nechte pole prázdné.',
                 'entry_type'    => SchoolPositionType::class,
-                'entry_options' => array('label' => false),
+                'entry_options' => ['label' => false],
                 'attr'          => [
                     'autocomplete' => 'section-organization-employee email',
                 ],
@@ -49,16 +50,19 @@ class EmployeePersonType extends AbstractType
         );
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     *
+     * @throws AccessException
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        try {
-            $resolver->setDefaults(
-                array(
-                    'data_class' => Person::class,
-                )
-            );
-        } catch (AccessException $e) {
-        }
+        $resolver->setDefaults(
+            array(
+                'data_class'       => Person::class,
+                'content_required' => false,
+            )
+        );
     }
 
     public function getName(): string

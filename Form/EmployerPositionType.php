@@ -18,7 +18,10 @@ class EmployerPositionType extends AbstractType
         $builder->add(
             'person',
             EmployeePersonType::class,
-            array('label' => false, 'required' => false)
+            [
+                'label'    => false,
+                'required' => $options['content_required'],
+            ]
         )->add(
             'name',
             null,
@@ -41,8 +44,9 @@ class EmployerPositionType extends AbstractType
     {
         $resolver->setDefaults(
             array(
-                'data_class' => Position::class,
-//                'attr' => ['class' => 'col-md-6'],
+                'data_class'       => Position::class,
+                'content_required' => false,
+                // 'attr' => ['class' => 'col-md-6'],
             )
         );
     }
