@@ -26,10 +26,7 @@ class ContactDetail implements BasicEntityInterface
 
     /**
      * Type of this contact.
-     * @Doctrine\ORM\Mapping\ManyToOne(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactDetailType",
-     *     fetch="EAGER"
-     * )
+     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactDetailType", fetch="EAGER")
      * @Doctrine\ORM\Mapping\JoinColumn(name="type_id", referencedColumnName="id")
      */
     private ?ContactDetailType $contactType = null;

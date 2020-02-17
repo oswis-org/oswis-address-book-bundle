@@ -21,8 +21,7 @@ class AddressBookContactConnection implements BasicEntityInterface
     /**
      * @Doctrine\ORM\Mapping\ManyToOne(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact",
-     *     inversedBy="addressBookContactConnections",
-     *     fetch="EAGER"
+     *     inversedBy="addressBookContactConnections"
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(nullable=true)
      */

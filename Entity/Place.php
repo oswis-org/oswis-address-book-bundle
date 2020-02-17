@@ -98,8 +98,7 @@ class Place implements BasicEntityInterface
      * Sub events.
      * @Doctrine\ORM\Mapping\OneToMany(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Place",
-     *     mappedBy="parentPlace",
-     *     fetch="EAGER"
+     *     mappedBy="parentPlace"
      * )
      */
     protected ?Collection $subPlaces = null;

@@ -75,12 +75,10 @@ class PersonSkillConnection implements BasicEntityInterface
 
     /**
      * Person in this position.
-     * @var Person|null $person
      * @Doctrine\ORM\Mapping\ManyToOne(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Person",
      *     cascade={"all"},
-     *     inversedBy="personSkillConnections",
-     *     fetch="EAGER"
+     *     inversedBy="personSkillConnections"
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(name="person_id", referencedColumnName="id")
      */
@@ -88,7 +86,6 @@ class PersonSkillConnection implements BasicEntityInterface
 
     /**
      * Skill.
-     * @var PersonSkill|null $personSkill
      * @Doctrine\ORM\Mapping\ManyToOne(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\PersonSkill",
      *     cascade={"all"},

@@ -82,7 +82,8 @@ class Person extends AbstractPerson
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\PersonSkillConnection",
      *     mappedBy="person",
      *     cascade={"all"},
-     *     orphanRemoval=true
+     *     orphanRemoval=true,
+     *     fetch="EAGER"
      * )
      */
     protected ?Collection $personSkillConnections = null;

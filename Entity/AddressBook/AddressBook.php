@@ -29,8 +29,7 @@ class AddressBook implements BasicEntityInterface
      * @Doctrine\ORM\Mapping\OneToMany(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBookContactConnection",
      *     cascade={"all"},
-     *     mappedBy="addressBook",
-     *     fetch="EAGER"
+     *     mappedBy="addressBook"
      * )
      */
     protected ?Collection $addressBookContactConnections = null;

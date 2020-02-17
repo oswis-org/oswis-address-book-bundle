@@ -97,8 +97,7 @@ class Position implements BasicEntityInterface
      * @Doctrine\ORM\Mapping\ManyToOne(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Person",
      *     cascade={"all"},
-     *     inversedBy="positions",
-     *     fetch="EAGER"
+     *     inversedBy="positions"
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(name="person_id", referencedColumnName="id")
      */
@@ -108,8 +107,7 @@ class Position implements BasicEntityInterface
      * @Doctrine\ORM\Mapping\ManyToOne(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Organization",
      *     cascade={"all"},
-     *     inversedBy="positions",
-     *     fetch="EAGER"
+     *     inversedBy="positions"
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(name="organization_id", referencedColumnName="id")
      */
