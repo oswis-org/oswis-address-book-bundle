@@ -1,8 +1,10 @@
 {% if organization is defined and organization %}
+
     <div class="row">
         <header class="col-lg-12 text-justify"><h2 class="text-uppercase">{{ organization.shortName }}</h2></header>
         <div itemprop="description" class="col-12">{{ organization.note|default('')|markdown_to_html }}</div>
     </div>
+
     <div class="row">
         <div class="col-lg-9">
             <p>
@@ -34,9 +36,12 @@
                     <span itemprop="productSupported" content="{{ organization.name }}"></span>
                 </span>
         </div>
+
         <div class="d-lg-none col-md-4 col-sm-3 col-xs-2 d-print-none"></div>
+
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-8 text-uppercase center-block text-center d-print-none">
             <div id="small-banner" style="background-image: url('{{ asset('/images/contacts/'~organization.image) }}')"></div>
         </div>
+
     </div>
 {% endif %}

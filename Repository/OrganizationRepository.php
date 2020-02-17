@@ -8,6 +8,7 @@ namespace Zakjakub\OswisAddressBookBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
+use Zakjakub\OswisAddressBookBundle\Entity\Organization;
 
 class OrganizationRepository extends EntityRepository
 {
@@ -19,5 +20,12 @@ class OrganizationRepository extends EntityRepository
         }
 
         return $qb->getQuery()->execute([], Query::HYDRATE_OBJECT);
+    }
+
+    public function findOneBy(array $criteria, array $orderBy = null): ?Organization
+    {
+        $result = parent::findOneBy($criteria, $orderBy);
+
+        return $result instanceof Organization ? $result : null;
     }
 }

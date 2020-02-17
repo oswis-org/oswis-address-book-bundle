@@ -103,14 +103,14 @@ services:
         alias: zakjakub_oswis_address_book.contact_detail_type_service
         public: true
 
-    ### AboutUs Controller
-    zakjakub_oswis_address_book.about_us_controller:
-        class: Zakjakub\OswisAddressBookBundle\Controller\AboutUsController
+    ### Organization Controller
+    zakjakub_oswis_address_book.organization_controller:
+        class: Zakjakub\OswisAddressBookBundle\Controller\OrganizationController
         autowire: true
         public: true
         arguments:
             - '@zakjakub_oswis_address_book.organization_service'
             - '@zakjakub_oswis_address_book.oswis_address_book_settings_provider'
-    Zakjakub\OswisAddressBookBundle\Controller\AboutUsController:
-        alias: zakjakub_oswis_address_book.about_us_controller
+    Zakjakub\OswisAddressBookBundle\Controller\OrganizationController:
+        alias: zakjakub_oswis_address_book.organization_controller
         public: true
