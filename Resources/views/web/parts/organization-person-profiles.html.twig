@@ -1,6 +1,6 @@
 <!-- START: PROFILES -->
 {% if organization.members|length > 0 %}
-    {% for contact in contacts %}
+    {% for contact in organization.members %}
         {% include '@ZakjakubOswisAddressBook/web/parts/organization-person-profile.html.twig' %}
     {% endfor %}
 {% else %}
