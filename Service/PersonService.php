@@ -6,13 +6,10 @@
 
 namespace Zakjakub\OswisAddressBookBundle\Service;
 
-use DateTime;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Psr\Log\LoggerInterface;
 use Zakjakub\OswisAddressBookBundle\Entity\Person;
-use Zakjakub\OswisCoreBundle\Entity\AppUser;
 
 class PersonService
 {
@@ -26,27 +23,15 @@ class PersonService
         $this->logger = $logger;
     }
 
-    public function create(
-        ?string $fullName = null,
-        ?string $description = null,
-        ?DateTime $birthDate = null,
-        ?string $type = null,
-        ?Collection $notes = null,
-        ?Collection $contactDetails = null,
-        ?Collection $addresses = null,
-        ?Collection $positions = null,
-        ?Collection $personSkillConnections = null,
-        ?Collection $addressBooks = null,
-        ?AppUser $appUser = null
-    ): ?Person {
+    public function create(Person $person): ?Person
+    {
         try {
-            $entity = new Person($fullName, $description, $birthDate, $type, $notes, $contactDetails, $addresses, $positions, $personSkillConnections, $addressBooks, $appUser);
-            $this->em->persist($entity);
+            $this->em->persist($person);
             $this->em->flush();
-            $infoMessage = 'Created person: '.$entity->getId().' '.$entity->getContactName().'.';
+            $infoMessage = 'Created person: '.$person->getId().' '.$person->getContactName().'.';
             $this->logger->info($infoMessage);
 
-            return $entity;
+            return $person;
         } catch (Exception $e) {
             $this->logger->info('ERROR: Person not created: '.$e->getMessage());
 

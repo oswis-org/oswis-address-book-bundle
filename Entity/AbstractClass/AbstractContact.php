@@ -26,8 +26,10 @@ use Zakjakub\OswisAddressBookBundle\Entity\Organization;
 use Zakjakub\OswisAddressBookBundle\Entity\Person;
 use Zakjakub\OswisAddressBookBundle\Entity\Position;
 use Zakjakub\OswisCoreBundle\Entity\AppUser;
+use Zakjakub\OswisCoreBundle\Entity\Publicity;
 use Zakjakub\OswisCoreBundle\Interfaces\BasicEntityInterface;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
+use Zakjakub\OswisCoreBundle\Traits\Entity\EntityPublicTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\TypeTrait;
 use Zakjakub\OswisCoreBundle\Utils\EmailUtils;
 use function assert;
@@ -50,6 +52,7 @@ abstract class AbstractContact implements BasicEntityInterface
 {
     use BasicEntityTrait;
     use TypeTrait;
+    use EntityPublicTrait;
 
     public const TYPE_ORGANIZATION = 'organization';
     public const TYPE_PERSON = 'person';
@@ -175,6 +178,8 @@ abstract class AbstractContact implements BasicEntityInterface
      *
      * @param Collection|null $positions
      *
+     * @param Publicity|null  $publicity
+     *
      * @throws InvalidArgumentException
      */
     public function __construct(
@@ -183,7 +188,8 @@ abstract class AbstractContact implements BasicEntityInterface
         ?Collection $contactDetails = null,
         ?Collection $addresses = null,
         ?Collection $addressBooks = null,
-        ?Collection $positions = null
+        ?Collection $positions = null,
+        ?Publicity $publicity = null
     ) {
         $this->positions = new ArrayCollection();
         $this->setType($type);
@@ -192,6 +198,7 @@ abstract class AbstractContact implements BasicEntityInterface
         $this->setAddresses($addresses);
         $this->setPositions($positions);
         $this->setAddressBooks($addressBooks);
+        $this->setFieldsFromPublicity($publicity);
     }
 
     public function setAddressBooks(?Collection $newAddressBooks): void

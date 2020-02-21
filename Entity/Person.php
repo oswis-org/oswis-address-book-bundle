@@ -14,6 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractPerson;
 use Zakjakub\OswisCoreBundle\Entity\AppUser;
+use Zakjakub\OswisCoreBundle\Entity\Publicity;
 use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
 use function assert;
 use function rtrim;
@@ -99,10 +100,11 @@ class Person extends AbstractPerson
         ?Collection $positions = null,
         ?Collection $personSkillConnections = null,
         ?Collection $addressBooks = null,
-        ?AppUser $appUser = null
+        ?AppUser $appUser = null,
+        ?Publicity $publicity = null
     ) {
         $type ??= self::TYPE_PERSON;
-        parent::__construct($fullName, $description, $birthDate, $type, $notes, $contactDetails, $addresses, $addressBooks, $positions);
+        parent::__construct($fullName, $description, $birthDate, $type, $notes, $contactDetails, $addresses, $addressBooks, $positions, $publicity);
         $this->setAppUser($appUser);
         $this->setPersonSkillConnections($personSkillConnections);
     }

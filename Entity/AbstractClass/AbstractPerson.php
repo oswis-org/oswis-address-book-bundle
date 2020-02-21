@@ -9,6 +9,7 @@ namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Exception;
+use Zakjakub\OswisCoreBundle\Entity\Publicity;
 use Zakjakub\OswisCoreBundle\Traits\Entity\PersonBasicTrait;
 
 abstract class AbstractPerson extends AbstractContact
@@ -26,9 +27,10 @@ abstract class AbstractPerson extends AbstractContact
         ?Collection $contactDetails = null,
         ?Collection $addresses = null,
         ?Collection $addressBooks = null,
-        ?Collection $positions = null
+        ?Collection $positions = null,
+        ?Publicity $publicity = null
     ) {
-        parent::__construct($type, $notes, $contactDetails, $addresses, $addressBooks, $positions);
+        parent::__construct($type, $notes, $contactDetails, $addresses, $addressBooks, $positions, $publicity);
         $this->setFullName($fullName);
         $this->setDescription($description);
         try {

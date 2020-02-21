@@ -14,6 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractOrganization;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
+use Zakjakub\OswisCoreBundle\Entity\Publicity;
 use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
 
 /**
@@ -98,9 +99,10 @@ class Organization extends AbstractOrganization
         ?Collection $addresses = null,
         ?Collection $contactDetails = null,
         ?Collection $notes = null,
-        ?Collection $addressBooks = null
+        ?Collection $addressBooks = null,
+        ?Publicity $publicity = null
     ) {
-        parent::__construct($nameable, $identificationNumber, $color, $type, $notes, $contactDetails, $addresses, $addressBooks);
+        parent::__construct($nameable, $identificationNumber, $color, $type, $notes, $contactDetails, $addresses, $addressBooks, $publicity);
         $this->subOrganizations = new ArrayCollection();
         $this->setParentOrganization($parentOrganization);
     }
