@@ -1,11 +1,10 @@
-<!-- START: PROFILES -->
-{% if organization.members|length > 0 %}
-    {% for contact in organization.members %}
+<div class="row">
+    {% for contact in organization.members|default %}
+        <h3>Aktuální tým</h3>
         {% include '@ZakjakubOswisAddressBook/web/parts/organization-person-profile.html.twig' %}
+    {% else %}
+        <div class="col-12">
+            <p>Aktuálně nejsou k dispozici žádné kontakty k zobrazení.</p>
+        </div>
     {% endfor %}
-{% else %}
-    <div class="col-12">
-        <p>Aktuálně nejsou k dispozici žádné kontakty k zobrazení.</p>
-    </div>
-{% endif %}
-<!-- END: PROFILES -->
+</div>

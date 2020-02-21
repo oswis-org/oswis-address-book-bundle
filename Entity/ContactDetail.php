@@ -52,7 +52,7 @@ class ContactDetail implements BasicEntityInterface
             );
         }
 
-        return null;
+        return $this->getContent();
     }
 
     public function getContactType(): ?ContactDetailType
