@@ -64,7 +64,7 @@ class OrganizationController extends AbstractController
         $organization ??= $this->organizationService->getRepository()->findBy(
             ['publicOnWeb' => true],
             ['id' => 'ASC']
-        )[0];
+        )[0] ?? null;
 
         return $organization;
     }
