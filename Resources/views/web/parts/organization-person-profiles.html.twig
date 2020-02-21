@@ -1,6 +1,6 @@
 <div class="row">
+    <h3>Aktuální tým</h3>
     {% for contact in organization.members|default %}
-        <h3>Aktuální tým</h3>
         {% include '@ZakjakubOswisAddressBook/web/parts/organization-person-profile.html.twig' %}
     {% else %}
         <div class="col-12">
