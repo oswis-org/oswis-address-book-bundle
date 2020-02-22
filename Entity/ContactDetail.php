@@ -6,9 +6,11 @@
 
 namespace Zakjakub\OswisAddressBookBundle\Entity;
 
+use Zakjakub\OswisCoreBundle\Entity\Nameable;
 use Zakjakub\OswisCoreBundle\Interfaces\BasicEntityInterface;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\DescriptionTrait;
+use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\PriorityTrait;
 use function filter_var;
 use function htmlspecialchars;
@@ -21,8 +23,8 @@ use function htmlspecialchars;
 class ContactDetail implements BasicEntityInterface
 {
     use BasicEntityTrait;
-    use DescriptionTrait;
     use PriorityTrait;
+    use NameableBasicTrait;
 
     /**
      * Type of this contact.
@@ -37,10 +39,11 @@ class ContactDetail implements BasicEntityInterface
      */
     private ?string $content = null;
 
-    public function __construct(?ContactDetailType $contactType = null, ?string $content = null)
+    public function __construct(?ContactDetailType $contactType = null, ?string $content = null, ?Nameable $nameable = null)
     {
         $this->setContactType($contactType);
         $this->setContent($content);
+        $this->setFieldsFromNameable($nameable);
     }
 
     public function getFormatted(): ?string

@@ -14,14 +14,12 @@
                 {% endif %}
             </p>
 
-            <ul>
-                {% for detail in organization.contactDetails %}
-                    <li>
-                        <strong>{{ detail.contactType.name|default('Kontakt') }}:</strong>
-                        {% autoescape false %}{{ detail.formatted }}{% endautoescape %}
-                    </li>
-                {% endfor %}
-            </ul>
+            {% for detail in organization.contactDetails %}
+                <p class="mb-2">
+                    <strong>{{ detail.contactType.name|default('Kontakt') }}:</strong>
+                    {% autoescape false %}{{ detail.formatted }}{% endautoescape %}
+                </p>
+            {% endfor %}
 
             <span itemprop="url" content="{{ organization.url }}"></span>
             <span itemprop="logo" content="'{{ absolute_url(asset('/images/contacts/'~organization.image)) }}"></span>

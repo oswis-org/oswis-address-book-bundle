@@ -184,13 +184,15 @@ class ContactDetailType implements BasicEntityInterface
      * @param string      $value
      * @param string|null $description
      *
+     * @param string|null $name
+     *
      * @return string
      * @noinspection UnknownInspectionInspection
      * @noinspection HtmlUnknownTag
      */
-    public function getFormatted(string $value, ?string $description): string
+    public function getFormatted(string $value, ?string $description, ?string $name = null): string
     {
-        return strtr($this->getContactSchema(), array('$<value>' => $value, '$<description>' => $description));
+        return strtr($this->getContactSchema(), ['$<value>' => $value, '$<description>' => $description, '$<name>' => $name]);
     }
 
     /**
