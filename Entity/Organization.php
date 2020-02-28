@@ -73,19 +73,13 @@ class Organization extends AbstractOrganization
     protected ?Organization $parentOrganization = null;
 
     /**
-     * @Doctrine\ORM\Mapping\OneToMany(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Organization",
-     *     mappedBy="parentOrganization"
-     * )
+     * @Doctrine\ORM\Mapping\OneToMany(targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Organization", mappedBy="parentOrganization")
      */
     protected ?Collection $subOrganizations = null;
 
     /**
      * @Doctrine\ORM\Mapping\OneToMany(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Position",
-     *     mappedBy="organization",
-     *     cascade={"all"},
-     *     orphanRemoval=true
+     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Position", mappedBy="organization", cascade={"all"}, orphanRemoval=true
      * )
      */
     protected ?Collection $positions = null;

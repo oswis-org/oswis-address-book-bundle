@@ -9,7 +9,6 @@ namespace Zakjakub\OswisAddressBookBundle\Entity;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
 use Zakjakub\OswisCoreBundle\Interfaces\BasicEntityInterface;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
-use Zakjakub\OswisCoreBundle\Traits\Entity\DescriptionTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\PriorityTrait;
 use function filter_var;
@@ -51,8 +50,9 @@ class ContactDetail implements BasicEntityInterface
         if (null !== $this->getContactType()) {
             return $this->getContactType()->getFormatted(
                 filter_var($this->getContent(), FILTER_SANITIZE_URL).'',
-                htmlspecialchars($this->getDescription()).null
-            );
+                htmlspecialchars($this->getDescription()).null,
+                htmlspecialchars($this->getName()).null,
+                );
         }
 
         return $this->getContent();

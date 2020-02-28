@@ -125,10 +125,7 @@ abstract class AbstractContact implements BasicEntityInterface
     /**
      * Postal addresses of AbstractContact (Person, Organization).
      * @Doctrine\ORM\Mapping\ManyToMany(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactAddress",
-     *     cascade={"all"},
-     *     orphanRemoval=true,
-     *     fetch="EAGER"
+     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactAddress", cascade={"all"}, orphanRemoval=true, fetch="EAGER"
      * )
      * @ApiProperty(iri="http://schema.org/address")
      * @Doctrine\ORM\Mapping\JoinTable(
@@ -175,9 +172,7 @@ abstract class AbstractContact implements BasicEntityInterface
      * @param Collection|null $contactDetails
      * @param Collection|null $addresses
      * @param Collection|null $addressBooks
-     *
      * @param Collection|null $positions
-     *
      * @param Publicity|null  $publicity
      *
      * @throws InvalidArgumentException
