@@ -12,6 +12,8 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use InvalidArgumentException;
+use Vokativ\Name as VokativName;
 use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractPerson;
 use Zakjakub\OswisCoreBundle\Entity\AppUser;
 use Zakjakub\OswisCoreBundle\Entity\Publicity;
@@ -108,6 +110,22 @@ class Person extends AbstractPerson
         $this->setPersonSkillConnections($personSkillConnections);
     }
 
+    public function setPersonSkillConnections(?Collection $newPersonSkillConnections): void
+    {
+//        $this->personSkillConnections ??= new ArrayCollection();
+//        $newPersonSkillConnections ??= new ArrayCollection();
+//        foreach ($this->personSkillConnections as $oldPersonSkillConnection) {
+//            if (!$newPersonSkillConnections->contains($oldPersonSkillConnection)) {
+//                $this->personSkillConnections->removeElement($oldPersonSkillConnection);
+//            }
+//        }
+//        foreach ($newPersonSkillConnections as $newPersonSkillConnection) {
+//            if (!$this->personSkillConnections->contains($newPersonSkillConnection)) {
+//                $this->addPersonSkillConnection($newPersonSkillConnection);
+//            }
+//        }
+    }
+
     public function addPosition(?Position $position): void
     {
         if (null !== $position && !$this->positions->contains($position)) {
@@ -132,14 +150,6 @@ class Person extends AbstractPerson
         return $out;
     }
 
-    public function getSchools(?DateTime $dateTime = null): Collection
-    {
-        $out = new ArrayCollection();
-        $this->getStudyPositions($dateTime)->map(fn(Position $p) => $out->contains($p->getOrganization()) ? null : $out->add($p->getOrganization()));
-
-        return $out;
-    }
-
 //    public function addPersonSkillConnection(?PersonSkillConnection $personSkillConnection): void
 //    {
 //        if (null !== $personSkillConnection && !$this->personSkillConnections->contains($personSkillConnection)) {
@@ -154,6 +164,14 @@ class Person extends AbstractPerson
 //            $personSkillConnection->setPerson(null);
 //        }
 //    }
+    public function getSchools(?DateTime $dateTime = null): Collection
+    {
+        $out = new ArrayCollection();
+        $this->getStudyPositions($dateTime)->map(fn(Position $p) => $out->contains($p->getOrganization()) ? null : $out->add($p->getOrganization()));
+
+        return $out;
+    }
+
     public function getOrganizationsString(): string
     {
         $output = '';
@@ -167,27 +185,24 @@ class Person extends AbstractPerson
 
     public function getPersonSkillConnections(): Collection
     {
-        return $this->personSkillConnections ?? new ArrayCollection();
-    }
-
-    public function setPersonSkillConnections(?Collection $newPersonSkillConnections): void
-    {
-//        $this->personSkillConnections ??= new ArrayCollection();
-//        $newPersonSkillConnections ??= new ArrayCollection();
-//        foreach ($this->personSkillConnections as $oldPersonSkillConnection) {
-//            if (!$newPersonSkillConnections->contains($oldPersonSkillConnection)) {
-//                $this->personSkillConnections->removeElement($oldPersonSkillConnection);
-//            }
-//        }
-//        foreach ($newPersonSkillConnections as $newPersonSkillConnection) {
-//            if (!$this->personSkillConnections->contains($newPersonSkillConnection)) {
-//                $this->addPersonSkillConnection($newPersonSkillConnection);
-//            }
-//        }
+        return new ArrayCollection();
+        // return $this->personSkillConnections ?? new ArrayCollection();
     }
 
     public function getSortableContactName(): string
     {
         return $this->getFamilyName().' '.$this->getAdditionalName().' '.$this->getGivenName().' '.$this->getHonorificSuffix().' '.$this->getHonorificPrefix();
+    }
+
+    public function getGenderCssClass(): string
+    {
+        if (empty($this->getGivenName())) {
+            return self::GENDER_UNISEX;
+        }
+        try {
+            return (new VokativName())->isMale($this->getGivenName()) ? self::GENDER_MALE : self::GENDER_FEMALE;
+        } catch (InvalidArgumentException $e) {
+            return self::GENDER_UNISEX;
+        }
     }
 }

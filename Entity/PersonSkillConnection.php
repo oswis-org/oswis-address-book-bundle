@@ -1,7 +1,6 @@
 <?php
 /**
  * @noinspection PhpUnused
- * @noinspection MethodShouldBeFinalInspection
  */
 
 namespace Zakjakub\OswisAddressBookBundle\Entity;

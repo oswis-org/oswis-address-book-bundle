@@ -12,7 +12,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
-use Vokativ\Name as VokativName;
+use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
 use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
 use Zakjakub\OswisCoreBundle\Interfaces\BasicEntityInterface;
@@ -256,14 +256,7 @@ class Position implements BasicEntityInterface
 
     public function getGenderCssClass(): string
     {
-        if ($this->getPerson() === null || !$this->getPerson()->getGivenName()) {
-            return 'unisex';
-        }
-        try {
-            return (new VokativName())->isMale($this->getPerson()->getGivenName()) ? 'male' : 'female';
-        } catch (InvalidArgumentException $e) {
-            return 'unisex';
-        }
+        return null === $this->getPerson() ? AbstractContact::GENDER_UNISEX : $this->getPerson()->getGenderCssClass();
     }
 
     public function getPerson(): ?Person
@@ -273,11 +266,11 @@ class Position implements BasicEntityInterface
 
     public function setPerson(?Person $person): void
     {
-        if ($this->person && $person !== $this->person) {
+        if (null !== $this->person && $person !== $this->person) {
             $this->person->removePosition($this);
         }
         $this->person = $person;
-        if ($person && $this->person !== $person) {
+        if (null !== $person && $this->person !== $person) {
             $person->addPosition($this);
         }
     }

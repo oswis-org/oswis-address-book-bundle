@@ -6,7 +6,7 @@
 
 namespace Zakjakub\OswisAddressBookBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use Zakjakub\OswisCoreBundle\Interfaces\BasicEntityInterface;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 
@@ -21,7 +21,7 @@ class ContactNote implements BasicEntityInterface
 
     /**
      * Can be showed on website etc.
-     * @ORM\Column(type="boolean", nullable=true)
+     * @Doctrine\ORM\Mapping\Column(type="boolean", nullable=true)
      */
     protected ?bool $public = null;
 
@@ -29,12 +29,35 @@ class ContactNote implements BasicEntityInterface
      * Content of note.
      * @Doctrine\ORM\Mapping\Column(type="text", nullable=true)
      */
-    private ?string $content = null;
+    protected ?string $content = null;
 
-    public function __construct(?string $content = null, ?bool $public = null)
+    /**
+     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact", inversedBy="notes")
+     * @Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")
+     */
+    protected ?AbstractContact $contact = null;
+
+    public function __construct(?string $content = null, ?bool $public = null, ?AbstractContact $contact = null)
     {
+        $this->setContact($contact);
         $this->setContent($content);
         $this->setPublic($public);
+    }
+
+    public function getContact(): ?AbstractContact
+    {
+        return $this->contact;
+    }
+
+    public function setContact(?AbstractContact $contact): void
+    {
+        if ($this->contact && $contact !== $this->contact) {
+            $this->contact->removeNote($this);
+        }
+        $this->contact = $contact;
+        if ($contact && $this->contact !== $contact) {
+            $contact->addNote($this);
+        }
     }
 
     public function getPublic(): ?bool

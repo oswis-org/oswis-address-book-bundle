@@ -32,11 +32,10 @@ class PlaceService
         ?int $roomNumber = null,
         ?string $url = null,
         ?float $geoLatitude = null,
-        ?float $geoLongitude = null,
-        ?int $geoElevation = null
+        ?float $geoLongitude = null
     ): ?Place {
         try {
-            $entity = new Place($nameable, $address, $parentPlace, $floorNumber, $roomNumber, $url, $geoLatitude, $geoLongitude, $geoElevation);
+            $entity = new Place($nameable, $address, $parentPlace, $floorNumber, $roomNumber, $url, $geoLatitude, $geoLongitude);
             $this->em->persist($entity);
             $this->em->flush();
             $infoMessage = 'Created place: '.$entity->getId().' '.$entity->getName().'.';

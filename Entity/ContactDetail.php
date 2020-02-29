@@ -6,6 +6,7 @@
 
 namespace Zakjakub\OswisAddressBookBundle\Entity;
 
+use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
 use Zakjakub\OswisCoreBundle\Interfaces\BasicEntityInterface;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
@@ -30,19 +31,42 @@ class ContactDetail implements BasicEntityInterface
      * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactDetailType", fetch="EAGER")
      * @Doctrine\ORM\Mapping\JoinColumn(name="type_id", referencedColumnName="id")
      */
-    private ?ContactDetailType $contactType = null;
+    protected ?ContactDetailType $contactType = null;
+
+    /**
+     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact", inversedBy="details")
+     * @Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")
+     */
+    protected ?AbstractContact $contact = null;
 
     /**
      * Text content of note.
      * @Doctrine\ORM\Mapping\Column(type="text", nullable=true)
      */
-    private ?string $content = null;
+    protected ?string $content = null;
 
-    public function __construct(?ContactDetailType $contactType = null, ?string $content = null, ?Nameable $nameable = null)
+    public function __construct(?ContactDetailType $type = null, ?string $content = null, ?Nameable $nameable = null, ?AbstractContact $contact = null)
     {
-        $this->setContactType($contactType);
+        $this->setContact($contact);
+        $this->setContactType($type);
         $this->setContent($content);
         $this->setFieldsFromNameable($nameable);
+    }
+
+    public function getContact(): ?AbstractContact
+    {
+        return $this->contact;
+    }
+
+    public function setContact(?AbstractContact $contact): void
+    {
+        if ($this->contact && $contact !== $this->contact) {
+            $this->contact->removeDetail($this);
+        }
+        $this->contact = $contact;
+        if ($contact && $this->contact !== $contact) {
+            $contact->addDetail($this);
+        }
     }
 
     public function getFormatted(): ?string

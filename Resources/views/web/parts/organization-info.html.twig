@@ -14,7 +14,7 @@
                 {% endif %}
             </p>
 
-            {% for detail in organization.contactDetails %}
+            {% for detail in organization.details %}
                 <p class="mb-2">
                     <strong>{{ detail.contactType.name|default('Kontakt') }}:</strong>
                     {% autoescape false %}{{ detail.formatted }}{% endautoescape %}

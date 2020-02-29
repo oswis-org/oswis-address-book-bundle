@@ -54,6 +54,10 @@ abstract class AbstractContact implements BasicEntityInterface
     use TypeTrait;
     use EntityPublicTrait;
 
+    public const GENDER_MALE = 'male';
+    public const GENDER_FEMALE = 'female';
+    public const GENDER_UNISEX = 'unisex';
+
     public const TYPE_ORGANIZATION = 'organization';
     public const TYPE_PERSON = 'person';
 
@@ -92,47 +96,38 @@ abstract class AbstractContact implements BasicEntityInterface
 
     /**
      * Notes about person.
-     * @Doctrine\ORM\Mapping\ManyToMany(
+     * @Doctrine\ORM\Mapping\OneToMany(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactNote",
+     *     mappedBy="contact",
      *     cascade={"all"},
      *     orphanRemoval=true,
      *     fetch="EAGER"
-     * )
-     * @Doctrine\ORM\Mapping\JoinTable(
-     *     name="address_book_contact_note_connection",
-     *     joinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="note_id", referencedColumnName="id", unique=true)}
      * )
      */
     protected ?Collection $notes = null;
 
     /**
      * Postal addresses of AbstractContact (Person, Organization).
-     * @Doctrine\ORM\Mapping\ManyToMany(
+     * @Doctrine\ORM\Mapping\OneToMany(
      *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactDetail",
+     *     mappedBy="contact",
      *     cascade={"all"},
      *     orphanRemoval=true,
      *     fetch="EAGER"
      * )
-     * @Doctrine\ORM\Mapping\JoinTable(
-     *     name="address_book_contact_detail_connection",
-     *     joinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="contact_detail_id", referencedColumnName="id", unique=true)}
-     * )
      */
-    protected ?Collection $contactDetails = null;
+    protected ?Collection $details = null;
 
     /**
      * Postal addresses of AbstractContact (Person, Organization).
-     * @Doctrine\ORM\Mapping\ManyToMany(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactAddress", cascade={"all"}, orphanRemoval=true, fetch="EAGER"
+     * @Doctrine\ORM\Mapping\OneToMany(
+     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactAddress",
+     *     mappedBy="contact",
+     *     cascade={"all"},
+     *     orphanRemoval=true,
+     *     fetch="EAGER"
      * )
      * @ApiProperty(iri="http://schema.org/address")
-     * @Doctrine\ORM\Mapping\JoinTable(
-     *     name="address_book_contact_address_connection",
-     *     joinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="address_id", referencedColumnName="id", unique=true)}
-     * )
      */
     protected ?Collection $addresses = null;
 
@@ -147,11 +142,7 @@ abstract class AbstractContact implements BasicEntityInterface
     protected ?Collection $addressBookContactConnections = null;
 
     /**
-     * @Doctrine\ORM\Mapping\OneToOne(
-     *     targetEntity="Zakjakub\OswisCoreBundle\Entity\AppUser",
-     *     cascade={"all"},
-     *     fetch="EAGER"
-     * )
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Zakjakub\OswisCoreBundle\Entity\AppUser", cascade={"all"}, fetch="EAGER")
      */
     protected ?AppUser $appUser = null;
 
@@ -189,7 +180,7 @@ abstract class AbstractContact implements BasicEntityInterface
         $this->positions = new ArrayCollection();
         $this->setType($type);
         $this->setNotes($notes);
-        $this->setContactDetails($contactDetails);
+        $this->setDetails($contactDetails);
         $this->setAddresses($addresses);
         $this->setPositions($positions);
         $this->setAddressBooks($addressBooks);
@@ -328,49 +319,53 @@ abstract class AbstractContact implements BasicEntityInterface
         return in_array($this->getType(), self::STUDENT_ORGANIZATION_TYPES, true);
     }
 
-    public function addNote(?ContactNote $personNote): void
-    {
-        if (null !== $personNote) {
-            $this->notes->add($personNote);
-        }
-    }
 
     /**
      * Remove contact details where no content is present.
      */
-    public function removeEmptyContactDetails(): void
+    public function removeEmptyDetails(): void
     {
-        $this->setContactDetails($this->getContactDetails()->filter(fn(ContactDetail $detail) => !empty($detail->getContent())));
+        $this->setDetails($this->getDetails()->filter(fn(ContactDetail $detail) => !empty($detail->getContent())));
     }
 
-    public function getContactDetails(): Collection
+    public function getDetails(): Collection
     {
-        return $this->contactDetails ?? new ArrayCollection();
+        return $this->details ?? new ArrayCollection();
     }
 
-    public function setContactDetails(?Collection $newContactDetails): void
+    public function setDetails(?Collection $newContactDetails): void
     {
-        $this->contactDetails = $newContactDetails ?? new ArrayCollection();
+        $this->details = $newContactDetails ?? new ArrayCollection();
     }
 
-    public function removeContactDetail(?ContactDetail $contactDetail): void
+    public function removeNote(?ContactNote $note): void
     {
-        if (null !== $contactDetail) {
-            $this->contactDetails->removeElement($contactDetail);
+        if (null !== $note && $this->getNotes()->removeElement($note)) {
+            $note->setContact(null);
+        }
+    }
+
+    public function getNotes(): Collection
+    {
+        return $this->notes ?? new ArrayCollection();
+    }
+
+    public function setNotes(?Collection $newNotes): void
+    {
+        $this->notes = $newNotes ?? new ArrayCollection();
+    }
+
+    public function removeDetail(?ContactDetail $detail): void
+    {
+        if (null !== $detail && $this->getDetails()->removeElement($detail)) {
+            $detail->setContact(null);
         }
     }
 
     public function removeAddress(?ContactAddress $address): void
     {
-        if (null !== $address) {
-            $this->addresses->removeElement($address);
-        }
-    }
-
-    public function addContactDetail(?ContactDetail $contactDetail): void
-    {
-        if (null !== $contactDetail && !$this->contactDetails->contains($contactDetail)) {
-            $this->contactDetails->add($contactDetail);
+        if (null !== $address && $this->getAddresses()->removeElement($address)) {
+            $address->setContact(null);
         }
     }
 
@@ -384,10 +379,27 @@ abstract class AbstractContact implements BasicEntityInterface
         $this->addresses = $newAddresses ?? new ArrayCollection();
     }
 
+    public function addDetail(?ContactDetail $detail): void
+    {
+        if (null !== $detail && !$this->getDetails()->contains($detail)) {
+            $this->details->add($detail);
+            $detail->setContact($this);
+        }
+    }
+
+    public function addNote(?ContactNote $note): void
+    {
+        if (null !== $note && !$this->getNotes()->contains($note)) {
+            $this->notes->add($note);
+            $note->setContact($this);
+        }
+    }
+
     public function addAddress(?ContactAddress $address): void
     {
-        if (null !== $address && !$this->addresses->contains($address)) {
+        if (null !== $address && !$this->getAddresses()->contains($address)) {
             $this->addresses->add($address);
+            $address->setContact($this);
         }
     }
 
@@ -397,23 +409,6 @@ abstract class AbstractContact implements BasicEntityInterface
     public function removeEmptyNotes(): void
     {
         $this->setNotes($this->getNotes()->filter(fn(ContactNote $note) => empty($note->getContent())));
-    }
-
-    public function getNotes(): Collection
-    {
-        return $this->notes ?? new ArrayCollection();
-    }
-
-    public function setNotes(?Collection $newNotes): void
-    {
-        $this->notes = $newNotes ?? new ArrayCollection();
-    }
-
-    public function removeNote(?ContactNote $personNote): void
-    {
-        if (null !== $personNote) {
-            $this->notes->removeElement($personNote);
-        }
     }
 
     /**
@@ -431,7 +426,7 @@ abstract class AbstractContact implements BasicEntityInterface
      */
     public function getUrls(): Collection
     {
-        return $this->getContactDetails()->filter(fn(ContactDetail $contactDetail) => ContactDetailType::TYPE_URL === $contactDetail->getTypeString());
+        return $this->getDetails()->filter(fn(ContactDetail $contactDetail) => ContactDetailType::TYPE_URL === $contactDetail->getTypeString());
     }
 
     public function getContactPersons(?DateTime $dateTime = null, bool $onlyWithActivatedUser = false): Collection
@@ -536,12 +531,12 @@ abstract class AbstractContact implements BasicEntityInterface
      */
     public function getPhones(): Collection
     {
-        return $this->getContactDetails()->filter(fn(ContactDetail $contactDetail) => ContactDetailType::TYPE_PHONE === $contactDetail->getTypeString());
+        return $this->getDetails()->filter(fn(ContactDetail $contactDetail) => ContactDetailType::TYPE_PHONE === $contactDetail->getTypeString());
     }
 
     public function getAddress(): ?string
     {
-        return $this->contactDetails->first();
+        return $this->details->first();
     }
 
     /**
@@ -629,7 +624,7 @@ abstract class AbstractContact implements BasicEntityInterface
      */
     public function getEmails(): Collection
     {
-        return $this->getContactDetails()->filter(fn(ContactDetail $contactDetail) => ContactDetailType::TYPE_EMAIL === $contactDetail->getTypeString());
+        return $this->getDetails()->filter(fn(ContactDetail $contactDetail) => ContactDetailType::TYPE_EMAIL === $contactDetail->getTypeString());
     }
 
     public function canEdit(AppUser $user): bool
@@ -720,10 +715,7 @@ abstract class AbstractContact implements BasicEntityInterface
      */
     public function removeStudy(?Position $position): void
     {
-        if (!$position) {
-            return;
-        }
-        if (!$position->isStudy()) {
+        if (null !== $position && !$position->isStudy()) {
             throw new InvalidArgumentException('Špatný typ pozice ('.$position->getType().' není typ studia)');
         }
         $this->removePosition($position);
@@ -738,12 +730,14 @@ abstract class AbstractContact implements BasicEntityInterface
      */
     public function removeRegularPosition(?Position $position): void
     {
-        if (!$position) {
-            return;
-        }
-        if (!$position->isRegularPosition()) {
+        if (null !== $position && !$position->isRegularPosition()) {
             throw new InvalidArgumentException('Špatný typ pozice ('.$position->getType().' není typ zaměstnání)');
         }
         $this->removePosition($position);
+    }
+
+    public function getGenderCssClass(): string
+    {
+        return self::GENDER_UNISEX;
     }
 }

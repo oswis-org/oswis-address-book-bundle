@@ -11,7 +11,6 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 use Zakjakub\OswisCoreBundle\Entity\Address;
 use Zakjakub\OswisCoreBundle\Entity\Nameable;
 use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
@@ -74,32 +73,23 @@ class Place implements BasicEntityInterface
     use GeoCoordinatesTrait;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @Doctrine\ORM\Mapping\Column(type="integer", nullable=true)
      */
     protected ?int $floorNumber = null;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @Doctrine\ORM\Mapping\Column(type="integer", nullable=true)
      */
     protected ?int $roomNumber = null;
 
     /**
-     * Parent place (if this is not top level place).
-     * @Doctrine\ORM\Mapping\ManyToOne(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Place",
-     *     inversedBy="subPlaces",
-     *     fetch="EAGER"
-     * )
+     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Place", inversedBy="subPlaces",fetch="EAGER")
      * @Doctrine\ORM\Mapping\JoinColumn(nullable=true)
      */
     protected ?Place $parentPlace = null;
 
     /**
-     * Sub events.
-     * @Doctrine\ORM\Mapping\OneToMany(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Place",
-     *     mappedBy="parentPlace"
-     * )
+     * @Doctrine\ORM\Mapping\OneToMany(targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Place", mappedBy="parentPlace")
      */
     protected ?Collection $subPlaces = null;
 
@@ -111,8 +101,7 @@ class Place implements BasicEntityInterface
         ?int $roomNumber = null,
         ?string $url = null,
         ?float $geoLatitude = null,
-        ?float $geoLongitude = null,
-        ?int $geoElevation = null
+        ?float $geoLongitude = null
     ) {
         $this->subPlaces = new ArrayCollection();
         $this->setParentPlace($parentPlace);
@@ -123,7 +112,6 @@ class Place implements BasicEntityInterface
         $this->setUrl($url);
         $this->setGeoLatitude($geoLatitude);
         $this->setGeoLongitude($geoLongitude);
-        $this->setGeoElevation($geoElevation);
     }
 
     public function getSubPlaces(): Collection
@@ -131,9 +119,6 @@ class Place implements BasicEntityInterface
         return $this->subPlaces ?? new ArrayCollection();
     }
 
-    /**
-     * @return bool
-     */
     public function isRootPlace(): bool
     {
         return $this->parentPlace ? false : true;
@@ -161,42 +146,30 @@ class Place implements BasicEntityInterface
 
     public function setParentPlace(?Place $event): void
     {
-        if ($this->parentPlace && $event !== $this->parentPlace) {
+        if (null !== $this->parentPlace && $event !== $this->parentPlace) {
             $this->parentPlace->removeSubPlace($this);
         }
         $this->parentPlace = $event;
-        if ($this->parentPlace) {
+        if (null !== $this->parentPlace) {
             $this->parentPlace->addSubPlace($this);
         }
     }
 
-    /**
-     * @return int|null
-     */
     public function getFloorNumber(): ?int
     {
         return $this->floorNumber;
     }
 
-    /**
-     * @param int|null $floorNumber
-     */
     public function setFloorNumber(?int $floorNumber): void
     {
         $this->floorNumber = $floorNumber;
     }
 
-    /**
-     * @return int|null
-     */
     public function getRoomNumber(): ?int
     {
         return $this->roomNumber;
     }
 
-    /**
-     * @param int|null $roomNumber
-     */
     public function setRoomNumber(?int $roomNumber): void
     {
         $this->roomNumber = $roomNumber;
@@ -204,10 +177,6 @@ class Place implements BasicEntityInterface
 
     public function getStreetAddress(): string
     {
-        $output = $this->getStreet();
-        $output .= (!empty($this->getStreet()) && $this->getHouseNumber() !== null) ? ' ' : null;
-        $output .= $this->getHouseNumber();
-
-        return $output;
+        return $this->getStreet().((!empty($this->getStreet()) && $this->getHouseNumber() !== null) ? ' ' : null).$this->getHouseNumber();
     }
 }
