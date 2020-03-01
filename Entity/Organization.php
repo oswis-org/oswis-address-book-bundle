@@ -9,6 +9,7 @@ namespace Zakjakub\OswisAddressBookBundle\Entity;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -29,29 +30,48 @@ use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
  *   collectionOperations={
  *     "get"={
  *       "access_control"="is_granted('ROLE_MEMBER')",
- *       "normalization_context"={"groups"={"address_book_organizations_get"}},
+ *       "normalization_context"={"groups"={"address_book_abstract_contacts_get", "address_book_organizations_get"}},
  *     },
  *     "post"={
  *       "access_control"="is_granted('ROLE_MEMBER')",
- *       "denormalization_context"={"groups"={"address_book_organizations_post"}}
+ *       "denormalization_context"={"groups"={"address_book_abstract_contacts_post", "address_book_organizations_post"}}
  *     }
  *   },
  *   itemOperations={
  *     "get"={
  *       "access_control"="is_granted('ROLE_MEMBER')",
- *       "normalization_context"={"groups"={"address_book_organization_get"}},
+ *       "normalization_context"={"groups"={"address_book_abstract_contact_get", "address_book_organization_get"}},
  *     },
  *     "put"={
  *       "access_control"="is_granted('ROLE_MEMBER')",
- *       "denormalization_context"={"groups"={"address_book_organization_put"}}
+ *       "denormalization_context"={"groups"={"address_book_abstract_contact_put", "address_book_organization_put"}}
  *     }
  *   }
  * )
- * @ApiFilter(OrderFilter::class)
+ * @ApiFilter(OrderFilter::class, properties={
+ *     "id": "ASC",
+ *     "slug",
+ *     "description",
+ *     "contactName",
+ *     "sortableName",
+ *     "shortName",
+ *     "note",
+ *     "identificationNumber"
+ * })
+ * @ApiFilter(SearchFilter::class, properties={
+ *     "id": "exact",
+ *     "description": "partial",
+ *     "slug": "partial",
+ *     "contactName": "partial",
+ *     "shortName": "partial",
+ *     "note": "partial",
+ *     "identificationNumber": "partial"
+ * })
  * @Searchable({
  *     "id",
  *     "slug",
- *     "name",
+ *     "contactName",
+ *     "shortName",
  *     "description",
  *     "note",
  *     "parentOrganization.name",

@@ -31,7 +31,7 @@ class ContactDetail implements BasicEntityInterface
      * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactDetailType", fetch="EAGER")
      * @Doctrine\ORM\Mapping\JoinColumn(name="type_id", referencedColumnName="id")
      */
-    protected ?ContactDetailType $contactType = null;
+    protected ?ContactDetailType $detailType = null;
 
     /**
      * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact", inversedBy="details")
@@ -48,7 +48,7 @@ class ContactDetail implements BasicEntityInterface
     public function __construct(?ContactDetailType $type = null, ?string $content = null, ?Nameable $nameable = null, ?AbstractContact $contact = null)
     {
         $this->setContact($contact);
-        $this->setContactType($type);
+        $this->setDetailType($type);
         $this->setContent($content);
         $this->setFieldsFromNameable($nameable);
     }
@@ -71,8 +71,8 @@ class ContactDetail implements BasicEntityInterface
 
     public function getFormatted(): ?string
     {
-        if (null !== $this->getContactType()) {
-            return $this->getContactType()->getFormatted(
+        if (null !== $this->getDetailType()) {
+            return $this->getDetailType()->getFormatted(
                 filter_var($this->getContent(), FILTER_SANITIZE_URL).'',
                 htmlspecialchars($this->getDescription()).null,
                 htmlspecialchars($this->getName()).null,
@@ -82,14 +82,14 @@ class ContactDetail implements BasicEntityInterface
         return $this->getContent();
     }
 
-    public function getContactType(): ?ContactDetailType
+    public function getDetailType(): ?ContactDetailType
     {
-        return $this->contactType;
+        return $this->detailType;
     }
 
-    public function setContactType(?ContactDetailType $contactType): void
+    public function setDetailType(?ContactDetailType $detailType): void
     {
-        $this->contactType = $contactType;
+        $this->detailType = $detailType;
     }
 
     public function getContent(): ?string
@@ -104,11 +104,11 @@ class ContactDetail implements BasicEntityInterface
 
     public function getSchemaString(): ?string
     {
-        return $this->contactType ? $this->contactType->getContactSchema() : null;
+        return $this->detailType ? $this->detailType->getContactSchema() : null;
     }
 
     public function getTypeString(): ?string
     {
-        return $this->contactType ? $this->contactType->getName() : null;
+        return $this->detailType ? $this->detailType->getName() : null;
     }
 }

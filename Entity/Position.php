@@ -18,6 +18,7 @@ use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
 use Zakjakub\OswisCoreBundle\Interfaces\BasicEntityInterface;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\DateRangeTrait;
+use Zakjakub\OswisCoreBundle\Traits\Entity\EntityPublicTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\TypeTrait;
 use function in_array;
@@ -80,6 +81,7 @@ class Position implements BasicEntityInterface
     use NameableBasicTrait;
     use DateRangeTrait;
     use TypeTrait;
+    use EntityPublicTrait;
 
     /**
      * True if person is intended for receiving messages about organization.
@@ -256,7 +258,7 @@ class Position implements BasicEntityInterface
 
     public function getGenderCssClass(): string
     {
-        return null === $this->getPerson() ? AbstractContact::GENDER_UNISEX : $this->getPerson()->getGenderCssClass();
+        return null === $this->getPerson() ? AbstractContact::GENDER_UNISEX : $this->getPerson()->getGender();
     }
 
     public function getPerson(): ?Person

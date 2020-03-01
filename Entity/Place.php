@@ -58,9 +58,9 @@ use Zakjakub\OswisCoreBundle\Traits\Entity\UrlTrait;
  * @Searchable({
  *     "id",
  *     "name",
+ *     "shortName",
  *     "description",
- *     "note",
- *     "roomCode"
+ *     "note"
  * })
  * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */

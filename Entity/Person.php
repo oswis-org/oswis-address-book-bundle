@@ -23,49 +23,62 @@ use function rtrim;
 use function trim;
 
 /**
- * Class Person. Represents a person.
- *
  * @Doctrine\ORM\Mapping\Entity(repositoryClass="Zakjakub\OswisAddressBookBundle\Repository\PersonRepository")
  * @Doctrine\ORM\Mapping\Table(name="address_book_person")
  * @ApiResource(
  *   iri="http://schema.org/Person",
  *   attributes={
  *     "filters"={"search"},
- *     "access_control"="is_granted('ROLE_MANAGER')"
+ *     "access_control"="is_granted('ROLE_MEMBER')"
  *   },
  *   collectionOperations={
  *     "get"={
- *       "access_control"="is_granted('ROLE_MANAGER')",
- *       "normalization_context"={"groups"={"address_book_persons_get"}},
+ *       "access_control"="is_granted('ROLE_MEMEER')",
+ *       "normalization_context"={"groups"={"address_book_abstract_contacts_get", "address_book_persons_get"}},
  *     },
  *     "post"={
- *       "access_control"="is_granted('ROLE_MANAGER')",
- *       "denormalization_context"={"groups"={"address_book_persons_post"}}
+ *       "access_control"="is_granted('ROLE_MEMBER')",
+ *       "denormalization_context"={"groups"={"address_book_abstract_contacts_post", "address_book_persons_post"}}
  *     }
  *   },
  *   itemOperations={
  *     "get"={
- *       "access_control"="is_granted('ROLE_MANAGER')",
- *       "normalization_context"={"groups"={"address_book_person_get"}},
+ *       "access_control"="is_granted('ROLE_MEMBER')",
+ *       "normalization_context"={"groups"={"address_book_abstract_contact_get", "address_book_person_get"}},
  *     },
  *     "put"={
- *       "access_control"="is_granted('ROLE_MANAGER')",
- *       "denormalization_context"={"groups"={"address_book_person_put"}}
- *     },
- *     "delete"={
- *       "access_control"="is_granted('ROLE_ADMIN')",
- *       "denormalization_context"={"groups"={"address_book_person_delete"}}
+ *       "access_control"="is_granted('ROLE_MEMBER')",
+ *       "denormalization_context"={"groups"={"address_book_abstract_contact_put", "address_book_person_put"}}
  *     }
  *   }
  * )
- * @ApiFilter(OrderFilter::class)
+ * @ApiFilter(OrderFilter::class, properties={
+ *     "id": "ASC",
+ *     "slug",
+ *     "description",
+ *     "contactName",
+ *     "sortableName",
+ *     "note",
+ *     "birthDate"
+ * })
+ * @ApiFilter(SearchFilter::class, properties={
+ *     "id": "exact",
+ *     "description": "partial",
+ *     "slug": "partial",
+ *     "contactName": "partial",
+ *     "note": "partial",
+ *     "birthDate": "partial"
+ * })
  * @Searchable({
  *     "id",
- *     "fullName",
- *     "name",
+ *     "slug",
+ *     "contactName",
+ *     "sortableName",
  *     "description",
- *     "note"
+ *     "note",
+ *     "birthDate"
  * })
+ * @ApiFilter(DateFilter::class, properties={"createdDateTime", "updatedDateTime", "birthDate"})
  * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
 class Person extends AbstractPerson
@@ -90,6 +103,7 @@ class Person extends AbstractPerson
 //     * )
 //     */
 //    protected ?Collection $personSkillConnections = null;
+
     public function __construct(
         ?string $fullName = null,
         ?string $description = null,
@@ -194,7 +208,7 @@ class Person extends AbstractPerson
         return $this->getFamilyName().' '.$this->getAdditionalName().' '.$this->getGivenName().' '.$this->getHonorificSuffix().' '.$this->getHonorificPrefix();
     }
 
-    public function getGenderCssClass(): string
+    public function getGender(): string
     {
         if (empty($this->getGivenName())) {
             return self::GENDER_UNISEX;

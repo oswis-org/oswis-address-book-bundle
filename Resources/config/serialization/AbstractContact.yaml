@@ -1,0 +1,107 @@
+Zakjakub\OswisAddressBookBundle\Entity\AbstractContact:
+    attributes:
+        id:
+            groups:
+                - 'address_book_abstract_contacts_get'
+                - 'address_book_abstract_contact_get'
+
+        name:
+            groups:
+                - 'address_book_abstract_contacts_get'
+                - 'address_book_abstract_contacts_post'
+                - 'address_book_abstract_contact_get'
+                - 'address_book_abstract_contact_put'
+
+        sortableName:
+            groups:
+                - 'address_book_abstract_contacts_get'
+                - 'address_book_abstract_contact_get'
+
+        slug:
+            groups:
+                - 'address_book_abstract_contacts_get'
+                - 'address_book_abstract_contact_get'
+
+        forcedSlug:
+            groups:
+                - 'address_book_abstract_contact_get'
+                - 'address_book_abstract_contact_put'
+
+        description:
+            groups:
+                - 'address_book_abstract_contacts_get'
+                - 'address_book_abstract_contacts_post'
+                - 'address_book_abstract_contact_get'
+                - 'address_book_abstract_contact_put'
+
+        image:
+            groups:
+                - 'address_book_abstract_contacts_get'
+                - 'address_book_abstract_contacts_post'
+                - 'address_book_abstract_contact_get'
+                - 'address_book_abstract_contact_put'
+
+        createdDateTime:
+            groups: ['address_book_abstract_contact_get']
+        updatedDateTime:
+            groups: ['address_book_abstract_contact_get']
+        createdAuthor:
+            groups: ['address_book_abstract_contact_get']
+        updatedAuthor:
+            groups: ['address_book_abstract_contact_get']
+
+        type: # string
+            groups:
+                - 'address_book_abstract_contacts_get'
+                - 'address_book_abstract_contacts_post'
+                - 'address_book_abstract_contact_get'
+                - 'address_book_abstract_contact_put'
+
+        allowedTypes: # strings
+            groups:
+                - 'address_book_abstract_contact_get'
+
+        gender: # male/female/unisex
+            groups:
+                - 'address_book_abstract_contacts_get'
+                - 'address_book_abstract_contact_get'
+
+        email:
+            groups:
+                - 'address_book_abstract_contacts_get'
+                - 'address_book_abstract_contact_get'
+
+        phone:
+            groups:
+                - 'address_book_abstract_contacts_get'
+                - 'address_book_abstract_contact_get'
+
+        url:
+            groups:
+                - 'address_book_abstract_contacts_get'
+                - 'address_book_abstract_contact_get'
+
+        positions:
+            groups:
+                - 'address_book_abstract_contact_get'
+
+        notes:
+            groups:
+                #- 'address_book_abstract_contacts_get'
+                - 'address_book_abstract_contacts_post'
+                - 'address_book_abstract_contact_get'
+                - 'address_book_abstract_contact_put'
+
+        details:
+            groups:
+                #- 'address_book_abstract_contacts_get'
+                - 'address_book_abstract_contacts_post'
+                - 'address_book_abstract_contact_get'
+                - 'address_book_abstract_contact_put'
+
+        addresses:
+            groups:
+                #- 'address_book_abstract_contacts_get'
+                - 'address_book_abstract_contacts_post'
+                - 'address_book_abstract_contact_get'
+                - 'address_book_abstract_contact_put'

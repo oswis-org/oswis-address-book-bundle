@@ -35,12 +35,9 @@ Zakjakub\OswisAddressBookBundle\Entity\Place:
                 - 'address_book_place_get'
                 - 'address_book_place_put'
         createdDateTime:
-            groups:
-                - 'address_book_places_get'
-                - 'address_book_place_get'
+            groups: ['address_book_place_get']
         updatedDateTime:
-            groups:
-                - 'address_book_place_get'
+            groups: ['address_book_place_get']
         createdAuthor:
             groups: ['address_book_place_get']
         updatedAuthor:

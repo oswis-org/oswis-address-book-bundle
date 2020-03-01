@@ -42,5 +42,4 @@ abstract class AbstractPerson extends AbstractContact
     public function destroyRevisions(): void
     {
     }
-
 }

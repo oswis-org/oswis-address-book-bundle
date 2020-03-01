@@ -36,8 +36,7 @@ use function assert;
 use function in_array;
 
 /**
- * Class Contact (abstract class for Person, Department, Organization)
- *
+ * Class Contact (abstract class for Person, Department, Organization, School...).
  * @Doctrine\ORM\Mapping\Entity()
  * @Doctrine\ORM\Mapping\Table(name="address_book_abstract_contact")
  * @Doctrine\ORM\Mapping\InheritanceType("JOINED")
@@ -177,7 +176,6 @@ abstract class AbstractContact implements BasicEntityInterface
         ?Collection $positions = null,
         ?Publicity $publicity = null
     ) {
-        $this->positions = new ArrayCollection();
         $this->setType($type);
         $this->setNotes($notes);
         $this->setDetails($contactDetails);
@@ -736,7 +734,7 @@ abstract class AbstractContact implements BasicEntityInterface
         $this->removePosition($position);
     }
 
-    public function getGenderCssClass(): string
+    public function getGender(): string
     {
         return self::GENDER_UNISEX;
     }
