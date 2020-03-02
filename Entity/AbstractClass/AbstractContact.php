@@ -15,6 +15,7 @@ use InvalidArgumentException;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Exception\LogicException;
 use Symfony\Component\Mime\Exception\RfcComplianceException;
+use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
 use Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBook;
 use Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBookContactConnection;
 use Zakjakub\OswisAddressBookBundle\Entity\ContactAddress;
@@ -31,7 +32,6 @@ use Zakjakub\OswisCoreBundle\Interfaces\BasicEntityInterface;
 use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\EntityPublicTrait;
 use Zakjakub\OswisCoreBundle\Traits\Entity\TypeTrait;
-use Zakjakub\OswisCoreBundle\Utils\EmailUtils;
 use function assert;
 use function in_array;
 
@@ -42,6 +42,10 @@ use function in_array;
  * @Doctrine\ORM\Mapping\InheritanceType("JOINED")
  * @Doctrine\ORM\Mapping\DiscriminatorColumn(name="discriminator", type="text")
  * @Doctrine\ORM\Mapping\DiscriminatorMap({
+ *   "address_book_person" = "Zakjakub\OswisAddressBookBundle\Entity\Person",
+ *   "address_book_organization" = "Zakjakub\OswisAddressBookBundle\Entity\Organization"
+ * })
+ * @DiscriminatorMap(typeProperty="discriminator", mapping={
  *   "address_book_person" = "Zakjakub\OswisAddressBookBundle\Entity\Person",
  *   "address_book_organization" = "Zakjakub\OswisAddressBookBundle\Entity\Organization"
  * })
@@ -603,12 +607,12 @@ abstract class AbstractContact implements BasicEntityInterface
      * @throws LogicException
      * @throws RfcComplianceException
      */
-    public function getMailerAddress(): Address
+    public function getMailerAddress(): ?Address
     {
         $name = $this->getContactName() ?? ($this->getAppUser() ? $this->getAppUser()->getFullName() : '') ?? '';
         $eMail = ($this->getAppUser() ? $this->getAppUser()->getEmail() : $this->getEmail()) ?? '';
 
-        return new Address($eMail, EmailUtils::mime_header_encode($name));
+        return empty($eMail) ? null : new Address($eMail, $name);
     }
 
     public function getEmail(): ?string

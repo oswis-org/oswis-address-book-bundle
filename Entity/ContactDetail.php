@@ -111,4 +111,9 @@ class ContactDetail implements BasicEntityInterface
     {
         return $this->detailType ? $this->detailType->getName() : null;
     }
+
+    public function getShowInPreview(): bool
+    {
+        return $this->detailType ? $this->detailType->getShowInPreview() : false;
+    }
 }
