@@ -339,13 +339,13 @@ abstract class AbstractContact implements BasicEntityInterface
     {
         $this->details ??= new ArrayCollection();
         $newDetails ??= new ArrayCollection();
-        foreach ($this->positions as $oldDetail) {
+        foreach ($this->details as $oldDetail) {
             if (!$newDetails->contains($oldDetail)) {
                 $this->removeDetail($oldDetail);
             }
         }
         foreach ($newDetails as $newDetail) {
-            if (!$this->positions->contains($newDetail)) {
+            if (!$this->details->contains($newDetail)) {
                 $this->addDetail($newDetail);
             }
         }
@@ -365,7 +365,18 @@ abstract class AbstractContact implements BasicEntityInterface
 
     public function setNotes(?Collection $newNotes): void
     {
-        $this->notes = $newNotes ?? new ArrayCollection();
+        $this->notes ??= new ArrayCollection();
+        $newNotes ??= new ArrayCollection();
+        foreach ($this->notes as $oldNote) {
+            if (!$newNotes->contains($oldNote)) {
+                $this->removeNote($oldNote);
+            }
+        }
+        foreach ($newNotes as $newNote) {
+            if (!$this->notes->contains($newNote)) {
+                $this->addNote($newNote);
+            }
+        }
     }
 
     public function removeDetail(?ContactDetail $detail): void
@@ -389,7 +400,18 @@ abstract class AbstractContact implements BasicEntityInterface
 
     public function setAddresses(?Collection $newAddresses): void
     {
-        $this->addresses = $newAddresses ?? new ArrayCollection();
+        $this->addresses ??= new ArrayCollection();
+        $newAddresses ??= new ArrayCollection();
+        foreach ($this->addresses as $oldAddress) {
+            if (!$newAddresses->contains($oldAddress)) {
+                $this->removeAddress($oldAddress);
+            }
+        }
+        foreach ($newAddresses as $newAddress) {
+            if (!$this->addresses->contains($newAddress)) {
+                $this->addAddress($newAddress);
+            }
+        }
     }
 
     public function addDetail(?ContactDetail $detail): void
