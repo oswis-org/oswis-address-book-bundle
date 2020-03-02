@@ -335,9 +335,20 @@ abstract class AbstractContact implements BasicEntityInterface
         return $this->details ?? new ArrayCollection();
     }
 
-    public function setDetails(?Collection $newContactDetails): void
+    public function setDetails(?Collection $newDetails): void
     {
-        $this->details = $newContactDetails ?? new ArrayCollection();
+        $this->details ??= new ArrayCollection();
+        $newDetails ??= new ArrayCollection();
+        foreach ($this->positions as $oldDetail) {
+            if (!$newDetails->contains($oldDetail)) {
+                $this->removeDetail($oldDetail);
+            }
+        }
+        foreach ($newDetails as $newDetail) {
+            if (!$this->positions->contains($newDetail)) {
+                $this->addDetail($newDetail);
+            }
+        }
     }
 
     public function removeNote(?ContactNote $note): void
