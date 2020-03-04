@@ -269,45 +269,42 @@ Zakjakub\OswisAddressBookBundle\Entity\ContactAddress:
                 - 'address_book_abstract_contacts_post'
                 - 'address_book_abstract_contact_get'
                 - 'address_book_abstract_contact_put'
-        street:
+        fullAddress:
             groups:
                 - 'address_book_abstract_contacts_get'
+                - 'address_book_abstract_contact_get'
+        street:
+            groups:
                 - 'address_book_abstract_contacts_post'
                 - 'address_book_abstract_contact_get'
                 - 'address_book_abstract_contact_put'
         street2:
             groups:
-                - 'address_book_abstract_contacts_get'
                 - 'address_book_abstract_contacts_post'
                 - 'address_book_abstract_contact_get'
                 - 'address_book_abstract_contact_put'
         city:
             groups:
-                - 'address_book_abstract_contacts_get'
                 - 'address_book_abstract_contacts_post'
                 - 'address_book_abstract_contact_get'
                 - 'address_book_abstract_contact_put'
         postalCode:
             groups:
-                - 'address_book_abstract_contacts_get'
                 - 'address_book_abstract_contacts_post'
                 - 'address_book_abstract_contact_get'
                 - 'address_book_abstract_contact_put'
         houseNumber:
             groups:
-                - 'address_book_abstract_contacts_get'
                 - 'address_book_abstract_contacts_post'
                 - 'address_book_abstract_contact_get'
                 - 'address_book_abstract_contact_put'
         doorNumber:
             groups:
-                - 'address_book_abstract_contacts_get'
                 - 'address_book_abstract_contacts_post'
                 - 'address_book_abstract_contact_get'
                 - 'address_book_abstract_contact_put'
         orientationNumber:
             groups:
-                - 'address_book_abstract_contacts_get'
                 - 'address_book_abstract_contacts_post'
                 - 'address_book_abstract_contact_get'
                 - 'address_book_abstract_contact_put'

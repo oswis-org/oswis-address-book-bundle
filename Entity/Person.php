@@ -35,7 +35,7 @@ use function trim;
  *   },
  *   collectionOperations={
  *     "get"={
- *       "access_control"="is_granted('ROLE_MEMEER')",
+ *       "access_control"="is_granted('ROLE_MEMBER')",
  *       "normalization_context"={"groups"={"address_book_abstract_contacts_get", "address_book_persons_get"}},
  *     },
  *     "post"={

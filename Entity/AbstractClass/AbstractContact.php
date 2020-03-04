@@ -330,8 +330,12 @@ abstract class AbstractContact implements BasicEntityInterface
         $this->setDetails($this->getDetails()->filter(fn(ContactDetail $detail) => !empty($detail->getContent())));
     }
 
-    public function getDetails(): Collection
+    public function getDetails(?string $typeString = null): Collection
     {
+        if (!empty($typeString)) {
+            return $this->getDetails()->filter(fn(ContactDetail $detail) => $typeString === $detail->getTypeString());
+        }
+
         return $this->details ?? new ArrayCollection();
     }
 
@@ -457,11 +461,11 @@ abstract class AbstractContact implements BasicEntityInterface
 
     /**
      * @ApiProperty(iri="http://schema.org/url")
-     * @return Collection Collection of URL addresses from contact details
+     * @return Collection Collection of URL addresses from contact details.
      */
     public function getUrls(): Collection
     {
-        return $this->getDetails()->filter(fn(ContactDetail $contactDetail) => ContactDetailType::TYPE_URL === $contactDetail->getTypeString());
+        return $this->getDetails(ContactDetailType::TYPE_URL);
     }
 
     public function getContactPersons(?DateTime $dateTime = null, bool $onlyWithActivatedUser = false): Collection
@@ -548,16 +552,19 @@ abstract class AbstractContact implements BasicEntityInterface
 
     public function getUrl(): ?string
     {
-        $urls = $this->getUrls();
+        return $this->getContactDetailContent(ContactDetailType::TYPE_URL);
+    }
 
-        return $urls->count() > 0 ? $urls->first()->getContent() : null;
+    public function getContactDetailContent(?string $typeString = null): ?string
+    {
+        $detail = $this->getDetails($typeString)->first();
+
+        return !empty($detail) && $detail instanceof ContactDetail ? $detail->getContent() : null;
     }
 
     public function getPhone(): ?string
     {
-        $phones = $this->getPhones();
-
-        return $phones->count() > 0 ? $phones->first()->getContent() : null;
+        return $this->getContactDetailContent(ContactDetailType::TYPE_PHONE);
     }
 
     /**
@@ -566,7 +573,7 @@ abstract class AbstractContact implements BasicEntityInterface
      */
     public function getPhones(): Collection
     {
-        return $this->getDetails()->filter(fn(ContactDetail $contactDetail) => ContactDetailType::TYPE_PHONE === $contactDetail->getTypeString());
+        return $this->getDetails(ContactDetailType::TYPE_PHONE);
     }
 
     public function getAddress(): ?string
@@ -650,7 +657,7 @@ abstract class AbstractContact implements BasicEntityInterface
 
     public function getEmail(): ?string
     {
-        return $this->getEmails()->first() ? $this->getEmails()->first()->getContent() : null;
+        return $this->getContactDetailContent(ContactDetailType::TYPE_EMAIL);
     }
 
     /**
@@ -659,7 +666,7 @@ abstract class AbstractContact implements BasicEntityInterface
      */
     public function getEmails(): Collection
     {
-        return $this->getDetails()->filter(fn(ContactDetail $contactDetail) => ContactDetailType::TYPE_EMAIL === $contactDetail->getTypeString());
+        return $this->getDetails(ContactDetailType::TYPE_EMAIL);
     }
 
     public function canEdit(AppUser $user): bool
