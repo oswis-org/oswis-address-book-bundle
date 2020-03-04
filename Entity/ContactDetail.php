@@ -109,6 +109,11 @@ class ContactDetail implements BasicEntityInterface
 
     public function getTypeString(): ?string
     {
+        return $this->detailType ? $this->detailType->getType() : null;
+    }
+
+    public function getTypeName(): ?string
+    {
         return $this->detailType ? $this->detailType->getName() : null;
     }
 

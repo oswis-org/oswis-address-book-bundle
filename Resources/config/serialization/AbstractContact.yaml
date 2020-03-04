@@ -150,6 +150,10 @@ Zakjakub\OswisAddressBookBundle\Entity\ContactDetail:
             groups:
                 - 'address_book_abstract_contacts_get'
                 - 'address_book_abstract_contact_get'
+        typeName:
+            groups:
+                - 'address_book_abstract_contacts_get'
+                - 'address_book_abstract_contact_get'
         showInPreview:
             groups:
                 - 'address_book_abstract_contacts_get'
