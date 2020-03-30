@@ -76,7 +76,7 @@ class ContactDetail implements BasicEntityInterface
                 filter_var($this->getContent(), FILTER_SANITIZE_URL).'',
                 htmlspecialchars($this->getDescription()).null,
                 htmlspecialchars($this->getName()).null,
-                );
+            );
         }
 
         return $this->getContent();
