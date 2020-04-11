@@ -126,12 +126,7 @@
       <path value="$PROJECT_DIR$/vendor/react/promise" />
       <path value="$PROJECT_DIR$/vendor/psr/event-dispatcher" />
       <path value="$PROJECT_DIR$/vendor/elasticsearch/elasticsearch" />
-      <path value="$PROJECT_DIR$/vendor/league/commonmark-ext-autolink" />
-      <path value="$PROJECT_DIR$/vendor/league/commonmark-ext-strikethrough" />
-      <path value="$PROJECT_DIR$/vendor/league/commonmark-ext-table" />
       <path value="$PROJECT_DIR$/vendor/league/commonmark-extras" />
-      <path value="$PROJECT_DIR$/vendor/league/commonmark-ext-smartpunct" />
-      <path value="$PROJECT_DIR$/vendor/league/commonmark-ext-task-list" />
       <path value="$PROJECT_DIR$/vendor/phpstan/extension-installer" />
       <path value="$PROJECT_DIR$/vendor/twig/extra-bundle" />
       <path value="$PROJECT_DIR$/vendor/laminas/laminas-zendframework-bridge" />

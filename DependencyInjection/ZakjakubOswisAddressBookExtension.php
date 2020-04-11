@@ -31,6 +31,10 @@ class ZakjakubOswisAddressBookExtension extends Extension implements PrependExte
         }
     }
 
+    final public function prepend(ContainerBuilder $container): void
+    {
+    }
+
     /**
      * @param ContainerBuilder $container
      * @param array            $config
@@ -41,9 +45,5 @@ class ZakjakubOswisAddressBookExtension extends Extension implements PrependExte
     {
         $definition = $container->getDefinition('zakjakub_oswis_address_book.oswis_address_book_settings_provider');
         $definition->setArgument(0, $config['primary']);
-    }
-
-    final public function prepend(ContainerBuilder $container): void
-    {
     }
 }
