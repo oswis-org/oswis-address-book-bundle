@@ -1,9 +1,10 @@
 {
-  "name": "zakjakub/oswis-address-book-bundle",
+  "name": "oswis-org/oswis-address-book-bundle",
   "description": "Address book module for One Simple Web IS (OSWIS).",
-  "homepage": "https://github.com/zakjakub/oswis-address-book-bundle",
+  "homepage": "https://github.com/oswis-org/oswis-address-book-bundle",
   "type": "symfony-bundle",
   "minimum-stability": "stable",
+  "time": "2020-04-20",
   "keywords": [
     "information-system",
     "is",
@@ -22,7 +23,7 @@
   ],
   "require": {
     "php": "^7.4",
-    "zakjakub/oswis-core-bundle": "^0.0",
+    "oswis-org/oswis-core-bundle": "^0.0",
     "bigit/vokativ": "dev-master"
   },
   "require-dev": {
