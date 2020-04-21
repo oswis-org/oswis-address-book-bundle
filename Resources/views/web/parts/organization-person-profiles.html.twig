@@ -3,7 +3,7 @@
         <h3>Aktuální tým</h3>
     </div>
     {% for contact in organization.members|default %}
-        {% include '@ZakjakubOswisAddressBook/web/parts/organization-person-profile.html.twig' %}
+        {% include '@OswisOrgOswisAddressBook/web/parts/organization-person-profile.html.twig' %}
     {% else %}
         <div class="col-12">
             <p>Aktuálně nejsou k dispozici žádné kontakty k zobrazení.</p>

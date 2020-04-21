@@ -1,4 +1,4 @@
-Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact:
+OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact:
     attributes:
         id:
             groups:
@@ -94,7 +94,7 @@ Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact:
                 - 'address_book_abstract_contact_put'
 
 
-Zakjakub\OswisAddressBookBundle\Entity\ContactDetail:
+OswisOrg\OswisAddressBookBundle\Entity\ContactDetail:
     attributes:
         id:
             groups:
@@ -159,7 +159,7 @@ Zakjakub\OswisAddressBookBundle\Entity\ContactDetail:
                 - 'address_book_abstract_contacts_get'
                 - 'address_book_abstract_contact_get'
 
-Zakjakub\OswisAddressBookBundle\Entity\ContactDetailType:
+OswisOrg\OswisAddressBookBundle\Entity\ContactDetailType:
     attributes:
         id:
             groups:
@@ -213,7 +213,7 @@ Zakjakub\OswisAddressBookBundle\Entity\ContactDetailType:
 
 
 
-Zakjakub\OswisAddressBookBundle\Entity\ContactNote:
+OswisOrg\OswisAddressBookBundle\Entity\ContactNote:
     attributes:
         id:
             groups:
@@ -235,7 +235,7 @@ Zakjakub\OswisAddressBookBundle\Entity\ContactNote:
                 - 'address_book_abstract_contact_put'
 
 
-Zakjakub\OswisAddressBookBundle\Entity\ContactAddress:
+OswisOrg\OswisAddressBookBundle\Entity\ContactAddress:
     attributes:
         id:
             groups:

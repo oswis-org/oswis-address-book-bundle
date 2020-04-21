@@ -4,22 +4,22 @@
  * @noinspection MethodShouldBeFinalInspection
  */
 
-namespace Zakjakub\OswisAddressBookBundle\Entity;
+namespace OswisOrg\OswisAddressBookBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Zakjakub\OswisCoreBundle\Entity\Address;
-use Zakjakub\OswisCoreBundle\Entity\Nameable;
-use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
-use Zakjakub\OswisCoreBundle\Interfaces\BasicEntityInterface;
-use Zakjakub\OswisCoreBundle\Traits\Entity\AddressTrait;
-use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
-use Zakjakub\OswisCoreBundle\Traits\Entity\GeoCoordinatesTrait;
-use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
-use Zakjakub\OswisCoreBundle\Traits\Entity\UrlTrait;
+use OswisOrg\OswisCoreBundle\Entity\Address;
+use OswisOrg\OswisCoreBundle\Entity\Nameable;
+use OswisOrg\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
+use OswisOrg\OswisCoreBundle\Interfaces\BasicEntityInterface;
+use OswisOrg\OswisCoreBundle\Traits\Entity\AddressTrait;
+use OswisOrg\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
+use OswisOrg\OswisCoreBundle\Traits\Entity\GeoCoordinatesTrait;
+use OswisOrg\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
+use OswisOrg\OswisCoreBundle\Traits\Entity\UrlTrait;
 
 /**
  * @Doctrine\ORM\Mapping\Entity
@@ -83,13 +83,13 @@ class Place implements BasicEntityInterface
     protected ?int $roomNumber = null;
 
     /**
-     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Place", inversedBy="subPlaces",fetch="EAGER")
+     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Place", inversedBy="subPlaces",fetch="EAGER")
      * @Doctrine\ORM\Mapping\JoinColumn(nullable=true)
      */
     protected ?Place $parentPlace = null;
 
     /**
-     * @Doctrine\ORM\Mapping\OneToMany(targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Place", mappedBy="parentPlace")
+     * @Doctrine\ORM\Mapping\OneToMany(targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Place", mappedBy="parentPlace")
      */
     protected ?Collection $subPlaces = null;
 

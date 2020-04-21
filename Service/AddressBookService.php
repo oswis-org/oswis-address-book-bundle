@@ -2,14 +2,14 @@
 
 /** @noinspection PhpUnused */
 
-namespace Zakjakub\OswisAddressBookBundle\Service;
+namespace OswisOrg\OswisAddressBookBundle\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use OswisOrg\OswisAddressBookBundle\Entity\AddressBook\AddressBook;
+use OswisOrg\OswisAddressBookBundle\Repository\AddressBookRepository;
+use OswisOrg\OswisCoreBundle\Entity\Nameable;
 use Psr\Log\LoggerInterface;
-use Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBook;
-use Zakjakub\OswisAddressBookBundle\Repository\AddressBookRepository;
-use Zakjakub\OswisCoreBundle\Entity\Nameable;
 
 class AddressBookService
 {

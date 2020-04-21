@@ -4,13 +4,13 @@
  * @noinspection PhpUnused
  */
 
-namespace Zakjakub\OswisAddressBookBundle\Service;
+namespace OswisOrg\OswisAddressBookBundle\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use OswisOrg\OswisAddressBookBundle\Entity\Organization;
+use OswisOrg\OswisAddressBookBundle\Repository\OrganizationRepository;
 use Psr\Log\LoggerInterface;
-use Zakjakub\OswisAddressBookBundle\Entity\Organization;
-use Zakjakub\OswisAddressBookBundle\Repository\OrganizationRepository;
 
 class OrganizationService
 {

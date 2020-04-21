@@ -1,11 +1,11 @@
 <?php
 
-namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
+namespace OswisOrg\OswisAddressBookBundle\Entity\AbstractClass;
 
-use Zakjakub\OswisCoreBundle\Interfaces\BasicEntityInterface;
-use Zakjakub\OswisCoreBundle\Traits\Entity\AddressTrait;
-use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
-use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
+use OswisOrg\OswisCoreBundle\Interfaces\BasicEntityInterface;
+use OswisOrg\OswisCoreBundle\Traits\Entity\AddressTrait;
+use OswisOrg\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
+use OswisOrg\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
 
 abstract class AbstractAddress implements BasicEntityInterface
 {

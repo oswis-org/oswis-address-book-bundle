@@ -3,7 +3,7 @@
  * @noinspection PhpUnused
  */
 
-namespace Zakjakub\OswisAddressBookBundle\Entity;
+namespace OswisOrg\OswisAddressBookBundle\Entity;
 
 ///**
 // * Some skill (ability).

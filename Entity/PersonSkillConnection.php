@@ -3,7 +3,7 @@
  * @noinspection PhpUnused
  */
 
-namespace Zakjakub\OswisAddressBookBundle\Entity;
+namespace OswisOrg\OswisAddressBookBundle\Entity;
 
 ///**
 // * Connection between person and skill.
@@ -64,7 +64,7 @@ class PersonSkillConnection // implements BasicEntityInterface
 //    /**
 //     * Person in this position.
 //     * @Doctrine\ORM\Mapping\ManyToOne(
-//     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Person",
+//     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Person",
 //     *     cascade={"all"},
 //     *     inversedBy="personSkillConnections"
 //     * )
@@ -75,7 +75,7 @@ class PersonSkillConnection // implements BasicEntityInterface
 //    /**
 //     * Skill.
 //     * @Doctrine\ORM\Mapping\ManyToOne(
-//     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\PersonSkill",
+//     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\PersonSkill",
 //     *     cascade={"all"},
 //     *     fetch="EAGER"
 //     * )

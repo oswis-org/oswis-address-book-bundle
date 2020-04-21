@@ -3,11 +3,11 @@
  * @noinspection MethodShouldBeFinalInspection
  */
 
-namespace Zakjakub\OswisAddressBookBundle\Entity\AddressBook;
+namespace OswisOrg\OswisAddressBookBundle\Entity\AddressBook;
 
-use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
-use Zakjakub\OswisCoreBundle\Interfaces\BasicEntityInterface;
-use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
+use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
+use OswisOrg\OswisCoreBundle\Interfaces\BasicEntityInterface;
+use OswisOrg\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 
 /**
  * @Doctrine\ORM\Mapping\Entity()
@@ -20,7 +20,7 @@ class AddressBookContactConnection implements BasicEntityInterface
 
     /**
      * @Doctrine\ORM\Mapping\ManyToOne(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact",
+     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact",
      *     inversedBy="addressBookContactConnections"
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(nullable=true)
@@ -29,7 +29,7 @@ class AddressBookContactConnection implements BasicEntityInterface
 
     /**
      * @Doctrine\ORM\Mapping\ManyToOne(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBook",
+     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\AddressBook\AddressBook",
      *     inversedBy="addressBookContactConnections",
      *     fetch="EAGER"
      * )

@@ -4,14 +4,14 @@
  * @noinspection MethodShouldBeFinalInspection
  */
 
-namespace Zakjakub\OswisAddressBookBundle\Entity;
+namespace OswisOrg\OswisAddressBookBundle\Entity;
 
-use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
-use Zakjakub\OswisCoreBundle\Entity\Nameable;
-use Zakjakub\OswisCoreBundle\Interfaces\BasicEntityInterface;
-use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
-use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
-use Zakjakub\OswisCoreBundle\Traits\Entity\PriorityTrait;
+use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
+use OswisOrg\OswisCoreBundle\Entity\Nameable;
+use OswisOrg\OswisCoreBundle\Interfaces\BasicEntityInterface;
+use OswisOrg\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
+use OswisOrg\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
+use OswisOrg\OswisCoreBundle\Traits\Entity\PriorityTrait;
 use function filter_var;
 use function htmlspecialchars;
 
@@ -28,13 +28,13 @@ class ContactDetail implements BasicEntityInterface
 
     /**
      * Type of this contact.
-     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactDetailType", fetch="EAGER")
+     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="OswisOrg\OswisAddressBookBundle\Entity\ContactDetailType", fetch="EAGER")
      * @Doctrine\ORM\Mapping\JoinColumn(name="type_id", referencedColumnName="id")
      */
     protected ?ContactDetailType $detailType = null;
 
     /**
-     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact", inversedBy="details")
+     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact", inversedBy="details")
      * @Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")
      */
     protected ?AbstractContact $contact = null;

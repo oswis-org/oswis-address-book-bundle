@@ -4,7 +4,7 @@
  * @noinspection MethodShouldBeFinalInspection
  */
 
-namespace Zakjakub\OswisAddressBookBundle\Entity;
+namespace OswisOrg\OswisAddressBookBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -13,13 +13,13 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractOrganization;
-use Zakjakub\OswisCoreBundle\Entity\Nameable;
-use Zakjakub\OswisCoreBundle\Entity\Publicity;
-use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
+use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractOrganization;
+use OswisOrg\OswisCoreBundle\Entity\Nameable;
+use OswisOrg\OswisCoreBundle\Entity\Publicity;
+use OswisOrg\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
 
 /**
- * @Doctrine\ORM\Mapping\Entity(repositoryClass="Zakjakub\OswisAddressBookBundle\Repository\OrganizationRepository")
+ * @Doctrine\ORM\Mapping\Entity(repositoryClass="OswisOrg\OswisAddressBookBundle\Repository\OrganizationRepository")
  * @Doctrine\ORM\Mapping\Table(name="address_book_organization")
  * @ApiResource(
  *   iri="http://schema.org/Organization",
@@ -83,7 +83,7 @@ class Organization extends AbstractOrganization
 {
     /**
      * @Doctrine\ORM\Mapping\ManyToOne(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Organization",
+     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Organization",
      *     inversedBy="subOrganizations",
      *     cascade={"all"},
      *     fetch="EAGER"
@@ -93,13 +93,13 @@ class Organization extends AbstractOrganization
     protected ?Organization $parentOrganization = null;
 
     /**
-     * @Doctrine\ORM\Mapping\OneToMany(targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Organization", mappedBy="parentOrganization")
+     * @Doctrine\ORM\Mapping\OneToMany(targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Organization", mappedBy="parentOrganization")
      */
     protected ?Collection $subOrganizations = null;
 
     /**
      * @Doctrine\ORM\Mapping\OneToMany(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Position", mappedBy="organization", cascade={"all"}, orphanRemoval=true
+     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Position", mappedBy="organization", cascade={"all"}, orphanRemoval=true
      * )
      */
     protected ?Collection $positions = null;

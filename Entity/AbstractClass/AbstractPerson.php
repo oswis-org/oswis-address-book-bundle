@@ -4,13 +4,13 @@
  * @noinspection MethodShouldBeFinalInspection
  */
 
-namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
+namespace OswisOrg\OswisAddressBookBundle\Entity\AbstractClass;
 
 use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Exception;
-use Zakjakub\OswisCoreBundle\Entity\Publicity;
-use Zakjakub\OswisCoreBundle\Traits\Entity\PersonBasicTrait;
+use OswisOrg\OswisCoreBundle\Entity\Publicity;
+use OswisOrg\OswisCoreBundle\Traits\Entity\PersonBasicTrait;
 
 abstract class AbstractPerson extends AbstractContact
 {

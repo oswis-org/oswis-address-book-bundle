@@ -1,4 +1,4 @@
-Zakjakub\OswisAddressBookBundle\Entity\Person:
+OswisOrg\OswisAddressBookBundle\Entity\Person:
     attributes:
         birthDate:
             groups:

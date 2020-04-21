@@ -3,13 +3,13 @@
  * @noinspection MethodShouldBeFinalInspection
  */
 
-namespace Zakjakub\OswisAddressBookBundle\Form;
+namespace OswisOrg\OswisAddressBookBundle\Form;
 
+use OswisOrg\OswisAddressBookBundle\Entity\Position;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Exception\AccessException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Zakjakub\OswisAddressBookBundle\Entity\Position;
 
 class EmployerPositionType extends AbstractType
 {

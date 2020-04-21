@@ -4,11 +4,11 @@
  * @noinspection MethodShouldBeFinalInspection
  */
 
-namespace Zakjakub\OswisAddressBookBundle\Entity;
+namespace OswisOrg\OswisAddressBookBundle\Entity;
 
-use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
-use Zakjakub\OswisCoreBundle\Interfaces\BasicEntityInterface;
-use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
+use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
+use OswisOrg\OswisCoreBundle\Interfaces\BasicEntityInterface;
+use OswisOrg\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
 
 /**
  * @Doctrine\ORM\Mapping\Entity()
@@ -32,7 +32,7 @@ class ContactNote implements BasicEntityInterface
     protected ?string $content = null;
 
     /**
-     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact", inversedBy="notes")
+     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact", inversedBy="notes")
      * @Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")
      */
     protected ?AbstractContact $contact = null;

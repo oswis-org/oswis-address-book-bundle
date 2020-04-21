@@ -4,15 +4,15 @@
  * @noinspection PhpUnused
  */
 
-namespace Zakjakub\OswisAddressBookBundle\Controller;
+namespace OswisOrg\OswisAddressBookBundle\Controller;
 
 use LogicException;
+use OswisOrg\OswisAddressBookBundle\Entity\Organization;
+use OswisOrg\OswisAddressBookBundle\Provider\OswisAddressBookSettingsProvider;
+use OswisOrg\OswisAddressBookBundle\Service\OrganizationService;
+use OswisOrg\OswisCoreBundle\Exceptions\OswisNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Zakjakub\OswisAddressBookBundle\Entity\Organization;
-use Zakjakub\OswisAddressBookBundle\Provider\OswisAddressBookSettingsProvider;
-use Zakjakub\OswisAddressBookBundle\Service\OrganizationService;
-use Zakjakub\OswisCoreBundle\Exceptions\OswisNotFoundException;
 
 class OrganizationController extends AbstractController
 {
@@ -35,7 +35,7 @@ class OrganizationController extends AbstractController
     public function showOrganizationProfiles(?string $slug = null): Response
     {
         return $this->render(
-            '@ZakjakubOswisAddressBook/web/parts/organization-person-profiles.html.twig',
+            '@OswisOrgOswisAddressBook/web/parts/organization-person-profiles.html.twig',
             ['organization' => $this->getOrganization($slug)]
         );
     }
@@ -80,14 +80,14 @@ class OrganizationController extends AbstractController
     {
         $organization = empty($slug) ? $this->getDefaultOrganization() : $this->getOrganization($slug);
         if (!empty($slug) && $this->getDefaultOrganization() && $slug === $this->getDefaultOrganization()->getSlug()) {
-            $this->redirectToRoute('zakjakub_oswis_address_book_organization');
+            $this->redirectToRoute('oswis_org_oswis_address_book_organization');
         }
         if (null === $organization) {
             throw new OswisNotFoundException('Organizace nenalezena.');
         }
 
         return $this->render(
-            '@ZakjakubOswisAddressBook/web/pages/organization.html.twig',
+            '@OswisOrgOswisAddressBook/web/pages/organization.html.twig',
             [
                 'organization' => $organization,
                 'title'        => $this->isDefaultOrganization($organization) ? 'O nás' : $organization->getName(),

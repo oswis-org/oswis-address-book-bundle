@@ -3,14 +3,14 @@
  * @noinspection MethodShouldBeFinalInspection
  */
 
-namespace Zakjakub\OswisAddressBookBundle\Service;
+namespace OswisOrg\OswisAddressBookBundle\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use OswisOrg\OswisAddressBookBundle\Entity\Place;
+use OswisOrg\OswisCoreBundle\Entity\Address;
+use OswisOrg\OswisCoreBundle\Entity\Nameable;
 use Psr\Log\LoggerInterface;
-use Zakjakub\OswisAddressBookBundle\Entity\Place;
-use Zakjakub\OswisCoreBundle\Entity\Address;
-use Zakjakub\OswisCoreBundle\Entity\Nameable;
 
 class PlaceService
 {

@@ -4,7 +4,7 @@
  * @noinspection PhpUnused
  */
 
-namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
+namespace OswisOrg\OswisAddressBookBundle\Entity\AbstractClass;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use DateTime;
@@ -12,26 +12,26 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
+use OswisOrg\OswisAddressBookBundle\Entity\AddressBook\AddressBook;
+use OswisOrg\OswisAddressBookBundle\Entity\AddressBook\AddressBookContactConnection;
+use OswisOrg\OswisAddressBookBundle\Entity\ContactAddress;
+use OswisOrg\OswisAddressBookBundle\Entity\ContactDetail;
+use OswisOrg\OswisAddressBookBundle\Entity\ContactDetailType;
+use OswisOrg\OswisAddressBookBundle\Entity\ContactNote;
+use OswisOrg\OswisAddressBookBundle\Entity\MediaObject\ContactImage;
+use OswisOrg\OswisAddressBookBundle\Entity\Organization;
+use OswisOrg\OswisAddressBookBundle\Entity\Person;
+use OswisOrg\OswisAddressBookBundle\Entity\Position;
+use OswisOrg\OswisCoreBundle\Entity\AppUser;
+use OswisOrg\OswisCoreBundle\Entity\Publicity;
+use OswisOrg\OswisCoreBundle\Interfaces\BasicEntityInterface;
+use OswisOrg\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
+use OswisOrg\OswisCoreBundle\Traits\Entity\EntityPublicTrait;
+use OswisOrg\OswisCoreBundle\Traits\Entity\TypeTrait;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Exception\LogicException;
 use Symfony\Component\Mime\Exception\RfcComplianceException;
 use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
-use Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBook;
-use Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBookContactConnection;
-use Zakjakub\OswisAddressBookBundle\Entity\ContactAddress;
-use Zakjakub\OswisAddressBookBundle\Entity\ContactDetail;
-use Zakjakub\OswisAddressBookBundle\Entity\ContactDetailType;
-use Zakjakub\OswisAddressBookBundle\Entity\ContactNote;
-use Zakjakub\OswisAddressBookBundle\Entity\MediaObject\ContactImage;
-use Zakjakub\OswisAddressBookBundle\Entity\Organization;
-use Zakjakub\OswisAddressBookBundle\Entity\Person;
-use Zakjakub\OswisAddressBookBundle\Entity\Position;
-use Zakjakub\OswisCoreBundle\Entity\AppUser;
-use Zakjakub\OswisCoreBundle\Entity\Publicity;
-use Zakjakub\OswisCoreBundle\Interfaces\BasicEntityInterface;
-use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
-use Zakjakub\OswisCoreBundle\Traits\Entity\EntityPublicTrait;
-use Zakjakub\OswisCoreBundle\Traits\Entity\TypeTrait;
 use function assert;
 use function in_array;
 
@@ -42,12 +42,12 @@ use function in_array;
  * @Doctrine\ORM\Mapping\InheritanceType("JOINED")
  * @Doctrine\ORM\Mapping\DiscriminatorColumn(name="discriminator", type="text")
  * @Doctrine\ORM\Mapping\DiscriminatorMap({
- *   "address_book_person" = "Zakjakub\OswisAddressBookBundle\Entity\Person",
- *   "address_book_organization" = "Zakjakub\OswisAddressBookBundle\Entity\Organization"
+ *   "address_book_person" = "OswisOrg\OswisAddressBookBundle\Entity\Person",
+ *   "address_book_organization" = "OswisOrg\OswisAddressBookBundle\Entity\Organization"
  * })
  * @DiscriminatorMap(typeProperty="discriminator", mapping={
- *   "address_book_person" = "Zakjakub\OswisAddressBookBundle\Entity\Person",
- *   "address_book_organization" = "Zakjakub\OswisAddressBookBundle\Entity\Organization"
+ *   "address_book_person" = "OswisOrg\OswisAddressBookBundle\Entity\Person",
+ *   "address_book_organization" = "OswisOrg\OswisAddressBookBundle\Entity\Organization"
  * })
  * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
@@ -100,7 +100,7 @@ abstract class AbstractContact implements BasicEntityInterface
     /**
      * Notes about person.
      * @Doctrine\ORM\Mapping\OneToMany(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactNote",
+     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\ContactNote",
      *     mappedBy="contact",
      *     cascade={"all"},
      *     orphanRemoval=true,
@@ -112,7 +112,7 @@ abstract class AbstractContact implements BasicEntityInterface
     /**
      * Postal addresses of AbstractContact (Person, Organization).
      * @Doctrine\ORM\Mapping\OneToMany(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactDetail",
+     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\ContactDetail",
      *     mappedBy="contact",
      *     cascade={"all"},
      *     orphanRemoval=true,
@@ -124,7 +124,7 @@ abstract class AbstractContact implements BasicEntityInterface
     /**
      * Postal addresses of AbstractContact (Person, Organization).
      * @Doctrine\ORM\Mapping\OneToMany(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\ContactAddress",
+     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\ContactAddress",
      *     mappedBy="contact",
      *     cascade={"all"},
      *     orphanRemoval=true,
@@ -136,7 +136,7 @@ abstract class AbstractContact implements BasicEntityInterface
 
     /**
      * @Doctrine\ORM\Mapping\OneToMany(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\AddressBook\AddressBookContactConnection",
+     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\AddressBook\AddressBookContactConnection",
      *     cascade={"all"},
      *     mappedBy="contact",
      *     fetch="EAGER"
@@ -145,13 +145,13 @@ abstract class AbstractContact implements BasicEntityInterface
     protected ?Collection $addressBookContactConnections = null;
 
     /**
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="Zakjakub\OswisCoreBundle\Entity\AppUser", cascade={"all"}, fetch="EAGER")
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="OswisOrg\OswisCoreBundle\Entity\AppUser", cascade={"all"}, fetch="EAGER")
      */
     protected ?AppUser $appUser = null;
 
     /**
      * @Doctrine\ORM\Mapping\OneToOne(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\MediaObject\ContactImage",
+     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\MediaObject\ContactImage",
      *     cascade={"all"},
      *     fetch="EAGER"
      * )

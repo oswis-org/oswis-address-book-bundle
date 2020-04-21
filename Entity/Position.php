@@ -4,7 +4,7 @@
  * @noinspection MethodShouldBeFinalInspection
  */
 
-namespace Zakjakub\OswisAddressBookBundle\Entity;
+namespace OswisOrg\OswisAddressBookBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -12,15 +12,15 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
-use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
-use Zakjakub\OswisCoreBundle\Entity\Nameable;
-use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
-use Zakjakub\OswisCoreBundle\Interfaces\BasicEntityInterface;
-use Zakjakub\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
-use Zakjakub\OswisCoreBundle\Traits\Entity\DateRangeTrait;
-use Zakjakub\OswisCoreBundle\Traits\Entity\EntityPublicTrait;
-use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
-use Zakjakub\OswisCoreBundle\Traits\Entity\TypeTrait;
+use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
+use OswisOrg\OswisCoreBundle\Entity\Nameable;
+use OswisOrg\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
+use OswisOrg\OswisCoreBundle\Interfaces\BasicEntityInterface;
+use OswisOrg\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
+use OswisOrg\OswisCoreBundle\Traits\Entity\DateRangeTrait;
+use OswisOrg\OswisCoreBundle\Traits\Entity\EntityPublicTrait;
+use OswisOrg\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
+use OswisOrg\OswisCoreBundle\Traits\Entity\TypeTrait;
 use function in_array;
 
 /**
@@ -97,7 +97,7 @@ class Position implements BasicEntityInterface
 
     /**
      * @Doctrine\ORM\Mapping\ManyToOne(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Person",
+     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Person",
      *     cascade={"all"},
      *     inversedBy="positions"
      * )
@@ -107,7 +107,7 @@ class Position implements BasicEntityInterface
 
     /**
      * @Doctrine\ORM\Mapping\ManyToOne(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Organization",
+     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Organization",
      *     cascade={"all"},
      *     inversedBy="positions"
      * )

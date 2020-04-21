@@ -1,6 +1,6 @@
 <?php
 
-namespace Zakjakub\OswisAddressBookBundle\DependencyInjection;
+namespace OswisOrg\OswisAddressBookBundle\DependencyInjection;
 
 use Exception;
 use Symfony\Component\Config\FileLocator;
@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-class ZakjakubOswisAddressBookExtension extends Extension implements PrependExtensionInterface
+class OswisOrgOswisAddressBookExtension extends Extension implements PrependExtensionInterface
 {
     /**
      * Loads a specific configuration.
@@ -43,7 +43,7 @@ class ZakjakubOswisAddressBookExtension extends Extension implements PrependExte
      */
     private function oswisAddressBookSettingsProvider(ContainerBuilder $container, array $config): void
     {
-        $definition = $container->getDefinition('zakjakub_oswis_address_book.oswis_address_book_settings_provider');
+        $definition = $container->getDefinition('oswis_org_oswis_address_book.oswis_address_book_settings_provider');
         $definition->setArgument(0, $config['primary']);
     }
 }

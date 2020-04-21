@@ -3,8 +3,9 @@
  * @noinspection MethodShouldBeFinalInspection
  */
 
-namespace Zakjakub\OswisAddressBookBundle\Form;
+namespace OswisOrg\OswisAddressBookBundle\Form;
 
+use OswisOrg\OswisAddressBookBundle\Entity\ContactNote;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -13,7 +14,6 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\Exception\AccessException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Zakjakub\OswisAddressBookBundle\Entity\ContactNote;
 use function assert;
 
 class ContactNoteType extends AbstractType

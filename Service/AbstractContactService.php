@@ -4,11 +4,11 @@
  * @noinspection PhpUnused
  */
 
-namespace Zakjakub\OswisAddressBookBundle\Service;
+namespace OswisOrg\OswisAddressBookBundle\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
+use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use Psr\Log\LoggerInterface;
-use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use function assert;
 
 class AbstractContactService

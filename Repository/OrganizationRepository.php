@@ -4,11 +4,11 @@
  * @noinspection PhpUnused
  */
 
-namespace Zakjakub\OswisAddressBookBundle\Repository;
+namespace OswisOrg\OswisAddressBookBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
-use Zakjakub\OswisAddressBookBundle\Entity\Organization;
+use OswisOrg\OswisAddressBookBundle\Entity\Organization;
 
 class OrganizationRepository extends EntityRepository
 {

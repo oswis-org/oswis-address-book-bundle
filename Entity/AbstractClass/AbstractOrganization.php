@@ -4,14 +4,14 @@
  * @noinspection MethodShouldBeFinalInspection
  */
 
-namespace Zakjakub\OswisAddressBookBundle\Entity\AbstractClass;
+namespace OswisOrg\OswisAddressBookBundle\Entity\AbstractClass;
 
 use Doctrine\Common\Collections\Collection;
-use Zakjakub\OswisCoreBundle\Entity\Nameable;
-use Zakjakub\OswisCoreBundle\Entity\Publicity;
-use Zakjakub\OswisCoreBundle\Traits\Entity\ColorTrait;
-use Zakjakub\OswisCoreBundle\Traits\Entity\IdentificationNumberTrait;
-use Zakjakub\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
+use OswisOrg\OswisCoreBundle\Entity\Nameable;
+use OswisOrg\OswisCoreBundle\Entity\Publicity;
+use OswisOrg\OswisCoreBundle\Traits\Entity\ColorTrait;
+use OswisOrg\OswisCoreBundle\Traits\Entity\IdentificationNumberTrait;
+use OswisOrg\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
 
 abstract class AbstractOrganization extends AbstractContact
 {

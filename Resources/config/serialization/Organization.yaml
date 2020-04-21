@@ -1,4 +1,4 @@
-Zakjakub\OswisAddressBookBundle\Entity\Organization:
+OswisOrg\OswisAddressBookBundle\Entity\Organization:
     attributes:
         shortName:
             groups:

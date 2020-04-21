@@ -4,7 +4,7 @@
  * @noinspection MethodShouldBeFinalInspection
  */
 
-namespace Zakjakub\OswisAddressBookBundle\Entity;
+namespace OswisOrg\OswisAddressBookBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -15,17 +15,17 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use InvalidArgumentException;
+use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractPerson;
+use OswisOrg\OswisCoreBundle\Entity\AppUser;
+use OswisOrg\OswisCoreBundle\Entity\Publicity;
+use OswisOrg\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
 use Vokativ\Name as VokativName;
-use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractPerson;
-use Zakjakub\OswisCoreBundle\Entity\AppUser;
-use Zakjakub\OswisCoreBundle\Entity\Publicity;
-use Zakjakub\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
 use function assert;
 use function rtrim;
 use function trim;
 
 /**
- * @Doctrine\ORM\Mapping\Entity(repositoryClass="Zakjakub\OswisAddressBookBundle\Repository\PersonRepository")
+ * @Doctrine\ORM\Mapping\Entity(repositoryClass="OswisOrg\OswisAddressBookBundle\Repository\PersonRepository")
  * @Doctrine\ORM\Mapping\Table(name="address_book_person")
  * @ApiResource(
  *   iri="http://schema.org/Person",
@@ -87,7 +87,7 @@ class Person extends AbstractPerson
 {
     /**
      * @Doctrine\ORM\Mapping\OneToMany(
-     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\Position",
+     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Position",
      *     mappedBy="person",
      *     cascade={"all"},
      *     orphanRemoval=true
@@ -97,7 +97,7 @@ class Person extends AbstractPerson
 
 //    /**
 //     * @Doctrine\ORM\Mapping\OneToMany(
-//     *     targetEntity="Zakjakub\OswisAddressBookBundle\Entity\PersonSkillConnection",
+//     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\PersonSkillConnection",
 //     *     mappedBy="person",
 //     *     cascade={"all"},
 //     *     orphanRemoval=true,

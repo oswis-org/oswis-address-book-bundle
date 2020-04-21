@@ -4,13 +4,13 @@
  * @noinspection PhpUnused
  */
 
-namespace Zakjakub\OswisAddressBookBundle\Service;
+namespace OswisOrg\OswisAddressBookBundle\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use OswisOrg\OswisAddressBookBundle\Entity\ContactDetailType;
+use OswisOrg\OswisCoreBundle\Entity\Nameable;
 use Psr\Log\LoggerInterface;
-use Zakjakub\OswisAddressBookBundle\Entity\ContactDetailType;
-use Zakjakub\OswisCoreBundle\Entity\Nameable;
 
 class ContactDetailTypeService
 {

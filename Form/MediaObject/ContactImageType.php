@@ -3,10 +3,10 @@
  * @noinspection MethodShouldBeFinalInspection
  */
 
-namespace Zakjakub\OswisAddressBookBundle\Form\MediaObject;
+namespace OswisOrg\OswisAddressBookBundle\Form\MediaObject;
 
-use Zakjakub\OswisAddressBookBundle\Entity\MediaObject\ContactImage;
-use Zakjakub\OswisCoreBundle\Form\AbstractClass\AbstractImageType;
+use OswisOrg\OswisAddressBookBundle\Entity\MediaObject\ContactImage;
+use OswisOrg\OswisCoreBundle\Form\AbstractClass\AbstractImageType;
 
 class ContactImageType extends AbstractImageType
 {

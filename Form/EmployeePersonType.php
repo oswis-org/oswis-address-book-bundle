@@ -3,15 +3,15 @@
  * @noinspection MethodShouldBeFinalInspection
  */
 
-namespace Zakjakub\OswisAddressBookBundle\Form;
+namespace OswisOrg\OswisAddressBookBundle\Form;
 
+use OswisOrg\OswisAddressBookBundle\Entity\Person;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Exception\AccessException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Zakjakub\OswisAddressBookBundle\Entity\Person;
 
 class EmployeePersonType extends AbstractType
 {

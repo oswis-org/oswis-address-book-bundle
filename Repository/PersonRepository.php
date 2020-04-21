@@ -3,10 +3,10 @@
  * @noinspection MethodShouldBeFinalInspection
  */
 
-namespace Zakjakub\OswisAddressBookBundle\Repository;
+namespace OswisOrg\OswisAddressBookBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Zakjakub\OswisAddressBookBundle\Entity\Person;
+use OswisOrg\OswisAddressBookBundle\Entity\Person;
 
 class PersonRepository extends EntityRepository
 {

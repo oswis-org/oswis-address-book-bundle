@@ -4,13 +4,13 @@
  * @noinspection PhpUnused
  */
 
-namespace Zakjakub\OswisAddressBookBundle\Entity;
+namespace OswisOrg\OswisAddressBookBundle\Entity;
 
-use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractAddress;
-use Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
-use Zakjakub\OswisCoreBundle\Entity\Address;
-use Zakjakub\OswisCoreBundle\Entity\Nameable;
-use Zakjakub\OswisCoreBundle\Traits\Entity\PriorityTrait;
+use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractAddress;
+use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
+use OswisOrg\OswisCoreBundle\Entity\Address;
+use OswisOrg\OswisCoreBundle\Entity\Nameable;
+use OswisOrg\OswisCoreBundle\Traits\Entity\PriorityTrait;
 
 /**
  * @Doctrine\ORM\Mapping\Entity
@@ -22,7 +22,7 @@ class ContactAddress extends AbstractAddress
     use PriorityTrait;
 
     /**
-     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="Zakjakub\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact", inversedBy="addresses")
+     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact", inversedBy="addresses")
      * @Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")
      */
     protected ?AbstractContact $contact = null;

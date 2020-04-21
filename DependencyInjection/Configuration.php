@@ -1,6 +1,6 @@
 <?php
 
-namespace Zakjakub\OswisAddressBookBundle\DependencyInjection;
+namespace OswisOrg\OswisAddressBookBundle\DependencyInjection;
 
 use RuntimeException;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
@@ -15,7 +15,7 @@ class Configuration implements ConfigurationInterface
      */
     final public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('zakjakub_oswis_address_book', 'array');
+        $treeBuilder = new TreeBuilder('oswis_org_oswis_address_book', 'array');
         $rootNode = $treeBuilder->getRootNode();
         assert($rootNode instanceof ArrayNodeDefinition);
         $rootNode->info('Default configuration for address book module for OSWIS (One Simple Web IS).')->end();

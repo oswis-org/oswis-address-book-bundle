@@ -2,115 +2,115 @@
 
 services:
 
-    #    Zakjakub\OswisAddressBookBundle\EventSubscriber\:
+    #    OswisOrg\OswisAddressBookBundle\EventSubscriber\:
     #        resource: '../../EventSubscriber/*'
     #        tags: [ { name: 'kernel.view'} ]
     #        arguments:
     #          ['@security.user_password_encoder.generic', '@doctrine.orm.entity_manager.abstract', '@swiftmailer.mailer.abstract', '@monolog.logger_prototype', '@twig', '@security.token_storage']
     #        public: true
     #
-    #    Zakjakub\OswisAddressBookBundle\Controller\:
+    #    OswisOrg\OswisAddressBookBundle\Controller\:
     #        resource: '../../Controller/*'
     #        tags: ['controller.service_arguments']
     #        public: true
     #
-    #    Zakjakub\OswisAddressBookBundle\Api\Dto\:
+    #    OswisOrg\OswisAddressBookBundle\Api\Dto\:
     #        resource: '../../Api/Dto/*'
     #        public: true
     #
-    #    Zakjakub\OswisAddressBookBundle\Api\EventSubscriber\:
+    #    OswisOrg\OswisAddressBookBundle\Api\EventSubscriber\:
     #        resource: '../../Api/EventSubscriber/*'
     #        public: true
 
     ### OSWIS AddressBook Settings Provider
-    zakjakub_oswis_address_book.oswis_address_book_settings_provider:
-        class: Zakjakub\OswisAddressBookBundle\Provider\OswisAddressBookSettingsProvider
+    oswis_org_oswis_address_book.oswis_address_book_settings_provider:
+        class: OswisOrg\OswisAddressBookBundle\Provider\OswisAddressBookSettingsProvider
         autowire: true
         public: true
-    Zakjakub\OswisAddressBookBundle\Provider\OswisAddressBookSettingsProvider:
-        alias: zakjakub_oswis_address_book.oswis_address_book_settings_provider
+    OswisOrg\OswisAddressBookBundle\Provider\OswisAddressBookSettingsProvider:
+        alias: oswis_org_oswis_address_book.oswis_address_book_settings_provider
         public: true
 
     ### Place Service
-    zakjakub_oswis_address_book.place_service:
-        class: Zakjakub\OswisAddressBookBundle\Service\PlaceService
+    oswis_org_oswis_address_book.place_service:
+        class: OswisOrg\OswisAddressBookBundle\Service\PlaceService
         autowire: true
         public: true
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@monolog.logger'
-    Zakjakub\OswisAddressBookBundle\Service\PlaceService:
-        alias: zakjakub_oswis_address_book.place_service
+    OswisOrg\OswisAddressBookBundle\Service\PlaceService:
+        alias: oswis_org_oswis_address_book.place_service
         public: true
 
     ### Person Service
-    zakjakub_oswis_address_book.person_service:
-        class: Zakjakub\OswisAddressBookBundle\Service\PersonService
+    oswis_org_oswis_address_book.person_service:
+        class: OswisOrg\OswisAddressBookBundle\Service\PersonService
         autowire: true
         public: true
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@monolog.logger'
-    Zakjakub\OswisAddressBookBundle\Service\PersonService:
-        alias: zakjakub_oswis_address_book.person_service
+    OswisOrg\OswisAddressBookBundle\Service\PersonService:
+        alias: oswis_org_oswis_address_book.person_service
         public: true
 
     ### Organization Service
-    zakjakub_oswis_address_book.organization_service:
-        class: Zakjakub\OswisAddressBookBundle\Service\OrganizationService
+    oswis_org_oswis_address_book.organization_service:
+        class: OswisOrg\OswisAddressBookBundle\Service\OrganizationService
         autowire: true
         public: true
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@monolog.logger'
-    Zakjakub\OswisAddressBookBundle\Service\OrganizationService:
-        alias: zakjakub_oswis_address_book.organization_service
+    OswisOrg\OswisAddressBookBundle\Service\OrganizationService:
+        alias: oswis_org_oswis_address_book.organization_service
         public: true
 
     ### AbstractContact Service
-    zakjakub_oswis_address_book.abstract_contact_service:
-        class: Zakjakub\OswisAddressBookBundle\Service\AbstractContactService
+    oswis_org_oswis_address_book.abstract_contact_service:
+        class: OswisOrg\OswisAddressBookBundle\Service\AbstractContactService
         autowire: true
         public: true
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@monolog.logger'
-    Zakjakub\OswisAddressBookBundle\Service\AbstractContactService:
-        alias: zakjakub_oswis_address_book.abstract_contact_service
+    OswisOrg\OswisAddressBookBundle\Service\AbstractContactService:
+        alias: oswis_org_oswis_address_book.abstract_contact_service
         public: true
 
     ### AddressBook Service
-    zakjakub_oswis_address_book.address_book_service:
-        class: Zakjakub\OswisAddressBookBundle\Service\AddressBookService
+    oswis_org_oswis_address_book.address_book_service:
+        class: OswisOrg\OswisAddressBookBundle\Service\AddressBookService
         autowire: true
         public: true
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@monolog.logger'
-    Zakjakub\OswisAddressBookBundle\Service\AddressBookService:
-        alias: zakjakub_oswis_address_book.address_book_service
+    OswisOrg\OswisAddressBookBundle\Service\AddressBookService:
+        alias: oswis_org_oswis_address_book.address_book_service
         public: true
 
     ### ContactDetailType Service
-    zakjakub_oswis_address_book.contact_detail_type_service:
-        class: Zakjakub\OswisAddressBookBundle\Service\ContactDetailTypeService
+    oswis_org_oswis_address_book.contact_detail_type_service:
+        class: OswisOrg\OswisAddressBookBundle\Service\ContactDetailTypeService
         autowire: true
         public: true
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@monolog.logger'
-    Zakjakub\OswisAddressBookBundle\Service\ContactDetailTypeService:
-        alias: zakjakub_oswis_address_book.contact_detail_type_service
+    OswisOrg\OswisAddressBookBundle\Service\ContactDetailTypeService:
+        alias: oswis_org_oswis_address_book.contact_detail_type_service
         public: true
 
     ### Organization Controller
-    zakjakub_oswis_address_book.organization_controller:
-        class: Zakjakub\OswisAddressBookBundle\Controller\OrganizationController
+    oswis_org_oswis_address_book.organization_controller:
+        class: OswisOrg\OswisAddressBookBundle\Controller\OrganizationController
         autowire: true
         public: true
         arguments:
-            - '@zakjakub_oswis_address_book.organization_service'
-            - '@zakjakub_oswis_address_book.oswis_address_book_settings_provider'
-    Zakjakub\OswisAddressBookBundle\Controller\OrganizationController:
-        alias: zakjakub_oswis_address_book.organization_controller
+            - '@oswis_org_oswis_address_book.organization_service'
+            - '@oswis_org_oswis_address_book.oswis_address_book_settings_provider'
+    OswisOrg\OswisAddressBookBundle\Controller\OrganizationController:
+        alias: oswis_org_oswis_address_book.organization_controller
         public: true

@@ -1,11 +1,11 @@
 <?php
 
-namespace Zakjakub\OswisAddressBookBundle\Entity\MediaObject;
+namespace OswisOrg\OswisAddressBookBundle\Entity\MediaObject;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use OswisOrg\OswisAddressBookBundle\Controller\MediaObject\ContactImageAction;
+use OswisOrg\OswisCoreBundle\Entity\AbstractClass\AbstractImage;
 use Symfony\Component\HttpFoundation\File\File;
-use Zakjakub\OswisAddressBookBundle\Controller\MediaObject\ContactImageAction;
-use Zakjakub\OswisCoreBundle\Entity\AbstractClass\AbstractImage;
 
 /**
  * @Doctrine\ORM\Mapping\Entity()

@@ -4,7 +4,7 @@
  * @noinspection PhpUnused
  */
 
-namespace Zakjakub\OswisAddressBookBundle\Provider;
+namespace OswisOrg\OswisAddressBookBundle\Provider;
 
 /**
  * Provider of settings for address book module of OSWIS.

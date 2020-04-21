@@ -3,8 +3,9 @@
  * @noinspection MethodShouldBeFinalInspection
  */
 
-namespace Zakjakub\OswisAddressBookBundle\Form;
+namespace OswisOrg\OswisAddressBookBundle\Form;
 
+use OswisOrg\OswisAddressBookBundle\Entity\ContactDetail;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
@@ -21,20 +22,19 @@ use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
 use Symfony\Component\Validator\Exception\InvalidOptionsException;
 use Symfony\Component\Validator\Exception\MissingOptionsException;
-use Zakjakub\OswisAddressBookBundle\Entity\ContactDetail;
 use function assert;
 
 class ContactDetailType extends AbstractType
 {
 
     protected const PATTERNS = [
-        \Zakjakub\OswisAddressBookBundle\Entity\ContactDetailType::TYPE_URL => "^(\+420|\+421)? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$",
+        \OswisOrg\OswisAddressBookBundle\Entity\ContactDetailType::TYPE_URL => "^(\+420|\+421)? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$",
     ];
 
     protected const TYPES = [
-        \Zakjakub\OswisAddressBookBundle\Entity\ContactDetailType::TYPE_EMAIL => EmailType::class,
-        \Zakjakub\OswisAddressBookBundle\Entity\ContactDetailType::TYPE_PHONE => TelType::class,
-        \Zakjakub\OswisAddressBookBundle\Entity\ContactDetailType::TYPE_URL   => UrlType::class,
+        \OswisOrg\OswisAddressBookBundle\Entity\ContactDetailType::TYPE_EMAIL => EmailType::class,
+        \OswisOrg\OswisAddressBookBundle\Entity\ContactDetailType::TYPE_PHONE => TelType::class,
+        \OswisOrg\OswisAddressBookBundle\Entity\ContactDetailType::TYPE_URL   => UrlType::class,
     ];
 
     /**
@@ -47,10 +47,10 @@ class ContactDetailType extends AbstractType
      */
     public static function getConstraintsByType(?string $type = null): array
     {
-        if (\Zakjakub\OswisAddressBookBundle\Entity\ContactDetailType::TYPE_EMAIL === $type) {
+        if (\OswisOrg\OswisAddressBookBundle\Entity\ContactDetailType::TYPE_EMAIL === $type) {
             return [new Email(['mode' => 'strict', 'message' => 'Zadaná adresa {{ value }} není platná.'])];
         }
-        if (\Zakjakub\OswisAddressBookBundle\Entity\ContactDetailType::TYPE_PHONE === $type) {
+        if (\OswisOrg\OswisAddressBookBundle\Entity\ContactDetailType::TYPE_PHONE === $type) {
             return [
                 new Regex(
                     [
