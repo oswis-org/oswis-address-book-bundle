@@ -92,7 +92,8 @@ class ContactDetailType extends AbstractType
                 $contactDetail = $event->getData();
                 assert($contactDetail instanceof ContactDetail);
                 $detailType = $contactDetail->getDetailType();
-                $detailTypeType = $contactDetail->getDetailType() ? $contactDetail->getDetailType()->getType() : null;
+                $detailTypeType = $contactDetail->getDetailType() ? $contactDetail->getDetailType()
+                    ->getType() : null;
                 $form = $event->getForm();
                 $options = array(
                     'label'       => $detailType ? $detailType->getFormLabel() : false,

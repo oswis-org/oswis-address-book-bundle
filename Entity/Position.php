@@ -116,13 +116,13 @@ class Position implements BasicEntityInterface
     protected ?Organization $organization = null;
 
     /**
-     * @param Person|null       $person
+     * @param Person|null $person
      * @param Organization|null $organization
-     * @param string|null       $type
-     * @param bool|null         $isContactPerson
-     * @param Nameable|null     $nameable
-     * @param DateTime|null     $startDateTime
-     * @param DateTime|null     $endDateTime
+     * @param string|null $type
+     * @param bool|null $isContactPerson
+     * @param Nameable|null $nameable
+     * @param DateTime|null $startDateTime
+     * @param DateTime|null $endDateTime
      *
      * @throws InvalidArgumentException
      */
@@ -258,7 +258,10 @@ class Position implements BasicEntityInterface
 
     public function getGenderCssClass(): string
     {
-        return null === $this->getPerson() ? AbstractContact::GENDER_UNISEX : $this->getPerson()->getGender();
+        return null === $this->getPerson()
+            ? AbstractContact::GENDER_UNISEX
+            : $this->getPerson()
+                ->getGender();
     }
 
     public function getPerson(): ?Person

@@ -25,7 +25,8 @@ class AbstractContactService
 
     public function updateNames(): void
     {
-        $contacts = $this->em->getRepository(AbstractContact::class)->findAll();
+        $contacts = $this->em->getRepository(AbstractContact::class)
+            ->findAll();
         foreach ($contacts as $contact) {
             assert($contact instanceof AbstractContact);
             $contact->updateContactName();

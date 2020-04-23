@@ -31,23 +31,25 @@ class PersonType extends AbstractType
                     'autocomplete' => 'section-student name',
                 ],
             )
-        )->add(
-            'contactDetails',
-            CollectionType::class,
-            array(
-                'label'         => false,
-                'entry_type'    => ContactDetailType::class,
-                'entry_options' => array('label' => false),
+        )
+            ->add(
+                'contactDetails',
+                CollectionType::class,
+                array(
+                    'label'         => false,
+                    'entry_type'    => ContactDetailType::class,
+                    'entry_options' => array('label' => false),
+                )
             )
-        )->add(
-            'studies',
-            CollectionType::class,
-            array(
-                'label'         => 'Fakulta',
-                'entry_type'    => SchoolPositionType::class,
-                'entry_options' => array('label' => false),
-            )
-        );
+            ->add(
+                'studies',
+                CollectionType::class,
+                array(
+                    'label'         => 'Fakulta',
+                    'entry_type'    => SchoolPositionType::class,
+                    'entry_options' => array('label' => false),
+                )
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver): void

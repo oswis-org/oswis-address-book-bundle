@@ -228,9 +228,10 @@ abstract class AbstractContact implements BasicEntityInterface
 
     public function getAddressBooks(): Collection
     {
-        return $this->getAddressBookContactConnections()->map(
-            fn(AddressBookContactConnection $addressBookContactConnection) => $addressBookContactConnection->getAddressBook()
-        );
+        return $this->getAddressBookContactConnections()
+            ->map(
+                fn(AddressBookContactConnection $addressBookContactConnection) => $addressBookContactConnection->getAddressBook()
+            );
     }
 
     public function getAddressBookContactConnections(): Collection
@@ -273,7 +274,8 @@ abstract class AbstractContact implements BasicEntityInterface
 
     public function containsAddressBook(AddressBook $addressBook): bool
     {
-        return $this->getAddressBooks()->contains($addressBook);
+        return $this->getAddressBooks()
+            ->contains($addressBook);
     }
 
     public function addAddressBook(AddressBook $addressBook): void
@@ -327,13 +329,17 @@ abstract class AbstractContact implements BasicEntityInterface
      */
     public function removeEmptyDetails(): void
     {
-        $this->setDetails($this->getDetails()->filter(fn(ContactDetail $detail) => !empty($detail->getContent())));
+        $this->setDetails(
+            $this->getDetails()
+                ->filter(fn(ContactDetail $detail) => !empty($detail->getContent()))
+        );
     }
 
     public function getDetails(?string $typeString = null): Collection
     {
         if (!empty($typeString)) {
-            return $this->getDetails()->filter(fn(ContactDetail $detail) => $typeString === $detail->getTypeString());
+            return $this->getDetails()
+                ->filter(fn(ContactDetail $detail) => $typeString === $detail->getTypeString());
         }
 
         return $this->details ?? new ArrayCollection();
@@ -357,7 +363,8 @@ abstract class AbstractContact implements BasicEntityInterface
 
     public function removeNote(?ContactNote $note): void
     {
-        if (null !== $note && $this->getNotes()->removeElement($note)) {
+        if (null !== $note && $this->getNotes()
+                ->removeElement($note)) {
             $note->setContact(null);
         }
     }
@@ -385,14 +392,16 @@ abstract class AbstractContact implements BasicEntityInterface
 
     public function removeDetail(?ContactDetail $detail): void
     {
-        if (null !== $detail && $this->getDetails()->removeElement($detail)) {
+        if (null !== $detail && $this->getDetails()
+                ->removeElement($detail)) {
             $detail->setContact(null);
         }
     }
 
     public function removeAddress(?ContactAddress $address): void
     {
-        if (null !== $address && $this->getAddresses()->removeElement($address)) {
+        if (null !== $address && $this->getAddresses()
+                ->removeElement($address)) {
             $address->setContact(null);
         }
     }
@@ -420,7 +429,8 @@ abstract class AbstractContact implements BasicEntityInterface
 
     public function addDetail(?ContactDetail $detail): void
     {
-        if (null !== $detail && !$this->getDetails()->contains($detail)) {
+        if (null !== $detail && !$this->getDetails()
+                ->contains($detail)) {
             $this->details->add($detail);
             $detail->setContact($this);
         }
@@ -428,7 +438,8 @@ abstract class AbstractContact implements BasicEntityInterface
 
     public function addNote(?ContactNote $note): void
     {
-        if (null !== $note && !$this->getNotes()->contains($note)) {
+        if (null !== $note && !$this->getNotes()
+                ->contains($note)) {
             $this->notes->add($note);
             $note->setContact($this);
         }
@@ -436,7 +447,8 @@ abstract class AbstractContact implements BasicEntityInterface
 
     public function addAddress(?ContactAddress $address): void
     {
-        if (null !== $address && !$this->getAddresses()->contains($address)) {
+        if (null !== $address && !$this->getAddresses()
+                ->contains($address)) {
             $this->addresses->add($address);
             $address->setContact($this);
         }
@@ -447,7 +459,10 @@ abstract class AbstractContact implements BasicEntityInterface
      */
     public function removeEmptyNotes(): void
     {
-        $this->setNotes($this->getNotes()->filter(fn(ContactNote $note) => empty($note->getContent())));
+        $this->setNotes(
+            $this->getNotes()
+                ->filter(fn(ContactNote $note) => empty($note->getContent()))
+        );
     }
 
     /**
@@ -456,7 +471,10 @@ abstract class AbstractContact implements BasicEntityInterface
      */
     public function getUrlsAsString(): ?string
     {
-        return implode(', ', $this->getUrls()->toArray());
+        return implode(', ',
+            $this->getUrls()
+                ->toArray()
+        );
     }
 
     /**
@@ -471,7 +489,8 @@ abstract class AbstractContact implements BasicEntityInterface
     public function getContactPersons(?DateTime $dateTime = null, bool $onlyWithActivatedUser = false): Collection
     {
         if ($onlyWithActivatedUser) {
-            return $this->getAppUser() && $this->getAppUser()->isActive($dateTime) ? new ArrayCollection([$this]) : new ArrayCollection();
+            return $this->getAppUser() && $this->getAppUser()
+                ->isActive($dateTime) ? new ArrayCollection([$this]) : new ArrayCollection();
         }
 
         return new ArrayCollection([$this]);
@@ -506,7 +525,8 @@ abstract class AbstractContact implements BasicEntityInterface
         if (true === $recursive && $this instanceof Organization) {
             foreach ($this->getSubOrganizations() as $subOrganization) {
                 if ($subOrganization instanceof self) {
-                    $subOrganization->getPositions($dateTime, $types, true)->map(fn(Position $p) => $out->add($p));
+                    $subOrganization->getPositions($dateTime, $types, true)
+                        ->map(fn(Position $p) => $out->add($p));
                 }
             }
         }
@@ -557,7 +577,8 @@ abstract class AbstractContact implements BasicEntityInterface
 
     public function getContactDetailContent(?string $typeString = null): ?string
     {
-        $detail = $this->getDetails($typeString)->first();
+        $detail = $this->getDetails($typeString)
+            ->first();
 
         return !empty($detail) && $detail instanceof ContactDetail ? $detail->getContent() : null;
     }
@@ -649,8 +670,10 @@ abstract class AbstractContact implements BasicEntityInterface
      */
     public function getMailerAddress(): ?Address
     {
-        $name = $this->getContactName() ?? ($this->getAppUser() ? $this->getAppUser()->getFullName() : '') ?? '';
-        $eMail = ($this->getAppUser() ? $this->getAppUser()->getEmail() : $this->getEmail()) ?? '';
+        $name = $this->getContactName() ?? ($this->getAppUser() ? $this->getAppUser()
+                ->getFullName() : '') ?? '';
+        $eMail = ($this->getAppUser() ? $this->getAppUser()
+                ->getEmail() : $this->getEmail()) ?? '';
 
         return empty($eMail) ? null : new Address($eMail, $name);
     }
@@ -680,12 +703,14 @@ abstract class AbstractContact implements BasicEntityInterface
 
     public function containsUserInPersons(AppUser $user): bool
     {
-        return $this->getUsersOfPersons()->contains($user);
+        return $this->getUsersOfPersons()
+            ->contains($user);
     }
 
     public function getUsersOfPersons(): Collection
     {
-        return $this->getPersons()->map(fn(Person $person) => $person->getAppUser());
+        return $this->getPersons()
+            ->map(fn(Person $person) => $person->getAppUser());
     }
 
     public function getPersons(): Collection
@@ -694,7 +719,8 @@ abstract class AbstractContact implements BasicEntityInterface
             return new ArrayCollection([$this]);
         }
         if ($this instanceof Organization) {
-            return $this->getPositions()->map(fn(Position $position) => $position->getPerson());
+            return $this->getPositions()
+                ->map(fn(Position $position) => $position->getPerson());
         }
 
         return new ArrayCollection();
@@ -713,7 +739,8 @@ abstract class AbstractContact implements BasicEntityInterface
 
     public function getRegularPositions(): Collection
     {
-        return $this->getPositions()->filter(fn(Position $position) => $position->isRegularPosition());
+        return $this->getPositions()
+            ->filter(fn(Position $position) => $position->isRegularPosition());
     }
 
     /**

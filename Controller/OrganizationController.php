@@ -30,7 +30,6 @@ class OrganizationController extends AbstractController
      * @param string|null $slug
      *
      * @return Response
-     * @throws LogicException
      */
     public function showOrganizationProfiles(?string $slug = null): Response
     {
@@ -44,7 +43,8 @@ class OrganizationController extends AbstractController
     {
         $organization = $this->getDefaultOrganization();
         if (!empty($slug)) {
-            $organization = $this->organizationService->getRepository()->findOneBy(['slug' => $slug, 'publicOnWeb' => true,]);
+            $organization = $this->organizationService->getRepository()
+                ->findOneBy(['slug' => $slug, 'publicOnWeb' => true,]);
         }
 
         return $organization;
@@ -54,17 +54,19 @@ class OrganizationController extends AbstractController
     {
         $organization = null;
         if (null !== $this->addressBookSettings->getPrimary()) {
-            $organization = $this->organizationService->getRepository()->findOneBy(
-                [
-                    'slug'        => $this->addressBookSettings->getPrimary(),
-                    'publicOnWeb' => true,
-                ]
-            );
+            $organization = $this->organizationService->getRepository()
+                ->findOneBy(
+                    [
+                        'slug'        => $this->addressBookSettings->getPrimary(),
+                        'publicOnWeb' => true,
+                    ]
+                );
         }
-        $organization ??= $this->organizationService->getRepository()->findBy(
-                ['publicOnWeb' => true],
-                ['id' => 'ASC']
-            )[0] ?? null;
+        $organization ??= $this->organizationService->getRepository()
+                ->findBy(
+                    ['publicOnWeb' => true],
+                    ['id' => 'ASC']
+                )[0] ?? null;
 
         return $organization;
     }
@@ -73,13 +75,13 @@ class OrganizationController extends AbstractController
      * @param string|null $slug
      *
      * @return Response
-     * @throws LogicException
      * @throws OswisNotFoundException
      */
     public function showOrganizationPage(?string $slug = null): Response
     {
         $organization = empty($slug) ? $this->getDefaultOrganization() : $this->getOrganization($slug);
-        if (!empty($slug) && $this->getDefaultOrganization() && $slug === $this->getDefaultOrganization()->getSlug()) {
+        if (!empty($slug) && $this->getDefaultOrganization() && $slug === $this->getDefaultOrganization()
+                ->getSlug()) {
             $this->redirectToRoute('oswis_org_oswis_address_book_organization');
         }
         if (null === $organization) {

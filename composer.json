@@ -4,7 +4,6 @@
   "homepage": "https://github.com/oswis-org/oswis-address-book-bundle",
   "type": "symfony-bundle",
   "minimum-stability": "stable",
-  "time": "2020-04-20",
   "keywords": [
     "information-system",
     "is",

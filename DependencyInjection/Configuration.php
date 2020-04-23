@@ -11,14 +11,14 @@ class Configuration implements ConfigurationInterface
 {
     /**
      * @return TreeBuilder
-     * @throws RuntimeException
      */
     final public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('oswis_org_oswis_address_book', 'array');
         $rootNode = $treeBuilder->getRootNode();
         assert($rootNode instanceof ArrayNodeDefinition);
-        $rootNode->info('Default configuration for address book module for OSWIS (One Simple Web IS).')->end();
+        $rootNode->info('Default configuration for address book module for OSWIS (One Simple Web IS).')
+            ->end();
         $this->addOrganizationConfig($rootNode);
 
         return $treeBuilder;
@@ -26,8 +26,17 @@ class Configuration implements ConfigurationInterface
 
     private function addOrganizationConfig(ArrayNodeDefinition $rootNode): void
     {
-        $rootNode->children()->arrayNode('primary')->info('Slugs of primary entities.')->addDefaultsIfNotSet()->children()->scalarNode('organization')->info(
-            'Primary organization.'
-        )->defaultValue(null)->example('some-organization')->end();
+        $rootNode->children()
+            ->arrayNode('primary')
+            ->info('Slugs of primary entities.')
+            ->addDefaultsIfNotSet()
+            ->children()
+            ->scalarNode('organization')
+            ->info(
+                'Primary organization.'
+            )
+            ->defaultValue(null)
+            ->example('some-organization')
+            ->end();
     }
 }

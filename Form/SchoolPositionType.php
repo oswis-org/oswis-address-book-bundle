@@ -47,7 +47,8 @@ class SchoolPositionType extends AbstractType
                         'help'          => 'Vyberte fakultu, která garantuje studijní obor.',
                         'query_builder' => static function (EntityRepository $repo) {
                             // TODO: Not only faculties! Add parameter to school - showInForm (if can be selected in forms).
-                            return $repo->createQueryBuilder('organization')->where('organization.type = :faculty')
+                            return $repo->createQueryBuilder('organization')
+                                ->where('organization.type = :faculty')
                                 // ->leftJoin('organization.parentOrganization', 'parent')
                                 // ->andWhere('parent.type = :university')
                                 //->setParameter('university', 'university')

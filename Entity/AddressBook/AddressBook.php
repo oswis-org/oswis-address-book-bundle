@@ -49,14 +49,16 @@ class AddressBook implements BasicEntityInterface
 
     public function containsContact(AbstractContact $contact): bool
     {
-        return $this->getContacts()->contains($contact);
+        return $this->getContacts()
+            ->contains($contact);
     }
 
     public function getContacts(): Collection
     {
-        return $this->getAddressBookContactConnections()->map(
-            fn(AddressBookContactConnection $addressBookContactConnection): AbstractContact => $addressBookContactConnection->getContact()
-        );
+        return $this->getAddressBookContactConnections()
+            ->map(
+                fn(AddressBookContactConnection $addressBookContactConnection): AbstractContact => $addressBookContactConnection->getContact()
+            );
     }
 
     public function getAddressBookContactConnections(): Collection
@@ -100,7 +102,8 @@ class AddressBook implements BasicEntityInterface
     {
         foreach ($this->getAddressBookContactConnections() as $addressBookContactConnection) {
             assert($addressBookContactConnection instanceof AddressBookContactConnection);
-            if ($addressBookContactConnection->getContact() && $contact->getId() === $addressBookContactConnection->getContact()->getId()) {
+            if ($addressBookContactConnection->getContact() && $contact->getId() === $addressBookContactConnection->getContact()
+                    ->getId()) {
                 $this->removeAddressBookContactConnection($addressBookContactConnection);
             }
         }

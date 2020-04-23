@@ -27,27 +27,29 @@ class EmployeePersonType extends AbstractType
                     'autocomplete' => 'section-organization-employee name',
                 ],
             ]
-        )->add(
-            'contactDetails',
-            CollectionType::class,
-            array(
-                'label'         => false,
-                'entry_type'    => ContactDetailType::class,
-                'entry_options' => ['label' => false, 'content_required' => $options['content_required']],
+        )
+            ->add(
+                'contactDetails',
+                CollectionType::class,
+                array(
+                    'label'         => false,
+                    'entry_type'    => ContactDetailType::class,
+                    'entry_options' => ['label' => false, 'content_required' => $options['content_required']],
+                )
             )
-        )->add(
-            'studies',
-            CollectionType::class,
-            array(
-                'label'         => 'Student/absolvent UP',
-                'help'          => 'Pokud studoval(a) nebo absolvoval(a) studium na Univerzitě Palackého, vyberte příslušnou fakultu, jinak nechte pole prázdné.',
-                'entry_type'    => SchoolPositionType::class,
-                'entry_options' => ['label' => false],
-                'attr'          => [
-                    'autocomplete' => 'section-organization-employee email',
-                ],
-            )
-        );
+            ->add(
+                'studies',
+                CollectionType::class,
+                array(
+                    'label'         => 'Student/absolvent UP',
+                    'help'          => 'Pokud studoval(a) nebo absolvoval(a) studium na Univerzitě Palackého, vyberte příslušnou fakultu, jinak nechte pole prázdné.',
+                    'entry_type'    => SchoolPositionType::class,
+                    'entry_options' => ['label' => false],
+                    'attr'          => [
+                        'autocomplete' => 'section-organization-employee email',
+                    ],
+                )
+            );
     }
 
     /**

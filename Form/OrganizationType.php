@@ -33,60 +33,66 @@ class OrganizationType extends AbstractType
                     'autocomplete' => 'organization',
                 ],
             )
-        )->add(
-            'identificationNumber',
-            TextType::class,
-            array(
-                'label'    => 'Identifikační číslo',
-                'required' => false,
-                'help'     => 'Zadejte IČ (nepovinné).',
+        )
+            ->add(
+                'identificationNumber',
+                TextType::class,
+                array(
+                    'label'    => 'Identifikační číslo',
+                    'required' => false,
+                    'help'     => 'Zadejte IČ (nepovinné).',
+                )
             )
-        )->add(
-            'description',
-            TextareaType::class,
-            array(
-                'label'    => 'Krátký popis',
-                'required' => false,
-                'help'     => 'Zadejte stručné shrnutí informací o Vaší organizaci. Tyto informace můžou být zveřejněny na webu.',
-                'attr'     => [],
+            ->add(
+                'description',
+                TextareaType::class,
+                array(
+                    'label'    => 'Krátký popis',
+                    'required' => false,
+                    'help'     => 'Zadejte stručné shrnutí informací o Vaší organizaci. Tyto informace můžou být zveřejněny na webu.',
+                    'attr'     => [],
+                )
             )
-        )->add(
-            'contactDetails',
-            CollectionType::class,
-            array(
-                'label'         => false,
-                'entry_type'    => ContactDetailType::class,
-                'entry_options' => ['label' => false, 'content_required' => false],
+            ->add(
+                'contactDetails',
+                CollectionType::class,
+                array(
+                    'label'         => false,
+                    'entry_type'    => ContactDetailType::class,
+                    'entry_options' => ['label' => false, 'content_required' => false],
+                )
             )
-        )->add(
-            'image',
-            ContactImageType::class,
-            [
-                'label'    => 'Logo organizace',
-                'required' => false,
-                'help'     => 'Nahrajte logo Vaší organizace, nejlépe ve formátu png'.$maxSize.'. Bude uvedeno např. na webových stránkách.',
-            ]
-        )->add(
-            'regularPositions',
-            CollectionType::class,
-            array(
-                'label'         => 'Zástupci/kontaktní osoby organizace',
-                'entry_type'    => EmployerPositionType::class,
-                'entry_options' => ['label' => false, 'content_required' => false],
-                'attr'          => [
-                    'class' => 'box',
-                ],
-                'delete_empty'  => true,
+            ->add(
+                'image',
+                ContactImageType::class,
+                [
+                    'label'    => 'Logo organizace',
+                    'required' => false,
+                    'help'     => 'Nahrajte logo Vaší organizace, nejlépe ve formátu png'.$maxSize.'. Bude uvedeno např. na webových stránkách.',
+                ]
             )
-        )->add(
-            'notes',
-            CollectionType::class,
-            array(
-                'label'         => false,
-                'entry_type'    => ContactNoteType::class,
-                'entry_options' => ['label' => false],
+            ->add(
+                'regularPositions',
+                CollectionType::class,
+                array(
+                    'label'         => 'Zástupci/kontaktní osoby organizace',
+                    'entry_type'    => EmployerPositionType::class,
+                    'entry_options' => ['label' => false, 'content_required' => false],
+                    'attr'          => [
+                        'class' => 'box',
+                    ],
+                    'delete_empty'  => true,
+                )
             )
-        );
+            ->add(
+                'notes',
+                CollectionType::class,
+                array(
+                    'label'         => false,
+                    'entry_type'    => ContactNoteType::class,
+                    'entry_options' => ['label' => false],
+                )
+            );
     }
 
     /**
