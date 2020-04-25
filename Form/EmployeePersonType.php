@@ -29,7 +29,7 @@ class EmployeePersonType extends AbstractType
             ]
         )
             ->add(
-                'contactDetails',
+                'details',
                 CollectionType::class,
                 array(
                     'label'         => false,
@@ -38,7 +38,7 @@ class EmployeePersonType extends AbstractType
                 )
             )
             ->add(
-                'studies',
+                'positions',
                 CollectionType::class,
                 array(
                     'label'         => 'Student/absolvent UP',

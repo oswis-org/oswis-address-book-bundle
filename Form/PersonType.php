@@ -33,7 +33,7 @@ class PersonType extends AbstractType
             )
         )
             ->add(
-                'contactDetails',
+                'details',
                 CollectionType::class,
                 array(
                     'label'         => false,
