@@ -37,6 +37,42 @@ class ContactDetailType extends AbstractType
         \OswisOrg\OswisAddressBookBundle\Entity\ContactDetailType::TYPE_URL   => UrlType::class,
     ];
 
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder->add(
+            'content',
+            TextType::class,
+            array(
+                'label'    => false,
+                'required' => $options['content_required'],
+                'attr'     => ['placeholder' => 'Kontakt'],
+            )
+        );
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
+            static function (FormEvent $event) use ($options) {
+                $contactDetail = $event->getData();
+                assert($contactDetail instanceof ContactDetail);
+                $detailType = $contactDetail->getDetailType();
+                $detailTypeType = $contactDetail->getDetailType() ? $contactDetail->getDetailType()
+                    ->getType() : null;
+                $form = $event->getForm();
+                $options = array(
+                    'label'       => $detailType ? $detailType->getFormLabel() : false,
+                    'required'    => $options['content_required'],
+                    'attr'        => [/*'autocomplete' => $contactDetail->getContactType() ? $contactDetail->getContactType()->getType() : true*/],
+                    'help'        => $detailType ? $detailType->getFormHelp() : null,
+                    'constraints' => self::getConstraintsByType($detailTypeType),
+                );
+                $pattern = self::getPatternByType($detailTypeType);
+                if ($pattern) {
+                    $options['attr']['pattern'] = $pattern;
+                }
+                $form->add('content', self::getTypeByType($detailTypeType), $options);
+            }
+        );
+    }
+
     /**
      * @param string|null $type
      *
@@ -73,42 +109,6 @@ class ContactDetailType extends AbstractType
     public static function getTypeByType(?string $type = null): string
     {
         return self::TYPES[$type] ?? TextType::class;
-    }
-
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
-        $builder->add(
-            'content',
-            TextType::class,
-            array(
-                'label'    => false,
-                'required' => $options['content_required'],
-                'attr'     => ['placeholder' => 'Kontakt'],
-            )
-        );
-        $builder->addEventListener(
-            FormEvents::PRE_SET_DATA,
-            static function (FormEvent $event) use ($options) {
-                $contactDetail = $event->getData();
-                assert($contactDetail instanceof ContactDetail);
-                $detailType = $contactDetail->getDetailType();
-                $detailTypeType = $contactDetail->getDetailType() ? $contactDetail->getDetailType()
-                    ->getType() : null;
-                $form = $event->getForm();
-                $options = array(
-                    'label'       => $detailType ? $detailType->getFormLabel() : false,
-                    'required'    => $options['content_required'],
-                    'attr'        => [/*'autocomplete' => $contactDetail->getContactType() ? $contactDetail->getContactType()->getType() : true*/],
-                    'help'        => $detailType ? $detailType->getFormHelp() : null,
-                    'constraints' => self::getConstraintsByType($detailTypeType),
-                );
-                $pattern = self::getPatternByType($detailTypeType);
-                if ($pattern) {
-                    $options['attr']['pattern'] = $pattern;
-                }
-                $form->add('content', self::getTypeByType($detailTypeType), $options);
-            }
-        );
     }
 
     /**

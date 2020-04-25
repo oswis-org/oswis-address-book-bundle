@@ -6,7 +6,6 @@
 
 namespace OswisOrg\OswisAddressBookBundle\Controller;
 
-use LogicException;
 use OswisOrg\OswisAddressBookBundle\Entity\Organization;
 use OswisOrg\OswisAddressBookBundle\Provider\OswisAddressBookSettingsProvider;
 use OswisOrg\OswisAddressBookBundle\Service\OrganizationService;
