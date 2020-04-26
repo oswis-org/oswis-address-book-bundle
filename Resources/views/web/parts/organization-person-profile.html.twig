@@ -1,6 +1,6 @@
-<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" title="{{ contact.nickname|default }}">
-    <article class="contact {{ contact.genderClass|default }}" id="{{ contact.slug|default }}"
-             itemscope itemtype='{{ contact.person ? 'http://schema.org/Person' : 'http://schema.org/Organization' }}'>
+<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" title="{{ contact.nickname|default }}" itemprop="member"
+     itemscope itemtype='{{ contact.person ? 'http://schema.org/Person' : 'http://schema.org/Organization' }}'>
+    <article class="contact {{ contact.genderClass|default }}" id="{{ contact.slug|default }}">
         <div content="{{ asset('/images/contacts/'~contact.image) }}" class="contact-image-box text-uppercase"
              style="background-image: url({{ asset('/images/contacts/'~contact.image) }})" itemprop="image">
             <h3 itemprop="name">{{ contact.name }}</h3>

@@ -1,14 +1,12 @@
 {% extends '@OswisOrgOswisCore/web/page-skeleton-default.html.twig' %}
 
 {% block body_content %}
-    <main class="container" id="main-content-container">
-        <!-- START: ABOUT US -->
+    <main class="container" id="main-content-container" itemscope itemtype="http://schema.org/Organization">
         {% if organization is defined and organization %}
-            <div itemscope itemtype="http://schema.org/Organization">
+            <div>
                 {% include '@OswisOrgOswisAddressBook/web/parts/organization-info.html.twig' %}
                 {% include '@OswisOrgOswisAddressBook/web/parts/organization-person-profiles.html.twig' %}
             </div>
         {% endif %}
-        <!-- END: ORGANIZATION INFO -->
     </main>
 {% endblock %}
