@@ -9,5 +9,5 @@
     'b_url': path('oswis_org_oswis_address_book_organization', {'slug': organization.slug}),
     'b_title': organization.shortName,
     'b_position': breadcrumb_index,
-    'b_active': b_active,} %}
+    'b_active': b_active|default,} %}
 {{- null -}}
