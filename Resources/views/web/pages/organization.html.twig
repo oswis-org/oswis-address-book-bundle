@@ -10,3 +10,11 @@
         {% endif %}
     </main>
 {% endblock %}
+
+{% block body_breadcrumbs %}
+    {% if organization is defined and organization %}
+        {% include '@OswisOrgOswisAddressBook/web/parts/organization-breadcrumbs.html.twig' %}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{% endblock body_breadcrumbs %}

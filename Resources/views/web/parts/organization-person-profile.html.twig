@@ -8,7 +8,7 @@
             <meta itemprop="alternateName" content="{{ contact.nickname|default(contact.givenName)|default }}">
             {% if position.active and position.special %}
                 <h4 class="text-uppercase">
-                    <div itemprop="jobTitle" title="{{ position.name }}">{{ position.shortName }}</div>
+                    <span itemprop="jobTitle" title="{{ position.name }}">{{ position.shortName }}</span>
                 </h4>
             {% endif %}
         </div>

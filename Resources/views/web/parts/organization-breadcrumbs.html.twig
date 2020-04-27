@@ -1,0 +1,8 @@
+{% extends '@OswisOrgOswisCore/web/parts/breadcrumbs.html.twig' %}
+
+{% block breadcrumb_additional %}
+    {% include '@OswisOrgOswisAddressBook/web/parts/breadcrumb-organization-parent.html.twig'
+        with {'organization': organization, 'b_active': true} %}
+{% endblock breadcrumb_additional %}
+{% block breadcrumb_last %}
+{% endblock breadcrumb_last %}

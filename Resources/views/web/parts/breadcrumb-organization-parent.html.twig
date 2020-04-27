@@ -1,0 +1,13 @@
+{{- null -}}
+{% if organization.parentOrganization is defined and organization.parentOrganization %}
+    {% include '@OswisOrgOswisAddressBook/web/parts/breadcrumb-organization-parent.html.twig'
+        with {'event': organization.parentOrganization, 'b_active': false} %}
+{% endif %}
+{{- null -}}
+{% include '@OswisOrgOswisCore/web/parts/breadcrumb-item.html.twig'
+    with {
+    'b_url': path('oswis_org_oswis_address_book_organization', {'slug': organization.slug}),
+    'b_title': event.shortName,
+    'b_position': breadcrumb_index,
+    'b_active': b_active,} %}
+{{- null -}}
