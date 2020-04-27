@@ -10,6 +10,7 @@ use OswisOrg\OswisAddressBookBundle\Entity\Organization;
 use OswisOrg\OswisAddressBookBundle\Provider\OswisAddressBookSettingsProvider;
 use OswisOrg\OswisAddressBookBundle\Service\OrganizationService;
 use OswisOrg\OswisCoreBundle\Exceptions\OswisNotFoundException;
+use RdKafka\Metadata\Collection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -19,8 +20,10 @@ class OrganizationController extends AbstractController
 
     public OswisAddressBookSettingsProvider $addressBookSettings;
 
-    public function __construct(OrganizationService $organizationService, OswisAddressBookSettingsProvider $addressBookSettings)
-    {
+    public function __construct(
+        OrganizationService $organizationService,
+        OswisAddressBookSettingsProvider $addressBookSettings
+    ) {
         $this->addressBookSettings = $addressBookSettings;
         $this->organizationService = $organizationService;
     }
@@ -78,11 +81,11 @@ class OrganizationController extends AbstractController
      */
     public function showOrganizationPage(?string $slug = null): Response
     {
-        $organization = empty($slug) ? $this->getDefaultOrganization() : $this->getOrganization($slug);
-        if (!empty($slug) && $this->getDefaultOrganization() && $slug === $this->getDefaultOrganization()
-                ->getSlug()) {
-            $this->redirectToRoute('oswis_org_oswis_address_book_organization');
+        $defaultOrganization = $this->getDefaultOrganization();
+        if (empty($slug) && null !== $defaultOrganization) {
+            return $this->redirectToRoute('oswis_org_oswis_address_book_organization', ['slug' => $defaultOrganization->getSlug()]);
         }
+        $organization = $this->getOrganization($slug);
         if (null === $organization) {
             throw new OswisNotFoundException('Organizace nenalezena.');
         }
@@ -91,7 +94,8 @@ class OrganizationController extends AbstractController
             '@OswisOrgOswisAddressBook/web/pages/organization.html.twig',
             [
                 'organization' => $organization,
-                'title'        => $this->isDefaultOrganization($organization) ? 'O nás' : $organization->getName(),
+                'title'        => ($this->isDefaultOrganization($organization) ? 'O nás :: ' : '').$organization->getName(),
+                'breadcrumbs'  => $this->getBreadCrumbs(),
             ]
         );
     }
@@ -99,5 +103,15 @@ class OrganizationController extends AbstractController
     public function isDefaultOrganization(?Organization $organization): bool
     {
         return $organization && $this->getDefaultOrganization() === $organization;
+    }
+
+    public function getBreadCrumbs(): array
+    {
+        return [
+            [
+                'url'   => $this->generateUrl('oswis_org_oswis_address_book_organization'),
+                'title' => 'Organizace',
+            ],
+        ];
     }
 }

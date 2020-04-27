@@ -1,18 +1,22 @@
 <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" title="{{ contact.nickname|default }}" itemprop="member"
      itemscope itemtype='{{ contact.person ? 'http://schema.org/Person' : 'http://schema.org/Organization' }}'>
-    <article class="contact {{ contact.genderClass|default }}" id="{{ contact.slug|default }}">
-        <div content="{{ asset('/images/contacts/'~contact.image) }}" class="contact-image-box text-uppercase"
-             style="background-image: url({{ asset('/images/contacts/'~contact.image) }})" itemprop="image">
+    <article class="profile {{ contact.gender|default }}" id="{{ contact.slug|default }}">
+        <div class="profile-image-box text-uppercase" itemprop="image"
+             style="background-image: url({{ asset(contact.image ? '/images/contacts/'~contact.image : 'assets/images/seznamovak/kytka-512-upscale.png') }})"
+             content="{{ asset(contact.image ? '/images/contacts/'~contact.image : 'assets/images/seznamovak/kytka-512-upscale.png') }}">
             <h3 itemprop="name">{{ contact.name }}</h3>
-            {% for position in contact.positions|filter(p => p.active and p.special) %}
-                <h4 itemprop="jobTitle" class="text-uppercase" title="{{ position.name }}">{{ position.shortName }}</h4>
-            {% endfor %}
+            <meta itemprop="alternateName" content="{{ contact.nickname|default(contact.givenName)|default }}">
+            {% if position.active and position.special %}
+                <h4 class="text-uppercase">
+                    <div itemprop="jobTitle" title="{{ position.name }}">{{ position.shortName }}</div>
+                </h4>
+            {% endif %}
         </div>
-        <div class="first-line" title="{{ contact.description|default|markdown_to_html|striptags }}">
-            {{ contact.description|default|markdown_to_html }}
+        <div class="first-line" title="{{ position.description|default|markdown_to_html|striptags }}">
+            {{ position.description|default|markdown_to_html }}
         </div>
         <div itemprop="description">
-            {{ contact.note|default|markdown_to_html }}
+            {{ position.note|default|markdown_to_html }}
         </div>
     </article>
 </div>
