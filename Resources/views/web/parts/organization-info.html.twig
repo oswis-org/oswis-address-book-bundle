@@ -31,8 +31,9 @@
                 </span>
         </div>
         <div class="d-lg-none col-md-4 col-sm-3 col-xs-2 d-print-none"></div>
-        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-8 text-uppercase center-block text-center d-print-none">
-            <div id="small-banner" style="background-image: url('{{ asset('/images/contacts/'~organization.image) }}')"></div>
+        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-8">
+            {{ render_hinclude(controller('OswisOrg\\OswisCoreBundle\\Controller\\Website\\WebBannerController::showWebBanner',
+                {'type': 'organization', 'identifier': organization.id})) }}
         </div>
     </div>
 {% endif %}
