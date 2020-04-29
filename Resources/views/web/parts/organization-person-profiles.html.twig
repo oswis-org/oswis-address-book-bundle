@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-12">
+    <div class="col-12 mt-5">
         <h3>Aktuální tým</h3>
     </div>
     {% for position in organization.memberAndEmployeePositions|default|filter(p => p.publicOnWeb or true) %}
