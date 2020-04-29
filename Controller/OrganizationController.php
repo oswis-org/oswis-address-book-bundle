@@ -10,7 +10,6 @@ use OswisOrg\OswisAddressBookBundle\Entity\Organization;
 use OswisOrg\OswisAddressBookBundle\Provider\OswisAddressBookSettingsProvider;
 use OswisOrg\OswisAddressBookBundle\Service\OrganizationService;
 use OswisOrg\OswisCoreBundle\Exceptions\OswisNotFoundException;
-use RdKafka\Metadata\Collection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
