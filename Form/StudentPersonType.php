@@ -35,7 +35,7 @@ class StudentPersonType extends AbstractType
                 )
             )
             ->add(
-                'studyPositions',
+                'studies',
                 CollectionType::class,
                 array(
                     'label'         => 'Fakulta',
