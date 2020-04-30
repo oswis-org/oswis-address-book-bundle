@@ -183,7 +183,7 @@ class Person extends AbstractPerson
     public function getSchools(?DateTime $dateTime = null): Collection
     {
         $out = new ArrayCollection();
-        $this->getStudyPositions($dateTime)
+        $this->getStudies($dateTime)
             ->map(fn(Position $p) => $out->contains($p->getOrganization()) ? null : $out->add($p->getOrganization()));
 
         return $out;

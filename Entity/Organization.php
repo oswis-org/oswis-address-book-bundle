@@ -140,7 +140,7 @@ class Organization extends AbstractOrganization
     public function getStudents(?DateTime $dateTime = null, bool $recursive = false): Collection
     {
         $out = new ArrayCollection();
-        $this->getStudyPositions($dateTime, $recursive)
+        $this->getStudies($dateTime, $recursive)
             ->map(
                 fn(Position $p) => $out->contains($p->getPerson()) ? null : $out->add($p->getPerson())
             );
