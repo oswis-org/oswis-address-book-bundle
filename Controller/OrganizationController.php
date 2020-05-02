@@ -72,6 +72,11 @@ class OrganizationController extends AbstractController
         return $organization;
     }
 
+    public function aboutUs(): Response
+    {
+        return $this->redirectToRoute('oswis_org_oswis_address_book_organization');
+    }
+
     /**
      * @param string|null $slug
      *

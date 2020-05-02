@@ -3,3 +3,7 @@
 oswis_org_oswis_address_book_organization:
     controller: oswis_org_oswis_address_book.organization_controller::showOrganizationPage
     path: "/organizace/{slug?}"
+
+oswis_org_oswis_address_book_about_us:
+    controller: oswis_org_oswis_address_book.organization_controller::aboutUs
+    path: "/o-nas"
