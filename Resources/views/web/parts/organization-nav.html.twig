@@ -2,12 +2,12 @@
     <div class="badges clearfix text-wrap mb-3 font-1-5-rem">
         {% if organization.parentOrganization is defined and organization.parentOrganization %}
             <a href="{{ path('oswis_org_oswis_address_book_organization', {'slug': organization.parentOrganization.slug}) }}" class="badge badge-success">
-                {{ navEvent.getShortName }}
+                {{ organization.parentOrganization.getShortName }}
             </a>
         {% endif %}
         {% for subOrganization in organization.subOrganizations|default %}
             <a href="{{ path('oswis_org_oswis_address_book_organization', {'eventSlug': subOrganization.slug}) }}" class="badge badge-light">
-                {{ navEvent.getShortName }}
+                {{ subOrganization.getShortName }}
             </a>
         {% endfor %}
     </div>
