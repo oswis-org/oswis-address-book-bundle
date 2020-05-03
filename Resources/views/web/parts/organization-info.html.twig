@@ -1,10 +1,10 @@
 {% if organization|default %}
     <div class="row">
-        <header class="col-lg-12 text-justify">
+        <header class="col-lg-12 text-left">
             <h2 class="text-uppercase">
                 <i class="fas fa-users"></i>
-                <span class="d-inline d-md-none">{{ organization.shortName }}</span>
-                <span class="d-none d-md-inline">{{ organization.name }}</span>
+                <span class="d-inline d-lg-none">{{ organization.shortName }}</span>
+                <span class="d-none d-lg-inline">{{ organization.name }}</span>
             </h2>
         </header>
         <div itemprop="description" class="col-12">{{ organization.description|default|markdown_to_html }}</div>
@@ -19,7 +19,7 @@
                     (IČ: <span itemprop="identifier">{{ organization.identificationNumber }}</span>)
                 {% endif %}
             </p>
-            {% for detail in organization.details %}
+            {% for detail in organization.details|filter(d => d.publicOnWeb)|default %}
                 <p class="mb-2">
                     <strong>{{ detail.typeName|default('Kontakt') }}:</strong>
                     {% autoescape false %}{{ detail.formatted }}{% endautoescape %}

@@ -1,15 +1,15 @@
 <nav>
-    <div class="badges clearfix text-wrap mb-3 font-1-5-rem text-center">
-        {% if organization.parentOrganization is defined and organization.parentOrganization %}
-            <a href="{{ path('oswis_org_oswis_address_book_organization', {'slug': organization.parentOrganization.slug}) }}" class="badge badge-success" data-toggle="tooltip"
+    <div class="badges clearfix text-wrap mb-3 font-1-5rem">
+        {% if organization.parentOrganization|default %}
+            <a href="{{ path('oswis_org_oswis_address_book_organization', {'slug': organization.parentOrganization.slug}) }}" class="badge badge-warning" data-toggle="tooltip"
                itemprop="parentOrganization" content="{{ organization.parentOrganization.name }}" title="{{ organization.parentOrganization.name }}">
-                <i class="fas fa-arrow-up"></i> <span>{{ organization.parentOrganization.shortName }}</span>
+                <i class="fas fa-arrow-up"></i> {{ organization.parentOrganization.shortName }}
             </a>
         {% endif %}
         {% for subOrganization in organization.subOrganizations|default %}
-            <a href="{{ path('oswis_org_oswis_address_book_organization', {'eventSlug': subOrganization.slug}) }}" class="badge badge-light" data-toggle="tooltip"
+            <a href="{{ path('oswis_org_oswis_address_book_organization', {'slug': subOrganization.slug}) }}" class="badge badge-light" data-toggle="tooltip"
                itemprop="subOrganization" content="{{ subOrganization.name }}" title="{{ subOrganization.name }}">
-                <i class="fas fa-sitemap"></i> <span>{{ subOrganization.shortName }}</span>
+                <i class="fas fa-sitemap"></i> {{ subOrganization.shortName }}
             </a>
         {% endfor %}
     </div>
