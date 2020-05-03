@@ -8,8 +8,10 @@ namespace OswisOrg\OswisAddressBookBundle\Entity;
 
 use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use OswisOrg\OswisCoreBundle\Entity\Nameable;
+use OswisOrg\OswisCoreBundle\Entity\Publicity;
 use OswisOrg\OswisCoreBundle\Interfaces\BasicEntityInterface;
 use OswisOrg\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
+use OswisOrg\OswisCoreBundle\Traits\Entity\EntityPublicTrait;
 use OswisOrg\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
 use OswisOrg\OswisCoreBundle\Traits\Entity\PriorityTrait;
 use function filter_var;
@@ -25,6 +27,7 @@ class ContactDetail implements BasicEntityInterface
     use BasicEntityTrait;
     use PriorityTrait;
     use NameableBasicTrait;
+    use EntityPublicTrait;
 
     /**
      * Type of this contact.
@@ -45,12 +48,18 @@ class ContactDetail implements BasicEntityInterface
      */
     protected ?string $content = null;
 
-    public function __construct(?ContactDetailType $type = null, ?string $content = null, ?Nameable $nameable = null, ?AbstractContact $contact = null)
-    {
+    public function __construct(
+        ?ContactDetailType $type = null,
+        ?string $content = null,
+        ?Nameable $nameable = null,
+        ?Publicity $publicity = null,
+        ?AbstractContact $contact = null
+    ) {
         $this->setContact($contact);
         $this->setDetailType($type);
         $this->setContent($content);
         $this->setFieldsFromNameable($nameable);
+        $this->setFieldsFromPublicity($publicity);
     }
 
     public function getContact(): ?AbstractContact
