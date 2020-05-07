@@ -44,8 +44,7 @@ class OrganizationController extends AbstractController
     {
         $organization = $this->getDefaultOrganization();
         if (!empty($slug)) {
-            $organization = $this->organizationService->getRepository()
-                ->findOneBy(['slug' => $slug, 'publicOnWeb' => true,]);
+            $organization = $this->organizationService->getRepository()->findOneBy(['slug' => $slug, 'publicOnWeb' => true,]);
         }
 
         return $organization;
@@ -55,19 +54,17 @@ class OrganizationController extends AbstractController
     {
         $organization = null;
         if (null !== $this->addressBookSettings->getPrimary()) {
-            $organization = $this->organizationService->getRepository()
-                ->findOneBy(
-                    [
-                        'slug'        => $this->addressBookSettings->getPrimary(),
-                        'publicOnWeb' => true,
-                    ]
-                );
+            $organization = $this->organizationService->getRepository()->findOneBy(
+                [
+                    'slug'        => $this->addressBookSettings->getPrimary(),
+                    'publicOnWeb' => true,
+                ]
+            );
         }
-        $organization ??= $this->organizationService->getRepository()
-                ->findBy(
-                    ['publicOnWeb' => true],
-                    ['id' => 'ASC']
-                )[0] ?? null;
+        $organization ??= $this->organizationService->getRepository()->findBy(
+                ['publicOnWeb' => true],
+                ['id' => 'ASC']
+            )[0] ?? null;
 
         return $organization;
     }

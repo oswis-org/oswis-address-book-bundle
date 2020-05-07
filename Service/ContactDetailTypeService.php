@@ -9,7 +9,7 @@ namespace OswisOrg\OswisAddressBookBundle\Service;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use OswisOrg\OswisAddressBookBundle\Entity\ContactDetailType;
-use OswisOrg\OswisCoreBundle\Entity\Nameable;
+use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
 use Psr\Log\LoggerInterface;
 
 class ContactDetailTypeService

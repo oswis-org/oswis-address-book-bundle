@@ -114,3 +114,13 @@ services:
     OswisOrg\OswisAddressBookBundle\Controller\OrganizationController:
         alias: oswis_org_oswis_address_book.organization_controller
         public: true
+
+
+    ### AGE UTILS
+    oswis_org_oswis_address_book.oswis_address_book_age_utils:
+        class: OswisOrg\OswisAddressBookBundle\Utils\AgeUtils
+        autowire: true
+        public: true
+    OswisOrg\OswisAddressBookBundle\Utils\AgeUtils:
+        alias: oswis_org_oswis_address_book.oswis_address_book_age_utils
+        public: true

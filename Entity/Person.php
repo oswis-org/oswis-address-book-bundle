@@ -16,8 +16,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use InvalidArgumentException;
 use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractPerson;
-use OswisOrg\OswisCoreBundle\Entity\AppUser;
-use OswisOrg\OswisCoreBundle\Entity\Publicity;
+use OswisOrg\OswisCoreBundle\Entity\AppUser\AppUser;
+use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Publicity;
 use OswisOrg\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
 use Vokativ\Name as VokativName;
 use function assert;
@@ -160,8 +160,7 @@ class Person extends AbstractPerson
     public function getEmployers(?DateTime $dateTime = null): Collection
     {
         $out = new ArrayCollection();
-        $this->getMemberAndEmployeePositions($dateTime)
-            ->map(fn(Position $p) => $out->contains($p->getOrganization()) ? null : $out->add($p->getOrganization()));
+        $this->getMemberAndEmployeePositions($dateTime)->map(fn(Position $p) => $out->contains($p->getOrganization()) ? null : $out->add($p->getOrganization()));
 
         return $out;
     }
@@ -183,8 +182,7 @@ class Person extends AbstractPerson
     public function getSchools(?DateTime $dateTime = null): Collection
     {
         $out = new ArrayCollection();
-        $this->getStudies($dateTime)
-            ->map(fn(Position $p) => $out->contains($p->getOrganization()) ? null : $out->add($p->getOrganization()));
+        $this->getStudies($dateTime)->map(fn(Position $p) => $out->contains($p->getOrganization()) ? null : $out->add($p->getOrganization()));
 
         return $out;
     }

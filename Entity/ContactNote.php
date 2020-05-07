@@ -7,8 +7,8 @@
 namespace OswisOrg\OswisAddressBookBundle\Entity;
 
 use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
-use OswisOrg\OswisCoreBundle\Interfaces\BasicEntityInterface;
-use OswisOrg\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
+use OswisOrg\OswisCoreBundle\Interfaces\Common\BasicEntityInterface;
+use OswisOrg\OswisCoreBundle\Traits\Common\BasicEntityTrait;
 
 /**
  * @Doctrine\ORM\Mapping\Entity()

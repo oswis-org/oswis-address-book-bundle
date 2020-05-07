@@ -8,8 +8,8 @@ namespace OswisOrg\OswisAddressBookBundle\Service;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use OswisOrg\OswisAddressBookBundle\Entity\Place;
-use OswisOrg\OswisCoreBundle\Entity\Address;
-use OswisOrg\OswisCoreBundle\Entity\Nameable;
+use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
+use OswisOrg\OswisCoreBundle\Entity\NonPersistent\PostalAddress;
 use Psr\Log\LoggerInterface;
 
 class PlaceService
@@ -26,7 +26,7 @@ class PlaceService
 
     public function create(
         ?Nameable $nameable = null,
-        ?Address $address = null,
+        ?PostalAddress $address = null,
         ?Place $parentPlace = null,
         ?int $floorNumber = null,
         ?int $roomNumber = null,

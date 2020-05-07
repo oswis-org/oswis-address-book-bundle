@@ -14,8 +14,8 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractOrganization;
-use OswisOrg\OswisCoreBundle\Entity\Nameable;
-use OswisOrg\OswisCoreBundle\Entity\Publicity;
+use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
+use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Publicity;
 use OswisOrg\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
 
 /**
@@ -140,10 +140,9 @@ class Organization extends AbstractOrganization
     public function getStudents(?DateTime $dateTime = null, bool $recursive = false): Collection
     {
         $out = new ArrayCollection();
-        $this->getStudies($dateTime, $recursive)
-            ->map(
-                fn(Position $p) => $out->contains($p->getPerson()) ? null : $out->add($p->getPerson())
-            );
+        $this->getStudies($dateTime, $recursive)->map(
+            fn(Position $p) => $out->contains($p->getPerson()) ? null : $out->add($p->getPerson())
+        );
 
         return $out;
     }
@@ -151,10 +150,9 @@ class Organization extends AbstractOrganization
     public function getMembers(?DateTime $dateTime = null, bool $recursive = false): Collection
     {
         $out = new ArrayCollection();
-        $this->getMemberPositions($dateTime, $recursive)
-            ->map(
-                fn(Position $p) => $out->contains($p->getPerson()) ? null : $out->add($p->getPerson())
-            );
+        $this->getMemberPositions($dateTime, $recursive)->map(
+            fn(Position $p) => $out->contains($p->getPerson()) ? null : $out->add($p->getPerson())
+        );
 
         return $out;
     }
@@ -162,10 +160,9 @@ class Organization extends AbstractOrganization
     public function getMembersAndEmployees(?DateTime $dateTime = null, bool $recursive = false): Collection
     {
         $out = new ArrayCollection();
-        $this->getMemberAndEmployeePositions($dateTime, $recursive)
-            ->map(
-                fn(Position $p) => $out->contains($p->getPerson()) ? null : $out->add($p->getPerson())
-            );
+        $this->getMemberAndEmployeePositions($dateTime, $recursive)->map(
+            fn(Position $p) => $out->contains($p->getPerson()) ? null : $out->add($p->getPerson())
+        );
 
         return $out;
     }
@@ -173,10 +170,9 @@ class Organization extends AbstractOrganization
     public function getEmployees(?DateTime $dateTime = null, bool $recursive = false): Collection
     {
         $out = new ArrayCollection();
-        $this->getEmployeePositions($dateTime, $recursive)
-            ->map(
-                fn(Position $p) => $out->contains($p->getPerson()) ? null : $out->add($p->getPerson())
-            );
+        $this->getEmployeePositions($dateTime, $recursive)->map(
+            fn(Position $p) => $out->contains($p->getPerson()) ? null : $out->add($p->getPerson())
+        );
 
         return $out;
     }
@@ -184,10 +180,9 @@ class Organization extends AbstractOrganization
     public function getManagers(?DateTime $dateTime = null, bool $recursive = false): Collection
     {
         $out = new ArrayCollection();
-        $this->getManagerPositions($dateTime, $recursive)
-            ->map(
-                fn(Position $p) => $out->contains($p->getPerson()) ? null : $out->add($p->getPerson())
-            );
+        $this->getManagerPositions($dateTime, $recursive)->map(
+            fn(Position $p) => $out->contains($p->getPerson()) ? null : $out->add($p->getPerson())
+        );
 
         return $out;
     }
@@ -199,10 +194,7 @@ class Organization extends AbstractOrganization
 
         return $positions->filter(
             static function (Position $p) use ($act) {
-                if ($act && (!$p->getPerson() || !$p->getPerson()
-                            ->getAppUser() || !$p->getPerson()
-                            ->getAppUser()
-                            ->getAccountActivationDateTime())) {
+                if ($act && (!$p->getPerson() || !$p->getPerson()->getAppUser() || !$p->getPerson()->getAppUser()->getAccountActivationDateTime())) {
                     return false;
                 }
 
@@ -235,8 +227,7 @@ class Organization extends AbstractOrganization
 
     public function filterSubOrganizationsByType(string $type): Collection
     {
-        return $this->getSubOrganizations()
-            ->filter(fn(Organization $organization): bool => $type === $organization->getType());
+        return $this->getSubOrganizations()->filter(fn(Organization $organization): bool => $type === $organization->getType());
     }
 
     public function getSubOrganizations(): Collection
@@ -246,8 +237,7 @@ class Organization extends AbstractOrganization
 
     public function getPath(): string
     {
-        return $this->getParentOrganization() ? '-&gt;'.$this->getParentOrganization()
-                ->getPath() : $this->getName();
+        return $this->getParentOrganization() ? '-&gt;'.$this->getParentOrganization()->getPath() : $this->getName();
     }
 
     public function getParentOrganization(): ?Organization
@@ -269,7 +259,6 @@ class Organization extends AbstractOrganization
 
     public function getIdentificationNumberFromParents(): ?string
     {
-        return $this->getIdentificationNumber() ?? ($this->getParentOrganization() ? $this->getParentOrganization()
-                ->getIdentificationNumberFromParents() : null) ?? null;
+        return $this->getIdentificationNumber() ?? ($this->getParentOrganization() ? $this->getParentOrganization()->getIdentificationNumberFromParents() : null) ?? null;
     }
 }

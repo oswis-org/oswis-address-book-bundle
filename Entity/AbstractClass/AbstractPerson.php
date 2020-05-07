@@ -9,14 +9,17 @@ namespace OswisOrg\OswisAddressBookBundle\Entity\AbstractClass;
 use DateTime;
 use Doctrine\Common\Collections\Collection;
 use Exception;
-use OswisOrg\OswisCoreBundle\Entity\Publicity;
-use OswisOrg\OswisCoreBundle\Traits\Entity\PersonBasicTrait;
+use OswisOrg\OswisAddressBookBundle\Traits\BirthDateTrait;
+use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Publicity;
+use OswisOrg\OswisCoreBundle\Interfaces\AddressBook\PersonInterface;
+use OswisOrg\OswisCoreBundle\Traits\AddressBook\PersonBasicTrait;
 
-abstract class AbstractPerson extends AbstractContact
+abstract class AbstractPerson extends AbstractContact implements PersonInterface
 {
     public const ALLOWED_TYPES = ['person'];
 
     use PersonBasicTrait;
+    use BirthDateTrait;
 
     public function __construct(
         ?string $fullName = null,

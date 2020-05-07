@@ -13,14 +13,13 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
 use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
-use OswisOrg\OswisCoreBundle\Entity\Nameable;
+use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
 use OswisOrg\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
-use OswisOrg\OswisCoreBundle\Interfaces\BasicEntityInterface;
-use OswisOrg\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
-use OswisOrg\OswisCoreBundle\Traits\Entity\DateRangeTrait;
-use OswisOrg\OswisCoreBundle\Traits\Entity\EntityPublicTrait;
-use OswisOrg\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
-use OswisOrg\OswisCoreBundle\Traits\Entity\TypeTrait;
+use OswisOrg\OswisCoreBundle\Interfaces\Common\NameableEntityInterface;
+use OswisOrg\OswisCoreBundle\Traits\Common\DateRangeTrait;
+use OswisOrg\OswisCoreBundle\Traits\Common\EntityPublicTrait;
+use OswisOrg\OswisCoreBundle\Traits\Common\NameableBasicTrait;
+use OswisOrg\OswisCoreBundle\Traits\Common\TypeTrait;
 use function in_array;
 
 /**
@@ -61,7 +60,7 @@ use function in_array;
  * })
  * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
-class Position implements BasicEntityInterface
+class Position implements NameableEntityInterface
 {
     public const TYPE_EMPLOYEE = 'employee';
     public const TYPE_MEMBER = 'member';
@@ -77,7 +76,6 @@ class Position implements BasicEntityInterface
     public const MEMBER_POSITION_TYPES = [self::TYPE_MEMBER, ...self::MANAGER_POSITION_TYPES];
     public const EMPLOYEE_MEMBER_POSITION_TYPES = [self::TYPE_MEMBER, self::TYPE_EMPLOYEE, ...self::MANAGER_POSITION_TYPES];
 
-    use BasicEntityTrait;
     use NameableBasicTrait;
     use DateRangeTrait;
     use TypeTrait;
@@ -258,10 +256,7 @@ class Position implements BasicEntityInterface
 
     public function getGenderCssClass(): string
     {
-        return null === $this->getPerson()
-            ? AbstractContact::GENDER_UNISEX
-            : $this->getPerson()
-                ->getGender();
+        return null === $this->getPerson() ? AbstractContact::GENDER_UNISEX : $this->getPerson()->getGender();
     }
 
     public function getPerson(): ?Person

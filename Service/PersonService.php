@@ -41,8 +41,7 @@ class PersonService
 
     public function updateActiveRevisions(): void
     {
-        foreach ($this->em->getRepository(Person::class)
-                     ->findAll() as $person) {
+        foreach ($this->em->getRepository(Person::class)->findAll() as $person) {
             assert($person instanceof Person);
             $person->destroyRevisions();
             $this->em->persist($person);

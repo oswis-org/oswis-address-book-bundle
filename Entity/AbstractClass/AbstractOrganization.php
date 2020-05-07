@@ -7,11 +7,11 @@
 namespace OswisOrg\OswisAddressBookBundle\Entity\AbstractClass;
 
 use Doctrine\Common\Collections\Collection;
-use OswisOrg\OswisCoreBundle\Entity\Nameable;
-use OswisOrg\OswisCoreBundle\Entity\Publicity;
-use OswisOrg\OswisCoreBundle\Traits\Entity\ColorTrait;
-use OswisOrg\OswisCoreBundle\Traits\Entity\IdentificationNumberTrait;
-use OswisOrg\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
+use OswisOrg\OswisAddressBookBundle\Traits\IdentificationNumberTrait;
+use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
+use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Publicity;
+use OswisOrg\OswisCoreBundle\Traits\Common\ColorTrait;
+use OswisOrg\OswisCoreBundle\Traits\Common\NameableBasicTrait;
 
 abstract class AbstractOrganization extends AbstractContact
 {

@@ -22,18 +22,17 @@ class EmployerPositionType extends AbstractType
                 'label'    => false,
                 'required' => $options['content_required'],
             ]
-        )
-            ->add(
-                'name',
-                null,
-                array(
-                    'label'    => 'Pozice ve společnosti',
-                    'required' => false,
-                    'attr'     => [
-                        'autocomplete' => 'organization-title',
-                    ],
-                )
-            );
+        )->add(
+            'name',
+            null,
+            array(
+                'label'    => 'Pozice ve společnosti',
+                'required' => false,
+                'attr'     => [
+                    'autocomplete' => 'organization-title',
+                ],
+            )
+        );
     }
 
     /**

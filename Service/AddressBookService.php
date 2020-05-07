@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use OswisOrg\OswisAddressBookBundle\Entity\AddressBook\AddressBook;
 use OswisOrg\OswisAddressBookBundle\Repository\AddressBookRepository;
-use OswisOrg\OswisCoreBundle\Entity\Nameable;
+use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
 use Psr\Log\LoggerInterface;
 
 class AddressBookService

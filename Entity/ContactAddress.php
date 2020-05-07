@@ -8,9 +8,9 @@ namespace OswisOrg\OswisAddressBookBundle\Entity;
 
 use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractAddress;
 use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
-use OswisOrg\OswisCoreBundle\Entity\Address;
-use OswisOrg\OswisCoreBundle\Entity\Nameable;
-use OswisOrg\OswisCoreBundle\Traits\Entity\PriorityTrait;
+use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
+use OswisOrg\OswisCoreBundle\Entity\NonPersistent\PostalAddress;
+use OswisOrg\OswisCoreBundle\Traits\Common\PriorityTrait;
 
 /**
  * @Doctrine\ORM\Mapping\Entity
@@ -27,7 +27,7 @@ class ContactAddress extends AbstractAddress
      */
     protected ?AbstractContact $contact = null;
 
-    public function __construct(Nameable $nameable = null, Address $address = null, ?int $priority = null, ?AbstractContact $contact = null)
+    public function __construct(Nameable $nameable = null, PostalAddress $address = null, ?int $priority = null, ?AbstractContact $contact = null)
     {
         $this->setContact($contact);
         $this->setFieldsFromNameable($nameable);

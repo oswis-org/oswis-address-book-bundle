@@ -9,10 +9,9 @@ namespace OswisOrg\OswisAddressBookBundle\Entity\AddressBook;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
-use OswisOrg\OswisCoreBundle\Entity\Nameable;
-use OswisOrg\OswisCoreBundle\Interfaces\BasicEntityInterface;
-use OswisOrg\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
-use OswisOrg\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
+use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
+use OswisOrg\OswisCoreBundle\Interfaces\Common\NameableEntityInterface;
+use OswisOrg\OswisCoreBundle\Traits\Common\NameableBasicTrait;
 use function assert;
 
 /**
@@ -20,9 +19,8 @@ use function assert;
  * @Doctrine\ORM\Mapping\Table(name="address_book_address_book")
  * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_address_book")
  */
-class AddressBook implements BasicEntityInterface
+class AddressBook implements NameableEntityInterface
 {
-    use BasicEntityTrait;
     use NameableBasicTrait;
 
     /**
@@ -49,16 +47,14 @@ class AddressBook implements BasicEntityInterface
 
     public function containsContact(AbstractContact $contact): bool
     {
-        return $this->getContacts()
-            ->contains($contact);
+        return $this->getContacts()->contains($contact);
     }
 
     public function getContacts(): Collection
     {
-        return $this->getAddressBookContactConnections()
-            ->map(
-                fn(AddressBookContactConnection $addressBookContactConnection): AbstractContact => $addressBookContactConnection->getContact()
-            );
+        return $this->getAddressBookContactConnections()->map(
+            fn(AddressBookContactConnection $addressBookContactConnection): AbstractContact => $addressBookContactConnection->getContact()
+        );
     }
 
     public function getAddressBookContactConnections(): Collection
@@ -102,8 +98,7 @@ class AddressBook implements BasicEntityInterface
     {
         foreach ($this->getAddressBookContactConnections() as $addressBookContactConnection) {
             assert($addressBookContactConnection instanceof AddressBookContactConnection);
-            if ($addressBookContactConnection->getContact() && $contact->getId() === $addressBookContactConnection->getContact()
-                    ->getId()) {
+            if ($addressBookContactConnection->getContact() && $contact->getId() === $addressBookContactConnection->getContact()->getId()) {
                 $this->removeAddressBookContactConnection($addressBookContactConnection);
             }
         }

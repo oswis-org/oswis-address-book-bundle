@@ -7,13 +7,12 @@
 namespace OswisOrg\OswisAddressBookBundle\Entity;
 
 use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
-use OswisOrg\OswisCoreBundle\Entity\Nameable;
-use OswisOrg\OswisCoreBundle\Entity\Publicity;
-use OswisOrg\OswisCoreBundle\Interfaces\BasicEntityInterface;
-use OswisOrg\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
-use OswisOrg\OswisCoreBundle\Traits\Entity\EntityPublicTrait;
-use OswisOrg\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
-use OswisOrg\OswisCoreBundle\Traits\Entity\PriorityTrait;
+use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
+use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Publicity;
+use OswisOrg\OswisCoreBundle\Interfaces\Common\NameableEntityInterface;
+use OswisOrg\OswisCoreBundle\Traits\Common\EntityPublicTrait;
+use OswisOrg\OswisCoreBundle\Traits\Common\NameableBasicTrait;
+use OswisOrg\OswisCoreBundle\Traits\Common\PriorityTrait;
 use function filter_var;
 use function htmlspecialchars;
 
@@ -22,9 +21,8 @@ use function htmlspecialchars;
  * @Doctrine\ORM\Mapping\Table(name="address_book_contact_detail")
  * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
-class ContactDetail implements BasicEntityInterface
+class ContactDetail implements NameableEntityInterface
 {
-    use BasicEntityTrait;
     use PriorityTrait;
     use NameableBasicTrait;
     use EntityPublicTrait;
@@ -81,12 +79,11 @@ class ContactDetail implements BasicEntityInterface
     public function getFormatted(): ?string
     {
         if (null !== $this->getDetailType()) {
-            return $this->getDetailType()
-                ->getFormatted(
-                    filter_var($this->getContent(), FILTER_SANITIZE_URL).'',
-                    htmlspecialchars($this->getDescription()).null,
-                    htmlspecialchars($this->getName()).null,
-                );
+            return $this->getDetailType()->getFormatted(
+                filter_var($this->getContent(), FILTER_SANITIZE_URL).'',
+                htmlspecialchars($this->getDescription()).null,
+                htmlspecialchars($this->getName()).null,
+            );
         }
 
         return $this->getContent();

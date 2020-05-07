@@ -11,15 +11,14 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use OswisOrg\OswisCoreBundle\Entity\Address;
-use OswisOrg\OswisCoreBundle\Entity\Nameable;
+use OswisOrg\OswisAddressBookBundle\Traits\GeoCoordinatesTrait;
+use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
+use OswisOrg\OswisCoreBundle\Entity\NonPersistent\PostalAddress;
 use OswisOrg\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
-use OswisOrg\OswisCoreBundle\Interfaces\BasicEntityInterface;
-use OswisOrg\OswisCoreBundle\Traits\Entity\AddressTrait;
-use OswisOrg\OswisCoreBundle\Traits\Entity\BasicEntityTrait;
-use OswisOrg\OswisCoreBundle\Traits\Entity\GeoCoordinatesTrait;
-use OswisOrg\OswisCoreBundle\Traits\Entity\NameableBasicTrait;
-use OswisOrg\OswisCoreBundle\Traits\Entity\UrlTrait;
+use OswisOrg\OswisCoreBundle\Interfaces\Common\NameableEntityInterface;
+use OswisOrg\OswisCoreBundle\Traits\AddressBook\AddressTrait;
+use OswisOrg\OswisCoreBundle\Traits\AddressBook\UrlTrait;
+use OswisOrg\OswisCoreBundle\Traits\Common\NameableBasicTrait;
 
 /**
  * @Doctrine\ORM\Mapping\Entity
@@ -64,9 +63,8 @@ use OswisOrg\OswisCoreBundle\Traits\Entity\UrlTrait;
  * })
  * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
-class Place implements BasicEntityInterface
+class Place implements NameableEntityInterface
 {
-    use BasicEntityTrait;
     use NameableBasicTrait;
     use AddressTrait;
     use UrlTrait;
@@ -95,7 +93,7 @@ class Place implements BasicEntityInterface
 
     public function __construct(
         ?Nameable $nameable = null,
-        ?Address $address = null,
+        ?PostalAddress $address = null,
         ?Place $parentPlace = null,
         ?int $floorNumber = null,
         ?int $roomNumber = null,
