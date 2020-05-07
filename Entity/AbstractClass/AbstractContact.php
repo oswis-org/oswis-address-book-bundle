@@ -145,7 +145,7 @@ abstract class AbstractContact implements BasicEntityInterface
     protected ?Collection $addressBookContactConnections = null;
 
     /**
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="OswisOrg\OswisCoreBundle\Entity\AppUser", cascade={"all"}, fetch="EAGER")
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="OswisOrg\OswisCoreBundle\Entity\AppUser\AppUser", cascade={"all"}, fetch="EAGER")
      */
     protected ?AppUser $appUser = null;
 
