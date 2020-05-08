@@ -22,7 +22,7 @@
   ],
   "require": {
     "php": "^7.4",
-    "oswis-org/oswis-core-bundle": "dev-master",
+    "oswis-org/oswis-core-bundle": "^0.0",
     "bigit/vokativ": "dev-master"
   },
   "require-dev": {
