@@ -3,7 +3,7 @@
   "description": "Address book module for One Simple Web IS (OSWIS).",
   "homepage": "https://github.com/oswis-org/oswis-address-book-bundle",
   "type": "symfony-bundle",
-  "minimum-stability": "stable",
+  "minimum-stability": "beta",
   "keywords": [
     "information-system",
     "is",
