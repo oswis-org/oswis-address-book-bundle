@@ -22,7 +22,6 @@ abstract class AbstractPerson extends AbstractContact implements PersonInterface
 
     public function __construct(
         ?Nameable $nameable = null,
-        ?string $description = null,
         ?DateTime $birthDate = null,
         ?string $type = null,
         ?Collection $notes = null,
@@ -33,7 +32,6 @@ abstract class AbstractPerson extends AbstractContact implements PersonInterface
         ?Publicity $publicity = null
     ) {
         parent::__construct($nameable, $type, $notes, $contactDetails, $addresses, $addressBooks, $positions, $publicity);
-        $this->setDescription($description);
         $this->setBirthDate($birthDate);
     }
 }

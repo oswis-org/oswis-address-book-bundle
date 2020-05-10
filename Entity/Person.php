@@ -106,7 +106,6 @@ class Person extends AbstractPerson
 //    protected ?Collection $personSkillConnections = null;
     public function __construct(
         ?Nameable $nameable = null,
-        ?string $description = null,
         ?DateTime $birthDate = null,
         ?string $type = self::TYPE_PERSON,
         ?Collection $notes = null,
@@ -119,7 +118,7 @@ class Person extends AbstractPerson
         ?Publicity $publicity = null
     ) {
         $type ??= self::TYPE_PERSON;
-        parent::__construct($nameable, $description, $birthDate, $type, $notes, $contactDetails, $addresses, $addressBooks, $positions, $publicity);
+        parent::__construct($nameable, $birthDate, $type, $notes, $contactDetails, $addresses, $addressBooks, $positions, $publicity);
         $this->setAppUser($appUser);
         $this->setPersonSkillConnections($personSkillConnections);
     }
