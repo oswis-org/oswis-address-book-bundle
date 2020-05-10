@@ -6,10 +6,10 @@ use OswisOrg\OswisCoreBundle\Traits\AddressBook\BirthDateTrait;
 
 trait PersonAdvancedTrait
 {
-    use PersonBasicTrait;
+    use PersonTrait;
     use EmailTrait;
     use PhoneTrait;
     use UrlTrait;
-    use AddressTrait;
+    use PostalAddressTrait;
     use BirthDateTrait;
 }

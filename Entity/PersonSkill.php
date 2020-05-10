@@ -48,10 +48,10 @@ namespace OswisOrg\OswisAddressBookBundle\Entity;
 // * })
 // * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
 // */
-class PersonSkill // implements BasicEntityInterface
+class PersonSkill // implements BasicInterface
 {
-//    use BasicEntityTrait;
-//    use NameableBasicTrait;
+//    use BasicTrait;
+//    use NameableTrait;
 //
 //    /**
 //     * @ORM\Column(type="boolean", nullable=true)

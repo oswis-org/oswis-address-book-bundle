@@ -1,7 +1,6 @@
 <?php
 /**
  * @noinspection PhpUnused
- * @noinspection MethodShouldBeFinalInspection
  */
 
 namespace OswisOrg\OswisAddressBookBundle\Entity\AbstractClass;
@@ -11,31 +10,13 @@ use OswisOrg\OswisAddressBookBundle\Traits\IdentificationNumberTrait;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Publicity;
 use OswisOrg\OswisCoreBundle\Traits\Common\ColorTrait;
-use OswisOrg\OswisCoreBundle\Traits\Common\NameableBasicTrait;
+use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
 
 abstract class AbstractOrganization extends AbstractContact
 {
-    public const ORGANIZATION = 'organization';
-    public const COMPANY = 'company';
-    public const DEPARTMENT = 'department';
-    public const UNIVERSITY = 'university';
-    public const FACULTY = 'faculty';
-    public const SCHOOL = 'school';
-    public const HIGH_SCHOOL = 'high-school';
-    public const STUDENT_ORGANIZATION = 'student-organization';
+    public const ALLOWED_TYPES = [...self::ORGANIZATION_TYPES];
 
-    public const ALLOWED_TYPES = [
-        self::ORGANIZATION,
-        self::COMPANY,
-        self::DEPARTMENT,
-        self::UNIVERSITY,
-        self::FACULTY,
-        self::SCHOOL,
-        self::HIGH_SCHOOL,
-        self::STUDENT_ORGANIZATION,
-    ];
-
-    use NameableBasicTrait;
+    use NameableTrait;
     use IdentificationNumberTrait;
     use ColorTrait;
 
@@ -50,23 +31,8 @@ abstract class AbstractOrganization extends AbstractContact
         ?Collection $addressBooks = null,
         ?Publicity $publicity = null
     ) {
-        parent::__construct($type, $notes, $contactDetails, $addresses, $addressBooks, null, $publicity);
-        $this->setFieldsFromNameable($nameable);
+        parent::__construct($nameable, $type, $notes, $contactDetails, $addresses, $addressBooks, null, $publicity);
         $this->setIdentificationNumber($identificationNumber);
         $this->setColor($color);
-    }
-
-    public function destroyRevisions(): void
-    {
-    }
-
-    public function setFullName(?string $fullName): void
-    {
-        $this->setName($fullName);
-    }
-
-    public function getFullName(): ?string
-    {
-        return $this->getName();
     }
 }

@@ -10,7 +10,6 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
 use OswisOrg\OswisAddressBookBundle\Entity\AddressBook\AddressBook;
 use OswisOrg\OswisAddressBookBundle\Entity\AddressBook\AddressBookContactConnection;
@@ -23,10 +22,11 @@ use OswisOrg\OswisAddressBookBundle\Entity\Organization;
 use OswisOrg\OswisAddressBookBundle\Entity\Person;
 use OswisOrg\OswisAddressBookBundle\Entity\Position;
 use OswisOrg\OswisCoreBundle\Entity\AppUser\AppUser;
+use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Publicity;
-use OswisOrg\OswisCoreBundle\Interfaces\Common\BasicEntityInterface;
-use OswisOrg\OswisCoreBundle\Traits\Common\BasicEntityTrait;
+use OswisOrg\OswisCoreBundle\Interfaces\AddressBook\ContactInterface;
 use OswisOrg\OswisCoreBundle\Traits\Common\EntityPublicTrait;
+use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\TypeTrait;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Exception\LogicException;
@@ -51,51 +51,11 @@ use function in_array;
  * })
  * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
-abstract class AbstractContact implements BasicEntityInterface
+abstract class AbstractContact implements ContactInterface
 {
-    use BasicEntityTrait;
+    use NameableTrait;
     use TypeTrait;
     use EntityPublicTrait;
-
-    public const GENDER_MALE = 'male';
-    public const GENDER_FEMALE = 'female';
-    public const GENDER_UNISEX = 'unisex';
-
-    public const TYPE_ORGANIZATION = 'organization';
-    public const TYPE_PERSON = 'person';
-
-    public const TYPE_UNIVERSITY = 'university';
-    public const TYPE_FACULTY = 'faculty';
-    public const TYPE_FACULTY_DEPARTMENT = 'faculty-department';
-    public const TYPE_STUDENT_ORGANIZATION = 'student-organization';
-    public const TYPE_HIGH_SCHOOL = 'high-school';
-    public const TYPE_PRIMARY_SCHOOL = 'primary-school';
-    public const TYPE_KINDERGARTEN = 'kindergarten';
-    public const TYPE_COMPANY = 'company';
-
-    public const COMPANY_TYPES = [self::TYPE_COMPANY];
-    public const ORGANIZATION_TYPES = [self::TYPE_ORGANIZATION];
-    public const STUDENT_ORGANIZATION_TYPES = [self::TYPE_STUDENT_ORGANIZATION];
-    public const SCHOOL_TYPES = [
-        self::TYPE_UNIVERSITY,
-        self::TYPE_FACULTY,
-        self::TYPE_FACULTY_DEPARTMENT,
-        self::TYPE_HIGH_SCHOOL,
-        self::TYPE_PRIMARY_SCHOOL,
-        self::TYPE_KINDERGARTEN,
-    ];
-
-    public const PERSON_TYPES = [self::TYPE_PERSON];
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected ?string $contactName = null;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected ?string $sortableName = null;
 
     /**
      * Notes about person.
@@ -161,6 +121,7 @@ abstract class AbstractContact implements BasicEntityInterface
     protected ?Collection $positions = null;
 
     /**
+     * @param Nameable|null   $nameable
      * @param string|null     $type
      * @param Collection|null $notes
      * @param Collection|null $contactDetails
@@ -172,6 +133,7 @@ abstract class AbstractContact implements BasicEntityInterface
      * @throws InvalidArgumentException
      */
     public function __construct(
+        ?Nameable $nameable = null,
         ?string $type = null,
         ?Collection $notes = null,
         ?Collection $contactDetails = null,
@@ -180,6 +142,7 @@ abstract class AbstractContact implements BasicEntityInterface
         ?Collection $positions = null,
         ?Publicity $publicity = null
     ) {
+        $this->setFieldsFromNameable($nameable);
         $this->setType($type);
         $this->setNotes($notes);
         $this->setDetails($contactDetails);
@@ -320,7 +283,6 @@ abstract class AbstractContact implements BasicEntityInterface
     {
         return in_array($this->getType(), self::STUDENT_ORGANIZATION_TYPES, true);
     }
-
 
     /**
      * Remove contact details where no content is present.
@@ -594,46 +556,8 @@ abstract class AbstractContact implements BasicEntityInterface
      */
     public function getLegalName(): ?string
     {
-        return $this->getContactName();
+        return $this->getName();
     }
-
-    public function getContactName(): ?string
-    {
-        return $this->updateContactName();
-    }
-
-    public function setContactName(?string $contactName): void
-    {
-        $this->setFullName($contactName);
-        $this->updateContactName();
-    }
-
-    public function updateContactName(): ?string
-    {
-        $this->contactName = $this->getFullName();
-        $this->sortableName = $this->getSortableContactName();
-
-        return $this->getFullName();
-    }
-
-    abstract public function getFullName(): ?string;
-
-    public function getSortableContactName(): string
-    {
-        return $this->getFullName() ?? '';
-    }
-
-    public function getName(): ?string
-    {
-        return $this->getContactName();
-    }
-
-    public function setName(?string $name): void
-    {
-        $this->setContactName($name);
-    }
-
-    abstract public function setFullName(?string $contactName): void;
 
     public function canRead(AppUser $user): bool
     {
@@ -656,7 +580,7 @@ abstract class AbstractContact implements BasicEntityInterface
      */
     public function getMailerAddress(): ?Address
     {
-        $name = $this->getContactName() ?? ($this->getAppUser() ? $this->getAppUser()->getFullName() : '') ?? '';
+        $name = $this->getName() ?? ($this->getAppUser() ? $this->getAppUser()->getFullName() : '') ?? '';
         $eMail = ($this->getAppUser() ? $this->getAppUser()->getEmail() : $this->getEmail()) ?? '';
 
         return empty($eMail) ? null : new Address($eMail, $name);
@@ -715,7 +639,7 @@ abstract class AbstractContact implements BasicEntityInterface
 
     public function __toString(): string
     {
-        return $this->getContactName() ?? '';
+        return $this->getName() ?? '';
     }
 
     public function getRegularPositions(): Collection
@@ -788,5 +712,9 @@ abstract class AbstractContact implements BasicEntityInterface
     public function getGender(): string
     {
         return self::GENDER_UNISEX;
+    }
+
+    public function destroyRevisions(): void
+    {
     }
 }

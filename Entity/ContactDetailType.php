@@ -13,8 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
 use OswisOrg\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
-use OswisOrg\OswisCoreBundle\Interfaces\Common\NameableEntityInterface;
-use OswisOrg\OswisCoreBundle\Traits\Common\NameableBasicTrait;
+use OswisOrg\OswisCoreBundle\Interfaces\Common\NameableInterface;
+use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\TypeTrait;
 
 /**
@@ -60,7 +60,7 @@ use OswisOrg\OswisCoreBundle\Traits\Common\TypeTrait;
  * })
  * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
-class ContactDetailType implements NameableEntityInterface
+class ContactDetailType implements NameableInterface
 {
     public const TYPE_EMAIL = 'email';
     public const TYPE_URL = 'url';
@@ -78,7 +78,7 @@ class ContactDetailType implements NameableEntityInterface
         self::TYPE_VOIP      => ['name' => 'Internetová telefonie'],
     ];
 
-    use NameableBasicTrait;
+    use NameableTrait;
     use TypeTrait;
 
     /**

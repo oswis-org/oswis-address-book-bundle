@@ -11,7 +11,7 @@ namespace OswisOrg\OswisAddressBookBundle\Traits;
  */
 trait RoomTrait
 {
-    use NameableBasicTrait;
+    use NameableTrait;
     use DateTimeTrait;
 
     /**

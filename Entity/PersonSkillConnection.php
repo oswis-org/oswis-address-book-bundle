@@ -48,9 +48,9 @@ namespace OswisOrg\OswisAddressBookBundle\Entity;
 // * })
 // * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
 // */
-class PersonSkillConnection // implements BasicEntityInterface
+class PersonSkillConnection // implements BasicInterface
 {
-//    use BasicEntityTrait;
+//    use BasicTrait;
 //    use DateRangeTrait;
 //    use NoteTrait;
 //

@@ -14,12 +14,11 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use InvalidArgumentException;
 use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractPerson;
 use OswisOrg\OswisCoreBundle\Entity\AppUser\AppUser;
+use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Publicity;
 use OswisOrg\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
-use Vokativ\Name as VokativName;
 use function assert;
 use function rtrim;
 use function trim;
@@ -106,7 +105,7 @@ class Person extends AbstractPerson
 //     */
 //    protected ?Collection $personSkillConnections = null;
     public function __construct(
-        ?string $fullName = null,
+        ?Nameable $nameable = null,
         ?string $description = null,
         ?DateTime $birthDate = null,
         ?string $type = self::TYPE_PERSON,
@@ -120,7 +119,7 @@ class Person extends AbstractPerson
         ?Publicity $publicity = null
     ) {
         $type ??= self::TYPE_PERSON;
-        parent::__construct($fullName, $description, $birthDate, $type, $notes, $contactDetails, $addresses, $addressBooks, $positions, $publicity);
+        parent::__construct($nameable, $description, $birthDate, $type, $notes, $contactDetails, $addresses, $addressBooks, $positions, $publicity);
         $this->setAppUser($appUser);
         $this->setPersonSkillConnections($personSkillConnections);
     }
@@ -202,22 +201,5 @@ class Person extends AbstractPerson
     {
         return new ArrayCollection();
         // return $this->personSkillConnections ?? new ArrayCollection();
-    }
-
-    public function getSortableContactName(): string
-    {
-        return $this->getFamilyName().' '.$this->getAdditionalName().' '.$this->getGivenName().' '.$this->getHonorificSuffix().' '.$this->getHonorificPrefix();
-    }
-
-    public function getGender(): string
-    {
-        if (empty($this->getGivenName())) {
-            return self::GENDER_UNISEX;
-        }
-        try {
-            return (new VokativName())->isMale($this->getGivenName()) ? self::GENDER_MALE : self::GENDER_FEMALE;
-        } catch (InvalidArgumentException $e) {
-            return self::GENDER_UNISEX;
-        }
     }
 }

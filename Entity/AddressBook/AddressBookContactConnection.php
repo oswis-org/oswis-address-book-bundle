@@ -6,17 +6,17 @@
 namespace OswisOrg\OswisAddressBookBundle\Entity\AddressBook;
 
 use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
-use OswisOrg\OswisCoreBundle\Interfaces\Common\BasicEntityInterface;
-use OswisOrg\OswisCoreBundle\Traits\Common\BasicEntityTrait;
+use OswisOrg\OswisCoreBundle\Interfaces\Common\BasicInterface;
+use OswisOrg\OswisCoreBundle\Traits\Common\BasicTrait;
 
 /**
  * @Doctrine\ORM\Mapping\Entity()
  * @Doctrine\ORM\Mapping\Table(name="address_book_address_book_contact_connection")
  * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_address_book")
  */
-class AddressBookContactConnection implements BasicEntityInterface
+class AddressBookContactConnection implements BasicInterface
 {
-    use BasicEntityTrait;
+    use BasicTrait;
 
     /**
      * @Doctrine\ORM\Mapping\ManyToOne(

@@ -28,7 +28,7 @@ class PersonService
         try {
             $this->em->persist($person);
             $this->em->flush();
-            $infoMessage = 'Created person: '.$person->getId().' '.$person->getContactName().'.';
+            $infoMessage = 'Created person: '.$person->getId().' '.$person->getName().'.';
             $this->logger->info($infoMessage);
 
             return $person;

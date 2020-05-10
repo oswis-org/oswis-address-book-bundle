@@ -15,10 +15,10 @@ use OswisOrg\OswisAddressBookBundle\Traits\GeoCoordinatesTrait;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\PostalAddress;
 use OswisOrg\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
-use OswisOrg\OswisCoreBundle\Interfaces\Common\NameableEntityInterface;
-use OswisOrg\OswisCoreBundle\Traits\AddressBook\AddressTrait;
+use OswisOrg\OswisCoreBundle\Interfaces\Common\NameableInterface;
+use OswisOrg\OswisCoreBundle\Traits\AddressBook\PostalAddressTrait;
 use OswisOrg\OswisCoreBundle\Traits\AddressBook\UrlTrait;
-use OswisOrg\OswisCoreBundle\Traits\Common\NameableBasicTrait;
+use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
 
 /**
  * @Doctrine\ORM\Mapping\Entity
@@ -63,10 +63,10 @@ use OswisOrg\OswisCoreBundle\Traits\Common\NameableBasicTrait;
  * })
  * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
-class Place implements NameableEntityInterface
+class Place implements NameableInterface
 {
-    use NameableBasicTrait;
-    use AddressTrait;
+    use NameableTrait;
+    use PostalAddressTrait;
     use UrlTrait;
     use GeoCoordinatesTrait;
 

@@ -28,7 +28,7 @@ class AbstractContactService
         $contacts = $this->em->getRepository(AbstractContact::class)->findAll();
         foreach ($contacts as $contact) {
             assert($contact instanceof AbstractContact);
-            $contact->updateContactName();
+            $contact->updateName();
             $this->em->persist($contact);
         }
         $this->em->flush();

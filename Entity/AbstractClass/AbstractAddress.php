@@ -2,13 +2,13 @@
 
 namespace OswisOrg\OswisAddressBookBundle\Entity\AbstractClass;
 
-use OswisOrg\OswisCoreBundle\Interfaces\BasicEntityInterface;
-use OswisOrg\OswisCoreBundle\Interfaces\Common\NameableEntityInterface;
-use OswisOrg\OswisCoreBundle\Traits\AddressBook\AddressTrait;
-use OswisOrg\OswisCoreBundle\Traits\Common\NameableBasicTrait;
+use OswisOrg\OswisCoreBundle\Interfaces\BasicInterface;
+use OswisOrg\OswisCoreBundle\Interfaces\Common\NameableInterface;
+use OswisOrg\OswisCoreBundle\Traits\AddressBook\PostalAddressTrait;
+use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
 
-abstract class AbstractAddress implements NameableEntityInterface
+abstract class AbstractAddress implements NameableInterface
 {
-    use NameableBasicTrait;
-    use AddressTrait;
+    use NameableTrait;
+    use PostalAddressTrait;
 }
