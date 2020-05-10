@@ -54,13 +54,13 @@ class PersonSkill // implements BasicInterface
 //    use NameableTrait;
 //
 //    /**
-//     * @ORM\Column(type="boolean", nullable=true)
+//     * @Doctrine\ORM\Mapping\Column(type="boolean", nullable=true)
 //     */
 //    protected ?bool $publicOnWebDefault = null;
 //
 //    /**
 //     * Can user with this skill edit connections with this skill?
-//     * @ORM\Column(type="boolean", nullable=true)
+//     * @Doctrine\ORM\Mapping\Column(type="boolean", nullable=true)
 //     */
 //    protected ?bool $connectionsUserEditable = null;
 //

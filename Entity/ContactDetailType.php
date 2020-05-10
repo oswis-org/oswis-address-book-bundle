@@ -94,12 +94,12 @@ class ContactDetailType implements NameableInterface
     protected ?bool $showInPreview = null;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @Doctrine\ORM\Mapping\Column(type="string", nullable=true)
      */
     protected ?string $formLabel = null;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @Doctrine\ORM\Mapping\Column(type="string", nullable=true)
      */
     protected ?string $formHelp = null;
 

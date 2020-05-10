@@ -83,13 +83,13 @@ class Position implements NameableInterface
 
     /**
      * True if person is intended for receiving messages about organization.
-     * @ORM\Column(type="boolean", nullable=true)
+     * @Doctrine\ORM\Mapping\Column(type="boolean", nullable=true)
      */
     protected ?bool $isContactPerson = null;
 
     /**
      * True if position is kind of "special" (and to be displayed in web profile).
-     * @ORM\Column(type="boolean", nullable=true)
+     * @Doctrine\ORM\Mapping\Column(type="boolean", nullable=true)
      */
     protected ?bool $special = null;
 

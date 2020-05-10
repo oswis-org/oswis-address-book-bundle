@@ -93,14 +93,14 @@ class PersonSkillConnection // implements BasicInterface
 //    /**
 //     * Is public on website?
 //     * @var boolean|null
-//     * @ORM\Column(type="boolean", nullable=true)
+//     * @Doctrine\ORM\Mapping\Column(type="boolean", nullable=true)
 //     */
 //    protected ?bool $publicOnWeb = null;
 //
 //    /**
 //     * Can give skill to other person?
 //     * @var boolean|null
-//     * @ORM\Column(type="boolean", nullable=true)
+//     * @Doctrine\ORM\Mapping\Column(type="boolean", nullable=true)
 //     */
 //    protected ?bool $canGiveSkill = null;
 //
