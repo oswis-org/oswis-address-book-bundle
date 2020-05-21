@@ -9,7 +9,6 @@ namespace OswisOrg\OswisAddressBookBundle\Entity;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
-use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
 use OswisOrg\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
