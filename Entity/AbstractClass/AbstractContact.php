@@ -582,6 +582,9 @@ abstract class AbstractContact implements ContactInterface
     {
         $name = $this->getName() ?? ($this->getAppUser() ? $this->getAppUser()->getFullName() : '') ?? '';
         $eMail = ($this->getAppUser() ? $this->getAppUser()->getEmail() : $this->getEmail()) ?? '';
+        if (empty($eMail)) {
+            $eMail = $this->getEmail();
+        }
 
         return empty($eMail) ? null : new Address($eMail, $name);
     }
