@@ -190,16 +190,13 @@ class Organization extends AbstractOrganization
 
     public function getContactPersons(?DateTime $dateTime = null, bool $onlyWithActivatedUser = false): Collection
     {
-        $act = $onlyWithActivatedUser;
-        $positions = $this->getPositions($dateTime ?? new DateTime());
-
-        return $positions->filter(
-            static function (Position $p) use ($act) {
-                if ($act && (!$p->getPerson() || !$p->getPerson()->getAppUser() || !$p->getPerson()->getAppUser()->getAccountActivationDateTime())) {
+        return $this->getPositions($dateTime ?? new DateTime())->filter(
+            static function (Position $p) use ($onlyWithActivatedUser) {
+                if ($onlyWithActivatedUser && (!$p->getPerson() || !$p->getPerson()->hasActivatedUser())) {
                     return false;
                 }
 
-                return $p->getIsContactPerson();
+                return $p->isContactPerson();
             }
         );
     }

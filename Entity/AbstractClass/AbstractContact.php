@@ -458,6 +458,11 @@ abstract class AbstractContact implements ContactInterface
         }
     }
 
+    public function hasActivatedUser(): bool
+    {
+        return $this->getAppUser() && $this->getAppUser()->isActivated();
+    }
+
     public function getStudies(?DateTime $dateTime = null, bool $recursive = false): Collection
     {
         return $this->getPositions($dateTime, Position::STUDY_POSITION_TYPES, $recursive);
