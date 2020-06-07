@@ -1,4 +1,4 @@
-{% set imgSrc = preload(asset(contact.image ? '/images/contacts/'~contact.image : 'assets/images/seznamovak/kytka-512-upscale.png'), {as: 'iamge'}) %}
+{% set imgSrc = preload(asset(contact.image ? '/images/contacts/'~contact.image : 'assets/images/seznamovak/kytka-512-upscale.png'), {as: 'image'}) %}
 
 <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" title="{{ contact.nickname|default(contact.name|default) }}" itemprop="member" data-toggle="tooltip"
      itemscope itemtype='{{ 'http://schema.org/' ~ contact.person ? 'Person' : 'Organization' }}'>
@@ -14,7 +14,7 @@
                 </h4>
             {% endif %}
         </div>
-        <div itemprop="description" class="first-line" title="{{ position.description|default|markdown_to_html|striptags }}" data-toggle="tooltip">
+        <div itemprop="description" class="first-line" title="{{ position.description|markdown_to_html }}" data-toggle="tooltip" data-html="true">
             {{ position.description|default|markdown_to_html }}
         </div>
         <div itemprop="description">

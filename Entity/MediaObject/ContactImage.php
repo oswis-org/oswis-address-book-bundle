@@ -23,6 +23,7 @@ use Symfony\Component\HttpFoundation\File\File;
  *   }
  * )
  * @Vich\UploaderBundle\Mapping\Annotation\Uploadable()
+ * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
 class ContactImage extends AbstractImage
 {
