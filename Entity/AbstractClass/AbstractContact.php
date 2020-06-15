@@ -12,7 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use InvalidArgumentException;
 use OswisOrg\OswisAddressBookBundle\Entity\AddressBook\AddressBook;
-use OswisOrg\OswisAddressBookBundle\Entity\AddressBook\AddressBookContactConnection;
+use OswisOrg\OswisAddressBookBundle\Entity\AddressBook\ContactAddressBook;
 use OswisOrg\OswisAddressBookBundle\Entity\ContactAddress;
 use OswisOrg\OswisAddressBookBundle\Entity\ContactDetail;
 use OswisOrg\OswisAddressBookBundle\Entity\ContactDetailType;
@@ -95,14 +95,16 @@ abstract class AbstractContact implements ContactInterface
     protected ?Collection $addresses = null;
 
     /**
-     * @Doctrine\ORM\Mapping\OneToMany(
-     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\AddressBook\AddressBookContactConnection",
-     *     cascade={"all"},
-     *     mappedBy="contact",
-     *     fetch="EAGER"
+     * @Doctrine\ORM\Mapping\ManyToMany(
+     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\AddressBook\ContactAddressBook", cascade={"all"}, fetch="EAGER"
+     * )
+     * @Doctrine\ORM\Mapping\JoinTable(
+     *     name="address_book_address_book_contact_connection"
+     *     joinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="participant_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="participant_contact_id", referencedColumnName="id", unique=true)}
      * )
      */
-    protected ?Collection $addressBookContactConnections = null;
+    protected ?Collection $contactAddressBooks = null;
 
     /**
      * @Doctrine\ORM\Mapping\OneToOne(targetEntity="OswisOrg\OswisCoreBundle\Entity\AppUser\AppUser", cascade={"all"}, fetch="EAGER")
@@ -154,7 +156,7 @@ abstract class AbstractContact implements ContactInterface
 
     public function setAddressBooks(?Collection $newAddressBooks): void
     {
-        $this->addressBookContactConnections ??= new ArrayCollection();
+        $this->contactAddressBooks ??= new ArrayCollection();
         $newAddressBooks ??= new ArrayCollection();
         foreach ($this->getAddressBooks() as $oldAddressBook) {
             if (!$newAddressBooks->contains($oldAddressBook)) {
@@ -170,47 +172,34 @@ abstract class AbstractContact implements ContactInterface
 
     public function getAddressBooks(): Collection
     {
-        return $this->getAddressBookContactConnections()->map(
-            fn(AddressBookContactConnection $addressBookContactConnection) => $addressBookContactConnection->getAddressBook()
+        return $this->getContactAddressBooks()->map(
+            fn(ContactAddressBook $addressBookContactConnection) => $addressBookContactConnection->getAddressBook()
         );
     }
 
-    public function getAddressBookContactConnections(): Collection
+    public function getContactAddressBooks(): Collection
     {
-        return $this->addressBookContactConnections ?? new ArrayCollection();
+        return $this->contactAddressBooks ?? new ArrayCollection();
     }
 
-    public function setAddressBookContactConnections(?Collection $newAddressBookContactConnections): void
+    public function setContactAddressBooks(?Collection $newAddressBookContactConnections): void
     {
-        $this->addressBookContactConnections ??= new ArrayCollection();
-        $newAddressBookContactConnections ??= new ArrayCollection();
-        foreach ($this->addressBookContactConnections as $oldAddressBookContactConnection) {
-            if (!$newAddressBookContactConnections->contains($oldAddressBookContactConnection)) {
-                $this->removeAddressBookContactConnection($oldAddressBookContactConnection);
-            }
-        }
-        foreach ($newAddressBookContactConnections as $newAddressBookContactConnection) {
-            if (!$this->addressBookContactConnections->contains($newAddressBookContactConnection)) {
-                $this->addAddressBookContactConnection($newAddressBookContactConnection);
-            }
-        }
+        $this->contactAddressBooks = $newAddressBookContactConnections ?? new ArrayCollection();
     }
 
     public function removeAddressBook(AddressBook $addressBook): void
     {
-        foreach ($this->getAddressBookContactConnections() as $addressBookContactConnection) {
-            assert($addressBookContactConnection instanceof AddressBookContactConnection);
-            if ($addressBook->getId() === $addressBookContactConnection->getId()) {
-                $this->removeAddressBookContactConnection($addressBookContactConnection);
+        foreach ($this->getContactAddressBooks() as $addressBookContactConnection) {
+            assert($addressBookContactConnection instanceof ContactAddressBook);
+            if ($addressBookContactConnection->getAddressBook() === $addressBook) {
+                $this->removeContactAddressBook($addressBookContactConnection);
             }
         }
     }
 
-    public function removeAddressBookContactConnection(?AddressBookContactConnection $addressBookContactConnection): void
+    public function removeContactAddressBook(?ContactAddressBook $addressBookContactConnection): void
     {
-        if ($addressBookContactConnection && $this->addressBookContactConnections->removeElement($addressBookContactConnection)) {
-            $addressBookContactConnection->setContact(null);
-        }
+        $this->contactAddressBooks->removeElement($addressBookContactConnection);
     }
 
     public function containsAddressBook(AddressBook $addressBook): bool
@@ -221,15 +210,14 @@ abstract class AbstractContact implements ContactInterface
     public function addAddressBook(AddressBook $addressBook): void
     {
         if (null !== $addressBook && !$this->containsAddressBook($addressBook)) {
-            $this->addAddressBookContactConnection(new AddressBookContactConnection($addressBook));
+            $this->addContactAddressBook(new ContactAddressBook($addressBook));
         }
     }
 
-    public function addAddressBookContactConnection(?AddressBookContactConnection $addressBookContactConnection): void
+    public function addContactAddressBook(?ContactAddressBook $addressBookContactConnection): void
     {
-        if ($addressBookContactConnection && !$this->addressBookContactConnections->contains($addressBookContactConnection)) {
-            $this->addressBookContactConnections->add($addressBookContactConnection);
-            $addressBookContactConnection->setContact($this);
+        if ($addressBookContactConnection && !$this->contactAddressBooks->contains($addressBookContactConnection)) {
+            $this->contactAddressBooks->add($addressBookContactConnection);
         }
     }
 
@@ -437,10 +425,17 @@ abstract class AbstractContact implements ContactInterface
         return $this->getDetails(ContactDetailType::TYPE_URL);
     }
 
+    /**
+     * @param DateTime|null $dateTime
+     * @param bool|false    $onlyWithActivatedUser
+     *
+     * @return Collection
+     * @noinspection PhpUnusedParameterInspection
+     */
     public function getContactPersons(?DateTime $dateTime = null, bool $onlyWithActivatedUser = false): Collection
     {
         if ($onlyWithActivatedUser) {
-            return $this->getAppUser() && $this->getAppUser()->isActive($dateTime) ? new ArrayCollection([$this]) : new ArrayCollection();
+            return $this->getAppUser() && $this->getAppUser()->isActive() ? new ArrayCollection([$this]) : new ArrayCollection();
         }
 
         return new ArrayCollection([$this]);
@@ -472,7 +467,7 @@ abstract class AbstractContact implements ContactInterface
     {
         $out = $this->positions ?? new ArrayCollection();
         if (null !== $dateTime) {
-            $out = $out->filter(fn(Position $p): bool => $p->containsDateTimeInRange($dateTime));
+            $out = $out->filter(fn(Position $p): bool => $p->isInDateRange($dateTime));
         }
         if (!empty($types)) {
             $out = $out->filter(fn(Position $position) => in_array($position->getType(), $types, true));

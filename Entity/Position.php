@@ -179,7 +179,7 @@ class Position implements NameableInterface
 
     public function isActive(): bool
     {
-        return $this->containsDateTimeInRange();
+        return $this->isInDateRange();
     }
 
     /**

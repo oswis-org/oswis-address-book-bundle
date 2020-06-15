@@ -9,6 +9,7 @@ namespace OswisOrg\OswisAddressBookBundle\Controller;
 use OswisOrg\OswisAddressBookBundle\Entity\Organization;
 use OswisOrg\OswisAddressBookBundle\Provider\OswisAddressBookSettingsProvider;
 use OswisOrg\OswisAddressBookBundle\Service\OrganizationService;
+use OswisOrg\OswisCoreBundle\Exceptions\NotFoundException;
 use OswisOrg\OswisCoreBundle\Exceptions\OswisNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -78,7 +79,7 @@ class OrganizationController extends AbstractController
      * @param string|null $slug
      *
      * @return Response
-     * @throws OswisNotFoundException
+     * @throws NotFoundException
      */
     public function showOrganizationPage(?string $slug = null): Response
     {
@@ -88,7 +89,7 @@ class OrganizationController extends AbstractController
         }
         $organization = $this->getOrganization($slug);
         if (null === $organization) {
-            throw new OswisNotFoundException('Organizace nenalezena.');
+            throw new NotFoundException('Organizace nenalezena.');
         }
 
         return $this->render(
