@@ -1,6 +1,4 @@
-{% set positions = organization.memberAndEmployeePositions|filter(p => p.publicOnWeb or true)|default %}
-
-{% if positions|length > 0 %}
+{% if positions|default and positions|length > 0 %}
     <div class="row">
         <div class="col-12 mt-5">
             <h3>Aktuální tým</h3>
