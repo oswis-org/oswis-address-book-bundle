@@ -221,9 +221,9 @@ abstract class AbstractContact implements ContactInterface
         return $this->contactAddressBooks ?? new ArrayCollection();
     }
 
-    public function setContactAddressBooks(?Collection $newAddressBookContactConnections): void
+    public function setContactAddressBooks(?Collection $newContactAddressBooks): void
     {
-        $this->contactAddressBooks = $newAddressBookContactConnections ?? new ArrayCollection();
+        $this->contactAddressBooks = $newContactAddressBooks ?? new ArrayCollection();
     }
 
     public function removeAddressBook(AddressBook $addressBook): void
@@ -236,9 +236,9 @@ abstract class AbstractContact implements ContactInterface
         }
     }
 
-    public function removeContactAddressBook(?ContactAddressBook $addressBookContactConnection): void
+    public function removeContactAddressBook(?ContactAddressBook $contactAddressBook): void
     {
-        $this->contactAddressBooks->removeElement($addressBookContactConnection);
+        $this->contactAddressBooks->removeElement($contactAddressBook);
     }
 
     public function containsAddressBook(AddressBook $addressBook): bool
@@ -253,10 +253,10 @@ abstract class AbstractContact implements ContactInterface
         }
     }
 
-    public function addContactAddressBook(?ContactAddressBook $addressBookContactConnection): void
+    public function addContactAddressBook(?ContactAddressBook $contactAddressBook): void
     {
-        if (null !== $addressBookContactConnection && !$this->contactAddressBooks->contains($addressBookContactConnection)) {
-            $this->contactAddressBooks->add($addressBookContactConnection);
+        if (null !== $contactAddressBook && !$this->contactAddressBooks->contains($contactAddressBook)) {
+            $this->contactAddressBooks->add($contactAddressBook);
         }
     }
 
@@ -294,11 +294,6 @@ abstract class AbstractContact implements ContactInterface
     public function isSchool(): bool
     {
         return in_array($this->getType(), self::SCHOOL_TYPES, true);
-    }
-
-    public function isStudentOrganization(): bool
-    {
-        return in_array($this->getType(), self::STUDENT_ORGANIZATION_TYPES, true);
     }
 
     /**
@@ -435,18 +430,6 @@ abstract class AbstractContact implements ContactInterface
 
     /**
      * @ApiProperty(iri="http://schema.org/url")
-     * @return string All urls in one string.
-     */
-    public function getUrlsAsString(): ?string
-    {
-        return implode(
-            ', ',
-            $this->getUrls()->toArray()
-        );
-    }
-
-    /**
-     * @ApiProperty(iri="http://schema.org/url")
      * @return Collection Collection of URL addresses from contact details.
      */
     public function getUrls(): Collection
@@ -454,14 +437,7 @@ abstract class AbstractContact implements ContactInterface
         return $this->getDetails(ContactDetailType::TYPE_URL);
     }
 
-    public function getContactPersons(bool $onlyWithActivatedUser = false): Collection
-    {
-        if (true === $onlyWithActivatedUser) {
-            return $this->getAppUser() && $this->getAppUser()->isActive() ? new ArrayCollection([$this]) : new ArrayCollection();
-        }
-
-        return new ArrayCollection([$this]);
-    }
+    abstract public function getContactPersons(bool $onlyWithActivatedUser = false): Collection;
 
     public function getAppUser(): ?AppUser
     {
@@ -470,14 +446,12 @@ abstract class AbstractContact implements ContactInterface
 
     public function setAppUser(?AppUser $appUser): void
     {
-        if ($this->appUser !== $appUser) {
-            $this->appUser = $appUser;
-        }
+        $this->appUser = $appUser;
     }
 
     public function hasActivatedUser(): bool
     {
-        return $this->getAppUser() && $this->getAppUser()->isActivated();
+        return $this->getAppUser() && $this->getAppUser()->isActive();
     }
 
     public function getUrl(): ?string
@@ -506,20 +480,6 @@ abstract class AbstractContact implements ContactInterface
         return $this->getDetails(ContactDetailType::TYPE_PHONE);
     }
 
-    public function getAddress(): ?string
-    {
-        return $this->details->first();
-    }
-
-    /**
-     * @ApiProperty(iri="http://schema.org/legalName")
-     * @return string (Official) Name of AbstractContact (Person or Organization)
-     */
-    public function getLegalName(): ?string
-    {
-        return $this->getName();
-    }
-
     public function canRead(AppUser $user): bool
     {
         if (!($user instanceof AppUser)) { // User is not logged in.
@@ -531,8 +491,7 @@ abstract class AbstractContact implements ContactInterface
 
     /**
      * @return Address
-     * @throws LogicException
-     * @throws RfcComplianceException
+     * @throws LogicException|RfcComplianceException
      */
     public function getMailerAddress(): ?Address
     {
@@ -570,7 +529,7 @@ abstract class AbstractContact implements ContactInterface
 
     public function __toString(): string
     {
-        return $this->getName() ?? '';
+        return ''.$this->getName();
     }
 
     public function getGender(): string
