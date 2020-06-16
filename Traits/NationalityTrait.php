@@ -14,7 +14,6 @@ trait NationalityTrait
     /**
      * Nationality (as national string).
      *
-     * @var string|null
      * @Doctrine\ORM\Mapping\Column(type="string")
      */
     protected ?string $nationality = null;

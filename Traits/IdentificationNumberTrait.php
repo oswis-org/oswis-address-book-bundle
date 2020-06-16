@@ -12,10 +12,6 @@ namespace OswisOrg\OswisAddressBookBundle\Traits;
 trait IdentificationNumberTrait
 {
     /**
-     * Identification number.
-     *
-     * @var string|null
-     *
      * @Doctrine\ORM\Mapping\Column(type="string", nullable=true)
      * @Symfony\Component\Validator\Constraints\Length(
      *      min = 6,
@@ -26,10 +22,8 @@ trait IdentificationNumberTrait
      */
     protected ?string $identificationNumber = null;
 
-    /**
-     * @return string
-     */
-    public function getIdentificationNumber(): ?string
+    /** @noinspection PhpUnusedParameterInspection */
+    public function getIdentificationNumber(bool $recursive = false): ?string
     {
         return $this->identificationNumber;
     }

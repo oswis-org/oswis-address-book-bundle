@@ -1,13 +1,10 @@
 <?php
 /**
- * @noinspection PhpUnused
  * @noinspection MethodShouldBeFinalInspection
  */
 
 namespace OswisOrg\OswisAddressBookBundle\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
@@ -17,8 +14,7 @@ use Doctrine\Common\Collections\Collection;
 use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractPerson;
 use OswisOrg\OswisCoreBundle\Entity\AppUser\AppUser;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
-use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Publicity;
-use OswisOrg\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
+use OswisOrg\OswisCoreBundle\Exceptions\InvalidTypeException;
 use function assert;
 use function rtrim;
 use function trim;
@@ -26,7 +22,7 @@ use function trim;
 /**
  * @Doctrine\ORM\Mapping\Entity(repositoryClass="OswisOrg\OswisAddressBookBundle\Repository\PersonRepository")
  * @Doctrine\ORM\Mapping\Table(name="address_book_person")
- * @ApiResource(
+ * @ApiPlatform\Core\Annotation\ApiResource(
  *   iri="http://schema.org/Person",
  *   attributes={
  *     "filters"={"search"},
@@ -53,7 +49,7 @@ use function trim;
  *     }
  *   }
  * )
- * @ApiFilter(OrderFilter::class, properties={
+ * @ApiPlatform\Core\Annotation\ApiFilter(OrderFilter::class, properties={
  *     "id": "ASC",
  *     "slug",
  *     "description",
@@ -62,7 +58,7 @@ use function trim;
  *     "note",
  *     "birthDate"
  * })
- * @ApiFilter(SearchFilter::class, properties={
+ * @ApiPlatform\Core\Annotation\ApiFilter(SearchFilter::class, properties={
  *     "id": "exact",
  *     "description": "partial",
  *     "slug": "partial",
@@ -70,7 +66,7 @@ use function trim;
  *     "note": "partial",
  *     "birthDate": "partial"
  * })
- * @Searchable({
+ * @OswisOrg\OswisCoreBundle\Filter\SearchAnnotation({
  *     "id",
  *     "slug",
  *     "contactName",
@@ -79,36 +75,148 @@ use function trim;
  *     "note",
  *     "birthDate"
  * })
- * @ApiFilter(DateFilter::class, properties={"createdDateTime", "updatedDateTime", "birthDate"})
+ * @ApiPlatform\Core\Annotation\ApiFilter(DateFilter::class, properties={"createdDateTime", "updatedDateTime", "birthDate"})
  * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
 class Person extends AbstractPerson
 {
     /**
      * @Doctrine\ORM\Mapping\OneToMany(
-     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Position",
-     *     mappedBy="person",
-     *     cascade={"all"},
-     *     orphanRemoval=true
+     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Position", mappedBy="person", cascade={"all"}, orphanRemoval=true
      * )
      */
     protected ?Collection $positions = null;
 
     public function __construct(
         ?Nameable $nameable = null,
-        ?DateTime $birthDate = null,
-        ?string $type = self::TYPE_PERSON,
         ?Collection $notes = null,
-        ?Collection $contactDetails = null,
+        ?Collection $details = null,
         ?Collection $addresses = null,
         ?Collection $positions = null,
         ?Collection $addressBooks = null,
-        ?AppUser $appUser = null,
-        ?Publicity $publicity = null
+        ?AppUser $appUser = null
     ) {
-        $type ??= self::TYPE_PERSON;
-        parent::__construct($nameable, $birthDate, $type, $notes, $contactDetails, $addresses, $addressBooks, $positions, $publicity);
+        parent::__construct($nameable, $notes, $details, $addresses, $addressBooks);
+        $this->setPositions($positions);
         $this->setAppUser($appUser);
+    }
+
+    public function getStudies(?DateTime $dateTime = null): Collection
+    {
+        return $this->getPositions($dateTime, Position::STUDY_POSITION_TYPES);
+    }
+
+    public function getPositions(?DateTime $dateTime = null, ?array $types = null): Collection
+    {
+        $positions = $this->positions ?? new ArrayCollection();
+        if (null !== $dateTime) {
+            $positions = $positions->filter(fn(Position $p): bool => $p->isInDateRange($dateTime));
+        }
+        if (!empty($types)) {
+            $positions = $positions->filter(fn(Position $position): bool => in_array($position->getType(), $types, true));
+        }
+
+        return $positions;
+    }
+
+    public function setPositions(?Collection $newPositions): void
+    {
+        $this->positions ??= new ArrayCollection();
+        $newPositions ??= new ArrayCollection();
+        foreach ($this->positions as $oldPosition) {
+            if (!$newPositions->contains($oldPosition)) {
+                $this->removePosition($oldPosition);
+            }
+        }
+        foreach ($newPositions as $newPosition) {
+            if (!$this->positions->contains($newPosition)) {
+                $this->addPosition($newPosition);
+            }
+        }
+    }
+
+    public function getMemberPositions(?DateTime $dateTime = null): Collection
+    {
+        return $this->getPositions($dateTime, Position::MEMBER_POSITION_TYPES);
+    }
+
+    public function getMemberAndEmployeePositions(?DateTime $dateTime = null): Collection
+    {
+        return $this->getPositions($dateTime, Position::EMPLOYEE_MEMBER_POSITION_TYPES);
+    }
+
+    public function getEmployeePositions(?DateTime $dateTime = null): Collection
+    {
+        return $this->getPositions($dateTime, Position::EMPLOYEE_POSITION_TYPES);
+    }
+
+    public function getManagerPositions(?DateTime $dateTime = null): Collection
+    {
+        return $this->getPositions($dateTime, Position::STUDY_POSITION_TYPES);
+    }
+
+    public function getRegularPositions(): Collection
+    {
+        return $this->getPositions()->filter(fn(Position $position) => $position->isRegularPosition());
+    }
+
+    /**
+     * @param Position|null $position
+     *
+     * @throws InvalidTypeException
+     */
+    public function addStudy(?Position $position): void
+    {
+        if (null === $position) {
+            return;
+        }
+        if (false === $position->isStudy()) {
+            throw new InvalidTypeException('Špatný typ pozice ('.$position->getType().' není typ studia)');
+        }
+        $this->addPosition($position);
+    }
+
+    /**
+     * @param Position|null $position
+     *
+     * @throws InvalidTypeException
+     */
+    public function addRegularPosition(?Position $position): void
+    {
+        if (null === $position) {
+            return;
+        }
+        if (false === $position->isRegularPosition()) {
+            $type = $position->getType();
+            throw new InvalidTypeException("Špatný typ pozice ($type není typ zaměstnání)");
+        }
+        $this->addPosition($position);
+    }
+
+    /**
+     * @param Position|null $position
+     *
+     * @throws InvalidTypeException
+     */
+    public function removeStudy(?Position $position): void
+    {
+        if (null !== $position && !$position->isStudy()) {
+            throw new InvalidTypeException('Špatný typ pozice ('.$position->getType().' není typ studia)');
+        }
+        $this->removePosition($position);
+    }
+
+    /**
+     * @param Position|null $position
+     *
+     * @throws InvalidTypeException
+     */
+    public function removeRegularPosition(?Position $position): void
+    {
+        if (null !== $position && !$position->isRegularPosition()) {
+            throw new InvalidTypeException('Špatný typ pozice ('.$position->getType().' není typ zaměstnání)');
+        }
+        $this->removePosition($position);
     }
 
     public function addPosition(?Position $position): void
@@ -148,9 +256,9 @@ class Person extends AbstractPerson
     public function getOrganizationsString(): string
     {
         $output = '';
-        foreach ($this->getPositions(new DateTime(), null, true) as $position) {
+        foreach ($this->getPositions(new DateTime(), null) as $position) {
             assert($position instanceof Position);
-            $output .= (!empty($output) ? ', ' : null).$position->getEmployerString();
+            $output .= (!empty($output) ? ', ' : null).$position->getEmployerName();
         }
 
         return preg_replace('!\s+!', ' ', rtrim(trim(preg_replace('/[,]+/', ',', $output)), ','));

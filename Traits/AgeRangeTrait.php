@@ -71,6 +71,4 @@ trait AgeRangeTrait
     {
         $this->minAge = $minAge;
     }
-
-
 }

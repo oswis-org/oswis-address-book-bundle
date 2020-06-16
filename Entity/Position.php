@@ -10,9 +10,10 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use DateTime;
-use InvalidArgumentException;
 use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
+use OswisOrg\OswisCoreBundle\Entity\NonPersistent\DateTimeRange;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
+use OswisOrg\OswisCoreBundle\Exceptions\InvalidTypeException;
 use OswisOrg\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
 use OswisOrg\OswisCoreBundle\Interfaces\Common\NameableInterface;
 use OswisOrg\OswisCoreBundle\Traits\Common\DateRangeTrait;
@@ -82,63 +83,54 @@ class Position implements NameableInterface
 
     /**
      * True if person is intended for receiving messages about organization.
-     * @Doctrine\ORM\Mapping\Column(type="boolean", nullable=true)
+     * @Doctrine\ORM\Mapping\Column(type="boolean")
      */
-    protected ?bool $isContactPerson = null;
+    protected bool $contactPerson = false;
 
     /**
      * True if position is kind of "special" (and to be displayed in web profile).
-     * @Doctrine\ORM\Mapping\Column(type="boolean", nullable=true)
+     * @Doctrine\ORM\Mapping\Column(type="boolean")
      */
-    protected ?bool $special = null;
+    protected bool $special = false;
 
     /**
      * @Doctrine\ORM\Mapping\ManyToOne(
-     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Person",
-     *     cascade={"all"},
-     *     inversedBy="positions"
+     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Person", cascade={"all"}, inversedBy="positions"
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(name="person_id", referencedColumnName="id")
      */
     protected ?Person $person = null;
 
     /**
-     * @Doctrine\ORM\Mapping\ManyToOne(
-     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Organization",
-     *     cascade={"all"},
-     *     inversedBy="positions"
-     * )
+     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Organization", cascade={"all"})
      * @Doctrine\ORM\Mapping\JoinColumn(name="organization_id", referencedColumnName="id")
      */
     protected ?Organization $organization = null;
 
     /**
+     * @param Nameable|null     $nameable
      * @param Person|null       $person
      * @param Organization|null $organization
      * @param string|null       $type
      * @param bool|null         $isContactPerson
-     * @param Nameable|null     $nameable
-     * @param DateTime|null     $startDateTime
-     * @param DateTime|null     $endDateTime
+     * @param DateTimeRange     $range
      *
-     * @throws InvalidArgumentException
+     * @throws InvalidTypeException
      */
     public function __construct(
+        ?Nameable $nameable = null,
         ?Person $person = null,
         ?Organization $organization = null,
         ?string $type = null,
         ?bool $isContactPerson = null,
-        ?Nameable $nameable = null,
-        ?DateTime $startDateTime = null,
-        ?DateTime $endDateTime = null
+        ?DateTimeRange $range = null
     ) {
         $this->setPerson($person);
         $this->setOrganization($organization);
         $this->setType($type);
-        $this->setIsContactPerson($isContactPerson);
+        $this->setContactPerson($isContactPerson);
         $this->setFieldsFromNameable($nameable);
-        $this->setStartDateTime($startDateTime);
-        $this->setEndDateTime($endDateTime);
+        $this->setDateTimeRange($range);
     }
 
     public static function getAllowedTypesDefault(): array
@@ -159,48 +151,29 @@ class Position implements NameableInterface
         return [];
     }
 
-    public function isSpecial(): ?bool
+    public function isSpecial(): bool
     {
         return $this->special;
     }
 
     public function setSpecial(?bool $special): void
     {
-        $this->special = $special;
+        $this->special = $special ?? false;
     }
 
-    /**
-     * Get organization of this position.
-     */
-    public function getEmployerString(): string
+    public function getEmployerName(): string
     {
         return $this->organization ? $this->organization->getName() : '???';
     }
 
-    public function isActive(): bool
+    public function isActive(?DateTime $dateTime = null): bool
     {
-        return $this->isInDateRange();
+        return $this->isInDateRange($dateTime);
     }
 
-    /**
-     * Get person of this position.
-     */
-    public function getEmployeeString(): string
+    public function getEmployeeName(): string
     {
         return $this->person ? $this->person->getFullName() : '???';
-    }
-
-    /**
-     * Get organization of this position.
-     */
-    public function getDepartmentString(): ?string
-    {
-        return ''; // TODO
-        // if ($this->department) {
-        //     return $this->department->getName();
-        // } else {
-        //     return null;
-        // }
     }
 
     public function getOrganization(): ?Organization
@@ -210,17 +183,7 @@ class Position implements NameableInterface
 
     public function setOrganization(?Organization $organization): void
     {
-        // if (null != $this->department) {
-        //     $this->department->removePosition($this);
-        //     $this->setDepartment(null);
-        // }
-        if ($this->organization && $organization !== $this->organization) {
-            $this->organization->removePosition($this);
-        }
         $this->organization = $organization;
-        if ($organization && $this->organization !== $organization) {
-            $organization->addPosition($this);
-        }
     }
 
     public function isManager(): bool
@@ -238,19 +201,14 @@ class Position implements NameableInterface
         return in_array($this->getType(), self::STUDY_POSITION_TYPES, true);
     }
 
-    public function isContactPerson(): bool
+    public function contactPerson(): bool
     {
-        return $this->getIsContactPerson();
+        return $this->contactPerson;
     }
 
-    public function getIsContactPerson(): bool
+    public function setContactPerson(?bool $isContactPerson): void
     {
-        return $this->isContactPerson ?? false;
-    }
-
-    public function setIsContactPerson(?bool $isContactPerson): void
-    {
-        $this->isContactPerson = $isContactPerson ?? false;
+        $this->contactPerson = $isContactPerson ?? false;
     }
 
     public function getGenderCssClass(): string

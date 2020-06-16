@@ -16,8 +16,6 @@ use OswisOrg\OswisAddressBookBundle\Utils\AgeUtils;
 trait BirthDateTrait
 {
     /**
-     * Birth date.
-     * @var DateTime|null
      * @Doctrine\ORM\Mapping\Column(type="datetime", nullable=true, options={"default" : null})
      */
     protected ?DateTime $birthDate = null;

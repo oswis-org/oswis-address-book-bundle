@@ -1,27 +1,19 @@
 <?php
 /**
- * @noinspection PhpUnused
  * @noinspection MethodShouldBeFinalInspection
  */
 
 namespace OswisOrg\OswisAddressBookBundle\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractOrganization;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
-use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Publicity;
-use OswisOrg\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
 
 /**
  * @Doctrine\ORM\Mapping\Entity(repositoryClass="OswisOrg\OswisAddressBookBundle\Repository\OrganizationRepository")
  * @Doctrine\ORM\Mapping\Table(name="address_book_organization")
- * @ApiResource(
+ * @ApiPlatform\Core\Annotation\ApiResource(
  *   iri="http://schema.org/Organization",
  *   attributes={
  *     "filters"={"search"},
@@ -48,7 +40,7 @@ use OswisOrg\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
  *     }
  *   }
  * )
- * @ApiFilter(OrderFilter::class, properties={
+ * @ApiPlatform\Core\Annotation\ApiFilter(ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter::class, properties={
  *     "id": "ASC",
  *     "slug",
  *     "description",
@@ -58,7 +50,7 @@ use OswisOrg\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
  *     "note",
  *     "identificationNumber"
  * })
- * @ApiFilter(SearchFilter::class, properties={
+ * @ApiPlatform\Core\Annotation\ApiFilter(ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter::class, properties={
  *     "id": "exact",
  *     "description": "partial",
  *     "slug": "partial",
@@ -67,7 +59,7 @@ use OswisOrg\OswisCoreBundle\Filter\SearchAnnotation as Searchable;
  *     "note": "partial",
  *     "identificationNumber": "partial"
  * })
- * @Searchable({
+ * @OswisOrg\OswisCoreBundle\Filter\SearchAnnotation({
  *     "id",
  *     "slug",
  *     "contactName",
@@ -98,107 +90,34 @@ class Organization extends AbstractOrganization
     protected ?Collection $subOrganizations = null;
 
     /**
-     * @Doctrine\ORM\Mapping\OneToMany(
-     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Position", mappedBy="organization", cascade={"all"}, orphanRemoval=true
-     * )
+     * @todo Implement it!!!
      */
-    protected ?Collection $positions = null;
+    protected ?Collection $contactPersons = null;
 
     public function __construct(
         ?Nameable $nameable = null,
         ?string $identificationNumber = null,
         ?Organization $parentOrganization = null,
-        ?string $color = null,
         ?string $type = self::TYPE_ORGANIZATION,
         ?Collection $addresses = null,
-        ?Collection $contactDetails = null,
+        ?Collection $details = null,
         ?Collection $notes = null,
-        ?Collection $addressBooks = null,
-        ?Publicity $publicity = null
+        ?Collection $addressBooks = null
     ) {
-        $type ??= self::TYPE_ORGANIZATION;
-        parent::__construct($nameable, $identificationNumber, $color, $type, $notes, $contactDetails, $addresses, $addressBooks, $publicity);
+        parent::__construct($nameable, $identificationNumber, $type ?? self::TYPE_ORGANIZATION, $notes, $details, $addresses, $addressBooks);
         $this->subOrganizations = new ArrayCollection();
+        $this->contactPersons = new ArrayCollection();
         $this->setParentOrganization($parentOrganization);
     }
 
-    public function addPosition(?Position $position): void
+    public function getContactPersons(bool $onlyWithActivatedUser = false): Collection
     {
-        if ($position && !$this->positions->contains($position)) {
-            $this->positions->add($position);
-            $position->setOrganization($this);
+        $contactPersons = $this->contactPersons ?? new ArrayCollection();
+        if ($onlyWithActivatedUser) {
+            $contactPersons = $contactPersons->filter(fn(Person $person) => $person->hasActivatedUser());
         }
-    }
 
-    public function removePosition(?Position $position): void
-    {
-        if ($position && $this->positions->removeElement($position)) {
-            $position->setOrganization(null);
-            $position->setPerson(null);
-        }
-    }
-
-    public function getStudents(?DateTime $dateTime = null, bool $recursive = false): Collection
-    {
-        $out = new ArrayCollection();
-        $this->getStudies($dateTime, $recursive)->map(
-            fn(Position $p) => $out->contains($p->getPerson()) ? null : $out->add($p->getPerson())
-        );
-
-        return $out;
-    }
-
-    public function getMembers(?DateTime $dateTime = null, bool $recursive = false): Collection
-    {
-        $out = new ArrayCollection();
-        $this->getMemberPositions($dateTime, $recursive)->map(
-            fn(Position $p) => $out->contains($p->getPerson()) ? null : $out->add($p->getPerson())
-        );
-
-        return $out;
-    }
-
-    public function getMembersAndEmployees(?DateTime $dateTime = null, bool $recursive = false): Collection
-    {
-        $out = new ArrayCollection();
-        $this->getMemberAndEmployeePositions($dateTime, $recursive)->map(
-            fn(Position $p) => $out->contains($p->getPerson()) ? null : $out->add($p->getPerson())
-        );
-
-        return $out;
-    }
-
-    public function getEmployees(?DateTime $dateTime = null, bool $recursive = false): Collection
-    {
-        $out = new ArrayCollection();
-        $this->getEmployeePositions($dateTime, $recursive)->map(
-            fn(Position $p) => $out->contains($p->getPerson()) ? null : $out->add($p->getPerson())
-        );
-
-        return $out;
-    }
-
-    public function getManagers(?DateTime $dateTime = null, bool $recursive = false): Collection
-    {
-        $out = new ArrayCollection();
-        $this->getManagerPositions($dateTime, $recursive)->map(
-            fn(Position $p) => $out->contains($p->getPerson()) ? null : $out->add($p->getPerson())
-        );
-
-        return $out;
-    }
-
-    public function getContactPersons(?DateTime $dateTime = null, bool $onlyWithActivatedUser = false): Collection
-    {
-        return $this->getPositions($dateTime ?? new DateTime())->filter(
-            static function (Position $p) use ($onlyWithActivatedUser) {
-                if ($onlyWithActivatedUser && (!$p->getPerson() || !$p->getPerson()->hasActivatedUser())) {
-                    return false;
-                }
-
-                return $p->isContactPerson();
-            }
-        );
+        return $contactPersons;
     }
 
     public function isRoot(): bool
@@ -211,8 +130,7 @@ class Organization extends AbstractOrganization
         if ($organization && !$this->subOrganizations->contains($organization)) {
             $this->subOrganizations->add($organization);
             $organization->setParentOrganization($this);
-        }
-        // TODO: Check cycles!
+        } // TODO: Check cycles!
     }
 
     public function removeSubOrganization(?Organization $organization): void
@@ -220,7 +138,6 @@ class Organization extends AbstractOrganization
         if ($organization && $this->subOrganizations->removeElement($organization)) {
             $organization->setParentOrganization(null);
         }
-        // TODO: Check cycles!
     }
 
     public function filterSubOrganizationsByType(string $type): Collection
@@ -251,12 +168,11 @@ class Organization extends AbstractOrganization
         $this->parentOrganization = $organization;
         if ($this->parentOrganization) {
             $this->parentOrganization->addSubOrganization($this);
-        }
-        // TODO: Check!
+        } // TODO: Check!
     }
 
-    public function getIdentificationNumberFromParents(): ?string
+    public function getIdentificationNumberRecursive(): ?string
     {
-        return $this->getIdentificationNumber() ?? ($this->getParentOrganization() ? $this->getParentOrganization()->getIdentificationNumberFromParents() : null) ?? null;
+        return $this->getIdentificationNumber() ?? ($this->getParentOrganization() ? $this->getParentOrganization()->getIdentificationNumberRecursive() : null) ?? null;
     }
 }

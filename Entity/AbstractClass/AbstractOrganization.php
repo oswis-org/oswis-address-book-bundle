@@ -18,21 +18,17 @@ abstract class AbstractOrganization extends AbstractContact
 
     use NameableTrait;
     use IdentificationNumberTrait;
-    use ColorTrait;
 
     public function __construct(
         ?Nameable $nameable = null,
         ?string $identificationNumber = null,
-        ?string $color = null,
         ?string $type = null,
         ?Collection $notes = null,
         ?Collection $contactDetails = null,
         ?Collection $addresses = null,
-        ?Collection $addressBooks = null,
-        ?Publicity $publicity = null
+        ?Collection $addressBooks = null
     ) {
-        parent::__construct($nameable, $type, $notes, $contactDetails, $addresses, $addressBooks, null, $publicity);
+        parent::__construct($nameable, $type, $notes, $contactDetails, $addresses, $addressBooks);
         $this->setIdentificationNumber($identificationNumber);
-        $this->setColor($color);
     }
 }

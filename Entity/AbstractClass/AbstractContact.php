@@ -7,7 +7,6 @@
 namespace OswisOrg\OswisAddressBookBundle\Entity\AbstractClass;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use InvalidArgumentException;
@@ -17,14 +16,14 @@ use OswisOrg\OswisAddressBookBundle\Entity\ContactAddress;
 use OswisOrg\OswisAddressBookBundle\Entity\ContactDetail;
 use OswisOrg\OswisAddressBookBundle\Entity\ContactDetailType;
 use OswisOrg\OswisAddressBookBundle\Entity\ContactNote;
+use OswisOrg\OswisAddressBookBundle\Entity\MediaObject\ContactFile;
 use OswisOrg\OswisAddressBookBundle\Entity\MediaObject\ContactImage;
 use OswisOrg\OswisAddressBookBundle\Entity\Organization;
 use OswisOrg\OswisAddressBookBundle\Entity\Person;
-use OswisOrg\OswisAddressBookBundle\Entity\Position;
 use OswisOrg\OswisCoreBundle\Entity\AppUser\AppUser;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
-use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Publicity;
 use OswisOrg\OswisCoreBundle\Interfaces\AddressBook\ContactInterface;
+use OswisOrg\OswisCoreBundle\Traits\Common\ColorTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\EntityPublicTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\TypeTrait;
@@ -56,6 +55,7 @@ abstract class AbstractContact implements ContactInterface
     use NameableTrait;
     use TypeTrait;
     use EntityPublicTrait;
+    use ColorTrait;
 
     /**
      * Notes about person.
@@ -112,25 +112,26 @@ abstract class AbstractContact implements ContactInterface
     protected ?AppUser $appUser = null;
 
     /**
-     * @Doctrine\ORM\Mapping\OneToOne(
-     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\MediaObject\ContactImage",
-     *     cascade={"all"},
-     *     fetch="EAGER"
+     * @Doctrine\ORM\Mapping\OneToMany(
+     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\MediaObject\ContactImage", mappedBy="contact", cascade={"all"}, orphanRemoval=true
      * )
      */
-    protected ?ContactImage $image = null;
+    protected ?Collection $images = null;
 
-    protected ?Collection $positions = null;
+    /**
+     * @Doctrine\ORM\Mapping\OneToMany(
+     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\MediaObject\ContactFile", mappedBy="contact", cascade={"all"}, orphanRemoval=true
+     * )
+     */
+    protected ?Collection $files = null;
 
     /**
      * @param Nameable|null   $nameable
      * @param string|null     $type
      * @param Collection|null $notes
-     * @param Collection|null $contactDetails
+     * @param Collection|null $details
      * @param Collection|null $addresses
      * @param Collection|null $addressBooks
-     * @param Collection|null $positions
-     * @param Publicity|null  $publicity
      *
      * @throws InvalidArgumentException
      */
@@ -138,20 +139,18 @@ abstract class AbstractContact implements ContactInterface
         ?Nameable $nameable = null,
         ?string $type = null,
         ?Collection $notes = null,
-        ?Collection $contactDetails = null,
+        ?Collection $details = null,
         ?Collection $addresses = null,
-        ?Collection $addressBooks = null,
-        ?Collection $positions = null,
-        ?Publicity $publicity = null
+        ?Collection $addressBooks = null
     ) {
+        $this->images = new ArrayCollection();
+        $this->files = new ArrayCollection();
         $this->setFieldsFromNameable($nameable);
         $this->setType($type);
         $this->setNotes($notes);
-        $this->setDetails($contactDetails);
+        $this->setDetails($details);
         $this->setAddresses($addresses);
-        $this->setPositions($positions);
         $this->setAddressBooks($addressBooks);
-        $this->setFieldsFromPublicity($publicity);
     }
 
     public function setAddressBooks(?Collection $newAddressBooks): void
@@ -167,6 +166,46 @@ abstract class AbstractContact implements ContactInterface
             if (!$this->containsAddressBook($newAddressBook)) {
                 $this->addAddressBook($newAddressBook);
             }
+        }
+    }
+
+    public function getImages(): Collection
+    {
+        return $this->images ?? new ArrayCollection();
+    }
+
+    public function getFiles(): Collection
+    {
+        return $this->files ?? new ArrayCollection();
+    }
+
+    public function addImage(?ContactImage $image): void
+    {
+        if (null !== $image && !$this->getImages()->contains($image)) {
+            $this->getImages()->add($image);
+            $image->setContact($this);
+        }
+    }
+
+    public function removeImage(?ContactImage $image): void
+    {
+        if (null !== $image && $this->getImages()->removeElement($image)) {
+            $image->setContact(null);
+        }
+    }
+
+    public function addFile(?ContactFile $file): void
+    {
+        if (null !== $file && !$this->getFiles()->contains($file)) {
+            $this->getFiles()->add($file);
+            $file->setContact($this);
+        }
+    }
+
+    public function removeFile(?ContactFile $file): void
+    {
+        if (null !== $file && $this->getFiles()->removeElement($file)) {
+            $file->setContact(null);
         }
     }
 
@@ -216,7 +255,7 @@ abstract class AbstractContact implements ContactInterface
 
     public function addContactAddressBook(?ContactAddressBook $addressBookContactConnection): void
     {
-        if ($addressBookContactConnection && !$this->contactAddressBooks->contains($addressBookContactConnection)) {
+        if (null !== $addressBookContactConnection && !$this->contactAddressBooks->contains($addressBookContactConnection)) {
             $this->contactAddressBooks->add($addressBookContactConnection);
         }
     }
@@ -240,16 +279,6 @@ abstract class AbstractContact implements ContactInterface
     public static function getAllowedTypesCustom(): array
     {
         return [];
-    }
-
-    public function getImage(): ?ContactImage
-    {
-        return $this->image;
-    }
-
-    public function setImage(?ContactImage $image): void
-    {
-        $this->image = $image;
     }
 
     public function isPerson(): bool
@@ -425,16 +454,9 @@ abstract class AbstractContact implements ContactInterface
         return $this->getDetails(ContactDetailType::TYPE_URL);
     }
 
-    /**
-     * @param DateTime|null $dateTime
-     * @param bool|false    $onlyWithActivatedUser
-     *
-     * @return Collection
-     * @noinspection PhpUnusedParameterInspection
-     */
-    public function getContactPersons(?DateTime $dateTime = null, bool $onlyWithActivatedUser = false): Collection
+    public function getContactPersons(bool $onlyWithActivatedUser = false): Collection
     {
-        if ($onlyWithActivatedUser) {
+        if (true === $onlyWithActivatedUser) {
             return $this->getAppUser() && $this->getAppUser()->isActive() ? new ArrayCollection([$this]) : new ArrayCollection();
         }
 
@@ -456,67 +478,6 @@ abstract class AbstractContact implements ContactInterface
     public function hasActivatedUser(): bool
     {
         return $this->getAppUser() && $this->getAppUser()->isActivated();
-    }
-
-    public function getStudies(?DateTime $dateTime = null, bool $recursive = false): Collection
-    {
-        return $this->getPositions($dateTime, Position::STUDY_POSITION_TYPES, $recursive);
-    }
-
-    public function getPositions(?DateTime $dateTime = null, ?array $types = null, bool $recursive = false): Collection
-    {
-        $out = $this->positions ?? new ArrayCollection();
-        if (null !== $dateTime) {
-            $out = $out->filter(fn(Position $p): bool => $p->isInDateRange($dateTime));
-        }
-        if (!empty($types)) {
-            $out = $out->filter(fn(Position $position) => in_array($position->getType(), $types, true));
-        }
-        if (true === $recursive && $this instanceof Organization) {
-            foreach ($this->getSubOrganizations() as $subOrganization) {
-                if ($subOrganization instanceof self) {
-                    $subOrganization->getPositions($dateTime, $types, true)->map(fn(Position $p) => $out->add($p));
-                }
-            }
-        }
-
-        return $out;
-    }
-
-    public function setPositions(?Collection $newPositions): void
-    {
-        $this->positions ??= new ArrayCollection();
-        $newPositions ??= new ArrayCollection();
-        foreach ($this->positions as $oldPosition) {
-            if (!$newPositions->contains($oldPosition)) {
-                $this->removePosition($oldPosition);
-            }
-        }
-        foreach ($newPositions as $newPosition) {
-            if (!$this->positions->contains($newPosition)) {
-                $this->addPosition($newPosition);
-            }
-        }
-    }
-
-    public function getMemberPositions(?DateTime $dateTime = null, bool $recursive = false): Collection
-    {
-        return $this->getPositions($dateTime, Position::MEMBER_POSITION_TYPES, $recursive);
-    }
-
-    public function getMemberAndEmployeePositions(?DateTime $dateTime = null, bool $recursive = false): Collection
-    {
-        return $this->getPositions($dateTime, Position::EMPLOYEE_MEMBER_POSITION_TYPES, $recursive);
-    }
-
-    public function getEmployeePositions(?DateTime $dateTime = null, bool $recursive = false): Collection
-    {
-        return $this->getPositions($dateTime, Position::EMPLOYEE_POSITION_TYPES, $recursive);
-    }
-
-    public function getManagerPositions(?DateTime $dateTime = null, bool $recursive = false): Collection
-    {
-        return $this->getPositions($dateTime, Position::STUDY_POSITION_TYPES, $recursive);
     }
 
     public function getUrl(): ?string
@@ -565,12 +526,7 @@ abstract class AbstractContact implements ContactInterface
             return false;
         }
 
-        return $user->hasRole('ROLE_MEMBER') && $user->hasRole('ROLE_USER') && $user === $this->getUser();
-    }
-
-    public function getUser(): ?AppUser
-    {
-        return $this->getAppUser();
+        return $user->hasRole('ROLE_MEMBER') && $user->hasRole('ROLE_USER') && $user === $this->getAppUser();
     }
 
     /**
@@ -609,35 +565,7 @@ abstract class AbstractContact implements ContactInterface
             return false;
         }
 
-        return $user->hasRole('ROLE_MEMBER') && $user->hasRole('ROLE_USER') && $user === $this->getUser();
-    }
-
-    public function containsUserInPersons(AppUser $user): bool
-    {
-        return $this->getUsersOfPersons()->contains($user);
-    }
-
-    public function getUsersOfPersons(): Collection
-    {
-        return $this->getPersons()->map(fn(Person $person) => $person->getAppUser());
-    }
-
-    public function getPersons(): Collection
-    {
-        if ($this instanceof Person) {
-            return new ArrayCollection([$this]);
-        }
-        if ($this instanceof Organization) {
-            return $this->getPositions()->map(fn(Position $position) => $position->getPerson());
-        }
-
-        return new ArrayCollection();
-    }
-
-    public function getManagedDepartments(): Collection
-    {
-        // TODO: Return managed departments.
-        return new ArrayCollection();
+        return $user->hasRole('ROLE_MEMBER') && $user->hasRole('ROLE_USER') && $user === $this->getAppUser();
     }
 
     public function __toString(): string
@@ -645,79 +573,8 @@ abstract class AbstractContact implements ContactInterface
         return $this->getName() ?? '';
     }
 
-    public function getRegularPositions(): Collection
-    {
-        return $this->getPositions()->filter(fn(Position $position) => $position->isRegularPosition());
-    }
-
-    /**
-     * @param Position|null $position
-     *
-     * @throws InvalidArgumentException
-     */
-    public function addStudy(?Position $position): void
-    {
-        if (!$position) {
-            return;
-        }
-        if (!$position->isStudy()) {
-            throw new InvalidArgumentException('Špatný typ pozice ('.$position->getType().' není typ studia)');
-        }
-        $this->addPosition($position);
-    }
-
-    abstract public function addPosition(?Position $position): void;
-
-    /**
-     * @param Position|null $position
-     *
-     * @throws InvalidArgumentException
-     */
-    public function addRegularPosition(?Position $position): void
-    {
-        if (!$position) {
-            return;
-        }
-        if (!$position->isRegularPosition()) {
-            throw new InvalidArgumentException('Špatný typ pozice ('.$position->getType().' není typ zaměstnání)');
-        }
-        $this->addPosition($position);
-    }
-
-    /**
-     * @param Position|null $position
-     *
-     * @throws InvalidArgumentException
-     */
-    public function removeStudy(?Position $position): void
-    {
-        if (null !== $position && !$position->isStudy()) {
-            throw new InvalidArgumentException('Špatný typ pozice ('.$position->getType().' není typ studia)');
-        }
-        $this->removePosition($position);
-    }
-
-    abstract public function removePosition(?Position $position): void;
-
-    /**
-     * @param Position|null $position
-     *
-     * @throws InvalidArgumentException
-     */
-    public function removeRegularPosition(?Position $position): void
-    {
-        if (null !== $position && !$position->isRegularPosition()) {
-            throw new InvalidArgumentException('Špatný typ pozice ('.$position->getType().' není typ zaměstnání)');
-        }
-        $this->removePosition($position);
-    }
-
     public function getGender(): string
     {
         return self::GENDER_UNISEX;
-    }
-
-    public function destroyRevisions(): void
-    {
     }
 }
