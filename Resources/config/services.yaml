@@ -103,6 +103,61 @@ services:
         alias: oswis_org_oswis_address_book.contact_detail_type_service
         public: true
 
+    ###
+    ###  REPOSITORIES
+    ###
+
+    oswis_org_oswis_address_book.address_book_repository:
+        class: OswisOrg\OswisAddressBookBundle\Repository\AddressBookRepository
+        autowire: true
+        public: true
+        arguments:
+            - '@doctrine'
+    OswisOrg\OswisAddressBookBundle\Repository\AddressBookRepository:
+        alias: oswis_org_oswis_address_book.address_book_repository
+        public: true
+
+    oswis_org_oswis_address_book.contact_detail_type_repository:
+        class: OswisOrg\OswisAddressBookBundle\Repository\ContactDetailTypeRepository
+        autowire: true
+        public: true
+        arguments:
+            - '@doctrine'
+    OswisOrg\OswisAddressBookBundle\Repository\ContactDetailTypeRepository:
+        alias: oswis_org_oswis_address_book.contact_detail_type_repository
+        public: true
+
+    oswis_org_oswis_address_book.organization_repository:
+        class: OswisOrg\OswisAddressBookBundle\Repository\OrganizationRepository
+        autowire: true
+        public: true
+        arguments:
+            - '@doctrine'
+    OswisOrg\OswisAddressBookBundle\Repository\OrganizationRepository:
+        alias: oswis_org_oswis_address_book.organization_repository
+        public: true
+
+    oswis_org_oswis_address_book.person_repository:
+        class: OswisOrg\OswisAddressBookBundle\Repository\PersonRepository
+        autowire: true
+        public: true
+        arguments:
+            - '@doctrine'
+    OswisOrg\OswisAddressBookBundle\Repository\PersonRepository:
+        alias: oswis_org_oswis_address_book.person_repository
+        public: true
+
+    oswis_org_oswis_address_book.position_repository:
+        class: OswisOrg\OswisAddressBookBundle\Repository\PositionRepository
+        autowire: true
+        public: true
+        arguments:
+            - '@doctrine'
+    OswisOrg\OswisAddressBookBundle\Repository\PositionRepository:
+        alias: oswis_org_oswis_address_book.position_repository
+        public: true
+
+
     ### Organization Controller
     oswis_org_oswis_address_book.organization_controller:
         class: OswisOrg\OswisAddressBookBundle\Controller\OrganizationController

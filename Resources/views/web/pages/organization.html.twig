@@ -2,17 +2,23 @@
 
 {% block body_content %}
     <main class="container" id="main-content-container" itemscope itemtype="http://schema.org/Organization">
-        {% if organization is defined and organization %}
+        {% if organization|default %}
             <div>
                 {% include '@OswisOrgOswisAddressBook/web/parts/organization-info.html.twig' %}
-                {% include '@OswisOrgOswisAddressBook/web/parts/organization-person-profiles.html.twig' %}
+                {{ render_hinclude(controller('OswisOrg\\OswisAddressBookBundle\\Controller\\OrganizationController::showTeam',
+                    {'slug': organization.slug})) }}
+                {# {% include '@OswisOrgOswisAddressBook/web/parts/organization-person-profiles.html.twig' %} #}
+            </div>
+        {% else %}
+            <div>
+                <p>Organizace nebyla nalezena nebo není určena pro zveřejnění na webu.</p>
             </div>
         {% endif %}
     </main>
 {% endblock %}
 
 {% block body_breadcrumbs %}
-    {% if organization is defined and organization %}
+    {% if organization|default %}
         {% include '@OswisOrgOswisAddressBook/web/parts/organization-breadcrumbs.html.twig' %}
     {% else %}
         {{ parent() }}

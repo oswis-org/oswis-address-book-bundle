@@ -9,6 +9,7 @@ namespace OswisOrg\OswisAddressBookBundle\Service;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use OswisOrg\OswisAddressBookBundle\Entity\Person;
+use OswisOrg\OswisAddressBookBundle\Repository\PersonRepository;
 use Psr\Log\LoggerInterface;
 
 class PersonService
@@ -17,10 +18,13 @@ class PersonService
 
     protected LoggerInterface $logger;
 
-    public function __construct(EntityManagerInterface $em, LoggerInterface $logger)
+    protected PersonRepository $personRepository;
+
+    public function __construct(EntityManagerInterface $em, LoggerInterface $logger, PersonRepository $personRepository)
     {
         $this->em = $em;
         $this->logger = $logger;
+        $this->personRepository = $personRepository;
     }
 
     public function create(Person $person): ?Person
@@ -37,6 +41,10 @@ class PersonService
 
             return null;
         }
+    }
+
+    public function getRepository(): PersonRepository {
+        return $this->personRepository;
     }
 
     public function updateActiveRevisions(): void

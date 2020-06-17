@@ -8,6 +8,7 @@ namespace OswisOrg\OswisAddressBookBundle\Controller;
 
 use OswisOrg\OswisAddressBookBundle\Entity\Organization;
 use OswisOrg\OswisAddressBookBundle\Provider\OswisAddressBookSettingsProvider;
+use OswisOrg\OswisAddressBookBundle\Repository\PositionRepository;
 use OswisOrg\OswisAddressBookBundle\Service\OrganizationService;
 use OswisOrg\OswisCoreBundle\Exceptions\NotFoundException;
 use OswisOrg\OswisCoreBundle\Exceptions\OswisNotFoundException;
@@ -20,24 +21,31 @@ class OrganizationController extends AbstractController
 
     public OswisAddressBookSettingsProvider $addressBookSettings;
 
+    public PositionRepository $positionRepository;
+
     public function __construct(
         OrganizationService $organizationService,
-        OswisAddressBookSettingsProvider $addressBookSettings
+        OswisAddressBookSettingsProvider $addressBookSettings,
+        PositionRepository $positionRepository
     ) {
         $this->addressBookSettings = $addressBookSettings;
         $this->organizationService = $organizationService;
+        $this->positionRepository = $positionRepository;
     }
 
-    /**
-     * @param string|null $slug
-     *
-     * @return Response
-     */
-    public function showOrganizationProfiles(?string $slug = null): Response
+    public function showTeam(?string $slug = null): Response
     {
         return $this->render(
             '@OswisOrgOswisAddressBook/web/parts/organization-person-profiles.html.twig',
-            ['organization' => $this->getOrganization($slug)]
+            [
+                'positions' => $this->positionRepository->getPositions(
+                    [
+                        PositionRepository::CRITERIA_ORG                 => $this->getOrganization($slug),
+                        PositionRepository::CRITERIA_ORG_RECURSIVE_DEPTH => 5,
+                        PositionRepository::CRITERIA_ONLY_ACTIVE         => true,
+                    ]
+                ),
+            ]
         );
     }
 

@@ -15,12 +15,15 @@ class AddressBookService
 {
     protected EntityManagerInterface $em;
 
-    protected ?LoggerInterface $logger;
+    protected LoggerInterface $logger;
 
-    public function __construct(EntityManagerInterface $em, ?LoggerInterface $logger = null)
+    protected AddressBookRepository $addressBookRepository;
+
+    public function __construct(EntityManagerInterface $em, LoggerInterface $logger, AddressBookRepository $addressBookRepository)
     {
         $this->em = $em;
         $this->logger = $logger;
+        $this->addressBookRepository = $addressBookRepository;
     }
 
     public function create(?Nameable $nameable = null): ?AddressBook
@@ -30,11 +33,11 @@ class AddressBookService
             $this->em->persist($entity);
             $this->em->flush();
             $infoMessage = 'Created address book (by manager): '.$entity->getId().', '.$entity->getName().'.';
-            $this->logger ? $this->logger->info($infoMessage) : null;
+            $this->logger->info($infoMessage);
 
             return $entity;
         } catch (Exception $e) {
-            $this->logger ? $this->logger->info('ERROR: Address book not created (by manager): '.$e->getMessage()) : null;
+            $this->logger->info('ERROR: Address book not created (by manager): '.$e->getMessage());
 
             return null;
         }
@@ -42,10 +45,7 @@ class AddressBookService
 
     public function getRepository(): AddressBookRepository
     {
-        $repo = $this->em->getRepository(AddressBook::class);
-        assert($repo instanceof AddressBookRepository);
-
-        return $repo;
+        return $this->addressBookRepository;
     }
 
     public function updateActiveRevisions(): void

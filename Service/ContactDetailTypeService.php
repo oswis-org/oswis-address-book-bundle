@@ -9,7 +9,6 @@ namespace OswisOrg\OswisAddressBookBundle\Service;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use OswisOrg\OswisAddressBookBundle\Entity\ContactDetailType;
-use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
 use Psr\Log\LoggerInterface;
 
 class ContactDetailTypeService
@@ -24,22 +23,15 @@ class ContactDetailTypeService
         $this->logger = $logger;
     }
 
-    public function create(
-        ?Nameable $nameable = null,
-        ?string $schema = null,
-        ?bool $showInPreview = null,
-        ?string $type = null,
-        ?string $formLabel = null,
-        ?string $formHelp = null
-    ): ?ContactDetailType {
+    public function create(ContactDetailType $contactDetailType): ?ContactDetailType
+    {
         try {
-            $entity = new ContactDetailType($nameable, $schema, $showInPreview, $type, $formLabel, $formHelp);
-            $this->em->persist($entity);
+            $this->em->persist($contactDetailType);
             $this->em->flush();
-            $infoMessage = 'Created contact detail type: '.$entity->getId().' '.$entity->getName().'.';
+            $infoMessage = 'Created contact detail type: '.$contactDetailType->getId().' '.$contactDetailType->getName().'.';
             $this->logger ? $this->logger->info($infoMessage) : null;
 
-            return $entity;
+            return $contactDetailType;
         } catch (Exception $e) {
             $this->logger ? $this->logger->info('ERROR: Contact detail type not created: '.$e->getMessage()) : null;
 

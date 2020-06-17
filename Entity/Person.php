@@ -263,4 +263,9 @@ class Person extends AbstractPerson
 
         return preg_replace('!\s+!', ' ', rtrim(trim(preg_replace('/[,]+/', ',', $output)), ','));
     }
+
+    public function getContactPersons(bool $onlyWithActivatedUser = false): Collection
+    {
+        return $onlyWithActivatedUser && !$this->hasActivatedUser() ? new ArrayCollection() : new ArrayCollection([$this]);
+    }
 }

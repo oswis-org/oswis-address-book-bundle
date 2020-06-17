@@ -8,19 +8,15 @@ namespace OswisOrg\OswisAddressBookBundle\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
-use Psr\Log\LoggerInterface;
 use function assert;
 
 class AbstractContactService
 {
     protected EntityManagerInterface $em;
 
-    protected LoggerInterface $logger;
-
-    public function __construct(EntityManagerInterface $em, LoggerInterface $logger)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
-        $this->logger = $logger;
     }
 
     public function updateNames(): void

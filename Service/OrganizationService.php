@@ -16,12 +16,15 @@ class OrganizationService
 {
     protected EntityManagerInterface $em;
 
-    protected ?LoggerInterface $logger;
+    protected LoggerInterface $logger;
 
-    public function __construct(EntityManagerInterface $em, ?LoggerInterface $logger = null)
+    protected OrganizationRepository $organizationRepository;
+
+    public function __construct(EntityManagerInterface $em, LoggerInterface $logger, OrganizationRepository $organizationRepository)
     {
         $this->em = $em;
         $this->logger = $logger;
+        $this->organizationRepository = $organizationRepository;
     }
 
     public function create(Organization $organization): ?Organization
@@ -30,11 +33,11 @@ class OrganizationService
             $this->em->persist($organization);
             $this->em->flush();
             $infoMessage = 'Created organization: '.$organization->getId().' '.$organization->getName().'.';
-            $this->logger ? $this->logger->info($infoMessage) : null;
+            $this->logger->info($infoMessage);
 
             return $organization;
         } catch (Exception $e) {
-            $this->logger ? $this->logger->info('ERROR: Organization not created: '.$e->getMessage()) : null;
+            $this->logger->info('ERROR: Organization not created: '.$e->getMessage());
 
             return null;
         }
@@ -42,10 +45,7 @@ class OrganizationService
 
     public function getRepository(): OrganizationRepository
     {
-        $repo = $this->em->getRepository(Organization::class);
-        assert($repo instanceof OrganizationRepository);
-
-        return $repo;
+        return $this->organizationRepository;
     }
 
     public function updateActiveRevisions(): void
