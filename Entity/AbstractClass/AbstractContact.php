@@ -169,46 +169,6 @@ abstract class AbstractContact implements ContactInterface
         }
     }
 
-    public function getImages(): Collection
-    {
-        return $this->images ?? new ArrayCollection();
-    }
-
-    public function getFiles(): Collection
-    {
-        return $this->files ?? new ArrayCollection();
-    }
-
-    public function addImage(?ContactImage $image): void
-    {
-        if (null !== $image && !$this->getImages()->contains($image)) {
-            $this->getImages()->add($image);
-            $image->setContact($this);
-        }
-    }
-
-    public function removeImage(?ContactImage $image): void
-    {
-        if (null !== $image && $this->getImages()->removeElement($image)) {
-            $image->setContact(null);
-        }
-    }
-
-    public function addFile(?ContactFile $file): void
-    {
-        if (null !== $file && !$this->getFiles()->contains($file)) {
-            $this->getFiles()->add($file);
-            $file->setContact($this);
-        }
-    }
-
-    public function removeFile(?ContactFile $file): void
-    {
-        if (null !== $file && $this->getFiles()->removeElement($file)) {
-            $file->setContact(null);
-        }
-    }
-
     public function getAddressBooks(): Collection
     {
         return $this->getContactAddressBooks()->map(
@@ -279,6 +239,46 @@ abstract class AbstractContact implements ContactInterface
     public static function getAllowedTypesCustom(): array
     {
         return [];
+    }
+
+    public function addImage(?ContactImage $image): void
+    {
+        if (null !== $image && !$this->getImages()->contains($image)) {
+            $this->getImages()->add($image);
+            $image->setContact($this);
+        }
+    }
+
+    public function getImages(): Collection
+    {
+        return $this->images ?? new ArrayCollection();
+    }
+
+    public function removeImage(?ContactImage $image): void
+    {
+        if (null !== $image && $this->getImages()->removeElement($image)) {
+            $image->setContact(null);
+        }
+    }
+
+    public function addFile(?ContactFile $file): void
+    {
+        if (null !== $file && !$this->getFiles()->contains($file)) {
+            $this->getFiles()->add($file);
+            $file->setContact($this);
+        }
+    }
+
+    public function getFiles(): Collection
+    {
+        return $this->files ?? new ArrayCollection();
+    }
+
+    public function removeFile(?ContactFile $file): void
+    {
+        if (null !== $file && $this->getFiles()->removeElement($file)) {
+            $file->setContact(null);
+        }
     }
 
     public function isPerson(): bool
@@ -439,6 +439,11 @@ abstract class AbstractContact implements ContactInterface
 
     abstract public function getContactPersons(bool $onlyWithActivatedUser = false): Collection;
 
+    public function hasActivatedUser(): bool
+    {
+        return $this->getAppUser() && $this->getAppUser()->isActive();
+    }
+
     public function getAppUser(): ?AppUser
     {
         return $this->appUser;
@@ -447,11 +452,6 @@ abstract class AbstractContact implements ContactInterface
     public function setAppUser(?AppUser $appUser): void
     {
         $this->appUser = $appUser;
-    }
-
-    public function hasActivatedUser(): bool
-    {
-        return $this->getAppUser() && $this->getAppUser()->isActive();
     }
 
     public function getUrl(): ?string

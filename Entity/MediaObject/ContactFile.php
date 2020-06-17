@@ -43,7 +43,7 @@ class ContactFile extends AbstractFile
      * @Symfony\Component\Validator\Constraints\NotNull()
      * @Vich\UploaderBundle\Mapping\Annotation\UploadableField(
      *     mapping="address_book_contact_file",
-     *     fileNameProperty="contentUrl",
+     *     fileNameProperty="contentName",
      *     mimeType="contentMimeType"
      * )
      */

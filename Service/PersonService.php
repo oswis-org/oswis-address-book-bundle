@@ -43,7 +43,8 @@ class PersonService
         }
     }
 
-    public function getRepository(): PersonRepository {
+    public function getRepository(): PersonRepository
+    {
         return $this->personRepository;
     }
 

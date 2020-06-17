@@ -5,8 +5,6 @@
 
 namespace OswisOrg\OswisAddressBookBundle\Entity;
 
-use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
-use OswisOrg\OswisAddressBookBundle\Entity\MediaObject\ContactFile;
 use OswisOrg\OswisAddressBookBundle\Entity\MediaObject\ContactImage;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Publicity;
 use OswisOrg\OswisCoreBundle\Exceptions\InvalidTypeException;

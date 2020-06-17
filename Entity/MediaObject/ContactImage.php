@@ -46,7 +46,7 @@ class ContactImage extends AbstractImage
      * @Symfony\Component\Validator\Constraints\NotNull()
      * @Vich\UploaderBundle\Mapping\Annotation\UploadableField(
      *     mapping="address_book_contact_image",
-     *     fileNameProperty="contentUrl",
+     *     fileNameProperty="contentName",
      *     dimensions={"contentDimensionsWidth", "contentDimensionsHeight"},
      *     mimeType="contentMimeType"
      * )

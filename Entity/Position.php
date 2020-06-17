@@ -133,6 +133,11 @@ class Position implements NameableInterface
         $this->setDateTimeRange($range);
     }
 
+    public function setContactPerson(?bool $isContactPerson): void
+    {
+        $this->contactPerson = $isContactPerson ?? false;
+    }
+
     public static function getAllowedTypesDefault(): array
     {
         return [
@@ -204,11 +209,6 @@ class Position implements NameableInterface
     public function contactPerson(): bool
     {
         return $this->contactPerson;
-    }
-
-    public function setContactPerson(?bool $isContactPerson): void
-    {
-        $this->contactPerson = $isContactPerson ?? false;
     }
 
     public function getGenderCssClass(): string

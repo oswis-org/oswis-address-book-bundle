@@ -101,9 +101,9 @@ class Person extends AbstractPerson
         $this->setAppUser($appUser);
     }
 
-    public function getStudies(?DateTime $dateTime = null): Collection
+    public function getMemberPositions(?DateTime $dateTime = null): Collection
     {
-        return $this->getPositions($dateTime, Position::STUDY_POSITION_TYPES);
+        return $this->getPositions($dateTime, Position::MEMBER_POSITION_TYPES);
     }
 
     public function getPositions(?DateTime $dateTime = null, ?array $types = null): Collection
@@ -133,16 +133,6 @@ class Person extends AbstractPerson
                 $this->addPosition($newPosition);
             }
         }
-    }
-
-    public function getMemberPositions(?DateTime $dateTime = null): Collection
-    {
-        return $this->getPositions($dateTime, Position::MEMBER_POSITION_TYPES);
-    }
-
-    public function getMemberAndEmployeePositions(?DateTime $dateTime = null): Collection
-    {
-        return $this->getPositions($dateTime, Position::EMPLOYEE_MEMBER_POSITION_TYPES);
     }
 
     public function getEmployeePositions(?DateTime $dateTime = null): Collection
@@ -176,6 +166,14 @@ class Person extends AbstractPerson
         $this->addPosition($position);
     }
 
+    public function addPosition(?Position $position): void
+    {
+        if (null !== $position && !$this->positions->contains($position)) {
+            $this->positions->add($position);
+            $position->setPerson($this);
+        }
+    }
+
     /**
      * @param Position|null $position
      *
@@ -206,6 +204,14 @@ class Person extends AbstractPerson
         $this->removePosition($position);
     }
 
+    public function removePosition(?Position $position): void
+    {
+        if (null !== $position && $this->positions->removeElement($position)) {
+            $position->setOrganization(null);
+            $position->setPerson(null);
+        }
+    }
+
     /**
      * @param Position|null $position
      *
@@ -219,22 +225,6 @@ class Person extends AbstractPerson
         $this->removePosition($position);
     }
 
-    public function addPosition(?Position $position): void
-    {
-        if (null !== $position && !$this->positions->contains($position)) {
-            $this->positions->add($position);
-            $position->setPerson($this);
-        }
-    }
-
-    public function removePosition(?Position $position): void
-    {
-        if (null !== $position && $this->positions->removeElement($position)) {
-            $position->setOrganization(null);
-            $position->setPerson(null);
-        }
-    }
-
     public function getEmployers(?DateTime $dateTime = null): Collection
     {
         $out = new ArrayCollection();
@@ -245,12 +235,22 @@ class Person extends AbstractPerson
         return $out;
     }
 
+    public function getMemberAndEmployeePositions(?DateTime $dateTime = null): Collection
+    {
+        return $this->getPositions($dateTime, Position::EMPLOYEE_MEMBER_POSITION_TYPES);
+    }
+
     public function getSchools(?DateTime $dateTime = null): Collection
     {
         $out = new ArrayCollection();
         $this->getStudies($dateTime)->map(fn(Position $p) => $out->contains($p->getOrganization()) ? null : $out->add($p->getOrganization()));
 
         return $out;
+    }
+
+    public function getStudies(?DateTime $dateTime = null): Collection
+    {
+        return $this->getPositions($dateTime, Position::STUDY_POSITION_TYPES);
     }
 
     public function getOrganizationsString(): string

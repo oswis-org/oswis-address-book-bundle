@@ -5,7 +5,6 @@
 
 namespace OswisOrg\OswisAddressBookBundle\Entity;
 
-use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use OswisOrg\OswisAddressBookBundle\Entity\MediaObject\ContactFile;
 use OswisOrg\OswisAddressBookBundle\Entity\MediaObject\ContactImage;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Publicity;
@@ -41,6 +40,7 @@ class ContactFileConnection implements BasicInterface
      * )
      */
     protected ?ContactImage $image = null;
+
     /**
      * @param ContactFile|null $file
      * @param string|null      $type

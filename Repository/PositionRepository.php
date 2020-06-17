@@ -17,6 +17,18 @@ use OswisOrg\OswisAddressBookBundle\Entity\Position;
 
 class PositionRepository extends ServiceEntityRepository
 {
+    public const CRITERIA_ID = 'id';
+
+    public const CRITERIA_ORG = 'organization';
+
+    public const CRITERIA_ORG_RECURSIVE_DEPTH = 'orgRecursiveDepth';
+
+    public const CRITERIA_POSITION_TYPE = 'positionType';
+
+    public const CRITERIA_ONLY_ACTIVE = 'onlyActive';
+
+    public const CRITERIA_ONLY_CONTACT_PERSON = 'onlyContactPerson';
+
     /**
      * @param ManagerRegistry $registry
      *
@@ -33,13 +45,6 @@ class PositionRepository extends ServiceEntityRepository
 
         return $result instanceof Position ? $result : null;
     }
-
-    public const CRITERIA_ID = 'id';
-    public const CRITERIA_ORG = 'organization';
-    public const CRITERIA_ORG_RECURSIVE_DEPTH = 'orgRecursiveDepth';
-    public const CRITERIA_POSITION_TYPE = 'positionType';
-    public const CRITERIA_ONLY_ACTIVE = 'onlyActive';
-    public const CRITERIA_ONLY_CONTACT_PERSON = 'onlyContactPerson';
 
     public function getPositions(array $opts = [], ?int $limit = null, ?int $offset = null): Collection
     {
@@ -82,20 +87,20 @@ class PositionRepository extends ServiceEntityRepository
         }
     }
 
+    private function setPositionTypeQuery(QueryBuilder $queryBuilder, array $opts = []): void
+    {
+        if (!empty($opts[self::CRITERIA_POSITION_TYPE]) && is_string($opts[self::CRITERIA_POSITION_TYPE])) {
+            $queryBuilder->andWhere('position.type = :type_string');
+            $queryBuilder->setParameter('type_string', $opts[self::CRITERIA_POSITION_TYPE]);
+        }
+    }
+
     private function setOnlyActiveQuery(QueryBuilder $queryBuilder, array $opts = []): void
     {
         if (!empty($opts[self::CRITERIA_ONLY_ACTIVE]) && $opts[self::CRITERIA_ONLY_ACTIVE]) {
             $startQuery = ' (position.startDateTime IS NULL) OR (:now > position.startDateTime) ';
             $endQuery = ' (position.endDateTime IS NULL) OR (:now < position.endDateTime) ';
             $queryBuilder->andWhere($startQuery)->andWhere($endQuery)->setParameter('now', new DateTime());
-        }
-    }
-
-    private function setPositionTypeQuery(QueryBuilder $queryBuilder, array $opts = []): void
-    {
-        if (!empty($opts[self::CRITERIA_POSITION_TYPE]) && is_string($opts[self::CRITERIA_POSITION_TYPE])) {
-            $queryBuilder->andWhere('position.type = :type_string');
-            $queryBuilder->setParameter('type_string', $opts[self::CRITERIA_POSITION_TYPE]);
         }
     }
 
