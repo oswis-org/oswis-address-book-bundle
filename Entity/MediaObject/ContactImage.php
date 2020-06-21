@@ -92,5 +92,4 @@ class ContactImage extends AbstractImage
             $contact->addImage($this);
         }
     }
-
 }

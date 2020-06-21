@@ -1348,16 +1348,16 @@
     },
     {
       "name": "doctrine/migrations",
-      "version": "3.0.0",
+      "version": "3.0.1",
       "source": {
         "type": "git",
         "url": "https://github.com/doctrine/migrations.git",
-        "reference": "da238fb4e2311924e6e78089adbbe35cb02a89dc"
+        "reference": "69eaf2ca5bc48357b43ddbdc31ccdffc0e2a0882"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/doctrine/migrations/zipball/da238fb4e2311924e6e78089adbbe35cb02a89dc",
-        "reference": "da238fb4e2311924e6e78089adbbe35cb02a89dc",
+        "url": "https://api.github.com/repos/doctrine/migrations/zipball/69eaf2ca5bc48357b43ddbdc31ccdffc0e2a0882",
+        "reference": "69eaf2ca5bc48357b43ddbdc31ccdffc0e2a0882",
         "shasum": ""
       },
       "require": {
@@ -1443,7 +1443,7 @@
           "type": "tidelift"
         }
       ],
-      "time": "2020-06-13T09:28:57+00:00"
+      "time": "2020-06-21T08:55:42+00:00"
     },
     {
       "name": "doctrine/orm",
@@ -1832,170 +1832,6 @@
         "validator"
       ],
       "time": "2020-06-16T20:11:17+00:00"
-    },
-    {
-      "name": "elasticsearch/elasticsearch",
-      "version": "v7.7.0",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/elastic/elasticsearch-php.git",
-        "reference": "1d90a7ff4fb1936dc4376f09d723af75714f6f05"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/elastic/elasticsearch-php/zipball/1d90a7ff4fb1936dc4376f09d723af75714f6f05",
-        "reference": "1d90a7ff4fb1936dc4376f09d723af75714f6f05",
-        "shasum": ""
-      },
-      "require": {
-        "ext-json": ">=1.3.7",
-        "ezimuel/ringphp": "^1.1.2",
-        "php": "^7.1",
-        "psr/log": "~1.0"
-      },
-      "require-dev": {
-        "cpliakas/git-wrapper": "~2.0",
-        "doctrine/inflector": "^1.3",
-        "mockery/mockery": "^1.2",
-        "phpstan/phpstan": "^0.12",
-        "phpunit/phpunit": "^7.5",
-        "squizlabs/php_codesniffer": "^3.4",
-        "symfony/finder": "~4.0",
-        "symfony/yaml": "~4.0"
-      },
-      "suggest": {
-        "ext-curl": "*",
-        "monolog/monolog": "Allows for client-level logging and tracing"
-      },
-      "type": "library",
-      "autoload": {
-        "files": [
-          "src/autoload.php"
-        ],
-        "psr-4": {
-          "Elasticsearch\\": "src/Elasticsearch/"
-        }
-      },
-      "notification-url": "https://packagist.org/downloads/",
-      "license": [
-        "Apache-2.0"
-      ],
-      "authors": [
-        {
-          "name": "Zachary Tong"
-        },
-        {
-          "name": "Enrico Zimuel"
-        }
-      ],
-      "description": "PHP Client for Elasticsearch",
-      "keywords": [
-        "client",
-        "elasticsearch",
-        "search"
-      ],
-      "time": "2020-05-13T15:19:26+00:00"
-    },
-    {
-      "name": "ezimuel/guzzlestreams",
-      "version": "3.0.1",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/ezimuel/guzzlestreams.git",
-        "reference": "abe3791d231167f14eb80d413420d1eab91163a8"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/ezimuel/guzzlestreams/zipball/abe3791d231167f14eb80d413420d1eab91163a8",
-        "reference": "abe3791d231167f14eb80d413420d1eab91163a8",
-        "shasum": ""
-      },
-      "require": {
-        "php": ">=5.4.0"
-      },
-      "require-dev": {
-        "phpunit/phpunit": "~4.0"
-      },
-      "type": "library",
-      "extra": {
-        "branch-alias": {
-          "dev-master": "3.0-dev"
-        }
-      },
-      "autoload": {
-        "psr-4": {
-          "GuzzleHttp\\Stream\\": "src/"
-        }
-      },
-      "notification-url": "https://packagist.org/downloads/",
-      "license": [
-        "MIT"
-      ],
-      "authors": [
-        {
-          "name": "Michael Dowling",
-          "email": "mtdowling@gmail.com",
-          "homepage": "https://github.com/mtdowling"
-        }
-      ],
-      "description": "Fork of guzzle/streams (abandoned) to be used with elasticsearch-php",
-      "homepage": "http://guzzlephp.org/",
-      "keywords": [
-        "Guzzle",
-        "stream"
-      ],
-      "time": "2020-02-14T23:11:50+00:00"
-    },
-    {
-      "name": "ezimuel/ringphp",
-      "version": "1.1.2",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/ezimuel/ringphp.git",
-        "reference": "0b78f89d8e0bb9e380046c31adfa40347e9f663b"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/ezimuel/ringphp/zipball/0b78f89d8e0bb9e380046c31adfa40347e9f663b",
-        "reference": "0b78f89d8e0bb9e380046c31adfa40347e9f663b",
-        "shasum": ""
-      },
-      "require": {
-        "ezimuel/guzzlestreams": "^3.0.1",
-        "php": ">=5.4.0",
-        "react/promise": "~2.0"
-      },
-      "require-dev": {
-        "ext-curl": "*",
-        "phpunit/phpunit": "~4.0"
-      },
-      "suggest": {
-        "ext-curl": "Guzzle will use specific adapters if cURL is present"
-      },
-      "type": "library",
-      "extra": {
-        "branch-alias": {
-          "dev-master": "1.1-dev"
-        }
-      },
-      "autoload": {
-        "psr-4": {
-          "GuzzleHttp\\Ring\\": "src/"
-        }
-      },
-      "notification-url": "https://packagist.org/downloads/",
-      "license": [
-        "MIT"
-      ],
-      "authors": [
-        {
-          "name": "Michael Dowling",
-          "email": "mtdowling@gmail.com",
-          "homepage": "https://github.com/mtdowling"
-        }
-      ],
-      "description": "Fork of guzzle/RingPHP (abandoned) to be used with elasticsearch-php",
-      "time": "2020-02-14T23:51:21+00:00"
     },
     {
       "name": "fig/link-util",
@@ -3717,16 +3553,16 @@
     },
     {
       "name": "oswis-org/oswis-core-bundle",
-      "version": "v0.0.552",
+      "version": "v0.0.558",
       "source": {
         "type": "git",
         "url": "https://github.com/oswis-org/oswis-core-bundle.git",
-        "reference": "804f9ee98caf1140f56efc894e28ff7a24de9cd1"
+        "reference": "6683afc2f9f41bb6668bfc89d31371f4c611ccf2"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/oswis-org/oswis-core-bundle/zipball/804f9ee98caf1140f56efc894e28ff7a24de9cd1",
-        "reference": "804f9ee98caf1140f56efc894e28ff7a24de9cd1",
+        "url": "https://api.github.com/repos/oswis-org/oswis-core-bundle/zipball/6683afc2f9f41bb6668bfc89d31371f4c611ccf2",
+        "reference": "6683afc2f9f41bb6668bfc89d31371f4c611ccf2",
         "shasum": ""
       },
       "require": {
@@ -3736,7 +3572,6 @@
         "bigit/vokativ": "dev-master",
         "doctrine/collections": "^1.6",
         "egulias/email-validator": "^2.1",
-        "elasticsearch/elasticsearch": "^7.6",
         "ext-calendar": "*",
         "ext-ctype": "*",
         "ext-exif": "*",
@@ -3824,7 +3659,7 @@
         "php",
         "zakjakub"
       ],
-      "time": "2020-06-16T17:02:32+00:00"
+      "time": "2020-06-21T17:48:37+00:00"
     },
     {
       "name": "paragonie/random_compat",
@@ -4026,16 +3861,16 @@
     },
     {
       "name": "phpdocumentor/type-resolver",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "source": {
         "type": "git",
         "url": "https://github.com/phpDocumentor/TypeResolver.git",
-        "reference": "7462d5f123dfc080dfdf26897032a6513644fc95"
+        "reference": "30441f2752e493c639526b215ed81d54f369d693"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/7462d5f123dfc080dfdf26897032a6513644fc95",
-        "reference": "7462d5f123dfc080dfdf26897032a6513644fc95",
+        "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/30441f2752e493c639526b215ed81d54f369d693",
+        "reference": "30441f2752e493c639526b215ed81d54f369d693",
         "shasum": ""
       },
       "require": {
@@ -4049,7 +3884,7 @@
       "type": "library",
       "extra": {
         "branch-alias": {
-          "dev-master": "1.x-dev"
+          "dev-1.x": "1.x-dev"
         }
       },
       "autoload": {
@@ -4068,7 +3903,7 @@
         }
       ],
       "description": "A PSR-5 based resolver of Class names, Types and Structural Element Names",
-      "time": "2020-02-18T18:59:58+00:00"
+      "time": "2020-06-19T20:22:09+00:00"
     },
     {
       "name": "psr/cache",
@@ -4448,52 +4283,6 @@
         "uuid"
       ],
       "time": "2020-03-29T20:13:32+00:00"
-    },
-    {
-      "name": "react/promise",
-      "version": "v2.8.0",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/reactphp/promise.git",
-        "reference": "f3cff96a19736714524ca0dd1d4130de73dbbbc4"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/reactphp/promise/zipball/f3cff96a19736714524ca0dd1d4130de73dbbbc4",
-        "reference": "f3cff96a19736714524ca0dd1d4130de73dbbbc4",
-        "shasum": ""
-      },
-      "require": {
-        "php": ">=5.4.0"
-      },
-      "require-dev": {
-        "phpunit/phpunit": "^7.0 || ^6.5 || ^5.7 || ^4.8.36"
-      },
-      "type": "library",
-      "autoload": {
-        "psr-4": {
-          "React\\Promise\\": "src/"
-        },
-        "files": [
-          "src/functions_include.php"
-        ]
-      },
-      "notification-url": "https://packagist.org/downloads/",
-      "license": [
-        "MIT"
-      ],
-      "authors": [
-        {
-          "name": "Jan Sorgalla",
-          "email": "jsorgalla@gmail.com"
-        }
-      ],
-      "description": "A lightweight implementation of CommonJS Promises/A for PHP",
-      "keywords": [
-        "promise",
-        "promises"
-      ],
-      "time": "2020-05-12T15:16:56+00:00"
     },
     {
       "name": "rikudou/czqrpayment",
@@ -10672,16 +10461,16 @@
     },
     {
       "name": "phpstan/phpstan",
-      "version": "0.12.29",
+      "version": "0.12.30",
       "source": {
         "type": "git",
         "url": "https://github.com/phpstan/phpstan.git",
-        "reference": "9771daaf6b95c6313b908d0bcdee0afcd51f838a"
+        "reference": "1f2c16d3fbb5eec6e55fbe2358e32570cefa20e5"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/phpstan/phpstan/zipball/9771daaf6b95c6313b908d0bcdee0afcd51f838a",
-        "reference": "9771daaf6b95c6313b908d0bcdee0afcd51f838a",
+        "url": "https://api.github.com/repos/phpstan/phpstan/zipball/1f2c16d3fbb5eec6e55fbe2358e32570cefa20e5",
+        "reference": "1f2c16d3fbb5eec6e55fbe2358e32570cefa20e5",
         "shasum": ""
       },
       "require": {
@@ -10724,7 +10513,7 @@
           "type": "tidelift"
         }
       ],
-      "time": "2020-06-14T14:10:59+00:00"
+      "time": "2020-06-21T14:08:19+00:00"
     },
     {
       "name": "roave/security-advisories",
@@ -10732,12 +10521,12 @@
       "source": {
         "type": "git",
         "url": "https://github.com/Roave/SecurityAdvisories.git",
-        "reference": "499fb201e495ef0064da064f520c845d3638fe24"
+        "reference": "6d2e5ab854782830911ddd33b7d4649b9f18c10f"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/499fb201e495ef0064da064f520c845d3638fe24",
-        "reference": "499fb201e495ef0064da064f520c845d3638fe24",
+        "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/6d2e5ab854782830911ddd33b7d4649b9f18c10f",
+        "reference": "6d2e5ab854782830911ddd33b7d4649b9f18c10f",
         "shasum": ""
       },
       "conflict": {
@@ -10781,8 +10570,8 @@
         "doctrine/orm": ">=2,<2.4.8|>=2.5,<2.5.1",
         "dolibarr/dolibarr": "<11.0.4",
         "dompdf/dompdf": ">=0.6,<0.6.2",
-        "drupal/core": ">=7,<7.70|>=8,<8.7.14|>=8.8,<8.8.6",
-        "drupal/drupal": ">=7,<7.70|>=8,<8.7.14|>=8.8,<8.8.6",
+        "drupal/core": ">=7,<7.72|>=8,<8.8.8|>=8.9,<8.9.1|>=9,<9.0.1",
+        "drupal/drupal": ">=7,<7.72|>=8,<8.8.8|>=8.9,<8.9.1|>=9,<9.0.1",
         "endroid/qr-code-bundle": "<3.4.2",
         "enshrined/svg-sanitize": "<0.13.1",
         "erusev/parsedown": "<1.7.2",
@@ -11009,7 +10798,7 @@
           "type": "tidelift"
         }
       ],
-      "time": "2020-06-17T06:37:54+00:00"
+      "time": "2020-06-19T13:23:43+00:00"
     }
   ],
   "aliases": [],
