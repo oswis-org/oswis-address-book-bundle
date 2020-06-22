@@ -5,9 +5,6 @@
 
 namespace OswisOrg\OswisAddressBookBundle\Entity;
 
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -49,7 +46,7 @@ use function trim;
  *     }
  *   }
  * )
- * @ApiPlatform\Core\Annotation\ApiFilter(OrderFilter::class, properties={
+ * @ApiPlatform\Core\Annotation\ApiFilter(ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter::class, properties={
  *     "id": "ASC",
  *     "slug",
  *     "description",
@@ -58,7 +55,7 @@ use function trim;
  *     "note",
  *     "birthDate"
  * })
- * @ApiPlatform\Core\Annotation\ApiFilter(SearchFilter::class, properties={
+ * @ApiPlatform\Core\Annotation\ApiFilter(ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter::class, properties={
  *     "id": "exact",
  *     "description": "partial",
  *     "slug": "partial",
@@ -75,7 +72,9 @@ use function trim;
  *     "note",
  *     "birthDate"
  * })
- * @ApiPlatform\Core\Annotation\ApiFilter(DateFilter::class, properties={"createdDateTime", "updatedDateTime", "birthDate"})
+ * @ApiPlatform\Core\Annotation\ApiFilter(
+ *     ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter::class, properties={"createdDateTime", "updatedDateTime", "birthDate"}
+ * )
  * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
 class Person extends AbstractPerson
