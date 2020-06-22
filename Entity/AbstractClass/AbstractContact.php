@@ -99,7 +99,7 @@ abstract class AbstractContact implements ContactInterface
      *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\AddressBook\ContactAddressBook", cascade={"all"}, fetch="EAGER"
      * )
      * @Doctrine\ORM\Mapping\JoinTable(
-     *     name="address_book_address_book_contact_connection"
+     *     name="address_book_address_book_contact_connection",
      *     joinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="participant_id", referencedColumnName="id")},
      *     inverseJoinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="participant_contact_id", referencedColumnName="id", unique=true)}
      * )
