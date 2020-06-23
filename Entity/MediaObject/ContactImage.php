@@ -5,7 +5,6 @@
 
 namespace OswisOrg\OswisAddressBookBundle\Entity\MediaObject;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use OswisOrg\OswisAddressBookBundle\Controller\MediaObject\ContactImageAction;
 use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use OswisOrg\OswisCoreBundle\Entity\AbstractClass\AbstractImage;
@@ -20,7 +19,7 @@ use Symfony\Component\HttpFoundation\File\File;
 /**
  * @Doctrine\ORM\Mapping\Entity()
  * @Doctrine\ORM\Mapping\Table(name="address_book_contact_image")
- * @ApiResource(
+ * @ApiPlatform\Core\Annotation\ApiResource(
  *   iri="http://schema.org/ImageObject",
  *   collectionOperations={
  *     "get",

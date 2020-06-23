@@ -11,7 +11,7 @@ use OswisOrg\OswisCoreBundle\Traits\Common\DeletedTrait;
 
 /**
  * @Doctrine\ORM\Mapping\Entity()
- * @Doctrine\ORM\Mapping\Table(name="address_book_address_book_contact_connection")
+ * @Doctrine\ORM\Mapping\Table(name="address_book_contact_address_book")
  * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_address_book")
  */
 class ContactAddressBook implements BasicInterface

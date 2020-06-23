@@ -36,7 +36,7 @@ trait IdCardTrait
     }
 
     /**
-     * @param string $idCardType
+     * @param string|null $idCardType
      */
     public function setIdCardType(?string $idCardType): void
     {
@@ -52,7 +52,7 @@ trait IdCardTrait
     }
 
     /**
-     * @param string $idCardNumber
+     * @param string|null $idCardNumber
      */
     public function setIdCardNumber(?string $idCardNumber): void
     {

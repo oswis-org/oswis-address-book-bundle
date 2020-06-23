@@ -198,7 +198,7 @@ class ContactDetailType implements NameableInterface
     /**
      * Set schema of contact detail.
      *
-     * @param string $contactSchema
+     * @param string|null $contactSchema
      */
     public function setContactSchema(?string $contactSchema): void
     {

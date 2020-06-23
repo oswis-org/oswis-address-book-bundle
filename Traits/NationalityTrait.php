@@ -27,7 +27,7 @@ trait NationalityTrait
     }
 
     /**
-     * @param string $nationality
+     * @param string|null $nationality
      */
     public function setNationality(?string $nationality): void
     {

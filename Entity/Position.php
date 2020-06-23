@@ -104,12 +104,12 @@ class Position implements NameableInterface
     protected ?Organization $organization = null;
 
     /**
-     * @param Nameable|null     $nameable
-     * @param Person|null       $person
-     * @param Organization|null $organization
-     * @param string|null       $type
-     * @param bool|null         $isContactPerson
-     * @param DateTimeRange     $range
+     * @param Nameable|null      $nameable
+     * @param Person|null        $person
+     * @param Organization|null  $organization
+     * @param string|null        $type
+     * @param bool|null          $isContactPerson
+     * @param DateTimeRange|null $range
      *
      * @throws InvalidTypeException
      */
