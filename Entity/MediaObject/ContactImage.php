@@ -46,7 +46,7 @@ class ContactImage extends AbstractImage
      * @Vich\UploaderBundle\Mapping\Annotation\UploadableField(
      *     mapping="address_book_contact_image",
      *     fileNameProperty="contentName",
-     *     dimensions={"contentDimensionsWidth", "contentDimensionsHeight"},
+     *     dimensions="contentDimensions",
      *     mimeType="contentMimeType"
      * )
      */
