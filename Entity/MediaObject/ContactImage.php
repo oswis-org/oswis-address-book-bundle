@@ -44,16 +44,17 @@ class ContactImage extends AbstractImage
     /**
      * @Symfony\Component\Validator\Constraints\NotNull()
      * @Vich\UploaderBundle\Mapping\Annotation\UploadableField(
-     *     mapping="address_book_contact_image", fileNameProperty="contentName", dimensions="contentDimensions"
+     *     mapping="address_book_contact_image",
+     *     fileNameProperty="contentName",
+     *     dimensions="contentDimensions",
+     *     mimeType="contentMimeType"
      * )
      */
     public ?File $file = null;
 
     /**
      * @Doctrine\ORM\Mapping\ManyToOne(
-     *     mapping="address_book_contact_image",
-     *     fileNameProperty="contentName",
-     *     mimeType="contentMimeType"
+     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact", inversedBy="images", cascade={"all"}
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")
      */
