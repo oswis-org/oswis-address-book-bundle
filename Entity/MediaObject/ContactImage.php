@@ -51,7 +51,9 @@ class ContactImage extends AbstractImage
 
     /**
      * @Doctrine\ORM\Mapping\ManyToOne(
-     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact", inversedBy="images", cascade={"all"}
+     *     mapping="address_book_contact_image",
+     *     fileNameProperty="contentName",
+     *     mimeType="contentMimeType"
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")
      */
