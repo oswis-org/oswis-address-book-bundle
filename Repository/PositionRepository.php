@@ -53,7 +53,7 @@ class PositionRepository extends ServiceEntityRepository
 
     public function getPositionsQueryBuilder(array $opts = [], ?int $limit = null, ?int $offset = null): QueryBuilder
     {
-        $queryBuilder = $this->createQueryBuilder('participant');
+        $queryBuilder = $this->createQueryBuilder('position');
         $this->setSuperEventQuery($queryBuilder, $opts);
         $this->setIdQuery($queryBuilder, $opts);
         $this->setPositionTypeQuery($queryBuilder, $opts);
@@ -121,11 +121,8 @@ class PositionRepository extends ServiceEntityRepository
         }
     }
 
-    private function setOrderBy(QueryBuilder $queryBuilder, bool $priority = true): void
+    private function setOrderBy(QueryBuilder $queryBuilder): void
     {
-        if ($priority) {
-            $queryBuilder->addOrderBy('position.priority', 'DESC');
-        }
         $queryBuilder->addOrderBy('position.id', 'ASC');
     }
 }
