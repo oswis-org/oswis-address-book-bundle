@@ -8,6 +8,7 @@ namespace OswisOrg\OswisAddressBookBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractOrganization;
+use OswisOrg\OswisAddressBookBundle\Entity\MediaObject\ContactImage;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
 
 /**
@@ -107,6 +108,23 @@ class Organization extends AbstractOrganization
         $this->subOrganizations = new ArrayCollection();
         $this->contactPersons = new ArrayCollection();
         $this->setParentOrganization($parentOrganization);
+    }
+
+    public function getImage(?string $type = null, bool $recursive = false): ?ContactImage
+    {
+        $image = $this->getImages($type)->first();
+        if ($image instanceof ContactImage) {
+            return $image;
+        }
+
+        return true === $recursive && $this->getParentOrganization() ? $this->getParentOrganization()->getImage($type, true) : null;
+    }
+
+    public function getImages(?string $type = null): Collection
+    {
+        $images = $this->images ?? new ArrayCollection();
+
+        return empty($type) ? $images : $images->filter(fn(ContactImage $eventImage) => $eventImage->getType() === $type);
     }
 
     public function getContactPersons(bool $onlyWithActivatedUser = false): Collection

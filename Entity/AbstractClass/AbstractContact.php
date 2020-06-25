@@ -20,6 +20,7 @@ use OswisOrg\OswisAddressBookBundle\Entity\MediaObject\ContactFile;
 use OswisOrg\OswisAddressBookBundle\Entity\MediaObject\ContactImage;
 use OswisOrg\OswisAddressBookBundle\Entity\Organization;
 use OswisOrg\OswisAddressBookBundle\Entity\Person;
+use OswisOrg\OswisCalendarBundle\Entity\MediaObject\EventImage;
 use OswisOrg\OswisCoreBundle\Entity\AppUser\AppUser;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
 use OswisOrg\OswisCoreBundle\Interfaces\AddressBook\ContactInterface;
@@ -241,17 +242,26 @@ abstract class AbstractContact implements ContactInterface
         return [];
     }
 
+    public function getImage(?string $type = null): ?ContactImage
+    {
+        $image = $this->getImages($type)->first();
+
+        return $image instanceof ContactImage ? $image : null;
+    }
+
+    public function getImages(?string $type = null): Collection
+    {
+        $images = $this->images ?? new ArrayCollection();
+
+        return empty($type) ? $images : $images->filter(fn(ContactImage $image) => $image->getType() === $type);
+    }
+
     public function addImage(?ContactImage $image): void
     {
         if (null !== $image && !$this->getImages()->contains($image)) {
             $this->getImages()->add($image);
             $image->setContact($this);
         }
-    }
-
-    public function getImages(): Collection
-    {
-        return $this->images ?? new ArrayCollection();
     }
 
     public function removeImage(?ContactImage $image): void
