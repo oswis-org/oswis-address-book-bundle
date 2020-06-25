@@ -90,15 +90,13 @@ class Position implements NameableInterface
     protected bool $special = false;
 
     /**
-     * @Doctrine\ORM\Mapping\ManyToOne(
-     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Person", cascade={"all"}, inversedBy="positions"
-     * )
+     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Person", inversedBy="positions")
      * @Doctrine\ORM\Mapping\JoinColumn(name="person_id", referencedColumnName="id")
      */
     protected ?Person $person = null;
 
     /**
-     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Organization", cascade={"all"})
+     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Organization")
      * @Doctrine\ORM\Mapping\JoinColumn(name="organization_id", referencedColumnName="id")
      */
     protected ?Organization $organization = null;

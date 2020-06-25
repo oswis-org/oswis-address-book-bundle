@@ -77,7 +77,6 @@ class Organization extends AbstractOrganization
      * @Doctrine\ORM\Mapping\ManyToOne(
      *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Organization",
      *     inversedBy="subOrganizations",
-     *     cascade={"all"},
      *     fetch="EAGER"
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(nullable=true)

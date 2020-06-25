@@ -107,7 +107,7 @@ abstract class AbstractContact implements ContactInterface
     protected ?Collection $contactAddressBooks = null;
 
     /**
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="OswisOrg\OswisCoreBundle\Entity\AppUser\AppUser", cascade={"all"}, fetch="EAGER")
+     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="OswisOrg\OswisCoreBundle\Entity\AppUser\AppUser", fetch="EAGER")
      */
     protected ?AppUser $appUser = null;
 

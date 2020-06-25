@@ -77,9 +77,7 @@ class Place implements NameableInterface
     protected ?int $roomNumber = null;
 
     /**
-     * @Doctrine\ORM\Mapping\ManyToOne(
-     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Place", inversedBy="subPlaces", fetch="EAGER"
-     * )
+     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Place", inversedBy="subPlaces", fetch="EAGER")
      * @Doctrine\ORM\Mapping\JoinColumn(nullable=true)
      */
     protected ?Place $parentPlace = null;
