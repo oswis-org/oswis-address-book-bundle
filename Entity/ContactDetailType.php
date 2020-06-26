@@ -12,7 +12,7 @@ use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\TypeTrait;
 
 /**
- * @Doctrine\ORM\Mapping\Entity()
+ * @Doctrine\ORM\Mapping\Entity(repositoryClass="OswisOrg\OswisAddressBookBundle\Repository\ContactDetailTypeRepository")
  * @Doctrine\ORM\Mapping\Table(name="address_book_contact_detail_type")
  * @ApiPlatform\Core\Annotation\ApiResource(
  *   attributes={

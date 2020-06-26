@@ -113,6 +113,8 @@ services:
         public: true
         arguments:
             - '@doctrine'
+        tags:
+            - '@doctrine.repository_service'
     OswisOrg\OswisAddressBookBundle\Repository\AddressBookRepository:
         alias: oswis_org_oswis_address_book.address_book_repository
         public: true
@@ -123,6 +125,8 @@ services:
         public: true
         arguments:
             - '@doctrine'
+        tags:
+            - '@doctrine.repository_service'
     OswisOrg\OswisAddressBookBundle\Repository\ContactDetailTypeRepository:
         alias: oswis_org_oswis_address_book.contact_detail_type_repository
         public: true
@@ -133,6 +137,8 @@ services:
         public: true
         arguments:
             - '@doctrine'
+        tags:
+            - '@doctrine.repository_service'
     OswisOrg\OswisAddressBookBundle\Repository\OrganizationRepository:
         alias: oswis_org_oswis_address_book.organization_repository
         public: true
@@ -143,6 +149,8 @@ services:
         public: true
         arguments:
             - '@doctrine'
+        tags:
+            - '@doctrine.repository_service'
     OswisOrg\OswisAddressBookBundle\Repository\PersonRepository:
         alias: oswis_org_oswis_address_book.person_repository
         public: true
@@ -153,6 +161,8 @@ services:
         public: true
         arguments:
             - '@doctrine'
+        tags:
+            - '@doctrine.repository_service'
     OswisOrg\OswisAddressBookBundle\Repository\PositionRepository:
         alias: oswis_org_oswis_address_book.position_repository
         public: true

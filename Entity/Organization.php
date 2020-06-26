@@ -127,6 +127,22 @@ class Organization extends AbstractOrganization
         return empty($type) ? $images : $images->filter(fn(ContactImage $eventImage) => $eventImage->getType() === $type);
     }
 
+    public function getParentOrganization(): ?Organization
+    {
+        return $this->parentOrganization;
+    }
+
+    public function setParentOrganization(?Organization $organization): void
+    {
+        if ($this->parentOrganization && $organization !== $this->parentOrganization) {
+            $this->parentOrganization->removeSubOrganization($this);
+        }
+        $this->parentOrganization = $organization;
+        if ($this->parentOrganization) {
+            $this->parentOrganization->addSubOrganization($this);
+        } // TODO: Check!
+    }
+
     public function getContactPersons(bool $onlyWithActivatedUser = false): Collection
     {
         $contactPersons = $this->contactPersons ?? new ArrayCollection();
@@ -170,22 +186,6 @@ class Organization extends AbstractOrganization
     public function getPath(): string
     {
         return $this->getParentOrganization() ? '-&gt;'.$this->getParentOrganization()->getPath() : $this->getName();
-    }
-
-    public function getParentOrganization(): ?Organization
-    {
-        return $this->parentOrganization;
-    }
-
-    public function setParentOrganization(?Organization $organization): void
-    {
-        if ($this->parentOrganization && $organization !== $this->parentOrganization) {
-            $this->parentOrganization->removeSubOrganization($this);
-        }
-        $this->parentOrganization = $organization;
-        if ($this->parentOrganization) {
-            $this->parentOrganization->addSubOrganization($this);
-        } // TODO: Check!
     }
 
     public function getIdentificationNumberRecursive(): ?string
