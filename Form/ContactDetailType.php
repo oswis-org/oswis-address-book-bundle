@@ -6,6 +6,7 @@
 namespace OswisOrg\OswisAddressBookBundle\Form;
 
 use OswisOrg\OswisAddressBookBundle\Entity\ContactDetail;
+use OswisOrg\OswisCoreBundle\Exceptions\OswisException;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
@@ -37,39 +38,35 @@ class ContactDetailType extends AbstractType
         \OswisOrg\OswisAddressBookBundle\Entity\ContactDetailType::TYPE_URL   => UrlType::class,
     ];
 
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array                $options
+     *
+     * @throws ConstraintDefinitionException
+     * @throws InvalidOptionsException
+     * @throws MissingOptionsException
+     * @throws OswisException
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add(
-            'content',
-            TextType::class,
-            array(
-                'label'    => false,
-                'required' => $options['content_required'],
-                'attr'     => ['placeholder' => 'Kontakt'],
-            )
-        );
-        $builder->addEventListener(
-            FormEvents::PRE_SET_DATA,
-            static function (FormEvent $event) use ($options) {
-                $contactDetail = $event->getData();
-                assert($contactDetail instanceof ContactDetail);
-                $detailType = $contactDetail->getDetailType();
-                $detailTypeType = $contactDetail->getDetailType() ? $contactDetail->getDetailType()->getType() : null;
-                $form = $event->getForm();
-                $options = array(
-                    'label'       => $detailType ? $detailType->getFormLabel() : false,
-                    'required'    => $options['content_required'],
-                    'attr'        => [/*'autocomplete' => $contactDetail->getContactType() ? $contactDetail->getContactType()->getType() : true*/],
-                    'help'        => $detailType ? $detailType->getFormHelp() : null,
-                    'constraints' => self::getConstraintsByType($detailTypeType),
-                );
-                $pattern = self::getPatternByType($detailTypeType);
-                if ($pattern) {
-                    $options['attr']['pattern'] = $pattern;
-                }
-                $form->add('content', self::getTypeByType($detailTypeType), $options);
-            }
-        );
+        $contactDetail = $builder->getData();
+        if (!($contactDetail instanceof ContactDetail)) {
+            throw new OswisException('Problém s vykreslením formuláře pro kontaktní údaj.');
+        }
+        $detailType = $contactDetail->getDetailType();
+        $detailTypeString = $contactDetail->getDetailType() ? $contactDetail->getDetailType()->getType() : null;
+        $options = [
+            'label'       => $detailType ? $detailType->getFormLabel() : false,
+            'required'    => $options['content_required'],
+            'attr'        => [/*'autocomplete' => $contactDetail->getContactType() ? $contactDetail->getContactType()->getType() : true*/],
+            'help'        => $detailType ? $detailType->getFormHelp() : null,
+            'constraints' => self::getConstraintsByType($detailTypeString),
+        ];
+        $pattern = self::getPatternByType($detailTypeString);
+        if ($pattern) {
+            $options['attr']['pattern'] = $pattern;
+        }
+        $builder->add('content', self::getTypeByType($detailTypeString), $options);
     }
 
     /**

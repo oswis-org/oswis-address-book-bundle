@@ -34,32 +34,34 @@ class PersonType extends AbstractType
         )->add(
             'details',
             CollectionType::class,
-            array(
+            [
                 'label'         => false,
                 'entry_type'    => ContactDetailType::class,
-                'entry_options' => array('label' => false),
-            )
+                'entry_options' => ['label' => false],
+            ]
         )->add(
-            'studies',
+            'positions',
             CollectionType::class,
-            array(
-                'label'         => 'Fakulta',
-                'entry_type'    => SchoolPositionType::class,
-                'entry_options' => array('label' => false),
-            )
+            [
+                'label'         => 'Pozice',
+                'entry_type'    => PositionType::class,
+                'entry_options' => ['label' => false],
+            ]
         );
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     *
+     * @throws AccessException
+     */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        try {
-            $resolver->setDefaults(
-                array(
-                    'data_class' => Person::class,
-                )
-            );
-        } catch (AccessException $e) {
-        }
+        $resolver->setDefaults(
+            array(
+                'data_class' => Person::class,
+            )
+        );
     }
 
     public function getName(): string
