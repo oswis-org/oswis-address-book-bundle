@@ -60,7 +60,7 @@ class PositionRepository extends ServiceEntityRepository
         $this->setOnlyActiveQuery($queryBuilder, $opts);
         $this->setOnlyContactPersonQuery($queryBuilder, $opts);
         $this->setLimit($queryBuilder, $limit, $offset);
-        $this->setOrderBy($queryBuilder, true);
+        $this->setOrderBy($queryBuilder);
 
         return $queryBuilder;
     }

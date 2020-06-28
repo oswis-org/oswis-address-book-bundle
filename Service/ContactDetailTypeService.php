@@ -33,17 +33,18 @@ class ContactDetailTypeService
             $this->em->persist($contactDetailType);
             $this->em->flush();
             $infoMessage = 'Created contact detail type: '.$contactDetailType->getId().' '.$contactDetailType->getName().'.';
-            $this->logger ? $this->logger->info($infoMessage) : null;
+            $this->logger->info($infoMessage);
 
             return $contactDetailType;
         } catch (Exception $e) {
-            $this->logger ? $this->logger->info('ERROR: Contact detail type not created: '.$e->getMessage()) : null;
+            $this->logger->info('ERROR: Contact detail type not created: '.$e->getMessage());
 
             return null;
         }
     }
 
-    public function getBySlug(string $slug): ?ContactDetailType {
+    public function getBySlug(string $slug): ?ContactDetailType
+    {
         return $this->contactDetailTypeRepository->findOneBy(['slug' => $slug]);
     }
 }
