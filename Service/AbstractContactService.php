@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use InvalidArgumentException;
 use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
+use OswisOrg\OswisAddressBookBundle\Entity\ContactDetail;
 use OswisOrg\OswisAddressBookBundle\Entity\Person;
 use OswisOrg\OswisAddressBookBundle\Entity\Position;
 use function assert;
@@ -53,7 +54,7 @@ class AbstractContactService
         $positions = new ArrayCollection([new Position(null, null, null, Position::TYPE_STUDENT)]);
         $contactDetails = new ArrayCollection();
         foreach ($detailTypeSlugs as $detailTypeSlug) {
-            $contactDetails->add($this->contactDetailTypeService->getBySlug($detailTypeSlug));
+            $contactDetails->add(new ContactDetail($this->contactDetailTypeService->getBySlug($detailTypeSlug)));
         }
 
         return new Person(null, null, $contactDetails, null, $positions);
