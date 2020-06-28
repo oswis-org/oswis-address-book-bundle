@@ -74,7 +74,7 @@ services:
         public: true
         arguments:
             - '@doctrine.orm.entity_manager'
-            - '@monolog.logger'
+            - '@oswis_org_oswis_address_book.contact_detail_type_service'
     OswisOrg\OswisAddressBookBundle\Service\AbstractContactService:
         alias: oswis_org_oswis_address_book.abstract_contact_service
         public: true
