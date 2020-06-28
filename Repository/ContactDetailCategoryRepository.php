@@ -9,9 +9,9 @@ namespace OswisOrg\OswisAddressBookBundle\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use LogicException;
-use OswisOrg\OswisAddressBookBundle\Entity\ContactDetailType;
+use OswisOrg\OswisAddressBookBundle\Entity\ContactDetailCategory;
 
-class ContactDetailTypeRepository extends ServiceEntityRepository
+class ContactDetailCategoryRepository extends ServiceEntityRepository
 {
     /**
      * @param ManagerRegistry $registry
@@ -20,13 +20,13 @@ class ContactDetailTypeRepository extends ServiceEntityRepository
      */
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ContactDetailType::class);
+        parent::__construct($registry, ContactDetailCategory::class);
     }
 
-    public function findOneBy(array $criteria, array $orderBy = null): ?ContactDetailType
+    public function findOneBy(array $criteria, array $orderBy = null): ?ContactDetailCategory
     {
         $contactDetailType = parent::findOneBy($criteria, $orderBy);
 
-        return $contactDetailType instanceof ContactDetailType ? $contactDetailType : null;
+        return $contactDetailType instanceof ContactDetailCategory ? $contactDetailType : null;
     }
 }

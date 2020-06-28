@@ -8,8 +8,8 @@ namespace OswisOrg\OswisAddressBookBundle\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-use OswisOrg\OswisAddressBookBundle\Entity\ContactDetailType;
-use OswisOrg\OswisAddressBookBundle\Repository\ContactDetailTypeRepository;
+use OswisOrg\OswisAddressBookBundle\Entity\ContactDetailCategory;
+use OswisOrg\OswisAddressBookBundle\Repository\ContactDetailCategoryRepository;
 use Psr\Log\LoggerInterface;
 
 class ContactDetailTypeService
@@ -18,16 +18,16 @@ class ContactDetailTypeService
 
     protected LoggerInterface $logger;
 
-    protected ContactDetailTypeRepository $contactDetailTypeRepository;
+    protected ContactDetailCategoryRepository $contactDetailTypeRepository;
 
-    public function __construct(EntityManagerInterface $em, LoggerInterface $logger, ContactDetailTypeRepository $contactDetailTypeRepository)
+    public function __construct(EntityManagerInterface $em, LoggerInterface $logger, ContactDetailCategoryRepository $contactDetailTypeRepository)
     {
         $this->em = $em;
         $this->logger = $logger;
         $this->contactDetailTypeRepository = $contactDetailTypeRepository;
     }
 
-    public function create(ContactDetailType $contactDetailType): ?ContactDetailType
+    public function create(ContactDetailCategory $contactDetailType): ?ContactDetailCategory
     {
         try {
             $this->em->persist($contactDetailType);
@@ -43,7 +43,7 @@ class ContactDetailTypeService
         }
     }
 
-    public function getBySlug(string $slug): ?ContactDetailType
+    public function getBySlug(string $slug): ?ContactDetailCategory
     {
         return $this->contactDetailTypeRepository->findOneBy(['slug' => $slug]);
     }

@@ -6,7 +6,7 @@
 namespace OswisOrg\OswisAddressBookBundle\Form;
 
 use OswisOrg\OswisAddressBookBundle\Entity\ContactDetail;
-use OswisOrg\OswisCoreBundle\Exceptions\OswisException;
+use OswisOrg\OswisAddressBookBundle\Entity\ContactDetailCategory;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
@@ -27,13 +27,13 @@ use Symfony\Component\Validator\Exception\MissingOptionsException;
 class ContactDetailType extends AbstractType
 {
     protected const PATTERNS = [
-        \OswisOrg\OswisAddressBookBundle\Entity\ContactDetailType::TYPE_URL => "^(\+420|\+421)? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$",
+        ContactDetailCategory::TYPE_URL => "^(\+420|\+421)? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$",
     ];
 
     protected const TYPES = [
-        \OswisOrg\OswisAddressBookBundle\Entity\ContactDetailType::TYPE_EMAIL => EmailType::class,
-        \OswisOrg\OswisAddressBookBundle\Entity\ContactDetailType::TYPE_PHONE => TelType::class,
-        \OswisOrg\OswisAddressBookBundle\Entity\ContactDetailType::TYPE_URL   => UrlType::class,
+        ContactDetailCategory::TYPE_EMAIL => EmailType::class,
+        ContactDetailCategory::TYPE_PHONE => TelType::class,
+        ContactDetailCategory::TYPE_URL   => UrlType::class,
     ];
 
     /**
@@ -56,8 +56,8 @@ class ContactDetailType extends AbstractType
             static function (FormEvent $event) use ($options) {
                 $contactDetail = $event->getData();
                 assert($contactDetail instanceof ContactDetail);
-                $detailType = $contactDetail->getDetailType();
-                $detailTypeType = $contactDetail->getDetailType() ? $contactDetail->getDetailType()->getType() : null;
+                $detailType = $contactDetail->getDetailCategory();
+                $detailTypeType = $contactDetail->getDetailCategory() ? $contactDetail->getDetailCategory()->getType() : null;
                 $form = $event->getForm();
                 $options = array(
                     'label'       => $detailType ? $detailType->getFormLabel() : false,
@@ -85,10 +85,10 @@ class ContactDetailType extends AbstractType
      */
     public static function getConstraintsByType(?string $type = null): array
     {
-        if (\OswisOrg\OswisAddressBookBundle\Entity\ContactDetailType::TYPE_EMAIL === $type) {
+        if (ContactDetailCategory::TYPE_EMAIL === $type) {
             return [new Email(['mode' => 'strict', 'message' => 'Zadaná adresa {{ value }} není platná.'])];
         }
-        if (\OswisOrg\OswisAddressBookBundle\Entity\ContactDetailType::TYPE_PHONE === $type) {
+        if (ContactDetailCategory::TYPE_PHONE === $type) {
             return [
                 new Regex(
                     [

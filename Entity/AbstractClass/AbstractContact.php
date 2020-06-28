@@ -14,7 +14,7 @@ use OswisOrg\OswisAddressBookBundle\Entity\AddressBook\AddressBook;
 use OswisOrg\OswisAddressBookBundle\Entity\AddressBook\ContactAddressBook;
 use OswisOrg\OswisAddressBookBundle\Entity\ContactAddress;
 use OswisOrg\OswisAddressBookBundle\Entity\ContactDetail;
-use OswisOrg\OswisAddressBookBundle\Entity\ContactDetailType;
+use OswisOrg\OswisAddressBookBundle\Entity\ContactDetailCategory;
 use OswisOrg\OswisAddressBookBundle\Entity\ContactNote;
 use OswisOrg\OswisAddressBookBundle\Entity\MediaObject\ContactFile;
 use OswisOrg\OswisAddressBookBundle\Entity\MediaObject\ContactImage;
@@ -319,7 +319,7 @@ abstract class AbstractContact implements ContactInterface
     public function getDetails(?string $typeString = null): Collection
     {
         if (!empty($typeString)) {
-            return $this->getDetails()->filter(fn(ContactDetail $detail) => $typeString === $detail->getTypeString());
+            return $this->getDetails()->filter(fn(ContactDetail $detail) => $typeString === $detail->getCategoryString());
         }
 
         return $this->details ?? new ArrayCollection();
@@ -444,7 +444,7 @@ abstract class AbstractContact implements ContactInterface
      */
     public function getUrls(): Collection
     {
-        return $this->getDetails(ContactDetailType::TYPE_URL);
+        return $this->getDetails(ContactDetailCategory::TYPE_URL);
     }
 
     abstract public function getContactPersons(bool $onlyWithActivatedUser = false): Collection;
@@ -466,7 +466,7 @@ abstract class AbstractContact implements ContactInterface
 
     public function getUrl(): ?string
     {
-        return $this->getContactDetailContent(ContactDetailType::TYPE_URL);
+        return $this->getContactDetailContent(ContactDetailCategory::TYPE_URL);
     }
 
     public function getContactDetailContent(?string $typeString = null): ?string
@@ -478,7 +478,7 @@ abstract class AbstractContact implements ContactInterface
 
     public function getPhone(): ?string
     {
-        return $this->getContactDetailContent(ContactDetailType::TYPE_PHONE);
+        return $this->getContactDetailContent(ContactDetailCategory::TYPE_PHONE);
     }
 
     /**
@@ -487,7 +487,7 @@ abstract class AbstractContact implements ContactInterface
      */
     public function getPhones(): Collection
     {
-        return $this->getDetails(ContactDetailType::TYPE_PHONE);
+        return $this->getDetails(ContactDetailCategory::TYPE_PHONE);
     }
 
     public function canRead(AppUser $user): bool
@@ -516,7 +516,7 @@ abstract class AbstractContact implements ContactInterface
 
     public function getEmail(): ?string
     {
-        return $this->getContactDetailContent(ContactDetailType::TYPE_EMAIL);
+        return $this->getContactDetailContent(ContactDetailCategory::TYPE_EMAIL);
     }
 
     /**
@@ -525,7 +525,7 @@ abstract class AbstractContact implements ContactInterface
      */
     public function getEmails(): Collection
     {
-        return $this->getDetails(ContactDetailType::TYPE_EMAIL);
+        return $this->getDetails(ContactDetailCategory::TYPE_EMAIL);
     }
 
     public function canEdit(AppUser $user): bool

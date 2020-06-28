@@ -28,11 +28,11 @@ class ContactDetail implements NameableInterface
     use EntityPublicTrait;
 
     /**
-     * Type of this contact.
-     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="OswisOrg\OswisAddressBookBundle\Entity\ContactDetailType", fetch="EAGER")
-     * @Doctrine\ORM\Mapping\JoinColumn(name="type_id", referencedColumnName="id")
+     * Type of this contact detail.
+     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="OswisOrg\OswisAddressBookBundle\Entity\ContactDetailCategory", fetch="EAGER")
+     * @Doctrine\ORM\Mapping\JoinColumn(name="category_id", referencedColumnName="id")
      */
-    protected ?ContactDetailType $detailType = null;
+    protected ?ContactDetailCategory $detailCategory = null;
 
     /**
      * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact", inversedBy="details")
@@ -47,14 +47,14 @@ class ContactDetail implements NameableInterface
     protected ?string $content = null;
 
     public function __construct(
-        ?ContactDetailType $type = null,
+        ?ContactDetailCategory $category = null,
         ?string $content = null,
         ?Nameable $nameable = null,
         ?Publicity $publicity = null,
         ?AbstractContact $contact = null
     ) {
         $this->setContact($contact);
-        $this->setDetailType($type);
+        $this->setDetailCategory($category);
         $this->setContent($content);
         $this->setFieldsFromNameable($nameable);
         $this->setFieldsFromPublicity($publicity);
@@ -78,8 +78,8 @@ class ContactDetail implements NameableInterface
 
     public function getFormatted(): ?string
     {
-        if (null !== $this->getDetailType()) {
-            return $this->getDetailType()->getFormatted(
+        if (null !== $this->getDetailCategory()) {
+            return $this->getDetailCategory()->getFormatted(
                 filter_var($this->getContent(), FILTER_SANITIZE_URL).'',
                 htmlspecialchars($this->getDescription()).null,
                 htmlspecialchars($this->getName()).null,
@@ -89,14 +89,14 @@ class ContactDetail implements NameableInterface
         return $this->getContent();
     }
 
-    public function getDetailType(): ?ContactDetailType
+    public function getDetailCategory(): ?ContactDetailCategory
     {
-        return $this->detailType;
+        return $this->detailCategory;
     }
 
-    public function setDetailType(?ContactDetailType $detailType): void
+    public function setDetailCategory(?ContactDetailCategory $detailCategory): void
     {
-        $this->detailType = $detailType;
+        $this->detailCategory = $detailCategory;
     }
 
     public function getContent(): ?string
@@ -111,21 +111,21 @@ class ContactDetail implements NameableInterface
 
     public function getSchemaString(): ?string
     {
-        return $this->detailType ? $this->detailType->getContactSchema() : null;
+        return $this->detailCategory ? $this->detailCategory->getContactSchema() : null;
     }
 
-    public function getTypeString(): ?string
+    public function getCategoryString(): ?string
     {
-        return $this->detailType ? $this->detailType->getType() : null;
+        return $this->detailCategory ? $this->detailCategory->getType() : null;
     }
 
-    public function getTypeName(): ?string
+    public function getCategoryName(): ?string
     {
-        return $this->detailType ? $this->detailType->getName() : null;
+        return $this->detailCategory ? $this->detailCategory->getName() : null;
     }
 
     public function getShowInPreview(): bool
     {
-        return $this->detailType ? $this->detailType->getShowInPreview() : false;
+        return $this->detailCategory ? $this->detailCategory->getShowInPreview() : false;
     }
 }
