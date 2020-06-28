@@ -57,6 +57,6 @@ class AbstractContactService
             $contactDetails->add(new ContactDetail($this->contactDetailTypeService->getBySlug($detailTypeSlug)));
         }
 
-        return new Person(null, null, $contactDetails, null, $positions);
+        return new Person(null, null, $contactDetails);
     }
 }
