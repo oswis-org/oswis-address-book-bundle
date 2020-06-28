@@ -21,8 +21,8 @@ class AgeUtils
      * True if person belongs to age range (at some moment - referenceDateTime).
      *
      * @param DateTime|null $birthDate         BirthDate for age calculation
-     * @param int           $minAge            Minimal age, included (default is 0)
-     * @param int           $maxAge            maximal age, included (default is infinity)
+     * @param int|null      $minAge            Minimal age, included (default is 0)
+     * @param int|null      $maxAge            maximal age, included (default is infinity)
      * @param DateTime|null $referenceDateTime Reference date, default is _now_
      *
      * @return bool True if birth date belongs to age range interval.

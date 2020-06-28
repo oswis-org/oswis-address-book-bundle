@@ -119,16 +119,16 @@ services:
         alias: oswis_org_oswis_address_book.address_book_repository
         public: true
 
-    oswis_org_oswis_address_book.contact_detail_type_repository:
-        class: OswisOrg\OswisAddressBookBundle\Repository\ContactDetailTypeRepository
+    oswis_org_oswis_address_book.contact_detail_category_repository:
+        class: OswisOrg\OswisAddressBookBundle\Repository\ContactDetailCategoryRepository
         autowire: true
         public: true
         arguments:
             - '@doctrine'
         tags:
             - '@doctrine.repository_service'
-    OswisOrg\OswisAddressBookBundle\Repository\ContactDetailTypeRepository:
-        alias: oswis_org_oswis_address_book.contact_detail_type_repository
+    OswisOrg\OswisAddressBookBundle\Repository\ContactDetailCategoryRepository:
+        alias: oswis_org_oswis_address_book.contact_detail_category_repository
         public: true
 
     oswis_org_oswis_address_book.organization_repository:

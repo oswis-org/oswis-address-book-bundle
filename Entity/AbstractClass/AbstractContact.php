@@ -20,7 +20,6 @@ use OswisOrg\OswisAddressBookBundle\Entity\MediaObject\ContactFile;
 use OswisOrg\OswisAddressBookBundle\Entity\MediaObject\ContactImage;
 use OswisOrg\OswisAddressBookBundle\Entity\Organization;
 use OswisOrg\OswisAddressBookBundle\Entity\Person;
-use OswisOrg\OswisCalendarBundle\Entity\MediaObject\EventImage;
 use OswisOrg\OswisCoreBundle\Entity\AppUser\AppUser;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
 use OswisOrg\OswisCoreBundle\Interfaces\AddressBook\ContactInterface;
