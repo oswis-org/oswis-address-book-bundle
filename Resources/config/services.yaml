@@ -189,3 +189,18 @@ services:
     OswisOrg\OswisAddressBookBundle\Utils\AgeUtils:
         alias: oswis_org_oswis_address_book.oswis_address_book_age_utils
         public: true
+
+
+    oswis_org_oswis_address_book.oswis_address_book_contact_person_updater:
+        class: OswisOrg\OswisAddressBookBundle\EventListener\ContactPersonUpdater
+        autowire: true
+        public: true
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@oswis_org_oswis_address_book.position_repository'
+            - '@oswis_org_oswis_address_book.organization_repository'
+        tags:
+            -   name: 'doctrine.orm.entity_listener'
+                event: 'postUpdate'
+                entity: 'OswisOrg\OswisAddressBookBundle\Entity\Position'
+                lazy: true

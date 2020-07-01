@@ -12,7 +12,6 @@ use InvalidArgumentException;
 use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use OswisOrg\OswisAddressBookBundle\Entity\ContactDetail;
 use OswisOrg\OswisAddressBookBundle\Entity\Person;
-use OswisOrg\OswisAddressBookBundle\Entity\Position;
 use function assert;
 
 class AbstractContactService
@@ -51,7 +50,6 @@ class AbstractContactService
         if (null !== $contact) {
             return $contact;
         }
-        $positions = new ArrayCollection([new Position(null, null, null, Position::TYPE_STUDENT)]);
         $contactDetails = new ArrayCollection();
         foreach ($detailTypeSlugs as $detailTypeSlug) {
             $contactDetails->add(new ContactDetail($this->contactDetailTypeService->getBySlug($detailTypeSlug)));

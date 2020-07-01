@@ -7,6 +7,7 @@ namespace OswisOrg\OswisAddressBookBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractOrganization;
 use OswisOrg\OswisAddressBookBundle\Entity\MediaObject\ContactImage;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
@@ -143,6 +144,13 @@ class Organization extends AbstractOrganization
         } // TODO: Check!
     }
 
+    public function addContactPerson(?AbstractContact $contact): void
+    {
+        if (null !== $contact && !$this->getContactPersons()->contains($contact)) {
+            $this->getContactPersons()->add($contact);
+        }
+    }
+
     public function getContactPersons(bool $onlyWithActivatedUser = false): Collection
     {
         $contactPersons = $this->contactPersons ?? new ArrayCollection();
@@ -151,6 +159,13 @@ class Organization extends AbstractOrganization
         }
 
         return $contactPersons;
+    }
+
+    public function removeContactPerson(?AbstractContact $contact): void
+    {
+        if (null !== $contact) {
+            $this->getContactPersons()->remove($contact);
+        }
     }
 
     public function isRoot(): bool
