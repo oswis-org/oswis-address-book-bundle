@@ -100,8 +100,8 @@ abstract class AbstractContact implements ContactInterface
      * )
      * @Doctrine\ORM\Mapping\JoinTable(
      *     name="address_book_address_book_contact_connection",
-     *     joinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="participant_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="participant_contact_id", referencedColumnName="id", unique=true)}
+     *     joinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="contact_address_book_id", referencedColumnName="id", unique=true)}
      * )
      */
     protected ?Collection $contactAddressBooks = null;

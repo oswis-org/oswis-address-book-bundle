@@ -91,7 +91,12 @@ class Organization extends AbstractOrganization
     protected ?Collection $subOrganizations = null;
 
     /**
-     * @todo Implement it!!!
+     * @Doctrine\ORM\Mapping\ManyToMany(targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Person", fetch="EAGER")
+     * @Doctrine\ORM\Mapping\JoinTable(
+     *     name="address_book_organization_contact_person_connection",
+     *     joinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="organization_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="contact_person_id", referencedColumnName="id", unique=true)}
+     * )
      */
     protected ?Collection $contactPersons = null;
 
