@@ -45,11 +45,10 @@ class ContactDetailType extends AbstractType
         $builder->add(
             'content',
             TextType::class,
-            array(
-                'label'    => false,
-                'required' => $options['content_required'],
-                'attr'     => ['placeholder' => 'Kontakt'],
-            )
+            [
+                'label' => false,
+                'attr'  => ['placeholder' => 'Kontakt'],
+            ]
         );
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
@@ -59,13 +58,13 @@ class ContactDetailType extends AbstractType
                 $detailType = $contactDetail->getDetailCategory();
                 $detailTypeType = $contactDetail->getDetailCategory() ? $contactDetail->getDetailCategory()->getType() : null;
                 $form = $event->getForm();
-                $options = array(
+                $options = [
                     'label'       => $detailType ? $detailType->getFormLabel() : false,
-                    'required'    => $options['content_required'],
+                    'required'    => $detailType ? $detailType->isRequired() : false,
                     'attr'        => [/*'autocomplete' => $contactDetail->getContactType() ? $contactDetail->getContactType()->getType() : true*/],
                     'help'        => $detailType ? $detailType->getFormHelp() : null,
                     'constraints' => self::getConstraintsByType($detailTypeType),
-                );
+                ];
                 $pattern = self::getPatternByType($detailTypeType);
                 if ($pattern) {
                     $options['attr']['pattern'] = $pattern;

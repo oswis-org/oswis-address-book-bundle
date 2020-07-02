@@ -51,11 +51,14 @@ class PersonType extends AbstractType
                 'entry_options' => ['label' => false],
             ]
         );
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, static function (FormEvent $event) {
-            if ($event->getData() instanceof AbstractContact && $event->getData()->getPositions()->isEmpty()) {
-                $event->getForm()->remove('positions');
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
+            static function (FormEvent $event) {
+                if ($event->getData() instanceof AbstractContact && $event->getData()->getPositions()->isEmpty()) {
+                    $event->getForm()->remove('positions');
+                }
             }
-        });
+        );
     }
 
     /**

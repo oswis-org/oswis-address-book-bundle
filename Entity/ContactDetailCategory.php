@@ -5,7 +5,6 @@
 
 namespace OswisOrg\OswisAddressBookBundle\Entity;
 
-use InvalidArgumentException;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
 use OswisOrg\OswisCoreBundle\Interfaces\Common\NameableInterface;
 use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
@@ -62,15 +61,6 @@ class ContactDetailCategory implements NameableInterface
     public const TYPE_MESSENGER = 'messenger';
     public const TYPE_VOIP = 'voip';
 
-    public const ALLOWED_TYPES = [
-        self::TYPE_URL       => ['name' => 'URL'],
-        self::TYPE_EMAIL     => ['name' => 'E-mail'],
-        self::TYPE_PHONE     => ['name' => 'Telefon'],
-        self::TYPE_SOCIAL    => ['name' => 'Profil na sociální síti'],
-        self::TYPE_MESSENGER => ['name' => 'Internetový komunikátor'],
-        self::TYPE_VOIP      => ['name' => 'Internetová telefonie'],
-    ];
-
     use NameableTrait;
     use TypeTrait;
 
@@ -97,6 +87,11 @@ class ContactDetailCategory implements NameableInterface
     protected ?string $formHelp = null;
 
     /**
+     * @Doctrine\ORM\Mapping\Column(type="boolean", nullable=false)
+     */
+    protected bool $required = false;
+
+    /**
      * ContactDetailType constructor.
      *
      * @param Nameable|null $nameable
@@ -106,7 +101,9 @@ class ContactDetailCategory implements NameableInterface
      * @param string|null   $formLabel
      * @param string|null   $formHelp
      *
-     * @throws InvalidArgumentException
+     * @param bool          $required
+     *
+     * @throws \OswisOrg\OswisCoreBundle\Exceptions\InvalidTypeException
      */
     public function __construct(
         ?Nameable $nameable = null,
@@ -114,7 +111,8 @@ class ContactDetailCategory implements NameableInterface
         ?bool $showInPreview = null,
         ?string $type = null,
         ?string $formLabel = null,
-        ?string $formHelp = null
+        ?string $formHelp = null,
+        bool $required = false
     ) {
         $this->setFieldsFromNameable($nameable);
         $this->setContactSchema($schema);
@@ -122,6 +120,7 @@ class ContactDetailCategory implements NameableInterface
         $this->setType($type);
         $this->setFormLabel($formLabel);
         $this->setFormHelp($formHelp);
+        $this->setRequired($required);
     }
 
     public static function getAllowedTypesDefault(): array
@@ -139,6 +138,16 @@ class ContactDetailCategory implements NameableInterface
     public static function getAllowedTypesCustom(): array
     {
         return [];
+    }
+
+    public function isRequired(): bool
+    {
+        return $this->required;
+    }
+
+    public function setRequired(bool $required): void
+    {
+        $this->required = $required;
     }
 
     public function getFormLabel(): ?string
