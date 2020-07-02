@@ -6,11 +6,14 @@
 
 namespace OswisOrg\OswisAddressBookBundle\Form;
 
+use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use OswisOrg\OswisAddressBookBundle\Entity\Person;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\Exception\AccessException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -48,6 +51,11 @@ class PersonType extends AbstractType
                 'entry_options' => ['label' => false],
             ]
         );
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            if ($event->getData() instanceof AbstractContact && $event->getData()->getPositions()->isEmpty()) {
+                $event->getForm()->remove('positions');
+            }
+        });
     }
 
     /**
