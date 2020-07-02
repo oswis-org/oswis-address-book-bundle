@@ -19,9 +19,9 @@
                     (IČ: <span itemprop="identifier">{{ organization.identificationNumber }}</span>)
                 {% endif %}
             </p>
-            {% for detail in organization.details|filter(d => d.publicOnWeb)|default %}
+            {% for detail in organization.details|filter(d => d.publicOnWeb) %}
                 <p class="mb-2">
-                    <strong>{{ detail.typeName|default('Kontakt') }}:</strong>
+                    <strong>{{ detail.categoryName|default('Kontakt') }}:</strong>
                     {% autoescape false %}{{ detail.formatted }}{% endautoescape %}
                 </p>
             {% endfor %}
