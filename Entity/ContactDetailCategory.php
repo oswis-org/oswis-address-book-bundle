@@ -6,6 +6,7 @@
 namespace OswisOrg\OswisAddressBookBundle\Entity;
 
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
+use OswisOrg\OswisCoreBundle\Exceptions\InvalidTypeException;
 use OswisOrg\OswisCoreBundle\Interfaces\Common\NameableInterface;
 use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\TypeTrait;
@@ -103,7 +104,7 @@ class ContactDetailCategory implements NameableInterface
      *
      * @param bool          $required
      *
-     * @throws \OswisOrg\OswisCoreBundle\Exceptions\InvalidTypeException
+     * @throws InvalidTypeException
      */
     public function __construct(
         ?Nameable $nameable = null,
@@ -187,7 +188,6 @@ class ContactDetailCategory implements NameableInterface
      * @param string|null $name
      *
      * @return string
-     * @noinspection UnknownInspectionInspection
      * @noinspection HtmlUnknownTag
      */
     public function getFormatted(string $value, ?string $description, ?string $name = null): string

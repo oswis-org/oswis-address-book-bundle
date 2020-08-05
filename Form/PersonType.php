@@ -6,7 +6,6 @@
 
 namespace OswisOrg\OswisAddressBookBundle\Form;
 
-use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use OswisOrg\OswisAddressBookBundle\Entity\Person;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -54,7 +53,7 @@ class PersonType extends AbstractType
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
             static function (FormEvent $event) {
-                if ($event->getData() instanceof AbstractContact && $event->getData()->getPositions()->isEmpty()) {
+                if ($event->getData() instanceof Person && $event->getData()->getPositions()->isEmpty()) {
                     $event->getForm()->remove('positions');
                 }
             }
