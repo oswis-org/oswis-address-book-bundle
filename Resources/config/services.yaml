@@ -2,27 +2,6 @@
 
 services:
 
-    #    OswisOrg\OswisAddressBookBundle\EventSubscriber\:
-    #        resource: '../../EventSubscriber/*'
-    #        tags: [ { name: 'kernel.view'} ]
-    #        arguments:
-    #          ['@security.user_password_encoder.generic', '@doctrine.orm.entity_manager.abstract', '@swiftmailer.mailer.abstract', '@monolog.logger_prototype', '@twig', '@security.token_storage']
-    #        public: true
-    #
-    #    OswisOrg\OswisAddressBookBundle\Controller\:
-    #        resource: '../../Controller/*'
-    #        tags: ['controller.service_arguments']
-    #        public: true
-    #
-    #    OswisOrg\OswisAddressBookBundle\Api\Dto\:
-    #        resource: '../../Api/Dto/*'
-    #        public: true
-    #
-    #    OswisOrg\OswisAddressBookBundle\Api\EventSubscriber\:
-    #        resource: '../../Api/EventSubscriber/*'
-    #        public: true
-
-    ### OSWIS AddressBook Settings Provider
     oswis_org_oswis_address_book.oswis_address_book_settings_provider:
         class: OswisOrg\OswisAddressBookBundle\Provider\OswisAddressBookSettingsProvider
         autowire: true
@@ -31,7 +10,6 @@ services:
         alias: oswis_org_oswis_address_book.oswis_address_book_settings_provider
         public: true
 
-    ### Place Service
     oswis_org_oswis_address_book.place_service:
         class: OswisOrg\OswisAddressBookBundle\Service\PlaceService
         autowire: true
@@ -43,7 +21,6 @@ services:
         alias: oswis_org_oswis_address_book.place_service
         public: true
 
-    ### Person Service
     oswis_org_oswis_address_book.person_service:
         class: OswisOrg\OswisAddressBookBundle\Service\PersonService
         autowire: true
@@ -55,7 +32,6 @@ services:
         alias: oswis_org_oswis_address_book.person_service
         public: true
 
-    ### Organization Service
     oswis_org_oswis_address_book.organization_service:
         class: OswisOrg\OswisAddressBookBundle\Service\OrganizationService
         autowire: true
@@ -107,7 +83,7 @@ services:
     ###  REPOSITORIES
     ###
 
-    oswis_org_oswis_address_book.address_book_repository:
+    OswisOrg\OswisAddressBookBundle\Repository\AddressBookRepository:
         class: OswisOrg\OswisAddressBookBundle\Repository\AddressBookRepository
         autowire: true
         public: true
@@ -115,11 +91,8 @@ services:
             - '@doctrine'
         tags:
             - 'doctrine.repository_service'
-    OswisOrg\OswisAddressBookBundle\Repository\AddressBookRepository:
-        alias: oswis_org_oswis_address_book.address_book_repository
-        public: true
 
-    oswis_org_oswis_address_book.contact_detail_category_repository:
+    OswisOrg\OswisAddressBookBundle\Repository\ContactDetailCategoryRepository:
         class: OswisOrg\OswisAddressBookBundle\Repository\ContactDetailCategoryRepository
         autowire: true
         public: true
@@ -127,11 +100,8 @@ services:
             - '@doctrine'
         tags:
             - 'doctrine.repository_service'
-    OswisOrg\OswisAddressBookBundle\Repository\ContactDetailCategoryRepository:
-        alias: oswis_org_oswis_address_book.contact_detail_category_repository
-        public: true
 
-    oswis_org_oswis_address_book.organization_repository:
+    OswisOrg\OswisAddressBookBundle\Repository\OrganizationRepository:
         class: OswisOrg\OswisAddressBookBundle\Repository\OrganizationRepository
         autowire: true
         public: true
@@ -139,11 +109,8 @@ services:
             - '@doctrine'
         tags:
             - 'doctrine.repository_service'
-    OswisOrg\OswisAddressBookBundle\Repository\OrganizationRepository:
-        alias: oswis_org_oswis_address_book.organization_repository
-        public: true
 
-    oswis_org_oswis_address_book.person_repository:
+    OswisOrg\OswisAddressBookBundle\Repository\PersonRepository:
         class: OswisOrg\OswisAddressBookBundle\Repository\PersonRepository
         autowire: true
         public: true
@@ -151,11 +118,8 @@ services:
             - '@doctrine'
         tags:
             - 'doctrine.repository_service'
-    OswisOrg\OswisAddressBookBundle\Repository\PersonRepository:
-        alias: oswis_org_oswis_address_book.person_repository
-        public: true
 
-    oswis_org_oswis_address_book.position_repository:
+    OswisOrg\OswisAddressBookBundle\Repository\PositionRepository:
         class: OswisOrg\OswisAddressBookBundle\Repository\PositionRepository
         autowire: true
         public: true
@@ -163,12 +127,7 @@ services:
             - '@doctrine'
         tags:
             - 'doctrine.repository_service'
-    OswisOrg\OswisAddressBookBundle\Repository\PositionRepository:
-        alias: oswis_org_oswis_address_book.position_repository
-        public: true
 
-
-    ### Organization Controller
     oswis_org_oswis_address_book.organization_controller:
         class: OswisOrg\OswisAddressBookBundle\Controller\OrganizationController
         autowire: true
@@ -180,7 +139,6 @@ services:
         alias: oswis_org_oswis_address_book.organization_controller
         public: true
 
-
     ### AGE UTILS
     oswis_org_oswis_address_book.oswis_address_book_age_utils:
         class: OswisOrg\OswisAddressBookBundle\Utils\AgeUtils
@@ -190,17 +148,19 @@ services:
         alias: oswis_org_oswis_address_book.oswis_address_book_age_utils
         public: true
 
-
     oswis_org_oswis_address_book.oswis_address_book_contact_person_updater:
         class: OswisOrg\OswisAddressBookBundle\EventListener\ContactPersonUpdater
         autowire: true
         public: true
         arguments:
             - '@doctrine.orm.entity_manager'
-            - '@oswis_org_oswis_address_book.position_repository'
-            - '@oswis_org_oswis_address_book.organization_repository'
+            - '@OswisOrg\OswisAddressBookBundle\Repository\PositionRepository'
+            - '@OswisOrg\OswisAddressBookBundle\Repository\OrganizationRepository'
         tags:
             -   name: 'doctrine.orm.entity_listener'
                 event: 'postUpdate'
                 entity: 'OswisOrg\OswisAddressBookBundle\Entity\Position'
                 lazy: true
+    OswisOrg\OswisAddressBookBundle\EventListener\ContactPersonUpdater:
+        alias: oswis_org_oswis_address_book.oswis_address_book_contact_person_updater
+        public: true
