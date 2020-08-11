@@ -116,14 +116,14 @@ class Organization extends AbstractOrganization
         $this->setParentOrganization($parentOrganization);
     }
 
-    public function getImage(?string $type = null, bool $recursive = false): ?ContactImage
+    public function getOneImage(?string $type = null, bool $recursive = false): ?ContactImage
     {
         $image = $this->getImages($type)->first();
         if ($image instanceof ContactImage) {
             return $image;
         }
 
-        return true === $recursive && $this->getParentOrganization() ? $this->getParentOrganization()->getImage($type, true) : null;
+        return true === $recursive && $this->getParentOrganization() ? $this->getParentOrganization()->getOneImage($type, true) : null;
     }
 
     public function getImages(?string $type = null): Collection

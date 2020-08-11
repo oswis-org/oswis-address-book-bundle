@@ -240,7 +240,7 @@ abstract class AbstractContact implements ContactInterface
         return [];
     }
 
-    public function getImage(?string $type = null): ?ContactImage
+    public function getOneImage(?string $type = null): ?ContactImage
     {
         $image = $this->getImages($type)->first();
 
