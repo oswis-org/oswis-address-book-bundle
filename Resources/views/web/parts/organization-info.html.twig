@@ -26,7 +26,7 @@
                 </p>
             {% endfor %}
             <span itemprop="url" content="{{ organization.url }}"></span>
-            <span itemprop="logo" content="'{{ absolute_url(asset('/images/contacts/'~organization.image)) }}"></span>
+            <span itemprop="logo" content="'{{ absolute_url(asset('/images/contacts/'~organization.oneImage)) }}"></span>
             <span itemprop="contactPoint" itemscope itemtype="http://schema.org/ContactPoint">
                     <span itemprop="contactType" content="customer service"></span>
                     <span itemprop="areaServed" content="CZ"></span>

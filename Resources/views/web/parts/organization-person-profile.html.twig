@@ -1,4 +1,4 @@
-{% set imgSrc = preload(asset(contact.image ? '/images/contacts/'~contact.image : 'assets/images/seznamovak/kytka-512-upscale.png'), {as: 'image'}) %}
+{% set imgSrc = preload(asset(contact.oneImage ? '/images/contacts/'~contact.oneImage : 'assets/images/seznamovak/kytka-512-upscale.png'), {as: 'image'}) %}
 
 <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" title="{{ contact.nickname|default(contact.name|default) }}" itemprop="member" data-toggle="tooltip"
      itemscope itemtype='{{ 'http://schema.org/' ~ contact.person ? 'Person' : 'Organization' }}'>

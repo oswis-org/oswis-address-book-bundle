@@ -483,9 +483,9 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
         return $this->getDetails(ContactDetailCategory::TYPE_PHONE);
     }
 
-    public function canRead(AppUser $user): bool
+    public function canRead(?AppUser $user = null): bool
     {
-        if (!($user instanceof AppUser)) { // User is not logged in.
+        if (null === $user || !($user instanceof AppUser)) { // User is not logged in.
             return false;
         }
 
@@ -521,9 +521,9 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
         return $this->getDetails(ContactDetailCategory::TYPE_EMAIL);
     }
 
-    public function canEdit(AppUser $user): bool
+    public function canEdit(?AppUser $user = null): bool
     {
-        if (!($user instanceof AppUser)) {// User is not logged in.
+        if (null === $user || !($user instanceof AppUser)) {// User is not logged in.
             return false;
         }
 

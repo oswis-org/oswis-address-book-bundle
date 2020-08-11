@@ -188,9 +188,9 @@ class ContactDetailCategory implements NameableInterface, TypeInterface
      * @return string
      * @noinspection HtmlUnknownTag
      */
-    public function getFormatted(string $value, ?string $description, ?string $name = null): string
+    public function getFormatted(?string $value = null, ?string $description = null, ?string $name = null): string
     {
-        return strtr($this->getContactSchema(), ['$<value>' => $value, '$<description>' => $description, '$<name>' => $name]);
+        return empty($value) ? '' : strtr($this->getContactSchema(), ['$<value>' => $value, '$<description>' => $description, '$<name>' => $name]);
     }
 
     /**
