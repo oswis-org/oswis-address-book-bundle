@@ -1,8 +1,12 @@
 <?php
+/**
+ * @noinspection MethodShouldBeFinalInspection
+ */
 
 namespace OswisOrg\OswisAddressBookBundle\Entity\MediaObject;
 
 use OswisOrg\OswisAddressBookBundle\Controller\MediaObject\ContactImageAction;
+use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use OswisOrg\OswisCoreBundle\Entity\AbstractClass\AbstractImage;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Publicity;
 use OswisOrg\OswisCoreBundle\Exceptions\InvalidTypeException;
@@ -46,6 +50,14 @@ class ContactImage extends AbstractImage
     public ?File $file = null;
 
     /**
+     * @Doctrine\ORM\Mapping\ManyToOne(
+     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact", inversedBy="images", cascade={"all"}
+     * )
+     * @Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")
+     */
+    protected ?AbstractContact $contact = null;
+
+    /**
      * @param File|null      $file
      * @param string|null    $type
      * @param int|null       $priority
@@ -59,5 +71,21 @@ class ContactImage extends AbstractImage
         $this->setType($type);
         $this->setPriority($priority);
         $this->setFieldsFromPublicity($publicity);
+    }
+
+    public function getContact(): ?AbstractContact
+    {
+        return $this->contact;
+    }
+
+    public function setContact(?AbstractContact $contact): void
+    {
+        if (null !== $this->contact && $contact !== $this->contact) {
+            $this->contact->removeImage($this);
+        }
+        $this->contact = $contact;
+        if (null !== $contact && $this->contact !== $contact) {
+            $contact->addImage($this);
+        }
     }
 }
