@@ -1,6 +1,5 @@
 <?php
 /**
- * @noinspection PhpUnused
  * @noinspection MethodShouldBeFinalInspection
  */
 
@@ -27,26 +26,23 @@ use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
  *   collectionOperations={
  *     "get"={
  *       "access_control"="is_granted('ROLE_MANAGER')",
- *       "normalization_context"={"groups"={"address_book_places_get"}},
+ *       "normalization_context"={"groups"={"entities_get", "address_book_places_get"}},
  *     },
  *     "post"={
  *       "access_control"="is_granted('ROLE_MANAGER')",
- *       "denormalization_context"={"groups"={"address_book_places_post"}}
+ *       "denormalization_context"={"groups"={"entities_post", "address_book_places_post"}}
  *     }
  *   },
  *   itemOperations={
  *     "get"={
  *       "access_control"="is_granted('ROLE_MANAGER')",
- *       "normalization_context"={"groups"={"address_book_place_get"}},
+ *       "normalization_context"={"groups"={"entity_get", "address_book_place_get"}},
  *     },
  *     "put"={
  *       "access_control"="is_granted('ROLE_MANAGER')",
- *       "denormalization_context"={"groups"={"address_book_place_put"}}
+ *       "denormalization_context"={"groups"={"entity_put", "address_book_place_put"}}
  *     },
- *     "delete"={
- *       "access_control"="is_granted('ROLE_ADMIN')",
- *       "denormalization_context"={"groups"={"address_book_place_delete"}}
- *     }
+ *     "delete"={}
  *   }
  * )
  * @ApiPlatform\Core\Annotation\ApiFilter(ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter::class)

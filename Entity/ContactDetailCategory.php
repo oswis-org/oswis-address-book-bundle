@@ -8,6 +8,7 @@ namespace OswisOrg\OswisAddressBookBundle\Entity;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
 use OswisOrg\OswisCoreBundle\Exceptions\InvalidTypeException;
 use OswisOrg\OswisCoreBundle\Interfaces\Common\NameableInterface;
+use OswisOrg\OswisCoreBundle\Interfaces\Common\TypeInterface;
 use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\TypeTrait;
 
@@ -22,26 +23,23 @@ use OswisOrg\OswisCoreBundle\Traits\Common\TypeTrait;
  *   collectionOperations={
  *     "get"={
  *       "access_control"="is_granted('ROLE_MANAGER')",
- *       "normalization_context"={"groups"={"address_book_contact_detail_categories_get"}},
+ *       "normalization_context"={"groups"={"entities_get", "address_book_contact_detail_categories_get"}},
  *     },
  *     "post"={
  *       "access_control"="is_granted('ROLE_MANAGER')",
- *       "denormalization_context"={"groups"={"address_book_contact_detail_categories_post"}}
+ *       "denormalization_context"={"groups"={"entities_post", "address_book_contact_detail_categories_post"}}
  *     }
  *   },
  *   itemOperations={
  *     "get"={
  *       "access_control"="is_granted('ROLE_MANAGER')",
- *       "normalization_context"={"groups"={"address_book_contact_detail_category_get"}},
+ *       "normalization_context"={"groups"={"entity_get", "address_book_contact_detail_category_get"}},
  *     },
  *     "put"={
  *       "access_control"="is_granted('ROLE_MANAGER')",
- *       "denormalization_context"={"groups"={"address_book_contact_detail_category_put"}}
+ *       "denormalization_context"={"groups"={"entity_put", "address_book_contact_detail_category_put"}}
  *     },
- *     "delete"={
- *       "access_control"="is_granted('ROLE_ADMIN')",
- *       "denormalization_context"={"groups"={"address_book_contact_detail_category_delete"}}
- *     }
+ *     "delete"={}
  *   }
  * )
  * @ApiPlatform\Core\Annotation\ApiFilter(ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter::class)
@@ -53,7 +51,7 @@ use OswisOrg\OswisCoreBundle\Traits\Common\TypeTrait;
  * })
  * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact_detail_category")
  */
-class ContactDetailCategory implements NameableInterface
+class ContactDetailCategory implements NameableInterface, TypeInterface
 {
     public const TYPE_EMAIL = 'email';
     public const TYPE_URL = 'url';

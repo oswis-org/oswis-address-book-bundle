@@ -4,14 +4,6 @@ OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact:
             groups:
                 - 'address_book_abstract_contacts_get'
                 - 'address_book_abstract_contact_get'
-        createdDateTime:
-            groups: ['address_book_abstract_contact_get']
-        updatedDateTime:
-            groups: ['address_book_abstract_contact_get']
-        createdAuthor:
-            groups: ['address_book_abstract_contact_get']
-        updatedAuthor:
-            groups: ['address_book_abstract_contact_get']
         name:
             groups:
                 - 'address_book_abstract_contacts_get'

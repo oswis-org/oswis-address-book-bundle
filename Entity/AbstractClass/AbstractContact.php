@@ -22,6 +22,7 @@ use OswisOrg\OswisAddressBookBundle\Entity\Person;
 use OswisOrg\OswisCoreBundle\Entity\AppUser\AppUser;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
 use OswisOrg\OswisCoreBundle\Interfaces\AddressBook\ContactInterface;
+use OswisOrg\OswisCoreBundle\Interfaces\Common\TypeInterface;
 use OswisOrg\OswisCoreBundle\Traits\Common\ColorTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\EntityPublicTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
@@ -49,7 +50,7 @@ use function in_array;
  * })
  * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
-abstract class AbstractContact implements ContactInterface
+abstract class AbstractContact implements ContactInterface, TypeInterface
 {
     use NameableTrait;
     use TypeTrait;

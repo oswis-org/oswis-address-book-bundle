@@ -24,21 +24,21 @@ use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
  *   collectionOperations={
  *     "get"={
  *       "access_control"="is_granted('ROLE_MEMBER')",
- *       "normalization_context"={"groups"={"address_book_abstract_contacts_get", "address_book_organizations_get"}},
+ *       "normalization_context"={"groups"={"entities_get", "address_book_abstract_contacts_get", "address_book_organizations_get"}},
  *     },
  *     "post"={
  *       "access_control"="is_granted('ROLE_MEMBER')",
- *       "denormalization_context"={"groups"={"address_book_abstract_contacts_post", "address_book_organizations_post"}}
+ *       "denormalization_context"={"groups"={"entities_post", "address_book_abstract_contacts_post", "address_book_organizations_post"}}
  *     }
  *   },
  *   itemOperations={
  *     "get"={
  *       "access_control"="is_granted('ROLE_MEMBER')",
- *       "normalization_context"={"groups"={"address_book_abstract_contact_get", "address_book_organization_get"}},
+ *       "normalization_context"={"groups"={"entity_get", "address_book_abstract_contact_get", "address_book_organization_get"}},
  *     },
  *     "put"={
  *       "access_control"="is_granted('ROLE_MEMBER')",
- *       "denormalization_context"={"groups"={"address_book_abstract_contact_put", "address_book_organization_put"}}
+ *       "denormalization_context"={"groups"={"entity_put", "address_book_abstract_contact_put", "address_book_organization_put"}}
  *     }
  *   }
  * )
