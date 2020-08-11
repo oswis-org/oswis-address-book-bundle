@@ -1,7 +1,6 @@
 <?php
 /**
  * @noinspection MethodShouldBeFinalInspection
- * @noinspection PhpUnused
  */
 
 namespace OswisOrg\OswisAddressBookBundle\Entity\AbstractClass;
@@ -259,22 +258,18 @@ abstract class AbstractContact implements ContactInterface
     {
         if (null !== $image && !$this->getImages()->contains($image)) {
             $this->getImages()->add($image);
-            $image->setContact($this);
         }
     }
 
     public function removeImage(?ContactImage $image): void
     {
-        if (null !== $image && $this->getImages()->removeElement($image)) {
-            $image->setContact(null);
-        }
+        $this->getImages()->removeElement($image);
     }
 
     public function addFile(?ContactFile $file): void
     {
         if (null !== $file && !$this->getFiles()->contains($file)) {
             $this->getFiles()->add($file);
-            $file->setContact($this);
         }
     }
 
@@ -285,9 +280,7 @@ abstract class AbstractContact implements ContactInterface
 
     public function removeFile(?ContactFile $file): void
     {
-        if (null !== $file && $this->getFiles()->removeElement($file)) {
-            $file->setContact(null);
-        }
+        $this->getFiles()->removeElement($file);
     }
 
     public function isPerson(): bool

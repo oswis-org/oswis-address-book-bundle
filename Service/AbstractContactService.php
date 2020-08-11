@@ -1,7 +1,6 @@
 <?php
 /**
  * @noinspection MethodShouldBeFinalInspection
- * @noinspection PhpUnused
  */
 
 namespace OswisOrg\OswisAddressBookBundle\Service;

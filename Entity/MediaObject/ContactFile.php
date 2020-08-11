@@ -1,11 +1,7 @@
 <?php
-/**
- * @noinspection MethodShouldBeFinalInspection
- */
 
 namespace OswisOrg\OswisAddressBookBundle\Entity\MediaObject;
 
-use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use OswisOrg\OswisCoreBundle\Entity\AbstractClass\AbstractFile;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Publicity;
 use OswisOrg\OswisCoreBundle\Exceptions\InvalidTypeException;
@@ -50,14 +46,6 @@ class ContactFile extends AbstractFile
     public ?File $file = null;
 
     /**
-     * @Doctrine\ORM\Mapping\ManyToOne(
-     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact", inversedBy="files"
-     * )
-     * @Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")
-     */
-    protected ?AbstractContact $contact = null;
-
-    /**
      * @param File|null      $file
      * @param string|null    $type
      * @param int|null       $priority
@@ -71,21 +59,5 @@ class ContactFile extends AbstractFile
         $this->setType($type);
         $this->setPriority($priority);
         $this->setFieldsFromPublicity($publicity);
-    }
-
-    public function getContact(): ?AbstractContact
-    {
-        return $this->contact;
-    }
-
-    public function setContact(?AbstractContact $contact): void
-    {
-        if (null !== $this->contact && $contact !== $this->contact) {
-            $this->contact->removeFile($this);
-        }
-        $this->contact = $contact;
-        if (null !== $contact && $this->contact !== $contact) {
-            $contact->addFile($this);
-        }
     }
 }
