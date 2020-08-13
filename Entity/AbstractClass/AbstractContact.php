@@ -532,7 +532,7 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
 
     public function __toString(): string
     {
-        return ''.$this->getName();
+        return ''.($this->getName() ?? (string)$this->getId());
     }
 
     public function getGender(): string
