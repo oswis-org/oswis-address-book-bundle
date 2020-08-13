@@ -6,6 +6,7 @@
 namespace OswisOrg\OswisAddressBookBundle\Entity\AddressBook;
 
 use OswisOrg\OswisCoreBundle\Interfaces\Common\BasicInterface;
+use OswisOrg\OswisCoreBundle\Interfaces\Common\DeletedInterface;
 use OswisOrg\OswisCoreBundle\Traits\Common\BasicTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\DeletedTrait;
 
@@ -14,7 +15,7 @@ use OswisOrg\OswisCoreBundle\Traits\Common\DeletedTrait;
  * @Doctrine\ORM\Mapping\Table(name="address_book_contact_address_book")
  * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_address_book")
  */
-class ContactAddressBook implements BasicInterface
+class ContactAddressBook implements BasicInterface, DeletedInterface
 {
     use BasicTrait;
     use DeletedTrait;

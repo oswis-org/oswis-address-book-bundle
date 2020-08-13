@@ -11,6 +11,7 @@ use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractOrganization;
 use OswisOrg\OswisAddressBookBundle\Entity\MediaObject\ContactImage;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 /**
  * @Doctrine\ORM\Mapping\Entity(repositoryClass="OswisOrg\OswisAddressBookBundle\Repository\OrganizationRepository")
@@ -77,16 +78,16 @@ class Organization extends AbstractOrganization
 {
     /**
      * @Doctrine\ORM\Mapping\ManyToOne(
-     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Organization",
-     *     inversedBy="subOrganizations",
-     *     fetch="EAGER"
+     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Organization", inversedBy="subOrganizations", fetch="EAGER"
      * )
      * @Doctrine\ORM\Mapping\JoinColumn(nullable=true)
+     * @Symfony\Component\Serializer\Annotation\MaxDepth(3)
      */
     protected ?Organization $parentOrganization = null;
 
     /**
      * @Doctrine\ORM\Mapping\OneToMany(targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Organization", mappedBy="parentOrganization")
+     * @Symfony\Component\Serializer\Annotation\MaxDepth(3)
      */
     protected ?Collection $subOrganizations = null;
 

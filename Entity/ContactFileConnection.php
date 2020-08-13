@@ -10,6 +10,8 @@ use OswisOrg\OswisAddressBookBundle\Entity\MediaObject\ContactImage;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Publicity;
 use OswisOrg\OswisCoreBundle\Exceptions\InvalidTypeException;
 use OswisOrg\OswisCoreBundle\Interfaces\Common\BasicInterface;
+use OswisOrg\OswisCoreBundle\Interfaces\Common\PriorityInterface;
+use OswisOrg\OswisCoreBundle\Interfaces\Common\TypeInterface;
 use OswisOrg\OswisCoreBundle\Traits\Common\BasicTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\EntityPublicTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\PriorityTrait;
@@ -20,7 +22,7 @@ use OswisOrg\OswisCoreBundle\Traits\Common\TypeTrait;
  * @Doctrine\ORM\Mapping\Table(name="address_book_contact_file_connection")
  * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact_file")
  */
-class ContactFileConnection implements BasicInterface
+class ContactFileConnection implements BasicInterface, TypeInterface, PriorityInterface
 {
     use BasicTrait;
     use TypeTrait;

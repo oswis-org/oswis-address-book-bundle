@@ -75,11 +75,13 @@ class Place implements NameableInterface
     /**
      * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Place", inversedBy="subPlaces", fetch="EAGER")
      * @Doctrine\ORM\Mapping\JoinColumn(nullable=true)
+     * @Symfony\Component\Serializer\Annotation\MaxDepth(3)
      */
     protected ?Place $parentPlace = null;
 
     /**
      * @Doctrine\ORM\Mapping\OneToMany(targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Place", mappedBy="parentPlace")
+     * @Symfony\Component\Serializer\Annotation\MaxDepth(3)
      */
     protected ?Collection $subPlaces = null;
 

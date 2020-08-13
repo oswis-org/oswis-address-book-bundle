@@ -11,6 +11,7 @@ use OswisOrg\OswisCoreBundle\Entity\NonPersistent\DateTimeRange;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
 use OswisOrg\OswisCoreBundle\Exceptions\InvalidTypeException;
 use OswisOrg\OswisCoreBundle\Interfaces\Common\NameableInterface;
+use OswisOrg\OswisCoreBundle\Interfaces\Common\TypeInterface;
 use OswisOrg\OswisCoreBundle\Traits\Common\DateRangeTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\EntityPublicTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
@@ -43,8 +44,7 @@ use function in_array;
  *     "put"={
  *       "access_control"="is_granted('ROLE_MANAGER')",
  *       "denormalization_context"={"groups"={"entity_put", "address_book_position_put"}}
- *     },
- *     "delete"={}
+ *     }
  *   }
  * )
  * @ApiPlatform\Core\Annotation\ApiFilter(ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter::class)
@@ -56,7 +56,7 @@ use function in_array;
  * })
  * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
-class Position implements NameableInterface
+class Position implements NameableInterface, TypeInterface
 {
     public const TYPE_EMPLOYEE = 'employee';
     public const TYPE_MEMBER = 'member';
@@ -71,6 +71,16 @@ class Position implements NameableInterface
     public const EMPLOYEE_POSITION_TYPES = [self::TYPE_EMPLOYEE, ...self::MANAGER_POSITION_TYPES];
     public const MEMBER_POSITION_TYPES = [self::TYPE_MEMBER, ...self::MANAGER_POSITION_TYPES];
     public const EMPLOYEE_MEMBER_POSITION_TYPES = [self::TYPE_MEMBER, self::TYPE_EMPLOYEE, ...self::MANAGER_POSITION_TYPES];
+
+    public const ALLOWED_TYPES = [
+        self::TYPE_EMPLOYEE,
+        self::TYPE_MEMBER,
+        self::TYPE_MANAGER,
+        self::TYPE_DIRECTOR,
+        self::TYPE_STUDENT,
+        self::TYPE_GRADUATED,
+        self::TYPE_STUDENT_OR_GRADUATED,
+    ];
 
     use NameableTrait;
     use DateRangeTrait;
@@ -92,12 +102,14 @@ class Position implements NameableInterface
     /**
      * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Person", inversedBy="positions")
      * @Doctrine\ORM\Mapping\JoinColumn(name="person_id", referencedColumnName="id")
+     * @Symfony\Component\Serializer\Annotation\MaxDepth(3)
      */
     protected ?Person $person = null;
 
     /**
      * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Organization")
      * @Doctrine\ORM\Mapping\JoinColumn(name="organization_id", referencedColumnName="id")
+     * @Symfony\Component\Serializer\Annotation\MaxDepth(3)
      */
     protected ?Organization $organization = null;
 
@@ -129,15 +141,7 @@ class Position implements NameableInterface
 
     public static function getAllowedTypesDefault(): array
     {
-        return [
-            self::TYPE_EMPLOYEE,
-            self::TYPE_MEMBER,
-            self::TYPE_MANAGER,
-            self::TYPE_DIRECTOR,
-            self::TYPE_STUDENT,
-            self::TYPE_GRADUATED,
-            self::TYPE_STUDENT_OR_GRADUATED,
-        ];
+        return self::ALLOWED_TYPES;
     }
 
     public static function getAllowedTypesCustom(): array

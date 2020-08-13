@@ -60,6 +60,8 @@ class ContactDetailCategory implements NameableInterface, TypeInterface
     public const TYPE_MESSENGER = 'messenger';
     public const TYPE_VOIP = 'voip';
 
+    public const ALLOWED_TYPES = [self::TYPE_URL, self::TYPE_EMAIL, self::TYPE_PHONE, self::TYPE_SOCIAL, self::TYPE_MESSENGER, self::TYPE_VOIP];
+
     use NameableTrait;
     use TypeTrait;
 
@@ -124,14 +126,7 @@ class ContactDetailCategory implements NameableInterface, TypeInterface
 
     public static function getAllowedTypesDefault(): array
     {
-        return [
-            self::TYPE_URL,
-            self::TYPE_EMAIL,
-            self::TYPE_PHONE,
-            self::TYPE_SOCIAL,
-            self::TYPE_MESSENGER,
-            self::TYPE_VOIP,
-        ];
+        return self::ALLOWED_TYPES;
     }
 
     public static function getAllowedTypesCustom(): array
@@ -180,9 +175,8 @@ class ContactDetailCategory implements NameableInterface, TypeInterface
     }
 
     /**
-     * @param string      $value
+     * @param string|null $value
      * @param string|null $description
-     *
      * @param string|null $name
      *
      * @return string

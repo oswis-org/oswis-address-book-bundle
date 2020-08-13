@@ -24,4 +24,9 @@ abstract class AbstractPerson extends AbstractContact implements PersonInterface
     ) {
         parent::__construct($nameable, self::TYPE_PERSON, $notes, $details, $addresses, $addressBooks);
     }
+
+    public static function getAllowedTypesDefault(): array
+    {
+        return self::ALLOWED_TYPES;
+    }
 }

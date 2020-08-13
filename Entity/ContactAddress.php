@@ -9,6 +9,7 @@ use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractAddress;
 use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\PostalAddress;
+use OswisOrg\OswisCoreBundle\Interfaces\Common\PriorityInterface;
 use OswisOrg\OswisCoreBundle\Traits\Common\PriorityTrait;
 
 /**
@@ -16,7 +17,7 @@ use OswisOrg\OswisCoreBundle\Traits\Common\PriorityTrait;
  * @Doctrine\ORM\Mapping\Table(name="address_book_contact_address")
  * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
-class ContactAddress extends AbstractAddress
+class ContactAddress extends AbstractAddress implements PriorityInterface
 {
     use PriorityTrait;
 

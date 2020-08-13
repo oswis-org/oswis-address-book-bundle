@@ -9,7 +9,6 @@ use const PHP_INT_MAX;
 
 /**
  * Class AgeUtils.
- *
  * @author  Jakub Zak <mail@jakubzak.eu>
  */
 class AgeUtils

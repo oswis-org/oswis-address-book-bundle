@@ -148,7 +148,7 @@ services:
         alias: oswis_org_oswis_address_book.oswis_address_book_age_utils
         public: true
 
-    oswis_org_oswis_address_book.oswis_address_book_contact_person_updater:
+    OswisOrg\OswisAddressBookBundle\EventListener\ContactPersonUpdater:
         class: OswisOrg\OswisAddressBookBundle\EventListener\ContactPersonUpdater
         autowire: true
         public: true
@@ -157,10 +157,7 @@ services:
             - '@OswisOrg\OswisAddressBookBundle\Repository\PositionRepository'
             - '@OswisOrg\OswisAddressBookBundle\Repository\OrganizationRepository'
         tags:
-            -   name: 'doctrine.orm.entity_listener'
-                event: 'postUpdate'
-                entity: 'OswisOrg\OswisAddressBookBundle\Entity\Position'
-                lazy: true
-    OswisOrg\OswisAddressBookBundle\EventListener\ContactPersonUpdater:
-        alias: oswis_org_oswis_address_book.oswis_address_book_contact_person_updater
-        public: true
+            -
+                name: doctrine.orm.entity_listener
+                event: postUpdate
+                entity: OswisOrg\OswisAddressBookBundle\Entity\Position

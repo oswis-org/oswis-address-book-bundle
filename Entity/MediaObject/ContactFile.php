@@ -9,6 +9,8 @@ use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use OswisOrg\OswisCoreBundle\Entity\AbstractClass\AbstractFile;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Publicity;
 use OswisOrg\OswisCoreBundle\Exceptions\InvalidTypeException;
+use OswisOrg\OswisCoreBundle\Interfaces\Common\PriorityInterface;
+use OswisOrg\OswisCoreBundle\Interfaces\Common\TypeInterface;
 use OswisOrg\OswisCoreBundle\Traits\Common\BasicTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\EntityPublicTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\PriorityTrait;
@@ -32,7 +34,7 @@ use Symfony\Component\HttpFoundation\File\File;
  * @Vich\UploaderBundle\Mapping\Annotation\Uploadable()
  * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact_file")
  */
-class ContactFile extends AbstractFile
+class ContactFile extends AbstractFile implements TypeInterface, PriorityInterface
 {
     use BasicTrait;
     use TypeTrait;

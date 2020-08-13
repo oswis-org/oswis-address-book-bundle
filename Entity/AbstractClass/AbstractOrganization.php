@@ -26,4 +26,9 @@ abstract class AbstractOrganization extends AbstractContact
         parent::__construct($nameable, $type, $notes, $contactDetails, $addresses, $addressBooks);
         $this->setIdentificationNumber($identificationNumber);
     }
+
+    public static function getAllowedTypesDefault(): array
+    {
+        return self::ALLOWED_TYPES;
+    }
 }
