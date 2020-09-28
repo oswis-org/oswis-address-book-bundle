@@ -24,25 +24,25 @@ use function in_array;
  * @ApiPlatform\Core\Annotation\ApiResource(
  *   attributes={
  *     "filters"={"search"},
- *     "access_control"="is_granted('ROLE_MANAGER')"
+ *     "security"="is_granted('ROLE_MANAGER')"
  *   },
  *   collectionOperations={
  *     "get"={
- *       "access_control"="is_granted('ROLE_MANAGER')",
+ *       "security"="is_granted('ROLE_MANAGER')",
  *       "normalization_context"={"groups"={"entities_get", "address_book_positions_get"}},
  *     },
  *     "post"={
- *       "access_control"="is_granted('ROLE_MANAGER')",
+ *       "security"="is_granted('ROLE_MANAGER')",
  *       "denormalization_context"={"groups"={"entities_post", "address_book_positions_post"}}
  *     }
  *   },
  *   itemOperations={
  *     "get"={
- *       "access_control"="is_granted('ROLE_MANAGER')",
+ *       "security"="is_granted('ROLE_MANAGER')",
  *       "normalization_context"={"groups"={"entity_get", "address_book_position_get"}},
  *     },
  *     "put"={
- *       "access_control"="is_granted('ROLE_MANAGER')",
+ *       "security"="is_granted('ROLE_MANAGER')",
  *       "denormalization_context"={"groups"={"entity_put", "address_book_position_put"}}
  *     }
  *   }
