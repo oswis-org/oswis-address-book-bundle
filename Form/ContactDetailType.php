@@ -27,7 +27,7 @@ use Symfony\Component\Validator\Exception\MissingOptionsException;
 class ContactDetailType extends AbstractType
 {
     protected const PATTERNS = [
-        ContactDetailCategory::TYPE_URL => "^(\+420|\+421)? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$",
+        ContactDetailCategory::TYPE_PHONE => "^(\+420|\+421)? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$",
     ];
 
     protected const TYPES = [
