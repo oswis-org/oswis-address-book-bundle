@@ -83,7 +83,7 @@ class OrganizationController extends AbstractController
     }
 
     /**
-     * @param string|null $slug
+     * @param  string|null  $slug
      *
      * @return Response
      * @throws NotFoundException

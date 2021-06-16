@@ -30,7 +30,7 @@ class PositionRepository extends ServiceEntityRepository
     public const CRITERIA_ONLY_CONTACT_PERSON = 'onlyContactPerson';
 
     /**
-     * @param ManagerRegistry $registry
+     * @param  ManagerRegistry  $registry
      *
      * @throws LogicException
      */

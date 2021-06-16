@@ -31,6 +31,7 @@ class ContactPersonUpdater
         $id = $position->getId();
         $orgName = $organization ? $organization->getName() : null;
         $personName = $person ? $person->getName() : null;
+        /** @noinspection ForgottenDebugOutputInspection */
         error_log("Updating contact person. Position: $id, $orgName, $personName, $isContactPerson.");
         if ($organization && $isContactPerson) {
             $organization->addContactPerson($person);

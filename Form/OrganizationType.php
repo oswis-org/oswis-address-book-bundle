@@ -90,7 +90,7 @@ class OrganizationType extends AbstractType
     }
 
     /**
-     * @param OptionsResolver $resolver
+     * @param  OptionsResolver  $resolver
      *
      * @throws AccessException
      */

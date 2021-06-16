@@ -26,19 +26,21 @@ use Symfony\Component\Validator\Exception\MissingOptionsException;
 
 class ContactDetailType extends AbstractType
 {
-    protected const PATTERNS = [
-        ContactDetailCategory::TYPE_PHONE => "^(\+420|\+421)? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$",
-    ];
+    protected const PATTERNS
+        = [
+            ContactDetailCategory::TYPE_PHONE => "^(\+420|\+421)? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$",
+        ];
 
-    protected const TYPES = [
-        ContactDetailCategory::TYPE_EMAIL => EmailType::class,
-        ContactDetailCategory::TYPE_PHONE => TelType::class,
-        ContactDetailCategory::TYPE_URL   => UrlType::class,
-    ];
+    protected const TYPES
+        = [
+            ContactDetailCategory::TYPE_EMAIL => EmailType::class,
+            ContactDetailCategory::TYPE_PHONE => TelType::class,
+            ContactDetailCategory::TYPE_URL   => UrlType::class,
+        ];
 
     /**
-     * @param FormBuilderInterface $builder
-     * @param array                $options
+     * @param  FormBuilderInterface  $builder
+     * @param  array  $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -56,7 +58,7 @@ class ContactDetailType extends AbstractType
                 $contactDetail = $event->getData();
                 assert($contactDetail instanceof ContactDetail);
                 $detailType = $contactDetail->getDetailCategory();
-                $detailTypeType = $contactDetail->getDetailCategory() ? $contactDetail->getDetailCategory()->getType() : null;
+                $detailTypeType = $detailType?->getType();
                 $form = $event->getForm();
                 $options = [
                     'label'       => $detailType ? $detailType->getFormLabel() : false,
@@ -75,7 +77,7 @@ class ContactDetailType extends AbstractType
     }
 
     /**
-     * @param string|null $type
+     * @param  string|null  $type
      *
      * @return array
      * @throws ConstraintDefinitionException
@@ -113,7 +115,7 @@ class ContactDetailType extends AbstractType
     }
 
     /**
-     * @param OptionsResolver $resolver
+     * @param  OptionsResolver  $resolver
      *
      * @throws AccessException
      */

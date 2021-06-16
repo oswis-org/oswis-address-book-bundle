@@ -12,6 +12,7 @@ use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractPerson;
 use OswisOrg\OswisCoreBundle\Entity\AppUser\AppUser;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
 use OswisOrg\OswisCoreBundle\Exceptions\InvalidTypeException;
+
 use function assert;
 use function rtrim;
 use function trim;
@@ -128,7 +129,7 @@ class Person extends AbstractPerson
             }
         }
         foreach ($newPositions as $newPosition) {
-            if (!$this->positions->contains($newPosition)) {
+            if (!$this->positions?->contains($newPosition)) {
                 $this->addPosition($newPosition);
             }
         }
@@ -150,7 +151,7 @@ class Person extends AbstractPerson
     }
 
     /**
-     * @param Position|null $position
+     * @param  Position|null  $position
      *
      * @throws InvalidTypeException
      */
@@ -167,14 +168,14 @@ class Person extends AbstractPerson
 
     public function addPosition(?Position $position): void
     {
-        if (null !== $position && !$this->positions->contains($position)) {
-            $this->positions->add($position);
+        if (null !== $position && !$this->getPositions()->contains($position)) {
+            $this->getPositions()->add($position);
             $position->setPerson($this);
         }
     }
 
     /**
-     * @param Position|null $position
+     * @param  Position|null  $position
      *
      * @throws InvalidTypeException
      */
@@ -191,7 +192,7 @@ class Person extends AbstractPerson
     }
 
     /**
-     * @param Position|null $position
+     * @param  Position|null  $position
      *
      * @throws InvalidTypeException
      */
@@ -205,14 +206,14 @@ class Person extends AbstractPerson
 
     public function removePosition(?Position $position): void
     {
-        if (null !== $position && $this->positions->removeElement($position)) {
+        if (null !== $position && $this->getPositions()->removeElement($position)) {
             $position->setOrganization(null);
             $position->setPerson(null);
         }
     }
 
     /**
-     * @param Position|null $position
+     * @param  Position|null  $position
      *
      * @throws InvalidTypeException
      */
@@ -255,12 +256,14 @@ class Person extends AbstractPerson
     public function getOrganizationsString(): string
     {
         $output = '';
-        foreach ($this->getPositions(new DateTime(), null) as $position) {
+        foreach ($this->getPositions(new DateTime()) as $position) {
             assert($position instanceof Position);
             $output .= (!empty($output) ? ', ' : null).$position->getEmployerName();
         }
+        $output = preg_replace('/[,]+/', ',', $output);
+        $output = preg_replace('!\s+!', ' ', rtrim(trim(''.$output), ','));
 
-        return preg_replace('!\s+!', ' ', rtrim(trim(preg_replace('/[,]+/', ',', $output)), ','));
+        return ''.$output;
     }
 
     public function getContactPersons(bool $onlyWithActivatedUser = false): Collection

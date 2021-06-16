@@ -106,27 +106,27 @@ class Place implements NameableInterface
         $this->setGeoLongitude($geoLongitude);
     }
 
+    public function isRootPlace(): bool
+    {
+        return !$this->parentPlace;
+    }
+
+    public function addSubPlace(?Place $event): void
+    {
+        if ($event && !$this->getSubPlaces()->contains($event)) {
+            $this->getSubPlaces()->add($event);
+            $event->setParentPlace($this);
+        }
+    }
+
     public function getSubPlaces(): Collection
     {
         return $this->subPlaces ?? new ArrayCollection();
     }
 
-    public function isRootPlace(): bool
-    {
-        return $this->parentPlace ? false : true;
-    }
-
-    public function addSubPlace(?Place $event): void
-    {
-        if ($event && !$this->subPlaces->contains($event)) {
-            $this->subPlaces->add($event);
-            $event->setParentPlace($this);
-        }
-    }
-
     public function removeSubPlace(?Place $event): void
     {
-        if ($event && $this->subPlaces->removeElement($event)) {
+        if ($event && $this->getSubPlaces()->removeElement($event)) {
             $event->setParentPlace(null);
         }
     }

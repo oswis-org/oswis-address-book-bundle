@@ -95,14 +95,14 @@ class ContactDetailCategory implements NameableInterface, TypeInterface
     /**
      * ContactDetailType constructor.
      *
-     * @param Nameable|null $nameable
-     * @param string|null   $schema
-     * @param bool|null     $showInPreview
-     * @param string|null   $type
-     * @param string|null   $formLabel
-     * @param string|null   $formHelp
+     * @param  Nameable|null  $nameable
+     * @param  string|null  $schema
+     * @param  bool|null  $showInPreview
+     * @param  string|null  $type
+     * @param  string|null  $formLabel
+     * @param  string|null  $formHelp
      *
-     * @param bool          $required
+     * @param  bool  $required
      *
      * @throws InvalidTypeException
      */
@@ -175,16 +175,16 @@ class ContactDetailCategory implements NameableInterface, TypeInterface
     }
 
     /**
-     * @param string|null $value
-     * @param string|null $description
-     * @param string|null $name
+     * @param  string|null  $value
+     * @param  string|null  $description
+     * @param  string|null  $name
      *
      * @return string
      * @noinspection HtmlUnknownTag
      */
     public function getFormatted(?string $value = null, ?string $description = null, ?string $name = null): string
     {
-        return empty($value) ? '' : strtr($this->getContactSchema(), ['$<value>' => $value, '$<description>' => $description, '$<name>' => $name]);
+        return empty($value) ? '' : strtr(''.$this->getContactSchema(), ['$<value>' => $value, '$<description>' => $description, '$<name>' => $name]);
     }
 
     /**
@@ -199,7 +199,7 @@ class ContactDetailCategory implements NameableInterface, TypeInterface
     /**
      * Set schema of contact detail.
      *
-     * @param string|null $contactSchema
+     * @param  string|null  $contactSchema
      */
     public function setContactSchema(?string $contactSchema): void
     {

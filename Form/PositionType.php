@@ -30,7 +30,7 @@ class PositionType extends AbstractType
     }
 
     /**
-     * @param OptionsResolver $resolver
+     * @param  OptionsResolver  $resolver
      *
      * @throws AccessException
      */
@@ -39,7 +39,7 @@ class PositionType extends AbstractType
         $resolver->setDefaults(
             array(
                 'data_class' => Position::class,
-//                'attr' => ['class' => 'col-md-6'],
+                //                'attr' => ['class' => 'col-md-6'],
             )
         );
     }

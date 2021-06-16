@@ -44,10 +44,10 @@ class ContactFileConnection implements BasicInterface, TypeInterface, PriorityIn
     protected ?ContactImage $image = null;
 
     /**
-     * @param ContactFile|null $file
-     * @param string|null      $type
-     * @param int|null         $priority
-     * @param Publicity|null   $publicity
+     * @param  ContactFile|null  $file
+     * @param  string|null  $type
+     * @param  int|null  $priority
+     * @param  Publicity|null  $publicity
      *
      * @throws InvalidTypeException
      */

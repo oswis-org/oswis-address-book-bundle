@@ -61,7 +61,7 @@ trait RoomTrait
     }
 
     /**
-     * @param int|null $numberOfBeds
+     * @param  int|null  $numberOfBeds
      */
     public function setNumberOfBeds(?int $numberOfBeds): void
     {
@@ -74,7 +74,7 @@ trait RoomTrait
     }
 
     /**
-     * @param int|null $numberOfExtraBeds
+     * @param  int|null  $numberOfExtraBeds
      */
     public function setNumberOfExtraBeds(?int $numberOfExtraBeds): void
     {
@@ -87,7 +87,7 @@ trait RoomTrait
     }
 
     /**
-     * @param int|null $numberOfAnimals
+     * @param  int|null  $numberOfAnimals
      */
     public function setNumberOfAnimals(?int $numberOfAnimals): void
     {

@@ -24,7 +24,7 @@ trait ForeignNationalityTrait
     }
 
     /**
-     * @param bool $foreignNationality
+     * @param  bool  $foreignNationality
      */
     public function setForeignNationality(?bool $foreignNationality): void
     {

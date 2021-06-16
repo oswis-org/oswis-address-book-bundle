@@ -28,9 +28,8 @@ use OswisOrg\OswisCoreBundle\Traits\Common\EntityPublicTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\TypeTrait;
 use Symfony\Component\Mime\Address;
-use Symfony\Component\Mime\Exception\LogicException;
-use Symfony\Component\Mime\Exception\RfcComplianceException;
 use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
+
 use function assert;
 use function in_array;
 
@@ -126,12 +125,12 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
     protected ?Collection $files = null;
 
     /**
-     * @param Nameable|null   $nameable
-     * @param string|null     $type
-     * @param Collection|null $notes
-     * @param Collection|null $details
-     * @param Collection|null $addresses
-     * @param Collection|null $addressBooks
+     * @param  Nameable|null  $nameable
+     * @param  string|null  $type
+     * @param  Collection|null  $notes
+     * @param  Collection|null  $details
+     * @param  Collection|null  $addresses
+     * @param  Collection|null  $addressBooks
      *
      * @throws InvalidArgumentException
      */
@@ -198,7 +197,7 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
 
     public function removeContactAddressBook(?ContactAddressBook $contactAddressBook): void
     {
-        $this->contactAddressBooks->removeElement($contactAddressBook);
+        $this->getContactAddressBooks()->removeElement($contactAddressBook);
     }
 
     public function containsAddressBook(AddressBook $addressBook): bool
@@ -215,8 +214,8 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
 
     public function addContactAddressBook(?ContactAddressBook $contactAddressBook): void
     {
-        if (null !== $contactAddressBook && !$this->contactAddressBooks->contains($contactAddressBook)) {
-            $this->contactAddressBooks->add($contactAddressBook);
+        if (null !== $contactAddressBook && !$this->getContactAddressBooks()->contains($contactAddressBook)) {
+            $this->getContactAddressBooks()->add($contactAddressBook);
         }
     }
 
@@ -328,7 +327,7 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
             }
         }
         foreach ($newDetails as $newDetail) {
-            if (!$this->details->contains($newDetail)) {
+            if (!$this->getDetails()->contains($newDetail)) {
                 $this->addDetail($newDetail);
             }
         }
@@ -350,13 +349,13 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
     {
         $this->notes ??= new ArrayCollection();
         $newNotes ??= new ArrayCollection();
-        foreach ($this->notes as $oldNote) {
+        foreach ($this->getNotes() as $oldNote) {
             if (!$newNotes->contains($oldNote)) {
                 $this->removeNote($oldNote);
             }
         }
         foreach ($newNotes as $newNote) {
-            if (!$this->notes->contains($newNote)) {
+            if (!$this->getNotes()->contains($newNote)) {
                 $this->addNote($newNote);
             }
         }
@@ -385,13 +384,13 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
     {
         $this->addresses ??= new ArrayCollection();
         $newAddresses ??= new ArrayCollection();
-        foreach ($this->addresses as $oldAddress) {
+        foreach ($this->getAddresses() as $oldAddress) {
             if (!$newAddresses->contains($oldAddress)) {
                 $this->removeAddress($oldAddress);
             }
         }
         foreach ($newAddresses as $newAddress) {
-            if (!$this->addresses->contains($newAddress)) {
+            if (!$this->getAddresses()->contains($newAddress)) {
                 $this->addAddress($newAddress);
             }
         }
@@ -400,7 +399,7 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
     public function addDetail(?ContactDetail $detail): void
     {
         if (null !== $detail && !$this->getDetails()->contains($detail)) {
-            $this->details->add($detail);
+            $this->getDetails()->add($detail);
             $detail->setContact($this);
         }
     }
@@ -408,7 +407,7 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
     public function addNote(?ContactNote $note): void
     {
         if (null !== $note && !$this->getNotes()->contains($note)) {
-            $this->notes->add($note);
+            $this->getNotes()->add($note);
             $note->setContact($this);
         }
     }
@@ -416,7 +415,7 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
     public function addAddress(?ContactAddress $address): void
     {
         if (null !== $address && !$this->getAddresses()->contains($address)) {
-            $this->addresses->add($address);
+            $this->getAddresses()->add($address);
             $address->setContact($this);
         }
     }
@@ -444,7 +443,7 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
 
     public function hasActivatedUser(): bool
     {
-        return $this->getAppUser() && $this->getAppUser()->isActive();
+        return $this->getAppUser()?->isActive() ?? false;
     }
 
     public function getAppUser(): ?AppUser
@@ -493,13 +492,14 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
     }
 
     /**
-     * @return Address
-     * @throws LogicException|RfcComplianceException
+     * @return \Symfony\Component\Mime\Address|null
+     * @throws \Symfony\Component\Mime\Exception\LogicException
+     * @throws \Symfony\Component\Mime\Exception\RfcComplianceException
      */
     public function getMailerAddress(): ?Address
     {
-        $name = $this->getName() ?? ($this->getAppUser() ? $this->getAppUser()->getFullName() : '') ?? '';
-        $eMail = ($this->getAppUser() ? $this->getAppUser()->getEmail() : $this->getEmail()) ?? '';
+        $name = $this->getName() ?? $this->getAppUser()?->getFullName() ?? '';
+        $eMail = $this->getAppUser()?->getEmail() ?? $this->getEmail() ?? '';
         if (empty($eMail)) {
             $eMail = $this->getEmail();
         }

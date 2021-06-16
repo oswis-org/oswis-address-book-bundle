@@ -15,6 +15,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\Exception\AccessException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
 use function assert;
 
 class SchoolPositionType extends AbstractType
@@ -60,7 +61,7 @@ class SchoolPositionType extends AbstractType
     }
 
     /**
-     * @param OptionsResolver $resolver
+     * @param  OptionsResolver  $resolver
      *
      * @throws AccessException
      */
@@ -69,7 +70,7 @@ class SchoolPositionType extends AbstractType
         $resolver->setDefaults(
             array(
                 'data_class' => Position::class,
-//                'attr' => ['class' => 'col-md-6'],
+                //                'attr' => ['class' => 'col-md-6'],
             )
         );
     }

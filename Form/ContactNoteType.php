@@ -14,6 +14,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\Exception\AccessException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
 use function assert;
 
 class ContactNoteType extends AbstractType
@@ -39,9 +40,9 @@ class ContactNoteType extends AbstractType
                     'content',
                     TextareaType::class,
                     array( // TODO: Types.
-                        'label'    => $contactNote->isPublic() ? 'Veřejná poznámka' : 'Interní poznámka',
-                        'required' => $options['content_required'],
-                        'help'     => $contactNote->isPublic() ? 'Poznámka, která může být zveřejněná.' : 'Neveřejná poznámka, určená pouze pro pořadatele.',
+                           'label'    => $contactNote->isPublic() ? 'Veřejná poznámka' : 'Interní poznámka',
+                           'required' => $options['content_required'],
+                           'help'     => $contactNote->isPublic() ? 'Poznámka, která může být zveřejněná.' : 'Neveřejná poznámka, určená pouze pro pořadatele.',
                     )
                 );
             }
@@ -49,7 +50,7 @@ class ContactNoteType extends AbstractType
     }
 
     /**
-     * @param OptionsResolver $resolver
+     * @param  OptionsResolver  $resolver
      *
      * @throws AccessException
      */
@@ -59,7 +60,7 @@ class ContactNoteType extends AbstractType
             array(
                 'data_class'       => ContactNote::class,
                 'content_required' => false,
-//                'attr' => ['class' => 'col-md-6'],
+                //                'attr' => ['class' => 'col-md-6'],
             )
         );
     }

@@ -13,6 +13,7 @@ use OswisOrg\OswisCoreBundle\Interfaces\Common\PriorityInterface;
 use OswisOrg\OswisCoreBundle\Traits\Common\EntityPublicTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\PriorityTrait;
+
 use function filter_var;
 use function htmlspecialchars;
 
@@ -80,9 +81,9 @@ class ContactDetail implements NameableInterface, PriorityInterface
     {
         if (null !== $this->getDetailCategory()) {
             return $this->getDetailCategory()->getFormatted(
-                filter_var($this->getContent(), FILTER_SANITIZE_URL).'',
-                htmlspecialchars($this->getDescription()).null,
-                htmlspecialchars($this->getName()).null,
+                filter_var($this->getContent(), FILTER_SANITIZE_URL) ?: null,
+                htmlspecialchars($this->getDescription()).'',
+                htmlspecialchars(''.$this->getName()).'',
             );
         }
 
@@ -126,6 +127,6 @@ class ContactDetail implements NameableInterface, PriorityInterface
 
     public function getShowInPreview(): bool
     {
-        return $this->detailCategory ? $this->detailCategory->getShowInPreview() : false;
+        return $this->detailCategory?->getShowInPreview() ?? false;
     }
 }

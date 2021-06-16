@@ -123,7 +123,7 @@ class Organization extends AbstractOrganization
             return $image;
         }
 
-        return true === $recursive && $this->getParentOrganization() ? $this->getParentOrganization()->getOneImage($type, true) : null;
+        return true === $recursive ? $this->getParentOrganization()?->getOneImage($type, true) : null;
     }
 
     public function getImages(?string $type = null): Collection
@@ -175,20 +175,20 @@ class Organization extends AbstractOrganization
 
     public function isRoot(): bool
     {
-        return $this->parentOrganization ? false : true;
+        return !$this->parentOrganization;
     }
 
     public function addSubOrganization(?Organization $organization): void
     {
-        if ($organization && !$this->subOrganizations->contains($organization)) {
-            $this->subOrganizations->add($organization);
+        if ($organization && !$this->getSubOrganizations()->contains($organization)) {
+            $this->getSubOrganizations()->add($organization);
             $organization->setParentOrganization($this);
         } // TODO: Check cycles!
     }
 
     public function removeSubOrganization(?Organization $organization): void
     {
-        if ($organization && $this->subOrganizations->removeElement($organization)) {
+        if ($organization && $this->getSubOrganizations()->removeElement($organization)) {
             $organization->setParentOrganization(null);
         }
     }
@@ -205,11 +205,11 @@ class Organization extends AbstractOrganization
 
     public function getPath(): string
     {
-        return $this->getParentOrganization() ? '-&gt;'.$this->getParentOrganization()->getPath() : $this->getName();
+        return $this->getParentOrganization() ? '-&gt;'.$this->getParentOrganization()?->getPath() : $this->getName().'';
     }
 
     public function getIdentificationNumberRecursive(): ?string
     {
-        return $this->getIdentificationNumber() ?? ($this->getParentOrganization() ? $this->getParentOrganization()->getIdentificationNumberRecursive() : null) ?? null;
+        return $this->getIdentificationNumber() ?? $this->getParentOrganization()?->getIdentificationNumberRecursive() ?? null;
     }
 }

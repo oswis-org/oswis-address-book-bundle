@@ -13,7 +13,7 @@ use OswisOrg\OswisAddressBookBundle\Entity\AddressBook\AddressBook;
 class AddressBookRepository extends ServiceEntityRepository
 {
     /**
-     * @param ManagerRegistry $registry
+     * @param  ManagerRegistry  $registry
      *
      * @throws LogicException
      */

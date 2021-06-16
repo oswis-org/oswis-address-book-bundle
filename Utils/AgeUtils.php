@@ -4,7 +4,9 @@ namespace OswisOrg\OswisAddressBookBundle\Utils;
 
 use DateTime;
 use Exception;
+
 use function floor;
+
 use const PHP_INT_MAX;
 
 /**
@@ -16,10 +18,10 @@ class AgeUtils
     /**
      * True if person belongs to age range (at some moment - referenceDateTime).
      *
-     * @param DateTime|null $birthDate         BirthDate for age calculation
-     * @param int|null      $minAge            Minimal age, included (default is 0)
-     * @param int|null      $maxAge            maximal age, included (default is infinity)
-     * @param DateTime|null $referenceDateTime Reference date, default is _now_
+     * @param  DateTime|null  $birthDate  BirthDate for age calculation
+     * @param  int|null  $minAge  Minimal age, included (default is 0)
+     * @param  int|null  $maxAge  maximal age, included (default is infinity)
+     * @param  DateTime|null  $referenceDateTime  Reference date, default is _now_
      *
      * @return bool True if birth date belongs to age range interval.
      *
@@ -41,22 +43,22 @@ class AgeUtils
     }
 
     /**
-     * @param DateTime|null $birthDate
-     * @param DateTime|null $referenceDateTime
+     * @param  DateTime|null  $birthDate
+     * @param  DateTime|null  $referenceDateTime
      *
      * @return int|null
      * @throws Exception
      */
     public static function getAgeFromBirthDate(?DateTime $birthDate, DateTime $referenceDateTime = null): ?int
     {
-        return $birthDate ? (int)floor(self::getAgeDecimalFromBirthDate($birthDate, $referenceDateTime)) : null;
+        return $birthDate ? (int)floor((float)self::getAgeDecimalFromBirthDate($birthDate, $referenceDateTime)) : null;
     }
 
     /**
-     * @param DateTime|null $birthDate
-     * @param DateTime|null $referenceDateTime
+     * @param  DateTime|null  $birthDate
+     * @param  DateTime|null  $referenceDateTime
      *
-     * @return int
+     * @return int|null
      */
     public static function getAgeDecimalFromBirthDate(?DateTime $birthDate, ?DateTime $referenceDateTime = null): ?int
     {

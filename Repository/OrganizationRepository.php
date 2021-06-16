@@ -14,7 +14,7 @@ use OswisOrg\OswisAddressBookBundle\Entity\Organization;
 class OrganizationRepository extends ServiceEntityRepository
 {
     /**
-     * @param ManagerRegistry $registry
+     * @param  ManagerRegistry  $registry
      *
      * @throws LogicException
      */

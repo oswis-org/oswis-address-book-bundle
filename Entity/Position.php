@@ -16,6 +16,7 @@ use OswisOrg\OswisCoreBundle\Traits\Common\DateRangeTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\EntityPublicTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\TypeTrait;
+
 use function in_array;
 
 /**
@@ -72,15 +73,16 @@ class Position implements NameableInterface, TypeInterface
     public const MEMBER_POSITION_TYPES = [self::TYPE_MEMBER, ...self::MANAGER_POSITION_TYPES];
     public const EMPLOYEE_MEMBER_POSITION_TYPES = [self::TYPE_MEMBER, self::TYPE_EMPLOYEE, ...self::MANAGER_POSITION_TYPES];
 
-    public const ALLOWED_TYPES = [
-        self::TYPE_EMPLOYEE,
-        self::TYPE_MEMBER,
-        self::TYPE_MANAGER,
-        self::TYPE_DIRECTOR,
-        self::TYPE_STUDENT,
-        self::TYPE_GRADUATED,
-        self::TYPE_STUDENT_OR_GRADUATED,
-    ];
+    public const ALLOWED_TYPES
+        = [
+            self::TYPE_EMPLOYEE,
+            self::TYPE_MEMBER,
+            self::TYPE_MANAGER,
+            self::TYPE_DIRECTOR,
+            self::TYPE_STUDENT,
+            self::TYPE_GRADUATED,
+            self::TYPE_STUDENT_OR_GRADUATED,
+        ];
 
     use NameableTrait;
     use DateRangeTrait;
@@ -114,12 +116,12 @@ class Position implements NameableInterface, TypeInterface
     protected ?Organization $organization = null;
 
     /**
-     * @param Nameable|null      $nameable
-     * @param Person|null        $person
-     * @param Organization|null  $organization
-     * @param string|null        $type
-     * @param bool|null          $isContactPerson
-     * @param DateTimeRange|null $range
+     * @param  Nameable|null  $nameable
+     * @param  Person|null  $person
+     * @param  Organization|null  $organization
+     * @param  string|null  $type
+     * @param  bool|null  $isContactPerson
+     * @param  DateTimeRange|null  $range
      *
      * @throws InvalidTypeException
      */
@@ -161,7 +163,7 @@ class Position implements NameableInterface, TypeInterface
 
     public function getEmployerName(): string
     {
-        return $this->organization ? $this->organization->getName() : '???';
+        return $this->organization?->getName() ?? '???';
     }
 
     public function isActive(?DateTime $dateTime = null): bool

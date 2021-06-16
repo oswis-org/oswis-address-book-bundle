@@ -11,6 +11,7 @@ use InvalidArgumentException;
 use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use OswisOrg\OswisAddressBookBundle\Entity\ContactDetail;
 use OswisOrg\OswisAddressBookBundle\Entity\Person;
+
 use function assert;
 
 class AbstractContactService
@@ -37,9 +38,9 @@ class AbstractContactService
     }
 
     /**
-     * @param AbstractContact|null $contact
+     * @param  AbstractContact|null  $contact
      *
-     * @param array                $detailTypeSlugs
+     * @param  array  $detailTypeSlugs
      *
      * @return AbstractContact
      * @throws InvalidArgumentException

@@ -60,10 +60,10 @@ class ContactFile extends AbstractFile implements TypeInterface, PriorityInterfa
     protected ?AbstractContact $contact = null;
 
     /**
-     * @param File|null      $file
-     * @param string|null    $type
-     * @param int|null       $priority
-     * @param Publicity|null $publicity
+     * @param  File|null  $file
+     * @param  string|null  $type
+     * @param  int|null  $priority
+     * @param  Publicity|null  $publicity
      *
      * @throws InvalidTypeException
      */

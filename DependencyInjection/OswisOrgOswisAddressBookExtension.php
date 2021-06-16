@@ -15,8 +15,8 @@ class OswisOrgOswisAddressBookExtension extends Extension implements PrependExte
     /**
      * Loads a specific configuration.
      *
-     * @param array            $configs
-     * @param ContainerBuilder $container
+     * @param  array  $configs
+     * @param  ContainerBuilder  $container
      *
      * @throws Exception
      */
@@ -32,8 +32,8 @@ class OswisOrgOswisAddressBookExtension extends Extension implements PrependExte
     }
 
     /**
-     * @param ContainerBuilder $container
-     * @param array            $config
+     * @param  ContainerBuilder  $container
+     * @param  array  $config
      *
      * @throws ServiceNotFoundException
      */

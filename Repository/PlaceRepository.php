@@ -13,7 +13,7 @@ use OswisOrg\OswisAddressBookBundle\Entity\Place;
 class PlaceRepository extends ServiceEntityRepository
 {
     /**
-     * @param ManagerRegistry $registry
+     * @param  ManagerRegistry  $registry
      *
      * @throws LogicException
      */

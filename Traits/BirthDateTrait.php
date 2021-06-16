@@ -20,7 +20,7 @@ trait BirthDateTrait
     protected ?DateTime $birthDate = null;
 
     /**
-     * @param DateTime|null $referenceDateTime
+     * @param  DateTime|null  $referenceDateTime
      *
      * @return int|null
      * @throws Exception
@@ -31,7 +31,7 @@ trait BirthDateTrait
     }
 
     /**
-     * @param DateTime|null $referenceDateTime
+     * @param  DateTime|null  $referenceDateTime
      *
      * @return int|null
      * @throws Exception
@@ -56,7 +56,7 @@ trait BirthDateTrait
     /**
      * Set date and time of entity update.
      *
-     * @param DateTime|null $birthDate
+     * @param  DateTime|null  $birthDate
      */
     public function setBirthDate(?DateTime $birthDate): void
     {
