@@ -34,9 +34,9 @@ OswisOrg\OswisAddressBookBundle\Entity\Place:
                 - 'address_book_places_post'
                 - 'address_book_place_get'
                 - 'address_book_place_put'
-        createdDateTime:
+        createdAt:
             groups: [ 'address_book_place_get' ]
-        updatedDateTime:
+        updatedAt:
             groups: [ 'address_book_place_get' ]
         createdAuthor:
             groups: [ 'address_book_place_get' ]

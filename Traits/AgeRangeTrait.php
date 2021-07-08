@@ -10,11 +10,11 @@ use Exception;
 use OswisOrg\OswisCoreBundle\Utils\AgeUtils;
 
 /**
- * Trait adds createdDateTime and updatedDateTime fields.
+ * Trait adds createdAt and updatedAt fields.
  *
- * Trait adds fields *createdDateTime* and *updatedDateTime* and allows to access them.
- * * _**createdDateTime**_ contains date and time when entity was created
- * * _**updatedDateTime**_ contains date and time when entity was updated/changed
+ * Trait adds fields *createdAt* and *updatedAt* and allows to access them.
+ * * _**createdAt**_ contains date and time when entity was created
+ * * _**updatedAt**_ contains date and time when entity was updated/changed
  */
 trait AgeRangeTrait
 {

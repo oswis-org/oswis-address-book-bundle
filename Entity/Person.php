@@ -74,7 +74,7 @@ use function trim;
  *     "birthDate"
  * })
  * @ApiPlatform\Core\Annotation\ApiFilter(
- *     ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter::class, properties={"createdDateTime", "updatedDateTime", "birthDate"}
+ *     ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter::class, properties={"createdAt", "updatedAt", "birthDate"}
  * )
  * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
