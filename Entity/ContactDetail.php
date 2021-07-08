@@ -1,5 +1,6 @@
 <?php
 /**
+ * @noinspection PropertyCanBePrivateInspection
  * @noinspection MethodShouldBeFinalInspection
  */
 
@@ -102,12 +103,21 @@ class ContactDetail implements NameableInterface, PriorityInterface
 
     public function getContent(): ?string
     {
+        if ($this->content && $this->isSpaceless()) {
+            $this->content = preg_replace('/\s/', '', $this->content);
+        }
+
         return $this->content;
     }
 
     public function setContent(?string $content): void
     {
-        $this->content = $content;
+        $this->content = $content && $this->isSpaceless() ? preg_replace('/\s/', '', $content) : $content;
+    }
+
+    public function isSpaceless(): bool
+    {
+        return $this->getDetailCategory()?->isSpaceless() ?? false;
     }
 
     public function getSchemaString(): ?string
@@ -128,5 +138,10 @@ class ContactDetail implements NameableInterface, PriorityInterface
     public function getShowInPreview(): bool
     {
         return $this->detailCategory?->getShowInPreview() ?? false;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->getDetailCategory()?->getType();
     }
 }

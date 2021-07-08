@@ -1,5 +1,6 @@
 <?php
 /**
+ * @noinspection PropertyCanBePrivateInspection
  * @noinspection MethodShouldBeFinalInspection
  */
 
@@ -61,6 +62,13 @@ class ContactDetailCategory implements NameableInterface, TypeInterface
     public const TYPE_VOIP = 'voip';
 
     public const ALLOWED_TYPES = [self::TYPE_URL, self::TYPE_EMAIL, self::TYPE_PHONE, self::TYPE_SOCIAL, self::TYPE_MESSENGER, self::TYPE_VOIP];
+
+    public const SPACELESS_TYPES
+        = [
+            self::TYPE_EMAIL,
+            self::TYPE_URL,
+            self::TYPE_PHONE,
+        ];
 
     use NameableTrait;
     use TypeTrait;
@@ -189,7 +197,6 @@ class ContactDetailCategory implements NameableInterface, TypeInterface
 
     /**
      * Get schema of contact detail.
-     * @return string
      */
     public function getContactSchema(): ?string
     {
@@ -204,5 +211,10 @@ class ContactDetailCategory implements NameableInterface, TypeInterface
     public function setContactSchema(?string $contactSchema): void
     {
         $this->contactSchema = $contactSchema;
+    }
+
+    public function isSpaceless(): bool
+    {
+        return in_array($this->getType(), self::SPACELESS_TYPES, true);
     }
 }

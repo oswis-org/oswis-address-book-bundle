@@ -17,9 +17,6 @@ trait NationalityTrait
      */
     protected ?string $nationality = null;
 
-    /**
-     * @return string
-     */
     public function getNationality(): ?string
     {
         return $this->nationality;

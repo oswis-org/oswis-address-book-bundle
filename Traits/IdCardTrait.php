@@ -26,9 +26,6 @@ trait IdCardTrait
      */
     protected ?string $idCardNumber = null;
 
-    /**
-     * @return string
-     */
     public function getIdCardType(): ?string
     {
         return $this->idCardType;
@@ -42,9 +39,6 @@ trait IdCardTrait
         $this->idCardType = $idCardType;
     }
 
-    /**
-     * @return string
-     */
     public function getIdCardNumber(): ?string
     {
         return $this->idCardNumber;
