@@ -258,6 +258,7 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
     {
         if (null !== $image && !$this->getImages()->contains($image)) {
             $this->getImages()->add($image);
+            $image->setContact($this);
         }
     }
 

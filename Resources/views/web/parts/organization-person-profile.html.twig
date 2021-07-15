@@ -1,24 +1,44 @@
 {% set imgSrc = preload(asset(contact.oneImage ? '/images/contacts/'~contact.oneImage : 'assets/images/seznamovak/kytka-512-upscale.png'), {as: 'image'}) %}
 
-<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" title="{{ contact.nickname|default(contact.name|default) }}" itemprop="member" data-toggle="tooltip"
-     itemscope itemtype='{{ 'http://schema.org/' ~ contact.person ? 'Person' : 'Organization' }}'>
-    <article class="profile {{ contact.gender|default }}" id="person-profile-{{ contact.slug|default(contact.id) }}">
-        <div class="profile-image-box text-uppercase" itemprop="image" style="background-image: url({{ imgSrc }})" content="{{ imgSrc }}">
-            <h3 itemprop="name">{{ contact.name }}</h3>
-            <meta itemprop="alternateName" content="{{ contact.nickname|default(contact.givenName)|default }}">
-            {% if position.active and position.special %}
-                <h4 class="text-uppercase">
-                    <span itemprop="jobTitle" title="{{ position.name|default }}" data-toggle="tooltip" content="{{ position.name|default }}">
+<div class="col"
+     title="{{ contact.nickname|default(contact.name|default) }}"
+     itemprop="member"
+     data-toggle="tooltip"
+     itemscope
+     itemtype='{{ 'http://schema.org/' ~ contact.person ? 'Person' : 'Organization' }}'>
+
+    <article class="card profile {{ contact.gender|default }} border-0 h-100 m-1"
+             id="person-profile-{{ contact.slug|default(contact.id) }}">
+        <div style="background-image: url({{ imgSrc }}) !important; background-position: center; background-repeat: no-repeat; background-size: cover;"
+             itemprop="image"
+             class="card-img rounded rounded-3 ratio ratio-1x1 "
+             content="{{ imgSrc }}">
+            <div class="card-img-overlay">
+                {% if position.active and position.special %}
+                    <h4 itemprop="jobTitle"
+                        data-bs-toggle="tooltip"
+                        title="{{ position.name|default }}"
+                        content="{{ position.name|default }}"
+                        class="card-subtitle text-uppercase top-0 start-0 p-2">
                         {{ position.shortName|default }}
-                    </span>
-                </h4>
-            {% endif %}
+                    </h4>
+                {% endif %}
+                <meta itemprop="alternateName" content="{{ contact.nickname|default(contact.givenName)|default }}">
+                <h3 class="card-title text-uppercase position-absolute bottom-0 end-0 p-2" itemprop="name">{{ contact.name }}</h3>
+            </div>
         </div>
-        <div itemprop="description" class="first-line" title="{{ position.description|markdown_to_html }}" data-toggle="tooltip" data-html="true">
-            {{ position.description|default|markdown_to_html }}
-        </div>
-        <div itemprop="description">
-            {{ position.note|default|markdown_to_html }}
+        <div class="card-body">
+            <div itemprop="description"
+                 class=" card-text first-line text-truncate"
+                 title="{{ position.description|markdown_to_html }}"
+                 data-bs-toggle="tooltip"
+                 data-bs-html="true">
+                {{ position.description|default|markdown_to_html }}
+            </div>
+            <div itemprop="description">
+                {{ position.note|default|markdown_to_html }}
+            </div>
         </div>
     </article>
+
 </div>

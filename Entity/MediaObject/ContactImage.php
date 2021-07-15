@@ -36,6 +36,9 @@ use Symfony\Component\HttpFoundation\File\File;
  */
 class ContactImage extends AbstractImage
 {
+    public const TYPE_PHOTO = 'photo';
+    public const TYPE_LOGO = 'logo';
+
     use BasicTrait;
     use TypeTrait;
     use PriorityTrait;
@@ -87,5 +90,10 @@ class ContactImage extends AbstractImage
         if (null !== $contact && $this->contact !== $contact) {
             $contact->addImage($this);
         }
+    }
+
+    public static function getAllowedTypes(): array
+    {
+        return [self::TYPE_LOGO, self::TYPE_PHOTO];
     }
 }
