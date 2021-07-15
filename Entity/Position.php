@@ -16,6 +16,7 @@ use OswisOrg\OswisCoreBundle\Interfaces\Common\TypeInterface;
 use OswisOrg\OswisCoreBundle\Traits\Common\DateRangeTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\EntityPublicTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
+use OswisOrg\OswisCoreBundle\Traits\Common\PriorityTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\TypeTrait;
 
 use function in_array;
@@ -89,6 +90,7 @@ class Position implements NameableInterface, TypeInterface
     use DateRangeTrait;
     use TypeTrait;
     use EntityPublicTrait;
+    use PriorityTrait;
 
     /**
      * True if person is intended for receiving messages about organization.
