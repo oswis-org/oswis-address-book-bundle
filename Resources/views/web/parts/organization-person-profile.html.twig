@@ -3,7 +3,7 @@
 <div class="col"
      title="{{ contact.nickname|default(contact.name|default) }}"
      itemprop="member"
-     data-toggle="tooltip"
+     data-bs-toggle="tooltip"
      itemscope
      itemtype='{{ 'http://schema.org/' ~ contact.person ? 'Person' : 'Organization' }}'>
 
