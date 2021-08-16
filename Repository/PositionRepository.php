@@ -97,7 +97,7 @@ class PositionRepository extends ServiceEntityRepository
 
     private function setOnlyActiveQuery(QueryBuilder $queryBuilder, array $opts = []): void
     {
-        if (!empty($opts[self::CRITERIA_ONLY_ACTIVE]) && $opts[self::CRITERIA_ONLY_ACTIVE]) {
+        if (!empty($opts[self::CRITERIA_ONLY_ACTIVE])) {
             $startQuery = ' (position.startDateTime IS NULL) OR (:now > position.startDateTime) ';
             $endQuery = ' (position.endDateTime IS NULL) OR (:now < position.endDateTime) ';
             $queryBuilder->andWhere($startQuery)->andWhere($endQuery)->setParameter('now', new DateTime());

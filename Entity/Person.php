@@ -228,9 +228,7 @@ class Person extends AbstractPerson
     public function getEmployers(?DateTime $dateTime = null): Collection
     {
         $out = new ArrayCollection();
-        $this->getMemberAndEmployeePositions($dateTime)->map(
-            fn(Position $p) => $out->contains($p->getOrganization()) ? null : $out->add($p->getOrganization())
-        );
+        $this->getMemberAndEmployeePositions($dateTime)->map(fn(Position $p) => $out->contains($p->getOrganization()) ? null : $out->add($p->getOrganization()));
 
         return $out;
     }

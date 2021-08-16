@@ -7,10 +7,10 @@
 namespace OswisOrg\OswisAddressBookBundle\Entity;
 
 use DateTime;
-use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\DateTimeRange;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
 use OswisOrg\OswisCoreBundle\Exceptions\InvalidTypeException;
+use OswisOrg\OswisCoreBundle\Interfaces\AddressBook\ContactInterface;
 use OswisOrg\OswisCoreBundle\Interfaces\Common\NameableInterface;
 use OswisOrg\OswisCoreBundle\Interfaces\Common\TypeInterface;
 use OswisOrg\OswisCoreBundle\Traits\Common\DateRangeTrait;
@@ -216,7 +216,7 @@ class Position implements NameableInterface, TypeInterface
 
     public function getGenderCssClass(): string
     {
-        return null === $this->getPerson() ? AbstractContact::GENDER_UNISEX : $this->getPerson()->getGender();
+        return null === $this->getPerson() ? ContactInterface::GENDER_UNISEX : $this->getPerson()->getGender();
     }
 
     public function getPerson(): ?Person
@@ -230,8 +230,5 @@ class Position implements NameableInterface, TypeInterface
             $this->person->removePosition($this);
         }
         $this->person = $person;
-        if (null !== $person && $this->person !== $person) {
-            $person->addPosition($this);
-        }
     }
 }

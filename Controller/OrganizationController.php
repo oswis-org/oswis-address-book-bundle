@@ -34,18 +34,13 @@ class OrganizationController extends AbstractController
 
     public function showTeam(?string $slug = null): Response
     {
-        return $this->render(
-            '@OswisOrgOswisAddressBook/web/parts/organization-person-profiles.html.twig',
-            [
-                'positions' => $this->positionRepository->getPositions(
-                    [
-                        PositionRepository::CRITERIA_ORG                 => $this->getOrganization($slug),
-                        PositionRepository::CRITERIA_ORG_RECURSIVE_DEPTH => 5,
-                        PositionRepository::CRITERIA_ONLY_ACTIVE         => true,
-                    ]
-                ),
-            ]
-        );
+        return $this->render('@OswisOrgOswisAddressBook/web/parts/organization-person-profiles.html.twig', [
+            'positions' => $this->positionRepository->getPositions([
+                PositionRepository::CRITERIA_ORG                 => $this->getOrganization($slug),
+                PositionRepository::CRITERIA_ORG_RECURSIVE_DEPTH => 5,
+                PositionRepository::CRITERIA_ONLY_ACTIVE         => true,
+            ]),
+        ]);
     }
 
     public function getOrganization(?string $slug = null): ?Organization
@@ -62,17 +57,12 @@ class OrganizationController extends AbstractController
     {
         $organization = null;
         if (null !== $this->addressBookSettings->getPrimary()) {
-            $organization = $this->organizationService->getRepository()->findOneBy(
-                [
-                    'slug'        => $this->addressBookSettings->getPrimary(),
-                    'publicOnWeb' => true,
-                ]
-            );
+            $organization = $this->organizationService->getRepository()->findOneBy([
+                'slug'        => $this->addressBookSettings->getPrimary(),
+                'publicOnWeb' => true,
+            ]);
         }
-        $organization ??= $this->organizationService->getRepository()->findBy(
-                ['publicOnWeb' => true],
-                ['id' => 'ASC']
-            )[0] ?? null;
+        $organization ??= $this->organizationService->getRepository()->findBy(['publicOnWeb' => true], ['id' => 'ASC'])[0] ?? null;
 
         return $organization;
     }
@@ -99,14 +89,11 @@ class OrganizationController extends AbstractController
             throw new NotFoundException('Organizace nenalezena.');
         }
 
-        return $this->render(
-            '@OswisOrgOswisAddressBook/web/pages/organization.html.twig',
-            [
-                'organization' => $organization,
-                'title'        => ($this->isDefaultOrganization($organization) ? 'O nás :: ' : '').$organization->getName(),
-                'breadcrumbs'  => $this->getBreadCrumbs(),
-            ]
-        );
+        return $this->render('@OswisOrgOswisAddressBook/web/pages/organization.html.twig', [
+            'organization' => $organization,
+            'title'        => ($this->isDefaultOrganization($organization) ? 'O nás :: ' : '').$organization->getName(),
+            'breadcrumbs'  => $this->getBreadCrumbs(),
+        ]);
     }
 
     public function isDefaultOrganization(?Organization $organization): bool

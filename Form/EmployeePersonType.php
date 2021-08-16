@@ -17,37 +17,25 @@ class EmployeePersonType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add(
-            'fullName',
-            TextType::class,
-            [
-                'label'    => 'Celé jméno',
-                'required' => $options['content_required'],
-                'attr'     => [
-                    'autocomplete' => 'section-organization-employee name',
-                ],
-            ]
-        )->add(
-            'details',
-            CollectionType::class,
-            array(
-                'label'         => false,
-                'entry_type'    => ContactDetailType::class,
-                'entry_options' => ['label' => false, 'content_required' => $options['content_required']],
-            )
-        )->add(
-            'positions',
-            CollectionType::class,
-            array(
-                'label'         => 'Student/absolvent UP',
-                'help'          => 'Pokud studoval(a) nebo absolvoval(a) studium na Univerzitě Palackého, vyberte příslušnou fakultu, jinak nechte pole prázdné.',
-                'entry_type'    => SchoolPositionType::class,
-                'entry_options' => ['label' => false],
-                'attr'          => [
-                    'autocomplete' => 'section-organization-employee email',
-                ],
-            )
-        );
+        $builder->add('fullName', TextType::class, [
+            'label'    => 'Celé jméno',
+            'required' => $options['content_required'],
+            'attr'     => [
+                'autocomplete' => 'section-organization-employee name',
+            ],
+        ])->add('details', CollectionType::class, array(
+            'label'         => false,
+            'entry_type'    => ContactDetailType::class,
+            'entry_options' => ['label' => false, 'content_required' => $options['content_required']],
+        ))->add('positions', CollectionType::class, array(
+            'label'         => 'Student/absolvent UP',
+            'help'          => 'Pokud studoval(a) nebo absolvoval(a) studium na Univerzitě Palackého, vyberte příslušnou fakultu, jinak nechte pole prázdné.',
+            'entry_type'    => SchoolPositionType::class,
+            'entry_options' => ['label' => false],
+            'attr'          => [
+                'autocomplete' => 'section-organization-employee email',
+            ],
+        ));
     }
 
     /**
@@ -57,12 +45,10 @@ class EmployeePersonType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(
-            array(
-                'data_class'       => Person::class,
-                'content_required' => false,
-            )
-        );
+        $resolver->setDefaults(array(
+            'data_class'       => Person::class,
+            'content_required' => false,
+        ));
     }
 
     public function getName(): string

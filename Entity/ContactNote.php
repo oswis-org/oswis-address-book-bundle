@@ -54,9 +54,6 @@ class ContactNote implements BasicInterface
             $this->contact->removeNote($this);
         }
         $this->contact = $contact;
-        if ($contact && $this->contact !== $contact) {
-            $contact->addNote($this);
-        }
     }
 
     public function getPublic(): ?bool

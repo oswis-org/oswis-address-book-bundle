@@ -23,40 +23,25 @@ class PersonType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add(
-            'name',
-            TextType::class,
-            array(
-                'label' => 'Celé jméno',
-                'attr'  => [
-                    'autocomplete' => 'section-student name',
-                ],
-            )
-        )->add(
-            'details',
-            CollectionType::class,
-            [
-                'label'         => false,
-                'entry_type'    => ContactDetailType::class,
-                'entry_options' => ['label' => false],
-            ]
-        )->add(
-            'positions',
-            CollectionType::class,
-            [
-                'label'         => 'Pozice',
-                'entry_type'    => PositionType::class,
-                'entry_options' => ['label' => false],
-            ]
-        );
-        $builder->addEventListener(
-            FormEvents::PRE_SET_DATA,
-            static function (FormEvent $event) {
-                if ($event->getData() instanceof Person && $event->getData()->getPositions()->isEmpty()) {
-                    $event->getForm()->remove('positions');
-                }
+        $builder->add('name', TextType::class, array(
+            'label' => 'Celé jméno',
+            'attr'  => [
+                'autocomplete' => 'section-student name',
+            ],
+        ))->add('details', CollectionType::class, [
+            'label'         => false,
+            'entry_type'    => ContactDetailType::class,
+            'entry_options' => ['label' => false],
+        ])->add('positions', CollectionType::class, [
+            'label'         => 'Pozice',
+            'entry_type'    => PositionType::class,
+            'entry_options' => ['label' => false],
+        ]);
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, static function (FormEvent $event) {
+            if ($event->getData() instanceof Person && $event->getData()->getPositions()->isEmpty()) {
+                $event->getForm()->remove('positions');
             }
-        );
+        });
     }
 
     /**
@@ -66,11 +51,9 @@ class PersonType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(
-            array(
-                'data_class' => Person::class,
-            )
-        );
+        $resolver->setDefaults(array(
+            'data_class' => Person::class,
+        ));
     }
 
     public function getName(): string

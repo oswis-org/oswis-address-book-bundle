@@ -17,16 +17,12 @@ class PositionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add(
-            'organization',
-            EntityType::class,
-            array(
-                'label'    => false,
-                'required' => false,
-                'help'     => 'Vyberte organizaci.',
-                'class'    => Organization::class,
-            )
-        );
+        $builder->add('organization', EntityType::class, array(
+            'label'    => false,
+            'required' => false,
+            'help'     => 'Vyberte organizaci.',
+            'class'    => Organization::class,
+        ));
     }
 
     /**
@@ -36,12 +32,10 @@ class PositionType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(
-            array(
-                'data_class' => Position::class,
-                //                'attr' => ['class' => 'col-md-6'],
-            )
-        );
+        $resolver->setDefaults(array(
+            'data_class' => Position::class,
+            //                'attr' => ['class' => 'col-md-6'],
+        ));
     }
 
     public function getName(): string

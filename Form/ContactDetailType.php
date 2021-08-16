@@ -44,36 +44,29 @@ class ContactDetailType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add(
-            'content',
-            TextType::class,
-            [
-                'label' => false,
-                'attr'  => ['placeholder' => 'Kontakt'],
-            ]
-        );
-        $builder->addEventListener(
-            FormEvents::PRE_SET_DATA,
-            static function (FormEvent $event) use ($options) {
-                $contactDetail = $event->getData();
-                assert($contactDetail instanceof ContactDetail);
-                $detailType = $contactDetail->getDetailCategory();
-                $detailTypeType = $detailType?->getType();
-                $form = $event->getForm();
-                $options = [
-                    'label'       => $detailType ? $detailType->getFormLabel() : false,
-                    'required'    => $detailType ? $detailType->isRequired() : false,
-                    'attr'        => [/*'autocomplete' => $contactDetail->getContactType() ? $contactDetail->getContactType()->getType() : true*/],
-                    'help'        => $detailType ? $detailType->getFormHelp() : null,
-                    'constraints' => self::getConstraintsByType($detailTypeType),
-                ];
-                $pattern = self::getPatternByType($detailTypeType);
-                if ($pattern) {
-                    $options['attr']['pattern'] = $pattern;
-                }
-                $form->add('content', self::getTypeByType($detailTypeType), $options);
+        $builder->add('content', TextType::class, [
+            'label' => false,
+            'attr'  => ['placeholder' => 'Kontakt'],
+        ]);
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, static function (FormEvent $event) use ($options) {
+            $contactDetail = $event->getData();
+            assert($contactDetail instanceof ContactDetail);
+            $detailType = $contactDetail->getDetailCategory();
+            $detailTypeType = $detailType?->getType();
+            $form = $event->getForm();
+            $options = [
+                'label'       => $detailType ? $detailType->getFormLabel() : false,
+                'required'    => $detailType ? $detailType->isRequired() : false,
+                'attr'        => [/*'autocomplete' => $contactDetail->getContactType() ? $contactDetail->getContactType()->getType() : true*/],
+                'help'        => $detailType?->getFormHelp(),
+                'constraints' => self::getConstraintsByType($detailTypeType),
+            ];
+            $pattern = self::getPatternByType($detailTypeType);
+            if ($pattern) {
+                $options['attr']['pattern'] = $pattern;
             }
-        );
+            $form->add('content', self::getTypeByType($detailTypeType), $options);
+        });
     }
 
     /**
@@ -91,12 +84,10 @@ class ContactDetailType extends AbstractType
         }
         if (ContactDetailCategory::TYPE_PHONE === $type) {
             return [
-                new Regex(
-                    [
-                        'pattern' => "/^(\+420|\+421)? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$/",
-                        'message' => 'Zadané číslo {{ value }} není platným českým nebo slovenským telefonním číslem.',
-                    ]
-                ),
+                new Regex([
+                    'pattern' => "/^(\+420|\+421)? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$/",
+                    'message' => 'Zadané číslo {{ value }} není platným českým nebo slovenským telefonním číslem.',
+                ]),
                 new Length(['min' => 9, 'max' => 15]),
             ];
         }
@@ -121,13 +112,11 @@ class ContactDetailType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(
-            array(
-                'data_class'       => ContactDetail::class,
-                'content_required' => false,
-                // 'attr' => ['class' => 'col-md-6'],
-            )
-        );
+        $resolver->setDefaults(array(
+            'data_class'       => ContactDetail::class,
+            'content_required' => false,
+            // 'attr' => ['class' => 'col-md-6'],
+        ));
     }
 
     public function getName(): string

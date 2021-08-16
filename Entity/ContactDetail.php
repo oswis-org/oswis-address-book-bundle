@@ -73,9 +73,6 @@ class ContactDetail implements NameableInterface, PriorityInterface
             $this->contact->removeDetail($this);
         }
         $this->contact = $contact;
-        if ($contact && $this->contact !== $contact) {
-            $contact->addDetail($this);
-        }
     }
 
     public function getFormatted(): ?string
@@ -122,17 +119,17 @@ class ContactDetail implements NameableInterface, PriorityInterface
 
     public function getSchemaString(): ?string
     {
-        return $this->detailCategory ? $this->detailCategory->getContactSchema() : null;
+        return $this->detailCategory?->getContactSchema();
     }
 
     public function getCategoryString(): ?string
     {
-        return $this->detailCategory ? $this->detailCategory->getType() : null;
+        return $this->detailCategory?->getType();
     }
 
     public function getCategoryName(): ?string
     {
-        return $this->detailCategory ? $this->detailCategory->getName() : null;
+        return $this->detailCategory?->getName();
     }
 
     public function getShowInPreview(): bool

@@ -22,71 +22,43 @@ class OrganizationType extends AbstractType
     {
         $maxSize = FileUtils::humanReadableFileUploadMaxSize();
         $maxSize = $maxSize ? ' (max. '.$maxSize.')' : '';
-        $builder->add(
-            'name',
-            TextType::class,
-            array(
-                'label'    => 'Název organizace',
-                'required' => true,
-                'help'     => 'Zadejte oficiální název organizace.',
-                'attr'     => [
-                    'autocomplete' => 'organization',
-                ],
-            )
-        )->add(
-            'identificationNumber',
-            TextType::class,
-            array(
-                'label'    => 'Identifikační číslo',
-                'required' => false,
-                'help'     => 'Zadejte IČ (nepovinné).',
-            )
-        )->add(
-            'description',
-            TextareaType::class,
-            array(
-                'label'    => 'Krátký popis',
-                'required' => false,
-                'help'     => 'Zadejte stručné shrnutí informací o Vaší organizaci. Tyto informace můžou být zveřejněny na webu.',
-                'attr'     => [],
-            )
-        )->add(
-            'details',
-            CollectionType::class,
-            array(
-                'label'         => false,
-                'entry_type'    => ContactDetailType::class,
-                'entry_options' => ['label' => false, 'content_required' => false],
-            )
-        )->add(
-            'image',
-            ContactImageType::class,
-            [
-                'label'    => 'Logo organizace',
-                'required' => false,
-                'help'     => 'Nahrajte logo Vaší organizace, nejlépe ve formátu png'.$maxSize.'. Bude uvedeno např. na webových stránkách.',
-            ]
-        )->add(
-            'regularPositions',
-            CollectionType::class,
-            array(
-                'label'         => 'Zástupci/kontaktní osoby organizace',
-                'entry_type'    => EmployerPositionType::class,
-                'entry_options' => ['label' => false, 'content_required' => false],
-                'attr'          => [
-                    'class' => 'box',
-                ],
-                'delete_empty'  => true,
-            )
-        )->add(
-            'notes',
-            CollectionType::class,
-            array(
-                'label'         => false,
-                'entry_type'    => ContactNoteType::class,
-                'entry_options' => ['label' => false],
-            )
-        );
+        $builder->add('name', TextType::class, array(
+            'label'    => 'Název organizace',
+            'required' => true,
+            'help'     => 'Zadejte oficiální název organizace.',
+            'attr'     => [
+                'autocomplete' => 'organization',
+            ],
+        ))->add('identificationNumber', TextType::class, array(
+            'label'    => 'Identifikační číslo',
+            'required' => false,
+            'help'     => 'Zadejte IČ (nepovinné).',
+        ))->add('description', TextareaType::class, array(
+            'label'    => 'Krátký popis',
+            'required' => false,
+            'help'     => 'Zadejte stručné shrnutí informací o Vaší organizaci. Tyto informace můžou být zveřejněny na webu.',
+            'attr'     => [],
+        ))->add('details', CollectionType::class, array(
+            'label'         => false,
+            'entry_type'    => ContactDetailType::class,
+            'entry_options' => ['label' => false, 'content_required' => false],
+        ))->add('image', ContactImageType::class, [
+            'label'    => 'Logo organizace',
+            'required' => false,
+            'help'     => 'Nahrajte logo Vaší organizace, nejlépe ve formátu png'.$maxSize.'. Bude uvedeno např. na webových stránkách.',
+        ])->add('regularPositions', CollectionType::class, array(
+            'label'         => 'Zástupci/kontaktní osoby organizace',
+            'entry_type'    => EmployerPositionType::class,
+            'entry_options' => ['label' => false, 'content_required' => false],
+            'attr'          => [
+                'class' => 'box',
+            ],
+            'delete_empty'  => true,
+        ))->add('notes', CollectionType::class, array(
+            'label'         => false,
+            'entry_type'    => ContactNoteType::class,
+            'entry_options' => ['label' => false],
+        ));
     }
 
     /**
@@ -96,11 +68,9 @@ class OrganizationType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(
-            array(
-                'data_class' => Organization::class,
-            )
-        );
+        $resolver->setDefaults(array(
+            'data_class' => Organization::class,
+        ));
     }
 
     public function getName(): string

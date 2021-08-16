@@ -143,9 +143,7 @@ class Place implements NameableInterface
             $this->parentPlace->removeSubPlace($this);
         }
         $this->parentPlace = $event;
-        if (null !== $this->parentPlace) {
-            $this->parentPlace->addSubPlace($this);
-        }
+        $this->parentPlace?->addSubPlace($this);
     }
 
     public function getFloorNumber(): ?int

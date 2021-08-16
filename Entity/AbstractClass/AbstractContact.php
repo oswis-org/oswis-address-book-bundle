@@ -170,9 +170,7 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
 
     public function getAddressBooks(): Collection
     {
-        return $this->getContactAddressBooks()->map(
-            fn(ContactAddressBook $addressBookContactConnection) => $addressBookContactConnection->getAddressBook()
-        );
+        return $this->getContactAddressBooks()->map(fn(ContactAddressBook $addressBookContactConnection) => $addressBookContactConnection->getAddressBook());
     }
 
     public function getContactAddressBooks(): Collection
@@ -207,7 +205,7 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
 
     public function addAddressBook(AddressBook $addressBook): void
     {
-        if (null !== $addressBook && !$this->containsAddressBook($addressBook)) {
+        if (!$this->containsAddressBook($addressBook)) {
             $this->addContactAddressBook(new ContactAddressBook($addressBook));
         }
     }
@@ -485,7 +483,7 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
 
     public function canRead(?AppUser $user = null): bool
     {
-        if (null === $user || !($user instanceof AppUser)) { // User is not logged in.
+        if (!($user instanceof AppUser)) { // User is not logged in.
             return false;
         }
 
@@ -524,7 +522,7 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
 
     public function canEdit(?AppUser $user = null): bool
     {
-        if (null === $user || !($user instanceof AppUser)) {// User is not logged in.
+        if (!($user instanceof AppUser)) {// User is not logged in.
             return false;
         }
 

@@ -6,7 +6,7 @@
 namespace OswisOrg\OswisAddressBookBundle\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Query;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\Persistence\ManagerRegistry;
 use LogicException;
 use OswisOrg\OswisAddressBookBundle\Entity\Organization;
@@ -30,7 +30,7 @@ class OrganizationRepository extends ServiceEntityRepository
             $qb->andWhere('o.parent.type = university')->andWhere('o.parent.slug = :slug')->setParameter('slug', $universitySlug);
         }
 
-        return $qb->getQuery()->execute([], Query::HYDRATE_OBJECT);
+        return $qb->getQuery()->execute([], AbstractQuery::HYDRATE_OBJECT);
     }
 
     public function findOneBy(array $criteria, array $orderBy = null): ?Organization

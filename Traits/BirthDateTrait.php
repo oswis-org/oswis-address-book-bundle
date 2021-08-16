@@ -42,7 +42,7 @@ trait BirthDateTrait
     }
 
     /**
-     * Get birth date.
+     * Get birthdate.
      */
     public function getBirthDate(): ?DateTime
     {

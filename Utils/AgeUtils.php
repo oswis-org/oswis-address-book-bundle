@@ -23,7 +23,7 @@ class AgeUtils
      * @param  int|null  $maxAge  maximal age, included (default is infinity)
      * @param  DateTime|null  $referenceDateTime  Reference date, default is _now_
      *
-     * @return bool True if birth date belongs to age range interval.
+     * @return bool True if birthdate belongs to age range interval.
      *
      * @throws Exception
      */

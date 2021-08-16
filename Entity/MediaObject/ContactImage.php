@@ -76,6 +76,11 @@ class ContactImage extends AbstractImage
         $this->setFieldsFromPublicity($publicity);
     }
 
+    public static function getAllowedTypes(): array
+    {
+        return [self::TYPE_LOGO, self::TYPE_PHOTO];
+    }
+
     public function getContact(): ?AbstractContact
     {
         return $this->contact;
@@ -87,13 +92,5 @@ class ContactImage extends AbstractImage
             $this->contact->removeImage($this);
         }
         $this->contact = $contact;
-        if (null !== $contact && $this->contact !== $contact) {
-            $contact->addImage($this);
-        }
-    }
-
-    public static function getAllowedTypes(): array
-    {
-        return [self::TYPE_LOGO, self::TYPE_PHOTO];
     }
 }

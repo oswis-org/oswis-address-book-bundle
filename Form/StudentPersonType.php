@@ -17,30 +17,18 @@ class StudentPersonType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add(
-            'fullName',
-            TextType::class,
-            array(
-                'label' => 'Celé jméno',
-                'attr'  => ['autocomplete' => 'section-student name'],
-            )
-        )->add(
-            'details',
-            CollectionType::class,
-            array(
-                'label'         => false,
-                'entry_type'    => ContactDetailType::class,
-                'entry_options' => array('label' => false),
-            )
-        )->add(
-            'studies',
-            CollectionType::class,
-            array(
-                'label'         => 'Fakulta',
-                'entry_type'    => SchoolPositionType::class,
-                'entry_options' => array('label' => false),
-            )
-        );
+        $builder->add('fullName', TextType::class, array(
+            'label' => 'Celé jméno',
+            'attr'  => ['autocomplete' => 'section-student name'],
+        ))->add('details', CollectionType::class, array(
+            'label'         => false,
+            'entry_type'    => ContactDetailType::class,
+            'entry_options' => array('label' => false),
+        ))->add('studies', CollectionType::class, array(
+            'label'         => 'Fakulta',
+            'entry_type'    => SchoolPositionType::class,
+            'entry_options' => array('label' => false),
+        ));
     }
 
     /**
@@ -50,11 +38,9 @@ class StudentPersonType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(
-            array(
-                'data_class' => Person::class,
-            )
-        );
+        $resolver->setDefaults(array(
+            'data_class' => Person::class,
+        ));
     }
 
     public function getName(): string

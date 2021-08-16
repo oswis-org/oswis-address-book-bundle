@@ -86,8 +86,5 @@ class ContactFile extends AbstractFile implements TypeInterface, PriorityInterfa
             $this->contact->removeFile($this);
         }
         $this->contact = $contact;
-        if (null !== $contact && $this->contact !== $contact) {
-            $contact->addFile($this);
-        }
     }
 }

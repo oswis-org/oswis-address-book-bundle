@@ -46,8 +46,5 @@ class ContactAddress extends AbstractAddress implements PriorityInterface
             $this->contact->removeAddress($this);
         }
         $this->contact = $contact;
-        if ($contact && $this->contact !== $contact) {
-            $contact->addAddress($this);
-        }
     }
 }

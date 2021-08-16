@@ -144,9 +144,7 @@ class Organization extends AbstractOrganization
             $this->parentOrganization->removeSubOrganization($this);
         }
         $this->parentOrganization = $organization;
-        if ($this->parentOrganization) {
-            $this->parentOrganization->addSubOrganization($this);
-        } // TODO: Check!
+        $this->parentOrganization?->addSubOrganization($this); // TODO: Check!
     }
 
     public function addContactPerson(?AbstractContact $contact): void
@@ -205,7 +203,7 @@ class Organization extends AbstractOrganization
 
     public function getPath(): string
     {
-        return $this->getParentOrganization() ? '-&gt;'.$this->getParentOrganization()?->getPath() : $this->getName().'';
+        return $this->getParentOrganization() ? '-&gt;'.$this->getParentOrganization()->getPath() : $this->getName().'';
     }
 
     public function getIdentificationNumberRecursive(): ?string
