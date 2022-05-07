@@ -23,12 +23,12 @@ class PersonType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('name', TextType::class, array(
+        $builder->add('name', TextType::class, [
             'label' => 'Celé jméno',
             'attr'  => [
                 'autocomplete' => 'section-student name',
             ],
-        ))->add('details', CollectionType::class, [
+        ])->add('details', CollectionType::class, [
             'label'         => false,
             'entry_type'    => ContactDetailType::class,
             'entry_options' => ['label' => false],
@@ -51,9 +51,9 @@ class PersonType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => Person::class,
-        ));
+        ]);
     }
 
     public function getName(): string

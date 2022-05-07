@@ -17,18 +17,18 @@ class StudentPersonType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('fullName', TextType::class, array(
+        $builder->add('fullName', TextType::class, [
             'label' => 'Celé jméno',
             'attr'  => ['autocomplete' => 'section-student name'],
-        ))->add('details', CollectionType::class, array(
+        ])->add('details', CollectionType::class, [
             'label'         => false,
             'entry_type'    => ContactDetailType::class,
-            'entry_options' => array('label' => false),
-        ))->add('studies', CollectionType::class, array(
+            'entry_options' => ['label' => false],
+        ])->add('studies', CollectionType::class, [
             'label'         => 'Fakulta',
             'entry_type'    => SchoolPositionType::class,
-            'entry_options' => array('label' => false),
-        ));
+            'entry_options' => ['label' => false],
+        ]);
     }
 
     /**
@@ -38,9 +38,9 @@ class StudentPersonType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => Person::class,
-        ));
+        ]);
     }
 
     public function getName(): string

@@ -1,5 +1,6 @@
 <?php
 /**
+ * @noinspection PhpUnused
  * @noinspection MethodShouldBeFinalInspection
  */
 
@@ -16,20 +17,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class OrganizationController extends AbstractController
 {
-    public OrganizationService $organizationService;
-
-    public OswisAddressBookSettingsProvider $addressBookSettings;
-
-    public PositionRepository $positionRepository;
-
     public function __construct(
-        OrganizationService $organizationService,
-        OswisAddressBookSettingsProvider $addressBookSettings,
-        PositionRepository $positionRepository
+        public OrganizationService $organizationService,
+        public OswisAddressBookSettingsProvider $addressBookSettings,
+        public PositionRepository $positionRepository
     ) {
-        $this->addressBookSettings = $addressBookSettings;
-        $this->organizationService = $organizationService;
-        $this->positionRepository = $positionRepository;
     }
 
     public function showTeam(?string $slug = null): Response
@@ -62,7 +54,11 @@ class OrganizationController extends AbstractController
                 'publicOnWeb' => true,
             ]);
         }
-        $organization ??= $this->organizationService->getRepository()->findBy(['publicOnWeb' => true], ['id' => 'ASC'])[0] ?? null;
+        $organization ??= $this->organizationService->getRepository()->findBy(
+                ['publicOnWeb' => true],
+                ['id' => 'ASC'],
+            )[0] ?? null;
+        assert($organization instanceof Organization);
 
         return $organization;
     }

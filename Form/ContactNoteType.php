@@ -21,21 +21,24 @@ class ContactNoteType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('content', TextType::class, array(
+        $builder->add('content', TextType::class, [
             'label'    => 'Poznámka',
             'required' => $options['content_required'],
             'attr'     => ['placeholder' => false],
-        ));
+        ]);
         $builder->addEventListener(FormEvents::PRE_SET_DATA, static function (FormEvent $event) use ($options) {
             $contactNote = $event->getData();
             assert($contactNote instanceof ContactNote);
             $form = $event->getForm();
-            $form->add('content', TextareaType::class, array( // TODO: Types.
-                                                              'label'    => $contactNote->isPublic() ? 'Veřejná poznámka' : 'Interní poznámka',
-                                                              'required' => $options['content_required'],
-                                                              'help'     => $contactNote->isPublic() ? 'Poznámka, která může být zveřejněná.'
-                                                                  : 'Neveřejná poznámka, určená pouze pro pořadatele.',
-            ));
+            $form->add(
+                'content',
+                TextareaType::class,
+                [
+                    'label'    => $contactNote->isPublic() ? 'Veřejná poznámka' : 'Interní poznámka',
+                    'required' => $options['content_required'],
+                    'help'     => $contactNote->isPublic() ? 'Poznámka, která může být zveřejněná.' : 'Neveřejná poznámka, určená pouze pro pořadatele.',
+                ],
+            );
         });
     }
 
@@ -46,11 +49,11 @@ class ContactNoteType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class'       => ContactNote::class,
             'content_required' => false,
             //                'attr' => ['class' => 'col-md-6'],
-        ));
+        ]);
     }
 
     public function getName(): string

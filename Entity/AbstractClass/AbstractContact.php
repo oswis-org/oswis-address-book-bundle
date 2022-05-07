@@ -1,5 +1,6 @@
 <?php
 /**
+ * @noinspection PhpUnused
  * @noinspection MethodShouldBeFinalInspection
  */
 
@@ -58,6 +59,7 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
 
     /**
      * Notes about person.
+     * @var Collection<ContactNote>
      * @Doctrine\ORM\Mapping\OneToMany(
      *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\ContactNote",
      *     mappedBy="contact",
@@ -66,10 +68,11 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
      *     fetch="EAGER"
      * )
      */
-    protected ?Collection $notes = null;
+    protected Collection $notes;
 
     /**
      * Postal addresses of AbstractContact (Person, Organization).
+     * @var Collection<ContactDetail>
      * @Doctrine\ORM\Mapping\OneToMany(
      *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\ContactDetail",
      *     mappedBy="contact",
@@ -78,10 +81,11 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
      *     fetch="EAGER"
      * )
      */
-    protected ?Collection $details = null;
+    protected Collection $details;
 
     /**
      * Postal addresses of AbstractContact (Person, Organization).
+     * @var Collection<ContactAddress>
      * @Doctrine\ORM\Mapping\OneToMany(
      *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\ContactAddress",
      *     mappedBy="contact",
@@ -91,9 +95,10 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
      * )
      * @ApiProperty(iri="http://schema.org/address")
      */
-    protected ?Collection $addresses = null;
+    protected Collection $addresses;
 
     /**
+     * @var Collection<ContactAddressBook>
      * @Doctrine\ORM\Mapping\ManyToMany(
      *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\AddressBook\ContactAddressBook", cascade={"all"}, fetch="EAGER"
      * )
@@ -103,7 +108,7 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
      *     inverseJoinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="contact_address_book_id", referencedColumnName="id", unique=true)}
      * )
      */
-    protected ?Collection $contactAddressBooks = null;
+    protected Collection $contactAddressBooks;
 
     /**
      * @Doctrine\ORM\Mapping\OneToOne(targetEntity="OswisOrg\OswisCoreBundle\Entity\AppUser\AppUser", fetch="EAGER")
@@ -111,26 +116,27 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
     protected ?AppUser $appUser = null;
 
     /**
+     * @var Collection<ContactImage>
      * @Doctrine\ORM\Mapping\OneToMany(
      *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\MediaObject\ContactImage", mappedBy="contact", cascade={"all"}, orphanRemoval=true
      * )
      */
-    protected ?Collection $images = null;
+    protected Collection $images;
 
     /**
      * @Doctrine\ORM\Mapping\OneToMany(
      *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\MediaObject\ContactFile", mappedBy="contact", cascade={"all"}, orphanRemoval=true
      * )
      */
-    protected ?Collection $files = null;
+    protected Collection $files;
 
     /**
      * @param  Nameable|null  $nameable
      * @param  string|null  $type
-     * @param  Collection|null  $notes
-     * @param  Collection|null  $details
-     * @param  Collection|null  $addresses
-     * @param  Collection|null  $addressBooks
+     * @param  Collection<ContactNote>|null  $notes
+     * @param  Collection<ContactDetail>|null  $details
+     * @param  Collection<ContactAddress>|null  $addresses
+     * @param  Collection<AddressBook>|null  $addressBooks
      *
      * @throws InvalidArgumentException
      */
@@ -144,6 +150,10 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
     ) {
         $this->images = new ArrayCollection();
         $this->files = new ArrayCollection();
+        $this->details = new ArrayCollection();
+        $this->notes = new ArrayCollection();
+        $this->addresses = new ArrayCollection();
+        $this->contactAddressBooks = new ArrayCollection();
         $this->setFieldsFromNameable($nameable);
         $this->setType($type);
         $this->setNotes($notes);
@@ -155,6 +165,7 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
     public function setAddressBooks(?Collection $newAddressBooks): void
     {
         $this->contactAddressBooks ??= new ArrayCollection();
+        /** @var Collection<AddressBook>|null $newAddressBooks */
         $newAddressBooks ??= new ArrayCollection();
         foreach ($this->getAddressBooks() as $oldAddressBook) {
             if (!$newAddressBooks->contains($oldAddressBook)) {
@@ -168,9 +179,20 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
         }
     }
 
+    /**
+     * @return \Doctrine\Common\Collections\Collection<AddressBook>
+     */
     public function getAddressBooks(): Collection
     {
-        return $this->getContactAddressBooks()->map(fn(ContactAddressBook $addressBookContactConnection) => $addressBookContactConnection->getAddressBook());
+        return $this->getContactAddressBooks()->map(
+            function (mixed $addressBookContactConnection) {
+                assert($addressBookContactConnection instanceof ContactAddressBook);
+                $addressBook = $addressBookContactConnection->getAddressBook();
+                assert($addressBook instanceof AddressBook);
+
+                return $addressBook;
+            },
+        );
     }
 
     public function getContactAddressBooks(): Collection
@@ -245,11 +267,24 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
         return $image instanceof ContactImage ? $image : null;
     }
 
+    /**
+     * @param  string|null  $type
+     *
+     * @return \Doctrine\Common\Collections\Collection<ContactImage>
+     */
     public function getImages(?string $type = null): Collection
     {
-        $images = $this->images ?? new ArrayCollection();
+        $images = $this->images;
+        if (!empty($type)) {
+            $images = $this->images->filter(
+                function (mixed $image) use ($type) {
+                    return $image instanceof ContactImage && $image->getType() === $type;
+                },
+            );
+        }
 
-        return empty($type) ? $images : $images->filter(fn(ContactImage $image) => $image->getType() === $type);
+        /** @var Collection<ContactImage> $images */
+        return $images;
     }
 
     public function addImage(?ContactImage $image): void
@@ -274,7 +309,7 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
 
     public function getFiles(): Collection
     {
-        return $this->files ?? new ArrayCollection();
+        return $this->files;
     }
 
     public function removeFile(?ContactFile $file): void
@@ -303,22 +338,33 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
     public function removeEmptyDetails(): void
     {
         $this->setDetails(
-            $this->getDetails()->filter(fn(ContactDetail $detail) => !empty($detail->getContent()))
+            $this->getDetails()->filter(
+                fn(mixed $detail) => $detail instanceof ContactDetail && !empty($detail->getContent()),
+            ),
         );
     }
 
+    /**
+     * @param  string|null  $typeString
+     *
+     * @return \Doctrine\Common\Collections\Collection<ContactDetail>
+     */
     public function getDetails(?string $typeString = null): Collection
     {
+        $details = $this->details;
         if (!empty($typeString)) {
-            return $this->getDetails()->filter(fn(ContactDetail $detail) => $typeString === $detail->getCategoryString());
+            $details = $details->filter(
+                fn(mixed $detail) => $detail instanceof ContactDetail && $typeString === $detail->getCategoryString(),
+            );
         }
 
-        return $this->details ?? new ArrayCollection();
+        /** @var Collection<ContactDetail> $details */
+        return $details;
     }
 
     public function setDetails(?Collection $newDetails): void
     {
-        $this->details ??= new ArrayCollection();
+        /** @var Collection<ContactDetail>|null $newDetails */
         $newDetails ??= new ArrayCollection();
         foreach ($this->details as $oldDetail) {
             if (!$newDetails->contains($oldDetail)) {
@@ -339,14 +385,17 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
         }
     }
 
+    /**
+     * @return \Doctrine\Common\Collections\Collection<ContactNote>
+     */
     public function getNotes(): Collection
     {
-        return $this->notes ?? new ArrayCollection();
+        return $this->notes;
     }
 
     public function setNotes(?Collection $newNotes): void
     {
-        $this->notes ??= new ArrayCollection();
+        /** @var Collection<ContactNote>|null $newNotes */
         $newNotes ??= new ArrayCollection();
         foreach ($this->getNotes() as $oldNote) {
             if (!$newNotes->contains($oldNote)) {
@@ -374,14 +423,17 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
         }
     }
 
+    /**
+     * @return \Doctrine\Common\Collections\Collection<ContactAddress>
+     */
     public function getAddresses(): Collection
     {
-        return $this->addresses ?? new ArrayCollection();
+        return $this->addresses;
     }
 
     public function setAddresses(?Collection $newAddresses): void
     {
-        $this->addresses ??= new ArrayCollection();
+        /** @var Collection<ContactAddress>|null $newAddresses */
         $newAddresses ??= new ArrayCollection();
         foreach ($this->getAddresses() as $oldAddress) {
             if (!$newAddresses->contains($oldAddress)) {
@@ -425,7 +477,9 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
     public function removeEmptyNotes(): void
     {
         $this->setNotes(
-            $this->getNotes()->filter(fn(ContactNote $note) => empty($note->getContent()))
+            $this->getNotes()->filter(
+                fn(mixed $note) => $note instanceof ContactNote && empty($note->getContent())
+            ),
         );
     }
 
@@ -483,7 +537,12 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
 
     public function canRead(?AppUser $user = null): bool
     {
-        if (!($user instanceof AppUser)) { // User is not logged in.
+        return $this->canEdit($user);
+    }
+
+    public function canEdit(?AppUser $user = null): bool
+    {
+        if (!($user instanceof AppUser)) {// User is not logged in.
             return false;
         }
 
@@ -520,18 +579,9 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
         return $this->getDetails(ContactDetailCategory::TYPE_EMAIL);
     }
 
-    public function canEdit(?AppUser $user = null): bool
-    {
-        if (!($user instanceof AppUser)) {// User is not logged in.
-            return false;
-        }
-
-        return $user->hasRole('ROLE_MEMBER') && $user->hasRole('ROLE_USER') && $user === $this->getAppUser();
-    }
-
     public function __toString(): string
     {
-        return ''.($this->getName() ?? (string)$this->getId());
+        return $this->getName() ?? (string)$this->getId();
     }
 
     public function getGender(): string

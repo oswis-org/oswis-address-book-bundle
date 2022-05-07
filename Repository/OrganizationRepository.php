@@ -1,5 +1,6 @@
 <?php
 /**
+ * @noinspection PhpUnused
  * @noinspection MethodShouldBeFinalInspection
  */
 
@@ -29,8 +30,10 @@ class OrganizationRepository extends ServiceEntityRepository
         if ($universitySlug) {
             $qb->andWhere('o.parent.type = university')->andWhere('o.parent.slug = :slug')->setParameter('slug', $universitySlug);
         }
+        $result = $qb->getQuery()->execute([], AbstractQuery::HYDRATE_OBJECT);
+        assert(is_array($result));
 
-        return $qb->getQuery()->execute([], AbstractQuery::HYDRATE_OBJECT);
+        return $result;
     }
 
     public function findOneBy(array $criteria, array $orderBy = null): ?Organization

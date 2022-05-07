@@ -1,5 +1,6 @@
 <?php
 /**
+ * @noinspection PhpUnused
  * @noinspection MethodShouldBeFinalInspection
  */
 
@@ -81,11 +82,12 @@ use function trim;
 class Person extends AbstractPerson
 {
     /**
+     * @var Collection<Position>
      * @Doctrine\ORM\Mapping\OneToMany(
      *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Position", mappedBy="person", cascade={"all"}, orphanRemoval=true
      * )
      */
-    protected ?Collection $positions = null;
+    protected Collection $positions;
 
     public function __construct(
         ?Nameable $nameable = null,
@@ -97,6 +99,7 @@ class Person extends AbstractPerson
         ?AppUser $appUser = null
     ) {
         parent::__construct($nameable, $notes, $details, $addresses, $addressBooks);
+        $this->positions = new ArrayCollection();
         $this->setPositions($positions);
         $this->setAppUser($appUser);
     }
@@ -108,12 +111,16 @@ class Person extends AbstractPerson
 
     public function getPositions(?DateTime $dateTime = null, ?array $types = null): Collection
     {
-        $positions = $this->positions ?? new ArrayCollection();
+        $positions = $this->positions;
         if (null !== $dateTime) {
-            $positions = $positions->filter(fn(Position $p): bool => $p->isInDateRange($dateTime));
+            $positions = $positions->filter(
+                fn(mixed $p): bool => $p instanceof Position && $p->isInDateRange($dateTime),
+            );
         }
         if (!empty($types)) {
-            $positions = $positions->filter(fn(Position $position): bool => in_array($position->getType(), $types, true));
+            $positions = $positions->filter(
+                fn(mixed $p): bool => $p instanceof Position && in_array($p->getType(), $types, true),
+            );
         }
 
         return $positions;
@@ -121,7 +128,7 @@ class Person extends AbstractPerson
 
     public function setPositions(?Collection $newPositions): void
     {
-        $this->positions ??= new ArrayCollection();
+        /** @var Collection<Position>|null $newPositions */
         $newPositions ??= new ArrayCollection();
         foreach ($this->positions as $oldPosition) {
             if (!$newPositions->contains($oldPosition)) {
@@ -129,7 +136,7 @@ class Person extends AbstractPerson
             }
         }
         foreach ($newPositions as $newPosition) {
-            if (!$this->positions?->contains($newPosition)) {
+            if (!$this->positions->contains($newPosition)) {
                 $this->addPosition($newPosition);
             }
         }
@@ -142,12 +149,14 @@ class Person extends AbstractPerson
 
     public function getManagerPositions(?DateTime $dateTime = null): Collection
     {
-        return $this->getPositions($dateTime, Position::STUDY_POSITION_TYPES);
+        return $this->getPositions($dateTime, Position::MANAGER_POSITION_TYPES);
     }
 
     public function getRegularPositions(): Collection
     {
-        return $this->getPositions()->filter(fn(Position $position) => $position->isRegularPosition());
+        return $this->getPositions()->filter(
+            fn(mixed $position) => $position instanceof Position && $position->isRegularPosition(),
+        );
     }
 
     /**
@@ -161,7 +170,8 @@ class Person extends AbstractPerson
             return;
         }
         if (false === $position->isStudy()) {
-            throw new InvalidTypeException('Špatný typ pozice ('.$position->getType().' není typ studia)');
+            $positionType = $position->getType();
+            throw new InvalidTypeException("Špatný typ pozice ($positionType není typ studia)");
         }
         $this->addPosition($position);
     }
@@ -220,17 +230,25 @@ class Person extends AbstractPerson
     public function removeRegularPosition(?Position $position): void
     {
         if (null !== $position && !$position->isRegularPosition()) {
-            throw new InvalidTypeException('Špatný typ pozice ('.$position->getType().' není typ zaměstnání)');
+            $positionType = $position->getType();
+            throw new InvalidTypeException("Špatný typ pozice ($positionType není typ zaměstnání)");
         }
         $this->removePosition($position);
     }
 
     public function getEmployers(?DateTime $dateTime = null): Collection
     {
-        $out = new ArrayCollection();
-        $this->getMemberAndEmployeePositions($dateTime)->map(fn(Position $p) => $out->contains($p->getOrganization()) ? null : $out->add($p->getOrganization()));
+        /** @var Collection<Organization> $employers */
+        $employers = new ArrayCollection();
+        $this->getMemberAndEmployeePositions($dateTime)->map(
+            function (mixed $position) use ($employers) {
+                if ($position instanceof Position && !$employers->contains($position->getOrganization())) {
+                    $employers->add($position->getOrganization());
+                }
+            }
+        );
 
-        return $out;
+        return $employers;
     }
 
     public function getMemberAndEmployeePositions(?DateTime $dateTime = null): Collection
@@ -240,10 +258,17 @@ class Person extends AbstractPerson
 
     public function getSchools(?DateTime $dateTime = null): Collection
     {
-        $out = new ArrayCollection();
-        $this->getStudies($dateTime)->map(fn(Position $p) => $out->contains($p->getOrganization()) ? null : $out->add($p->getOrganization()));
+        /** @var Collection<Organization> $schools */
+        $schools = new ArrayCollection();
+        $this->getStudies($dateTime)->map(
+            function (mixed $position) use ($schools) {
+                if ($position instanceof Position && !$schools->contains($position->getOrganization())) {
+                    $schools->add($position->getOrganization());
+                }
+            },
+        );
 
-        return $out;
+        return $schools;
     }
 
     public function getStudies(?DateTime $dateTime = null): Collection
@@ -258,7 +283,7 @@ class Person extends AbstractPerson
             assert($position instanceof Position);
             $output .= (!empty($output) ? ', ' : null).$position->getEmployerName();
         }
-        $output = preg_replace('/[,]+/', ',', $output);
+        $output = preg_replace('/,+/', ',', $output);
         $output = preg_replace('!\s+!', ' ', rtrim(trim(''.$output), ','));
 
         return ''.$output;

@@ -27,7 +27,7 @@
     }
   ],
   "require": {
-    "php": ">=8.0",
+    "php": ">=8.1.0",
     "oswis-org/oswis-core-bundle": "^0.0",
     "bigit/vokativ": "dev-zakjakub-master"
   },

@@ -1,7 +1,8 @@
 <nav>
     <div class="badges clearfix text-wrap mb-3 font-1-5rem">
         {% if organization.parentOrganization|default %}
-            <a href="{{ path('oswis_org_oswis_address_book_organization', {'slug': organization.parentOrganization.slug}) }}" class="badge badge-warning" data-toggle="tooltip"
+            <a href="{{ path('oswis_org_oswis_address_book_organization', {'slug': organization.parentOrganization.slug}) }}" class="badge badge-warning"
+               data-toggle="tooltip"
                itemprop="parentOrganization" content="{{ organization.parentOrganization.name }}" title="{{ organization.parentOrganization.name }}">
                 <i class="fas fa-arrow-up"></i> {{ organization.parentOrganization.shortName }}
             </a>

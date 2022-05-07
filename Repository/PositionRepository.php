@@ -48,7 +48,10 @@ class PositionRepository extends ServiceEntityRepository
 
     public function getPositions(array $opts = [], ?int $limit = null, ?int $offset = null): Collection
     {
-        return new ArrayCollection($this->getPositionsQueryBuilder($opts, $limit, $offset)->getQuery()->getResult());
+        $result = $this->getPositionsQueryBuilder($opts, $limit, $offset)->getQuery()->getResult();
+        assert(is_array($result));
+
+        return new ArrayCollection($result);
     }
 
     public function getPositionsQueryBuilder(array $opts = [], ?int $limit = null, ?int $offset = null): QueryBuilder

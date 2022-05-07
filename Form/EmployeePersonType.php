@@ -23,11 +23,11 @@ class EmployeePersonType extends AbstractType
             'attr'     => [
                 'autocomplete' => 'section-organization-employee name',
             ],
-        ])->add('details', CollectionType::class, array(
+        ])->add('details', CollectionType::class, [
             'label'         => false,
             'entry_type'    => ContactDetailType::class,
             'entry_options' => ['label' => false, 'content_required' => $options['content_required']],
-        ))->add('positions', CollectionType::class, array(
+        ])->add('positions', CollectionType::class, [
             'label'         => 'Student/absolvent UP',
             'help'          => 'Pokud studoval(a) nebo absolvoval(a) studium na Univerzitě Palackého, vyberte příslušnou fakultu, jinak nechte pole prázdné.',
             'entry_type'    => SchoolPositionType::class,
@@ -35,7 +35,7 @@ class EmployeePersonType extends AbstractType
             'attr'          => [
                 'autocomplete' => 'section-organization-employee email',
             ],
-        ));
+        ]);
     }
 
     /**
@@ -45,10 +45,10 @@ class EmployeePersonType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class'       => Person::class,
             'content_required' => false,
-        ));
+        ]);
     }
 
     public function getName(): string

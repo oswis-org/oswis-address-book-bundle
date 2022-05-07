@@ -18,13 +18,13 @@ class EmployerPositionType extends AbstractType
         $builder->add('person', EmployeePersonType::class, [
             'label'    => false,
             'required' => $options['content_required'],
-        ])->add('name', null, array(
+        ])->add('name', null, [
             'label'    => 'Pozice ve společnosti',
             'required' => false,
             'attr'     => [
                 'autocomplete' => 'organization-title',
             ],
-        ));
+        ]);
     }
 
     /**
@@ -34,11 +34,11 @@ class EmployerPositionType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class'       => Position::class,
             'content_required' => false,
             // 'attr' => ['class' => 'col-md-6'],
-        ));
+        ]);
     }
 
     public function getName(): string

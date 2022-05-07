@@ -112,11 +112,11 @@ class ContactDetailType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class'       => ContactDetail::class,
             'content_required' => false,
             // 'attr' => ['class' => 'col-md-6'],
-        ));
+        ]);
     }
 
     public function getName(): string

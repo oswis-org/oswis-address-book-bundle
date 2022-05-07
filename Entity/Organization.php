@@ -128,9 +128,15 @@ class Organization extends AbstractOrganization
 
     public function getImages(?string $type = null): Collection
     {
-        $images = $this->images ?? new ArrayCollection();
+        $images = $this->images;
+        if (!empty($type)) {
+            $images = $images->filter(
+                fn(mixed $image) => $image instanceof ContactImage && $image->getType() === $type,
+            );
+        }
 
-        return empty($type) ? $images : $images->filter(fn(ContactImage $eventImage) => $eventImage->getType() === $type);
+        /** @var Collection<ContactImage> $images */
+        return $images;
     }
 
     public function getParentOrganization(): ?Organization
@@ -144,7 +150,7 @@ class Organization extends AbstractOrganization
             $this->parentOrganization->removeSubOrganization($this);
         }
         $this->parentOrganization = $organization;
-        $this->parentOrganization?->addSubOrganization($this); // TODO: Check!
+        $this->parentOrganization?->addSubOrganization($this);
     }
 
     public function addContactPerson(?AbstractContact $contact): void
@@ -158,7 +164,9 @@ class Organization extends AbstractOrganization
     {
         $contactPersons = $this->contactPersons ?? new ArrayCollection();
         if ($onlyWithActivatedUser) {
-            $contactPersons = $contactPersons->filter(fn(Person $person) => $person->hasActivatedUser());
+            $contactPersons = $contactPersons->filter(
+                fn(mixed $person) => $person instanceof Person && $person->hasActivatedUser(),
+            );
         }
 
         return $contactPersons;
@@ -181,7 +189,7 @@ class Organization extends AbstractOrganization
         if ($organization && !$this->getSubOrganizations()->contains($organization)) {
             $this->getSubOrganizations()->add($organization);
             $organization->setParentOrganization($this);
-        } // TODO: Check cycles!
+        }
     }
 
     public function removeSubOrganization(?Organization $organization): void
@@ -193,7 +201,9 @@ class Organization extends AbstractOrganization
 
     public function filterSubOrganizationsByType(string $type): Collection
     {
-        return $this->getSubOrganizations()->filter(fn(Organization $organization): bool => $type === $organization->getType());
+        return $this->getSubOrganizations()->filter(
+            fn(mixed $organization): bool => $organization instanceof Organization && $type === $organization->getType(),
+        );
     }
 
     public function getSubOrganizations(): Collection

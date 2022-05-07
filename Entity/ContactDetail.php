@@ -80,8 +80,8 @@ class ContactDetail implements NameableInterface, PriorityInterface
         if (null !== $this->getDetailCategory()) {
             return $this->getDetailCategory()->getFormatted(
                 filter_var($this->getContent(), FILTER_SANITIZE_URL) ?: null,
-                htmlspecialchars($this->getDescription()).'',
-                htmlspecialchars(''.$this->getName()).'',
+                htmlspecialchars($this->getDescription()),
+                htmlspecialchars(''.$this->getName()),
             );
         }
 
@@ -127,6 +127,11 @@ class ContactDetail implements NameableInterface, PriorityInterface
         return $this->detailCategory?->getType();
     }
 
+    public function getType(): ?string
+    {
+        return $this->getDetailCategory()?->getType();
+    }
+
     public function getCategoryName(): ?string
     {
         return $this->detailCategory?->getName();
@@ -135,10 +140,5 @@ class ContactDetail implements NameableInterface, PriorityInterface
     public function getShowInPreview(): bool
     {
         return $this->detailCategory?->getShowInPreview() ?? false;
-    }
-
-    public function getType(): ?string
-    {
-        return $this->getDetailCategory()?->getType();
     }
 }
