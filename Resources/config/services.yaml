@@ -132,9 +132,12 @@ services:
         class: OswisOrg\OswisAddressBookBundle\Controller\OrganizationController
         autowire: true
         public: true
+        tags:
+            - 'container.service_subscriber'
         arguments:
             - '@oswis_org_oswis_address_book.organization_service'
             - '@oswis_org_oswis_address_book.oswis_address_book_settings_provider'
+            - '@OswisOrg\OswisAddressBookBundle\Repository\PositionRepository'
     OswisOrg\OswisAddressBookBundle\Controller\OrganizationController:
         alias: oswis_org_oswis_address_book.organization_controller
         public: true
