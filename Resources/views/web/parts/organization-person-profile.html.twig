@@ -5,7 +5,7 @@
      itemprop="member"
      data-bs-toggle="tooltip"
      itemscope
-     itemtype='{{ 'http://schema.org/' ~ contact.person ? 'Person' : 'Organization' }}'>
+     itemtype='{{ 'http://schema.org/' ~ (contact.person ? 'Person' : 'Organization') }}'>
 
     <article class="card profile {{ contact.gender|default }} border-0 h-100 m-1"
              id="person-profile-{{ contact.slug|default(contact.id) }}">
