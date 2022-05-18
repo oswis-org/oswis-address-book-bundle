@@ -26,7 +26,7 @@ use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
  *   },
  *   collectionOperations={
  *     "get"={
- *       "security"="is_granted('ROLE_MANAGER')",
+ *       "security"="is_granted('ROLE_USER')",
  *       "normalization_context"={"groups"={"entities_get", "address_book_places_get"}},
  *     },
  *     "post"={
@@ -36,7 +36,7 @@ use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
  *   },
  *   itemOperations={
  *     "get"={
- *       "security"="is_granted('ROLE_MANAGER')",
+ *       "security"="is_granted('ROLE_USER')",
  *       "normalization_context"={"groups"={"entity_get", "address_book_place_get"}},
  *     },
  *     "put"={
