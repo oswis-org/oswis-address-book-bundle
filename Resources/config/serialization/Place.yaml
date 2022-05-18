@@ -96,7 +96,7 @@ OswisOrg\OswisAddressBookBundle\Entity\Place:
                 - 'address_book_places_post'
                 - 'address_book_place_get'
                 - 'address_book_place_put'
-                -
+
         geoLatitude:
             groups:
                 - 'address_book_places_get'
