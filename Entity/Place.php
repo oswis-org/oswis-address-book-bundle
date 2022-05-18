@@ -14,6 +14,7 @@ use OswisOrg\OswisCoreBundle\Entity\NonPersistent\PostalAddress;
 use OswisOrg\OswisCoreBundle\Interfaces\Common\NameableInterface;
 use OswisOrg\OswisCoreBundle\Traits\AddressBook\PostalAddressTrait;
 use OswisOrg\OswisCoreBundle\Traits\AddressBook\UrlTrait;
+use OswisOrg\OswisCoreBundle\Traits\Common\EntityPublicTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
 
 /**
@@ -56,12 +57,20 @@ use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
  * })
  * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
+#[ApiFilter(SearchFilter::class, properties: [
+    'id'             => 'exact',
+    'parentPlace.id' => 'exact',
+])]
+#[ApiFilter(BooleanFilter::class, properties: [
+    'publicOnWeb',
+])]
 class Place implements NameableInterface
 {
     use NameableTrait;
     use PostalAddressTrait;
     use UrlTrait;
     use GeoCoordinatesTrait;
+    use EntityPublicTrait;
 
     /**
      * @Doctrine\ORM\Mapping\Column(type="integer", nullable=true)

@@ -42,3 +42,105 @@ OswisOrg\OswisAddressBookBundle\Entity\Place:
             groups: [ 'address_book_place_get' ]
         updatedAuthor:
             groups: [ 'address_book_place_get' ]
+
+        street:
+            groups:
+                - 'address_book_places_get'
+                - 'address_book_places_post'
+                - 'address_book_place_get'
+                - 'address_book_place_put'
+        street2:
+            groups:
+                - 'address_book_places_get'
+                - 'address_book_places_post'
+                - 'address_book_place_get'
+                - 'address_book_place_put'
+        city:
+            groups:
+                - 'address_book_places_get'
+                - 'address_book_places_post'
+                - 'address_book_place_get'
+                - 'address_book_place_put'
+        postalCode:
+            groups:
+                - 'address_book_places_get'
+                - 'address_book_places_post'
+                - 'address_book_place_get'
+                - 'address_book_place_put'
+        houseNumber:
+            groups:
+                - 'address_book_places_get'
+                - 'address_book_places_post'
+                - 'address_book_place_get'
+                - 'address_book_place_put'
+        doorNumber:
+            groups:
+                - 'address_book_places_get'
+                - 'address_book_places_post'
+                - 'address_book_place_get'
+                - 'address_book_place_put'
+        orientationNumber:
+            groups:
+                - 'address_book_places_get'
+                - 'address_book_places_post'
+                - 'address_book_place_get'
+                - 'address_book_place_put'
+        fullAddress:
+            groups:
+                - 'address_book_places_get'
+                - 'address_book_place_get'
+
+        url:
+            groups:
+                - 'address_book_places_get'
+                - 'address_book_places_post'
+                - 'address_book_place_get'
+                - 'address_book_place_put'
+                -
+        geoLatitude:
+            groups:
+                - 'address_book_places_get'
+                - 'address_book_places_post'
+                - 'address_book_place_get'
+                - 'address_book_place_put'
+        geoLongitude:
+            groups:
+                - 'address_book_places_get'
+                - 'address_book_places_post'
+                - 'address_book_place_get'
+                - 'address_book_place_put'
+        geoElevation:
+            groups:
+                - 'address_book_places_get'
+                - 'address_book_places_post'
+                - 'address_book_place_get'
+                - 'address_book_place_put'
+
+        floorNumber:
+            groups:
+                - 'address_book_places_get'
+                - 'address_book_places_post'
+                - 'address_book_place_get'
+                - 'address_book_place_put'
+        roomNumber:
+            groups:
+                - 'address_book_places_get'
+                - 'address_book_places_post'
+                - 'address_book_place_get'
+                - 'address_book_place_put'
+
+        parentPlace:
+            groups:
+                - 'address_book_places_get'
+                - 'address_book_places_post'
+                - 'address_book_place_get'
+                - 'address_book_place_put'
+
+        publicOnWeb:
+            groups:
+                - 'address_book_places_get'
+                - 'address_book_places_post'
+                - 'address_book_place_get'
+                - 'address_book_place_put'
+
+
