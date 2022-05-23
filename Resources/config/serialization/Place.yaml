@@ -128,6 +128,12 @@ OswisOrg\OswisAddressBookBundle\Entity\Place:
                 - 'address_book_places_post'
                 - 'address_book_place_get'
                 - 'address_book_place_put'
+        ionIcon:
+            groups:
+                - 'address_book_places_get'
+                - 'address_book_places_post'
+                - 'address_book_place_get'
+                - 'address_book_place_put'
 
         parentPlace:
             groups:

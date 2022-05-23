@@ -37,3 +37,17 @@ U
 %Controller/OrganizationController.php,a/1/a122ca35de82c1182d47a20f1b9f6799e9c95d71
 N
 Resources/config/services.yaml,d/b/dbd43cf723713c53a4f677b91e18e1a006e87905
+o
+?Resources/views/web/parts/organization-person-profile.html.twig,3/c/3cd70c9a9a945bce2dec8b716976d79e26cd039c
+N
+Traits/GeoCoordinatesTrait.php,f/7/f71d1fd20c3c705ecc5ea33f8929fa03d351dbf0
+H
+Entity/ContactDetail.php,b/c/bc06eef2e6d6b439dd9a42c6b5f53a629fe77c1e
+X
+(Entity/AbstractClass/AbstractAddress.php,a/6/a69ab13003482a64640fee79e8b48eabdfe5bb79
+X
+(Entity/AbstractClass/AbstractContact.php,7/1/71245d45013c15f1523c169aab1a775cc8ba0e20
+A
+Entity/Person.php,9/4/94a7cbc35d06918585a1ef2a0a9470da9395c757
+C
+Entity/Position.php,2/a/2af6d61f1ae1bd03dcc7c4c1c0d1bbeb35a9845e

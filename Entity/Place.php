@@ -86,6 +86,11 @@ class Place implements NameableInterface
     protected ?int $roomNumber = null;
 
     /**
+     * @Doctrine\ORM\Mapping\Column(type="string", nullable=true)
+     */
+    protected ?string $ionIcon = null;
+
+    /**
      * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Place", inversedBy="subPlaces", fetch="EAGER")
      * @Doctrine\ORM\Mapping\JoinColumn(nullable=true)
      * @Symfony\Component\Serializer\Annotation\MaxDepth(3)
@@ -176,6 +181,16 @@ class Place implements NameableInterface
     public function setRoomNumber(?int $roomNumber): void
     {
         $this->roomNumber = $roomNumber;
+    }
+
+    public function getIonIcon(): ?string
+    {
+        return $this->ionIcon;
+    }
+
+    public function setIonIcon(?string $ionIcon): void
+    {
+        $this->ionIcon = $ionIcon;
     }
 
     public function getStreetAddress(): string
