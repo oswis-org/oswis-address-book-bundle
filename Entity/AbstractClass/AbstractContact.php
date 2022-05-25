@@ -13,6 +13,7 @@ use Doctrine\ORM\Mapping\Cache;
 use Doctrine\ORM\Mapping\DiscriminatorColumn;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\InheritanceType;
+use Doctrine\ORM\Mapping\InverseJoinColumn;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping\ManyToMany;
@@ -89,9 +90,9 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
      * @var Collection<ContactAddressBook>
      */
     #[ManyToMany(targetEntity: ContactAddressBook::class, cascade: ['all'], fetch: 'EAGER')]
-    #[JoinTable(name: 'address_book_address_book_contact_connection', joinColumns: [
-        new JoinColumn(name: 'contact_id', referencedColumnName: 'id'),
-    ], inverseJoinColumns: [new JoinColumn(name: 'contact_address_book_id', referencedColumnName: 'id', unique: true)])]
+    #[JoinTable(name: 'address_book_address_book_contact_connection')]
+    #[JoinColumn(name: "contact_id", referencedColumnName: "id")]
+    #[InverseJoinColumn(name: "contact_address_book_id", referencedColumnName: "id", unique: true)]
     protected Collection $contactAddressBooks;
 
     #[OneToOne(targetEntity: AppUser::class, fetch: 'EAGER')]

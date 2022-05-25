@@ -12,6 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Cache;
 use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\InverseJoinColumn;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\JoinTable;
 use Doctrine\ORM\Mapping\ManyToMany;
@@ -100,9 +101,9 @@ class Organization extends AbstractOrganization
     protected ?Collection $subOrganizations = null;
 
     #[ManyToMany(targetEntity: Person::class, fetch: 'EAGER')]
-    #[JoinTable(name: 'address_book_organization_contact_person_connection', joinColumns: [
-        new JoinColumn(name: 'organization_id', referencedColumnName: 'id'),
-    ], inverseJoinColumns: [new JoinColumn(name: 'contact_person_id', referencedColumnName: 'id', unique: true)])]
+    #[JoinTable(name: 'address_book_organization_contact_person_connection')]
+    #[JoinColumn(name: "organization_id", referencedColumnName: "id")]
+    #[InverseJoinColumn(name: "contact_person_id", referencedColumnName: "id", unique: true)]
     protected ?Collection $contactPersons = null;
 
     public function __construct(
