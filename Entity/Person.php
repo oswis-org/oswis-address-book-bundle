@@ -6,21 +6,37 @@
 
 namespace OswisOrg\OswisAddressBookBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping\Cache;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\Table;
 use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractPerson;
+use OswisOrg\OswisAddressBookBundle\Repository\PersonRepository;
 use OswisOrg\OswisCoreBundle\Entity\AppUser\AppUser;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
 use OswisOrg\OswisCoreBundle\Exceptions\InvalidTypeException;
+use OswisOrg\OswisCoreBundle\Filter\SearchFilter;
 
 use function assert;
 use function rtrim;
 use function trim;
 
 /**
- * @Doctrine\ORM\Mapping\Entity(repositoryClass="OswisOrg\OswisAddressBookBundle\Repository\PersonRepository")
- * @Doctrine\ORM\Mapping\Table(name="address_book_person")
+ * @OswisOrg\OswisCoreBundle\Filter\SearchAnnotation({
+ *     "id",
+ *     "slug",
+ *     "contactName",
+ *     "sortableName",
+ *     "description",
+ *     "note",
+ *     "birthDate"
+ * })
  * @ApiPlatform\Core\Annotation\ApiResource(
  *   iri="http://schema.org/Person",
  *   attributes={
@@ -48,45 +64,34 @@ use function trim;
  *     }
  *   }
  * )
- * @ApiPlatform\Core\Annotation\ApiFilter(ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter::class, properties={
- *     "id": "ASC",
- *     "slug",
- *     "description",
- *     "contactName",
- *     "sortableName",
- *     "note",
- *     "birthDate"
- * })
- * @ApiPlatform\Core\Annotation\ApiFilter(ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter::class, properties={
- *     "id": "exact",
- *     "description": "partial",
- *     "slug": "partial",
- *     "contactName": "partial",
- *     "note": "partial",
- *     "birthDate": "partial"
- * })
- * @OswisOrg\OswisCoreBundle\Filter\SearchAnnotation({
- *     "id",
- *     "slug",
- *     "contactName",
- *     "sortableName",
- *     "description",
- *     "note",
- *     "birthDate"
- * })
- * @ApiPlatform\Core\Annotation\ApiFilter(
- *     ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter::class, properties={"createdAt", "updatedAt", "birthDate"}
- * )
- * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
+#[Entity(repositoryClass: PersonRepository::class)]
+#[Table(name: 'address_book_person')]
+#[Cache(usage: 'NONSTRICT_READ_WRITE', region: 'address_book_contact')]
+#[ApiFilter(DateFilter::class, properties: ["createdAt", "updatedAt", "birthDate"])]
+#[ApiFilter(SearchFilter::class, properties: [
+    "id"          => "exact",
+    "description" => "partial",
+    "slug"        => "partial",
+    "contactName" => "partial",
+    "note"        => "partial",
+    "birthDate"   => "partial",
+])]
+#[ApiFilter(OrderFilter::class, properties: [
+    "id" => "ASC",
+    "slug",
+    "description",
+    "contactName",
+    "sortableName",
+    "note",
+    "birthDate",
+])]
 class Person extends AbstractPerson
 {
     /**
      * @var Collection<Position>
-     * @Doctrine\ORM\Mapping\OneToMany(
-     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Position", mappedBy="person", cascade={"all"}, orphanRemoval=true
-     * )
      */
+    #[OneToMany(mappedBy: 'person', targetEntity: Position::class, cascade: ['all'], orphanRemoval: true)]
     protected Collection $positions;
 
     public function __construct(
@@ -113,14 +118,10 @@ class Person extends AbstractPerson
     {
         $positions = $this->positions;
         if (null !== $dateTime) {
-            $positions = $positions->filter(
-                fn(mixed $p): bool => $p instanceof Position && $p->isInDateRange($dateTime),
-            );
+            $positions = $positions->filter(fn(mixed $p): bool => $p instanceof Position && $p->isInDateRange($dateTime));
         }
         if (!empty($types)) {
-            $positions = $positions->filter(
-                fn(mixed $p): bool => $p instanceof Position && in_array($p->getType(), $types, true),
-            );
+            $positions = $positions->filter(fn(mixed $p): bool => $p instanceof Position && in_array($p->getType(), $types, true));
         }
 
         return $positions;
@@ -154,9 +155,7 @@ class Person extends AbstractPerson
 
     public function getRegularPositions(): Collection
     {
-        return $this->getPositions()->filter(
-            fn(mixed $position) => $position instanceof Position && $position->isRegularPosition(),
-        );
+        return $this->getPositions()->filter(fn(mixed $position) => $position instanceof Position && $position->isRegularPosition());
     }
 
     /**
@@ -240,13 +239,11 @@ class Person extends AbstractPerson
     {
         /** @var Collection<Organization> $employers */
         $employers = new ArrayCollection();
-        $this->getMemberAndEmployeePositions($dateTime)->map(
-            function (mixed $position) use ($employers) {
-                if ($position instanceof Position && !$employers->contains($position->getOrganization())) {
-                    $employers->add($position->getOrganization());
-                }
+        $this->getMemberAndEmployeePositions($dateTime)->map(function (mixed $position) use ($employers) {
+            if ($position instanceof Position && !$employers->contains($position->getOrganization())) {
+                $employers->add($position->getOrganization());
             }
-        );
+        });
 
         return $employers;
     }
@@ -260,13 +257,11 @@ class Person extends AbstractPerson
     {
         /** @var Collection<Organization> $schools */
         $schools = new ArrayCollection();
-        $this->getStudies($dateTime)->map(
-            function (mixed $position) use ($schools) {
-                if ($position instanceof Position && !$schools->contains($position->getOrganization())) {
-                    $schools->add($position->getOrganization());
-                }
-            },
-        );
+        $this->getStudies($dateTime)->map(function (mixed $position) use ($schools) {
+            if ($position instanceof Position && !$schools->contains($position->getOrganization())) {
+                $schools->add($position->getOrganization());
+            }
+        },);
 
         return $schools;
     }

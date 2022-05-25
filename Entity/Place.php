@@ -1,5 +1,6 @@
 <?php
 /**
+ * @noinspection PhpUnused
  * @noinspection PropertyCanBePrivateInspection
  * @noinspection MethodShouldBeFinalInspection
  */
@@ -8,9 +9,17 @@ namespace OswisOrg\OswisAddressBookBundle\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping\Cache;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\Table;
 use OswisOrg\OswisAddressBookBundle\Traits\GeoCoordinatesTrait;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\PostalAddress;
@@ -19,10 +28,16 @@ use OswisOrg\OswisCoreBundle\Traits\AddressBook\PostalAddressTrait;
 use OswisOrg\OswisCoreBundle\Traits\AddressBook\UrlTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\EntityPublicTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 /**
- * @Doctrine\ORM\Mapping\Entity
- * @Doctrine\ORM\Mapping\Table(name="address_book_place")
+ * @OswisOrg\OswisCoreBundle\Filter\SearchAnnotation({
+ *     "id",
+ *     "name",
+ *     "shortName",
+ *     "description",
+ *     "note"
+ * })
  * @ApiPlatform\Core\Annotation\ApiResource(
  *   attributes={
  *     "filters"={"search"},
@@ -50,16 +65,10 @@ use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
  *     "delete"={}
  *   }
  * )
- * @ApiPlatform\Core\Annotation\ApiFilter(ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter::class)
- * @OswisOrg\OswisCoreBundle\Filter\SearchAnnotation({
- *     "id",
- *     "name",
- *     "shortName",
- *     "description",
- *     "note"
- * })
- * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
+#[Entity]
+#[Table(name: 'address_book_place')]
+#[Cache(usage: 'NONSTRICT_READ_WRITE', region: 'address_book_contact')]
 #[ApiFilter(SearchFilter::class, properties: [
     'id'             => 'exact',
     'parentPlace.id' => 'exact',
@@ -67,6 +76,7 @@ use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
 #[ApiFilter(BooleanFilter::class, properties: [
     'publicOnWeb',
 ])]
+#[ApiFilter(OrderFilter::class)]
 class Place implements NameableInterface
 {
     use NameableTrait;
@@ -75,38 +85,28 @@ class Place implements NameableInterface
     use GeoCoordinatesTrait;
     use EntityPublicTrait;
 
-    /**
-     * @Doctrine\ORM\Mapping\Column(type="integer", nullable=true)
-     */
+    #[Column(type: 'integer', nullable: true)]
     protected ?int $floorNumber = null;
 
-    /**
-     * @Doctrine\ORM\Mapping\Column(type="integer", nullable=true)
-     */
+    #[Column(type: 'integer', nullable: true)]
     protected ?int $roomNumber = null;
 
-    /**
-     * @Doctrine\ORM\Mapping\Column(type="string", nullable=true)
-     */
+    #[Column(type: 'string', nullable: true)]
     protected ?string $ionIcon = null;
 
-    /**
-     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Place", inversedBy="subPlaces", fetch="EAGER")
-     * @Doctrine\ORM\Mapping\JoinColumn(nullable=true)
-     * @Symfony\Component\Serializer\Annotation\MaxDepth(3)
-     */
+    #[ManyToOne(targetEntity: self::class, fetch: 'EAGER', inversedBy: 'subPlaces')]
+    #[JoinColumn(nullable: true)]
+    #[MaxDepth(3)]
     protected ?Place $parentPlace = null;
 
-    /**
-     * @Doctrine\ORM\Mapping\OneToMany(targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Place", mappedBy="parentPlace")
-     * @Symfony\Component\Serializer\Annotation\MaxDepth(3)
-     */
+    #[OneToMany(targetEntity: self::class, mappedBy: 'parentPlace')]
+    #[MaxDepth(3)]
     protected ?Collection $subPlaces = null;
 
     public function __construct(
         ?Nameable $nameable = null,
         ?PostalAddress $address = null,
-        ?Place $parentPlace = null,
+        ?self $parentPlace = null,
         ?int $floorNumber = null,
         ?int $roomNumber = null,
         ?string $url = null,
@@ -129,7 +129,7 @@ class Place implements NameableInterface
         return !$this->parentPlace;
     }
 
-    public function addSubPlace(?Place $event): void
+    public function addSubPlace(?self $event): void
     {
         if ($event && !$this->getSubPlaces()->contains($event)) {
             $this->getSubPlaces()->add($event);
@@ -142,19 +142,19 @@ class Place implements NameableInterface
         return $this->subPlaces ?? new ArrayCollection();
     }
 
-    public function removeSubPlace(?Place $event): void
+    public function removeSubPlace(?self $event): void
     {
         if ($event && $this->getSubPlaces()->removeElement($event)) {
             $event->setParentPlace(null);
         }
     }
 
-    public function getParentPlace(): ?Place
+    public function getParentPlace(): ?self
     {
         return $this->parentPlace;
     }
 
-    public function setParentPlace(?Place $event): void
+    public function setParentPlace(?self $event): void
     {
         if (null !== $this->parentPlace && $event !== $this->parentPlace) {
             $this->parentPlace->removeSubPlace($this);

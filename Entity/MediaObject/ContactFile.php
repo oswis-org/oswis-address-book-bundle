@@ -1,10 +1,19 @@
 <?php
 /**
+ * @noinspection PhpUnused
  * @noinspection MethodShouldBeFinalInspection
  */
 
 namespace OswisOrg\OswisAddressBookBundle\Entity\MediaObject;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\ORM\Mapping\Cache;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\Table;
+use Gedmo\Mapping\Annotation\Uploadable;
+use OswisOrg\OswisAddressBookBundle\Controller\MediaObject\ContactFileAction;
 use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use OswisOrg\OswisCoreBundle\Entity\AbstractClass\AbstractFile;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Publicity;
@@ -16,24 +25,22 @@ use OswisOrg\OswisCoreBundle\Traits\Common\EntityPublicTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\PriorityTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\TypeTrait;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints\NotNull;
+use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
 
-/**
- * @Doctrine\ORM\Mapping\Entity()
- * @Doctrine\ORM\Mapping\Table(name="address_book_contact_file")
- * @ApiPlatform\Core\Annotation\ApiResource(
- *   collectionOperations={
- *     "get",
- *     "post"={
- *         "method"="POST",
- *         "path"="/address_book_contact_file",
- *         "controller"=OswisOrg\OswisAddressBookBundle\Controller\MediaObject\ContactFileAction::class,
- *         "defaults"={"_api_receive"=false},
- *     },
- *   }
- * )
- * @Vich\UploaderBundle\Mapping\Annotation\Uploadable()
- * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact_file")
- */
+#[Entity]
+#[Table(name: 'address_book_contact_file')]
+#[Cache(usage: 'NONSTRICT_READ_WRITE', region: 'address_book_contact_file')]
+#[Uploadable]
+#[ApiResource(collectionOperations: [
+    'get',
+    'post' => [
+        'method'     => 'POST',
+        'path'       => '/address_book_contact_file',
+        'controller' => ContactFileAction::class,
+        'defaults'   => ['_api_receive' => false],
+    ],
+])]
 class ContactFile extends AbstractFile implements TypeInterface, PriorityInterface
 {
     use BasicTrait;
@@ -41,22 +48,12 @@ class ContactFile extends AbstractFile implements TypeInterface, PriorityInterfa
     use PriorityTrait;
     use EntityPublicTrait;
 
-    /**
-     * @Symfony\Component\Validator\Constraints\NotNull()
-     * @Vich\UploaderBundle\Mapping\Annotation\UploadableField(
-     *     mapping="address_book_contact_file",
-     *     fileNameProperty="contentName",
-     *     mimeType="contentMimeType"
-     * )
-     */
+    #[NotNull]
+    #[UploadableField(mapping: 'address_book_contact_file', fileNameProperty: 'contentName', mimeType: 'contentMimeType')]
     public ?File $file = null;
 
-    /**
-     * @Doctrine\ORM\Mapping\ManyToOne(
-     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact", inversedBy="files"
-     * )
-     * @Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")
-     */
+    #[ManyToOne(targetEntity: AbstractContact::class, inversedBy: 'files')]
+    #[JoinColumn(name: 'contact_id', referencedColumnName: 'id')]
     protected ?AbstractContact $contact = null;
 
     /**

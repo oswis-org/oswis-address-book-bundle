@@ -1,6 +1,5 @@
 
-###> zakjakub/information-system-utils ###
 /vendor/
 /composer.lock
-###< zakjakub/information-system-utils ###
+.idea/sonarlint/
 

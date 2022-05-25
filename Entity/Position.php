@@ -1,5 +1,6 @@
 <?php
 /**
+ * @noinspection PhpUnused
  * @noinspection PropertyCanBePrivateInspection
  * @noinspection MethodShouldBeFinalInspection
  */
@@ -7,6 +8,12 @@
 namespace OswisOrg\OswisAddressBookBundle\Entity;
 
 use DateTime;
+use Doctrine\ORM\Mapping\Cache;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\Table;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\DateTimeRange;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
 use OswisOrg\OswisCoreBundle\Exceptions\InvalidTypeException;
@@ -18,12 +25,11 @@ use OswisOrg\OswisCoreBundle\Traits\Common\EntityPublicTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\PriorityTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\TypeTrait;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 use function in_array;
 
 /**
- * @Doctrine\ORM\Mapping\Entity()
- * @Doctrine\ORM\Mapping\Table(name="address_book_position")
  * @ApiPlatform\Core\Annotation\ApiResource(
  *   attributes={
  *     "filters"={"search"},
@@ -57,8 +63,10 @@ use function in_array;
  *     "description",
  *     "note"
  * })
- * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
+#[Entity]
+#[Table(name: 'address_book_position')]
+#[Cache(usage: 'NONSTRICT_READ_WRITE', region: 'address_book_contact')]
 class Position implements NameableInterface, TypeInterface
 {
     public const TYPE_EMPLOYEE = 'employee';
@@ -68,13 +76,11 @@ class Position implements NameableInterface, TypeInterface
     public const TYPE_STUDENT = 'student';
     public const TYPE_GRADUATED = 'graduated';
     public const TYPE_STUDENT_OR_GRADUATED = 'student/graduated';
-
     public const MANAGER_POSITION_TYPES = [self::TYPE_MANAGER, self::TYPE_DIRECTOR];
     public const STUDY_POSITION_TYPES = [self::TYPE_STUDENT, self::TYPE_GRADUATED, self::TYPE_STUDENT_OR_GRADUATED];
     public const EMPLOYEE_POSITION_TYPES = [self::TYPE_EMPLOYEE, ...self::MANAGER_POSITION_TYPES];
     public const MEMBER_POSITION_TYPES = [self::TYPE_MEMBER, ...self::MANAGER_POSITION_TYPES];
     public const EMPLOYEE_MEMBER_POSITION_TYPES = [self::TYPE_MEMBER, self::TYPE_EMPLOYEE, ...self::MANAGER_POSITION_TYPES];
-
     public const ALLOWED_TYPES
         = [
             self::TYPE_EMPLOYEE,
@@ -85,7 +91,6 @@ class Position implements NameableInterface, TypeInterface
             self::TYPE_GRADUATED,
             self::TYPE_STUDENT_OR_GRADUATED,
         ];
-
     use NameableTrait;
     use DateRangeTrait;
     use TypeTrait;
@@ -94,28 +99,24 @@ class Position implements NameableInterface, TypeInterface
 
     /**
      * True if person is intended for receiving messages about organization.
-     * @Doctrine\ORM\Mapping\Column(type="boolean")
      */
+    #[Column(type: 'boolean')]
     protected bool $contactPerson = false;
 
     /**
      * True if position is kind of "special" (and to be displayed in web profile).
-     * @Doctrine\ORM\Mapping\Column(type="boolean")
      */
+    #[Column(type: 'boolean')]
     protected bool $special = false;
 
-    /**
-     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Person", inversedBy="positions")
-     * @Doctrine\ORM\Mapping\JoinColumn(name="person_id", referencedColumnName="id")
-     * @Symfony\Component\Serializer\Annotation\MaxDepth(3)
-     */
+    #[ManyToOne(targetEntity: Person::class, inversedBy: 'positions')]
+    #[JoinColumn(name: 'person_id', referencedColumnName: 'id')]
+    #[MaxDepth(3)]
     protected ?Person $person = null;
 
-    /**
-     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Organization")
-     * @Doctrine\ORM\Mapping\JoinColumn(name="organization_id", referencedColumnName="id")
-     * @Symfony\Component\Serializer\Annotation\MaxDepth(3)
-     */
+    #[ManyToOne(targetEntity: Organization::class)]
+    #[JoinColumn(name: 'organization_id', referencedColumnName: 'id')]
+    #[MaxDepth(3)]
     protected ?Organization $organization = null;
 
     /**

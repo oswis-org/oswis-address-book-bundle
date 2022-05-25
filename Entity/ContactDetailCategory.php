@@ -6,6 +6,13 @@
 
 namespace OswisOrg\OswisAddressBookBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use Doctrine\ORM\Mapping\Cache;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Table;
+use OswisOrg\OswisAddressBookBundle\Repository\ContactDetailCategoryRepository;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
 use OswisOrg\OswisCoreBundle\Exceptions\InvalidTypeException;
 use OswisOrg\OswisCoreBundle\Interfaces\Common\NameableInterface;
@@ -14,8 +21,12 @@ use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\TypeTrait;
 
 /**
- * @Doctrine\ORM\Mapping\Entity(repositoryClass="OswisOrg\OswisAddressBookBundle\Repository\ContactDetailCategoryRepository")
- * @Doctrine\ORM\Mapping\Table(name="address_book_contact_detail_category")
+ * @OswisOrg\OswisCoreBundle\Filter\SearchAnnotation({
+ *     "id",
+ *     "appUser.username",
+ *     "appUser.description",
+ *     "appUser.note"
+ * })
  * @ApiPlatform\Core\Annotation\ApiResource(
  *   attributes={
  *     "filters"={"search"},
@@ -43,15 +54,11 @@ use OswisOrg\OswisCoreBundle\Traits\Common\TypeTrait;
  *     "delete"={}
  *   }
  * )
- * @ApiPlatform\Core\Annotation\ApiFilter(ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter::class)
- * @OswisOrg\OswisCoreBundle\Filter\SearchAnnotation({
- *     "id",
- *     "appUser.username",
- *     "appUser.description",
- *     "appUser.note"
- * })
- * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact_detail_category")
  */
+#[Entity(repositoryClass: ContactDetailCategoryRepository::class)]
+#[Table(name: 'address_book_contact_detail_category')]
+#[Cache(usage: 'NONSTRICT_READ_WRITE', region: 'address_book_contact_detail_category')]
+#[ApiFilter(OrderFilter::class)]
 class ContactDetailCategory implements NameableInterface, TypeInterface
 {
     public const TYPE_EMAIL = 'email';
@@ -60,44 +67,33 @@ class ContactDetailCategory implements NameableInterface, TypeInterface
     public const TYPE_SOCIAL = 'social';
     public const TYPE_MESSENGER = 'messenger';
     public const TYPE_VOIP = 'voip';
-
     public const ALLOWED_TYPES = [self::TYPE_URL, self::TYPE_EMAIL, self::TYPE_PHONE, self::TYPE_SOCIAL, self::TYPE_MESSENGER, self::TYPE_VOIP];
-
     public const SPACELESS_TYPES
         = [
             self::TYPE_EMAIL,
             self::TYPE_URL,
             self::TYPE_PHONE,
         ];
-
     use NameableTrait;
     use TypeTrait;
 
     /**
      * @var string|null $contactSchema Schema of type of contact
-     * @Doctrine\ORM\Mapping\Column(type="string", nullable=true)
      */
+    #[Column(type: 'string', nullable: true)]
     protected ?string $contactSchema = null;
 
-    /**
-     * Show in address book preview?
-     * @Doctrine\ORM\Mapping\Column(type="boolean", nullable=true)
-     */
+    /** Show in address book preview? */
+    #[Column(type: 'boolean', nullable: true)]
     protected ?bool $showInPreview = null;
 
-    /**
-     * @Doctrine\ORM\Mapping\Column(type="string", nullable=true)
-     */
+    #[Column(type: 'string', nullable: true)]
     protected ?string $formLabel = null;
 
-    /**
-     * @Doctrine\ORM\Mapping\Column(type="string", nullable=true)
-     */
+    #[Column(type: 'string', nullable: true)]
     protected ?string $formHelp = null;
 
-    /**
-     * @Doctrine\ORM\Mapping\Column(type="boolean", nullable=false)
-     */
+    #[Column(type: 'boolean', nullable: false)]
     protected bool $required = false;
 
     /**

@@ -1,10 +1,18 @@
 <?php
 /**
+ * @noinspection PhpUnused
  * @noinspection MethodShouldBeFinalInspection
  */
 
 namespace OswisOrg\OswisAddressBookBundle\Entity\MediaObject;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\ORM\Mapping\Cache;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\Table;
+use Gedmo\Mapping\Annotation\Uploadable;
 use OswisOrg\OswisAddressBookBundle\Controller\MediaObject\ContactImageAction;
 use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use OswisOrg\OswisCoreBundle\Entity\AbstractClass\AbstractImage;
@@ -15,49 +23,37 @@ use OswisOrg\OswisCoreBundle\Traits\Common\EntityPublicTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\PriorityTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\TypeTrait;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints\NotNull;
+use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
 
-/**
- * @Doctrine\ORM\Mapping\Entity()
- * @Doctrine\ORM\Mapping\Table(name="address_book_contact_image")
- * @ApiPlatform\Core\Annotation\ApiResource(
- *   iri="http://schema.org/ImageObject",
- *   collectionOperations={
- *     "get",
- *     "post"={
- *         "method"="POST",
- *         "path"="/address_book_contact_image",
- *         "controller"=ContactImageAction::class,
- *         "defaults"={"_api_receive"=false},
- *     },
- *   }
- * )
- * @Vich\UploaderBundle\Mapping\Annotation\Uploadable()
- * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact_image")
- */
+#[Entity]
+#[Table(name: 'address_book_contact_image')]
+#[Cache(usage: 'NONSTRICT_READ_WRITE', region: 'address_book_contact_image')]
+#[Uploadable]
+#[ApiResource(collectionOperations: [
+    'get',
+    'post' => [
+        'method'     => 'POST',
+        'path'       => '/address_book_contact_image',
+        'controller' => ContactImageAction::class,
+        'defaults'   => ['_api_receive' => false],
+    ],
+])]
 class ContactImage extends AbstractImage
 {
     public const TYPE_PHOTO = 'photo';
     public const TYPE_LOGO = 'logo';
-
     use BasicTrait;
     use TypeTrait;
     use PriorityTrait;
     use EntityPublicTrait;
 
-    /**
-     * @Symfony\Component\Validator\Constraints\NotNull()
-     * @Vich\UploaderBundle\Mapping\Annotation\UploadableField(
-     *     mapping="address_book_contact_image", fileNameProperty="contentName", mimeType="contentMimeType"
-     * )
-     */
+    #[NotNull]
+    #[UploadableField(mapping: 'address_book_contact_image', fileNameProperty: 'contentName', mimeType: 'contentMimeType')]
     public ?File $file = null;
 
-    /**
-     * @Doctrine\ORM\Mapping\ManyToOne(
-     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact", inversedBy="images", cascade={"all"}
-     * )
-     * @Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")
-     */
+    #[ManyToOne(targetEntity: AbstractContact::class, cascade: ['all'], inversedBy: 'images')]
+    #[JoinColumn(name: 'contact_id', referencedColumnName: 'id')]
     protected ?AbstractContact $contact = null;
 
     /**

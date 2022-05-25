@@ -30,15 +30,11 @@ class ContactNoteType extends AbstractType
             $contactNote = $event->getData();
             assert($contactNote instanceof ContactNote);
             $form = $event->getForm();
-            $form->add(
-                'content',
-                TextareaType::class,
-                [
-                    'label'    => $contactNote->isPublic() ? 'Veřejná poznámka' : 'Interní poznámka',
-                    'required' => $options['content_required'],
-                    'help'     => $contactNote->isPublic() ? 'Poznámka, která může být zveřejněná.' : 'Neveřejná poznámka, určená pouze pro pořadatele.',
-                ],
-            );
+            $form->add('content', TextareaType::class, [
+                'label'    => $contactNote->isPublic() ? 'Veřejná poznámka' : 'Interní poznámka',
+                'required' => $options['content_required'],
+                'help'     => $contactNote->isPublic() ? 'Poznámka, která může být zveřejněná.' : 'Neveřejná poznámka, určená pouze pro pořadatele.',
+            ],);
         });
     }
 

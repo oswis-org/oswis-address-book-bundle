@@ -14,16 +14,16 @@ trait IdCardTrait
      * ID card type (as string).
      *
      * @var string|null
-     * @Doctrine\ORM\Mapping\Column(type="string", nullable=true)
      */
+    #[Column(type: 'string', nullable: true)]
     protected ?string $idCardType = null;
 
     /**
      * ID card number (as string).
      *
      * @var string|null
-     * @Doctrine\ORM\Mapping\Column(type="string", nullable=true)
      */
+    #[Column(type: 'string', nullable: true)]
     protected ?string $idCardNumber = null;
 
     public function getIdCardType(): ?string

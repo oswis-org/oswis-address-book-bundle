@@ -1,9 +1,15 @@
 <?php
+/** @noinspection PhpUnused */
+
 /**
  * @noinspection MethodShouldBeFinalInspection
  */
 
 namespace OswisOrg\OswisAddressBookBundle\Traits;
+
+use Doctrine\ORM\Mapping\Column;
+use OswisOrg\OswisCoreBundle\Traits\Common\DateTimeTrait;
+use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
 
 /**
  * Trait adds room fields.
@@ -13,36 +19,20 @@ trait RoomTrait
     use NameableTrait;
     use DateTimeTrait;
 
-    /**
-     * Floor number.
-     *
-     * @var int|null
-     * @Doctrine\ORM\Mapping\Column(type="smallint", nullable=true)
-     */
+    /** Floor number. */
+    #[Column(type: 'smallint', nullable: true)]
     protected ?int $floor = null;
 
-    /**
-     * Number of regular beds.
-     *
-     * @var int|null
-     * @Doctrine\ORM\Mapping\Column(type="smallint", nullable=true)
-     */
+    /** Number of regular beds. */
+    #[Column(type: 'smallint', nullable: true)]
     protected ?int $numberOfBeds = null;
 
-    /**
-     * Number of extra beds.
-     *
-     * @var int|null
-     * @Doctrine\ORM\Mapping\Column(type="smallint", nullable=true)
-     */
+    /** Number of extra beds. */
+    #[Column(type: 'smallint', nullable: true)]
     protected ?int $numberOfExtraBeds = null;
 
-    /**
-     * Number of animals.
-     *
-     * @var int|null
-     * @Doctrine\ORM\Mapping\Column(type="smallint", nullable=true)
-     */
+    /** Number of animals. */
+    #[Column(type: 'smallint', nullable: true)]
     protected ?int $numberOfAnimals = null;
 
     public function getFloor(): ?int
@@ -60,9 +50,6 @@ trait RoomTrait
         return $this->numberOfBeds ?? 0;
     }
 
-    /**
-     * @param  int|null  $numberOfBeds
-     */
     public function setNumberOfBeds(?int $numberOfBeds): void
     {
         $this->numberOfBeds = $numberOfBeds;
@@ -73,9 +60,6 @@ trait RoomTrait
         return $this->numberOfExtraBeds ?? 0;
     }
 
-    /**
-     * @param  int|null  $numberOfExtraBeds
-     */
     public function setNumberOfExtraBeds(?int $numberOfExtraBeds): void
     {
         $this->numberOfExtraBeds = $numberOfExtraBeds;
@@ -86,9 +70,6 @@ trait RoomTrait
         return $this->numberOfAnimals ?? 0;
     }
 
-    /**
-     * @param  int|null  $numberOfAnimals
-     */
     public function setNumberOfAnimals(?int $numberOfAnimals): void
     {
         $this->numberOfAnimals = $numberOfAnimals;

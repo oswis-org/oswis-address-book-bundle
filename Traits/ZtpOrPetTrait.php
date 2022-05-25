@@ -1,37 +1,28 @@
 <?php
 /**
+ * @noinspection PhpUnused
  * @noinspection MethodShouldBeFinalInspection
  */
 
 namespace OswisOrg\OswisAddressBookBundle\Traits;
+
+use Doctrine\ORM\Mapping\Column;
 
 /**
  * Trait adds description field.
  */
 trait ZtpOrPetTrait
 {
-    /**
-     * Person is ZTP(P).
-     *
-     * @var bool|null
-     * @Doctrine\ORM\Mapping\Column(type="boolean", nullable=true)
-     */
+    /** Person is ZTP(P). */
+    #[Column(type: 'boolean', nullable: true)]
     protected ?bool $ztp;
 
-    /**
-     * Person is ZTP(P) accompaniment.
-     *
-     * @var bool|null
-     * @Doctrine\ORM\Mapping\Column(type="boolean", nullable=true)
-     */
+    /** Person is ZTP(P) accompaniment. */
+    #[Column(type: 'boolean', nullable: true)]
     protected ?bool $ztpAccompaniment;
 
-    /**
-     * Pet, not person.
-     *
-     * @var bool|null
-     * @Doctrine\ORM\Mapping\Column(type="boolean", nullable=true)
-     */
+    /** Pet, not person. */
+    #[Column(type: 'boolean', nullable: true)]
     protected ?bool $pet;
 
     public function isZtp(): bool

@@ -1,11 +1,13 @@
 <?php
 /**
+ * @noinspection PhpUnused
  * @noinspection MethodShouldBeFinalInspection
  */
 
 namespace OswisOrg\OswisAddressBookBundle\Traits;
 
 use DateTime;
+use Doctrine\ORM\Mapping\Column;
 use Exception;
 use OswisOrg\OswisCoreBundle\Utils\AgeUtils;
 
@@ -18,18 +20,12 @@ use OswisOrg\OswisCoreBundle\Utils\AgeUtils;
  */
 trait AgeRangeTrait
 {
-    /**
-     * Minimal age of person in this group.
-     *
-     * @Doctrine\ORM\Mapping\Column(type="smallint", nullable=true)
-     */
+    /** Minimal age of person in this group. */
+    #[Column(type: 'smallint', nullable: true)]
     protected ?int $minAge = null;
 
-    /**
-     * Maximal age of person in this group.
-     *
-     * @Doctrine\ORM\Mapping\Column(type="smallint", nullable=true)
-     */
+    /** Maximal age of person in this group. */
+    #[Column(type: 'smallint', nullable: true)]
     protected ?int $maxAge = null;
 
     /**

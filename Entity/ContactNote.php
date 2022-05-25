@@ -5,35 +5,33 @@
 
 namespace OswisOrg\OswisAddressBookBundle\Entity;
 
+use Doctrine\ORM\Mapping\Cache;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\Table;
 use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use OswisOrg\OswisCoreBundle\Interfaces\Common\BasicInterface;
 use OswisOrg\OswisCoreBundle\Traits\Common\BasicTrait;
 
-/**
- * @Doctrine\ORM\Mapping\Entity()
- * @Doctrine\ORM\Mapping\Table(name="address_book_contact_note")
- * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
- */
+#[Entity]
+#[Table(name: 'address_book_contact_note')]
+#[Cache(usage: 'NONSTRICT_READ_WRITE', region: 'address_book_contact')]
 class ContactNote implements BasicInterface
 {
     use BasicTrait;
 
-    /**
-     * Can be showed on website etc.
-     * @Doctrine\ORM\Mapping\Column(type="boolean", nullable=true)
-     */
+    /** Can be showed on website etc. */
+    #[Column(type: 'boolean', nullable: true)]
     protected ?bool $public = null;
 
-    /**
-     * Content of note.
-     * @Doctrine\ORM\Mapping\Column(type="text", nullable=true)
-     */
+    /** Content of note. */
+    #[Column(type: 'text', nullable: true)]
     protected ?string $content = null;
 
-    /**
-     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact", inversedBy="notes")
-     * @Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")
-     */
+    #[ManyToOne(targetEntity: AbstractContact::class, inversedBy: 'notes')]
+    #[JoinColumn(name: 'contact_id', referencedColumnName: 'id')]
     protected ?AbstractContact $contact = null;
 
     public function __construct(?string $content = null, ?bool $public = null, ?AbstractContact $contact = null)
@@ -68,7 +66,7 @@ class ContactNote implements BasicInterface
 
     public function isPublic(): ?bool
     {
-        return $this->public;
+        return $this->getPublic();
     }
 
     public function __toString(): string

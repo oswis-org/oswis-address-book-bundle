@@ -1,11 +1,13 @@
 <?php
 /**
+ * @noinspection PhpUnused
  * @noinspection MethodShouldBeFinalInspection
  */
 
 namespace OswisOrg\OswisAddressBookBundle\Traits;
 
 use DateTime;
+use Doctrine\ORM\Mapping\Column;
 use Exception;
 use OswisOrg\OswisAddressBookBundle\Utils\AgeUtils;
 
@@ -14,9 +16,7 @@ use OswisOrg\OswisAddressBookBundle\Utils\AgeUtils;
  */
 trait BirthDateTrait
 {
-    /**
-     * @Doctrine\ORM\Mapping\Column(type="datetime", nullable=true, options={"default" : null})
-     */
+    #[Column(type: 'datetime', nullable: true, options: ['default' => null])]
     protected ?DateTime $birthDate = null;
 
     /**

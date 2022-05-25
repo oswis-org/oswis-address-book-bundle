@@ -1,20 +1,42 @@
 <?php
 /**
+ * @noinspection PhpUnused
  * @noinspection MethodShouldBeFinalInspection
  */
 
 namespace OswisOrg\OswisAddressBookBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping\Cache;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\JoinTable;
+use Doctrine\ORM\Mapping\ManyToMany;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\Table;
 use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractOrganization;
 use OswisOrg\OswisAddressBookBundle\Entity\MediaObject\ContactImage;
+use OswisOrg\OswisAddressBookBundle\Repository\OrganizationRepository;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
+use OswisOrg\OswisCoreBundle\Filter\SearchFilter;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 /**
- * @Doctrine\ORM\Mapping\Entity(repositoryClass="OswisOrg\OswisAddressBookBundle\Repository\OrganizationRepository")
- * @Doctrine\ORM\Mapping\Table(name="address_book_organization")
+ * @OswisOrg\OswisCoreBundle\Filter\SearchAnnotation({
+ *     "id",
+ *     "slug",
+ *     "contactName",
+ *     "shortName",
+ *     "description",
+ *     "note",
+ *     "parentOrganization.name",
+ *     "identificationNumber"
+ * })
  * @ApiPlatform\Core\Annotation\ApiResource(
  *   iri="http://schema.org/Organization",
  *   attributes={
@@ -42,62 +64,45 @@ use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
  *     }
  *   }
  * )
- * @ApiPlatform\Core\Annotation\ApiFilter(ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter::class, properties={
- *     "id": "ASC",
- *     "slug",
- *     "description",
- *     "contactName",
- *     "sortableName",
- *     "shortName",
- *     "note",
- *     "identificationNumber"
- * })
- * @ApiPlatform\Core\Annotation\ApiFilter(ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter::class, properties={
- *     "id": "exact",
- *     "description": "partial",
- *     "slug": "partial",
- *     "contactName": "partial",
- *     "shortName": "partial",
- *     "note": "partial",
- *     "identificationNumber": "partial"
- * })
- * @OswisOrg\OswisCoreBundle\Filter\SearchAnnotation({
- *     "id",
- *     "slug",
- *     "contactName",
- *     "shortName",
- *     "description",
- *     "note",
- *     "parentOrganization.name",
- *     "identificationNumber"
- * })
- * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
+#[Entity(repositoryClass: OrganizationRepository::class)]
+#[Table(name: 'address_book_organization')]
+#[Cache(usage: 'NONSTRICT_READ_WRITE', region: 'address_book_contact')]
+#[ApiFilter(OrderFilter::class, properties: [
+    "id" => "ASC",
+    "slug",
+    "description",
+    "contactName",
+    "sortableName",
+    "shortName",
+    "note",
+    "identificationNumber",
+])]
+#[ApiFilter(SearchFilter::class, properties: [
+    "id"                   => "exact",
+    "description"          => "partial",
+    "slug"                 => "partial",
+    "contactName"          => "partial",
+    "shortName"            => "partial",
+    "note"                 => "partial",
+    "identificationNumber" => "partial",
+])]
 class Organization extends AbstractOrganization
 {
-    /**
-     * @Doctrine\ORM\Mapping\ManyToOne(
-     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Organization", inversedBy="subOrganizations", fetch="EAGER"
-     * )
-     * @Doctrine\ORM\Mapping\JoinColumn(nullable=true)
-     * @Symfony\Component\Serializer\Annotation\MaxDepth(3)
-     */
+
+    #[ManyToOne(targetEntity: self::class, fetch: 'EAGER', inversedBy: 'subOrganizations')]
+    #[JoinColumn(nullable: true)]
+    #[MaxDepth(3)]
     protected ?Organization $parentOrganization = null;
 
-    /**
-     * @Doctrine\ORM\Mapping\OneToMany(targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Organization", mappedBy="parentOrganization")
-     * @Symfony\Component\Serializer\Annotation\MaxDepth(3)
-     */
+    #[OneToMany(mappedBy: 'parentOrganization', targetEntity: self::class)]
+    #[MaxDepth(3)]
     protected ?Collection $subOrganizations = null;
 
-    /**
-     * @Doctrine\ORM\Mapping\ManyToMany(targetEntity="OswisOrg\OswisAddressBookBundle\Entity\Person", fetch="EAGER")
-     * @Doctrine\ORM\Mapping\JoinTable(
-     *     name="address_book_organization_contact_person_connection",
-     *     joinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="organization_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="contact_person_id", referencedColumnName="id", unique=true)}
-     * )
-     */
+    #[ManyToMany(targetEntity: Person::class, fetch: 'EAGER')]
+    #[JoinTable(name: 'address_book_organization_contact_person_connection', joinColumns: [
+        new JoinColumn(name: 'organization_id', referencedColumnName: 'id'),
+    ], inverseJoinColumns: [new JoinColumn(name: 'contact_person_id', referencedColumnName: 'id', unique: true)])]
     protected ?Collection $contactPersons = null;
 
     public function __construct(
@@ -130,9 +135,7 @@ class Organization extends AbstractOrganization
     {
         $images = $this->images;
         if (!empty($type)) {
-            $images = $images->filter(
-                fn(mixed $image) => $image instanceof ContactImage && $image->getType() === $type,
-            );
+            $images = $images->filter(fn(mixed $image) => $image instanceof ContactImage && $image->getType() === $type);
         }
 
         /** @var Collection<ContactImage> $images */
@@ -164,9 +167,7 @@ class Organization extends AbstractOrganization
     {
         $contactPersons = $this->contactPersons ?? new ArrayCollection();
         if ($onlyWithActivatedUser) {
-            $contactPersons = $contactPersons->filter(
-                fn(mixed $person) => $person instanceof Person && $person->hasActivatedUser(),
-            );
+            $contactPersons = $contactPersons->filter(fn(mixed $person) => $person instanceof Person && $person->hasActivatedUser());
         }
 
         return $contactPersons;
@@ -201,9 +202,8 @@ class Organization extends AbstractOrganization
 
     public function filterSubOrganizationsByType(string $type): Collection
     {
-        return $this->getSubOrganizations()->filter(
-            fn(mixed $organization): bool => $organization instanceof Organization && $type === $organization->getType(),
-        );
+        return $this->getSubOrganizations()->filter(fn(mixed $organization): bool => $organization instanceof Organization
+                                                                                     && $type === $organization->getType());
     }
 
     public function getSubOrganizations(): Collection

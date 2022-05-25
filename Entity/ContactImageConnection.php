@@ -5,6 +5,10 @@
 
 namespace OswisOrg\OswisAddressBookBundle\Entity;
 
+use Doctrine\ORM\Mapping\Cache;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\OneToOne;
+use Doctrine\ORM\Mapping\Table;
 use OswisOrg\OswisAddressBookBundle\Entity\MediaObject\ContactImage;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Publicity;
 use OswisOrg\OswisCoreBundle\Exceptions\InvalidTypeException;
@@ -16,11 +20,9 @@ use OswisOrg\OswisCoreBundle\Traits\Common\EntityPublicTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\PriorityTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\TypeTrait;
 
-/**
- * @Doctrine\ORM\Mapping\Entity()
- * @Doctrine\ORM\Mapping\Table(name="address_book_contact_image_connection")
- * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact_image")
- */
+#[Entity]
+#[Table(name: 'address_book_contact_image_connection')]
+#[Cache(usage: 'NONSTRICT_READ_WRITE', region: 'address_book_contact_image')]
 class ContactImageConnection implements BasicInterface, TypeInterface, PriorityInterface
 {
     use BasicTrait;
@@ -28,11 +30,7 @@ class ContactImageConnection implements BasicInterface, TypeInterface, PriorityI
     use PriorityTrait;
     use EntityPublicTrait;
 
-    /**
-     * @Doctrine\ORM\Mapping\OneToOne(
-     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\MediaObject\ContactImage", cascade={"all"}, fetch="EAGER", orphanRemoval=true
-     * )
-     */
+    #[OneToOne(targetEntity: ContactImage::class, cascade: ['all'], fetch: 'EAGER', orphanRemoval: true)]
     protected ?ContactImage $image = null;
 
     /**

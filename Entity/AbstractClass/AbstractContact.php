@@ -9,6 +9,16 @@ namespace OswisOrg\OswisAddressBookBundle\Entity\AbstractClass;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping\Cache;
+use Doctrine\ORM\Mapping\DiscriminatorColumn;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\InheritanceType;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\JoinTable;
+use Doctrine\ORM\Mapping\ManyToMany;
+use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\OneToOne;
+use Doctrine\ORM\Mapping\Table;
 use InvalidArgumentException;
 use OswisOrg\OswisAddressBookBundle\Entity\AddressBook\AddressBook;
 use OswisOrg\OswisAddressBookBundle\Entity\AddressBook\ContactAddressBook;
@@ -36,20 +46,16 @@ use function in_array;
 
 /**
  * Class Contact (abstract class for Person, Department, Organization, School...).
- * @Doctrine\ORM\Mapping\Entity()
- * @Doctrine\ORM\Mapping\Table(name="address_book_abstract_contact")
- * @Doctrine\ORM\Mapping\InheritanceType("JOINED")
- * @Doctrine\ORM\Mapping\DiscriminatorColumn(name="discriminator", type="text")
- * @Doctrine\ORM\Mapping\DiscriminatorMap({
- *   "address_book_person" = "OswisOrg\OswisAddressBookBundle\Entity\Person",
- *   "address_book_organization" = "OswisOrg\OswisAddressBookBundle\Entity\Organization"
- * })
- * @DiscriminatorMap(typeProperty="discriminator", mapping={
- *   "address_book_person" = "OswisOrg\OswisAddressBookBundle\Entity\Person",
- *   "address_book_organization" = "OswisOrg\OswisAddressBookBundle\Entity\Organization"
- * })
- * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_contact")
  */
+#[Entity]
+#[Table(name: 'address_book_abstract_contact')]
+#[InheritanceType('JOINED')]
+#[DiscriminatorColumn(name: 'discriminator', type: 'text')]
+#[DiscriminatorMap(typeProperty: 'discriminator', mapping: [
+    'address_book_person'       => Person::class,
+    'address_book_organization' => Organization::class,
+])]
+#[Cache(usage: 'NONSTRICT_READ_WRITE', region: 'address_book_contact')]
 abstract class AbstractContact implements ContactInterface, TypeInterface
 {
     use NameableTrait;
@@ -60,74 +66,44 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
     /**
      * Notes about person.
      * @var Collection<ContactNote>
-     * @Doctrine\ORM\Mapping\OneToMany(
-     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\ContactNote",
-     *     mappedBy="contact",
-     *     cascade={"all"},
-     *     orphanRemoval=true,
-     *     fetch="EAGER"
-     * )
      */
+    #[OneToMany(mappedBy: 'contact', targetEntity: ContactNote::class, cascade: ['all'], fetch: 'EAGER', orphanRemoval: true)]
     protected Collection $notes;
 
     /**
      * Postal addresses of AbstractContact (Person, Organization).
      * @var Collection<ContactDetail>
-     * @Doctrine\ORM\Mapping\OneToMany(
-     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\ContactDetail",
-     *     mappedBy="contact",
-     *     cascade={"all"},
-     *     orphanRemoval=true,
-     *     fetch="EAGER"
-     * )
      */
+    #[OneToMany(mappedBy: 'contact', targetEntity: ContactDetail::class, cascade: ['all'], fetch: 'EAGER', orphanRemoval: true)]
     protected Collection $details;
 
     /**
      * Postal addresses of AbstractContact (Person, Organization).
      * @var Collection<ContactAddress>
-     * @Doctrine\ORM\Mapping\OneToMany(
-     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\ContactAddress",
-     *     mappedBy="contact",
-     *     cascade={"all"},
-     *     orphanRemoval=true,
-     *     fetch="EAGER"
-     * )
      * @ApiProperty(iri="http://schema.org/address")
      */
+    #[OneToMany(mappedBy: 'contact', targetEntity: ContactAddress::class, cascade: ['all'], fetch: 'EAGER', orphanRemoval: true)]
     protected Collection $addresses;
 
     /**
      * @var Collection<ContactAddressBook>
-     * @Doctrine\ORM\Mapping\ManyToMany(
-     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\AddressBook\ContactAddressBook", cascade={"all"}, fetch="EAGER"
-     * )
-     * @Doctrine\ORM\Mapping\JoinTable(
-     *     name="address_book_address_book_contact_connection",
-     *     joinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="contact_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@Doctrine\ORM\Mapping\JoinColumn(name="contact_address_book_id", referencedColumnName="id", unique=true)}
-     * )
      */
+    #[ManyToMany(targetEntity: ContactAddressBook::class, cascade: ['all'], fetch: 'EAGER')]
+    #[JoinTable(name: 'address_book_address_book_contact_connection', joinColumns: [
+        new JoinColumn(name: 'contact_id', referencedColumnName: 'id'),
+    ], inverseJoinColumns: [new JoinColumn(name: 'contact_address_book_id', referencedColumnName: 'id', unique: true)])]
     protected Collection $contactAddressBooks;
 
-    /**
-     * @Doctrine\ORM\Mapping\OneToOne(targetEntity="OswisOrg\OswisCoreBundle\Entity\AppUser\AppUser", fetch="EAGER")
-     */
+    #[OneToOne(targetEntity: AppUser::class, fetch: 'EAGER')]
     protected ?AppUser $appUser = null;
 
     /**
      * @var Collection<ContactImage>
-     * @Doctrine\ORM\Mapping\OneToMany(
-     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\MediaObject\ContactImage", mappedBy="contact", cascade={"all"}, orphanRemoval=true
-     * )
      */
+    #[OneToMany(mappedBy: 'contact', targetEntity: ContactImage::class, cascade: ['all'], orphanRemoval: true)]
     protected Collection $images;
 
-    /**
-     * @Doctrine\ORM\Mapping\OneToMany(
-     *     targetEntity="OswisOrg\OswisAddressBookBundle\Entity\MediaObject\ContactFile", mappedBy="contact", cascade={"all"}, orphanRemoval=true
-     * )
-     */
+    #[OneToMany(mappedBy: 'contact', targetEntity: ContactFile::class, cascade: ['all'], orphanRemoval: true)]
     protected Collection $files;
 
     /**
@@ -184,15 +160,13 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
      */
     public function getAddressBooks(): Collection
     {
-        return $this->getContactAddressBooks()->map(
-            function (mixed $addressBookContactConnection) {
-                assert($addressBookContactConnection instanceof ContactAddressBook);
-                $addressBook = $addressBookContactConnection->getAddressBook();
-                assert($addressBook instanceof AddressBook);
+        return $this->getContactAddressBooks()->map(function (mixed $addressBookContactConnection) {
+            assert($addressBookContactConnection instanceof ContactAddressBook);
+            $addressBook = $addressBookContactConnection->getAddressBook();
+            assert($addressBook instanceof AddressBook);
 
-                return $addressBook;
-            },
-        );
+            return $addressBook;
+        },);
     }
 
     public function getContactAddressBooks(): Collection
@@ -276,11 +250,9 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
     {
         $images = $this->images;
         if (!empty($type)) {
-            $images = $this->images->filter(
-                function (mixed $image) use ($type) {
-                    return $image instanceof ContactImage && $image->getType() === $type;
-                },
-            );
+            $images = $this->images->filter(function (mixed $image) use ($type) {
+                return $image instanceof ContactImage && $image->getType() === $type;
+            },);
         }
 
         /** @var Collection<ContactImage> $images */
@@ -337,11 +309,7 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
      */
     public function removeEmptyDetails(): void
     {
-        $this->setDetails(
-            $this->getDetails()->filter(
-                fn(mixed $detail) => $detail instanceof ContactDetail && !empty($detail->getContent()),
-            ),
-        );
+        $this->setDetails($this->getDetails()->filter(fn(mixed $detail) => $detail instanceof ContactDetail && !empty($detail->getContent())));
     }
 
     /**
@@ -353,9 +321,7 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
     {
         $details = $this->details;
         if (!empty($typeString)) {
-            $details = $details->filter(
-                fn(mixed $detail) => $detail instanceof ContactDetail && $typeString === $detail->getCategoryString(),
-            );
+            $details = $details->filter(fn(mixed $detail) => $detail instanceof ContactDetail && $typeString === $detail->getCategoryString());
         }
 
         /** @var Collection<ContactDetail> $details */
@@ -476,11 +442,7 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
      */
     public function removeEmptyNotes(): void
     {
-        $this->setNotes(
-            $this->getNotes()->filter(
-                fn(mixed $note) => $note instanceof ContactNote && empty($note->getContent())
-            ),
-        );
+        $this->setNotes($this->getNotes()->filter(fn(mixed $note) => $note instanceof ContactNote && empty($note->getContent())));
     }
 
     /**

@@ -2,15 +2,17 @@
 
 namespace OswisOrg\OswisAddressBookBundle\Entity\AddressBook;
 
+use Doctrine\ORM\Mapping\Cache;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Table;
+use OswisOrg\OswisAddressBookBundle\Repository\AddressBookRepository;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
 use OswisOrg\OswisCoreBundle\Interfaces\Common\NameableInterface;
 use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
 
-/**
- * @Doctrine\ORM\Mapping\Entity(repositoryClass="OswisOrg\OswisAddressBookBundle\Repository\AddressBookRepository")
- * @Doctrine\ORM\Mapping\Table(name="address_book_address_book")
- * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_address_book")
- */
+#[Entity(repositoryClass: AddressBookRepository::class)]
+#[Table(name: 'address_book_address_book')]
+#[Cache(usage: 'NONSTRICT_READ_WRITE', region: 'address_book_address_book')]
 class AddressBook implements NameableInterface
 {
     use NameableTrait;

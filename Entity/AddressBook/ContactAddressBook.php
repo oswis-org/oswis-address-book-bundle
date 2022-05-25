@@ -5,25 +5,26 @@
 
 namespace OswisOrg\OswisAddressBookBundle\Entity\AddressBook;
 
+use Doctrine\ORM\Mapping\Cache;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\Table;
 use OswisOrg\OswisCoreBundle\Interfaces\Common\BasicInterface;
 use OswisOrg\OswisCoreBundle\Interfaces\Common\DeletedInterface;
 use OswisOrg\OswisCoreBundle\Traits\Common\BasicTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\DeletedTrait;
 
-/**
- * @Doctrine\ORM\Mapping\Entity()
- * @Doctrine\ORM\Mapping\Table(name="address_book_contact_address_book")
- * @Doctrine\ORM\Mapping\Cache(usage="NONSTRICT_READ_WRITE", region="address_book_address_book")
- */
+#[Entity]
+#[Table(name: 'address_book_contact_address_book')]
+#[Cache(usage: 'NONSTRICT_READ_WRITE', region: 'address_book_address_book')]
 class ContactAddressBook implements BasicInterface, DeletedInterface
 {
     use BasicTrait;
     use DeletedTrait;
 
-    /**
-     * @Doctrine\ORM\Mapping\ManyToOne(targetEntity="OswisOrg\OswisAddressBookBundle\Entity\AddressBook\AddressBook", fetch="EAGER")
-     * @Doctrine\ORM\Mapping\JoinColumn(nullable=true)
-     */
+    #[ManyToOne(targetEntity: AddressBook::class, fetch: 'EAGER')]
+    #[JoinColumn(nullable: true)]
     protected ?AddressBook $addressBook = null;
 
     public function __construct(?AddressBook $addressBook = null)
