@@ -6,6 +6,7 @@
 
 namespace OswisOrg\OswisAddressBookBundle\Entity\AbstractClass;
 
+use ApiPlatform\Core\Annotation\ApiProperty;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Cache;
@@ -63,31 +64,20 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
     use EntityPublicTrait;
     use ColorTrait;
 
-    /**
-     * Notes about person.
-     * @var Collection<ContactNote>
-     */
+    /** @var Collection<ContactNote> Notes about person. */
     #[OneToMany(mappedBy: 'contact', targetEntity: ContactNote::class, cascade: ['all'], fetch: 'EAGER', orphanRemoval: true)]
     protected Collection $notes;
 
-    /**
-     * Postal addresses of AbstractContact (Person, Organization).
-     * @var Collection<ContactDetail>
-     */
+    /** @var Collection<ContactDetail> Postal addresses of AbstractContact (Person, Organization). */
     #[OneToMany(mappedBy: 'contact', targetEntity: ContactDetail::class, cascade: ['all'], fetch: 'EAGER', orphanRemoval: true)]
     protected Collection $details;
 
-    /**
-     * Postal addresses of AbstractContact (Person, Organization).
-     * @var Collection<ContactAddress>
-     * @ApiProperty(iri="http://schema.org/address")
-     */
+    /** @var Collection<ContactAddress> Postal addresses of AbstractContact (Person, Organization). */
+    #[ApiProperty(iri: 'http://schema.org/address')]
     #[OneToMany(mappedBy: 'contact', targetEntity: ContactAddress::class, cascade: ['all'], fetch: 'EAGER', orphanRemoval: true)]
     protected Collection $addresses;
 
-    /**
-     * @var Collection<ContactAddressBook>
-     */
+    /** @var Collection<ContactAddressBook> */
     #[ManyToMany(targetEntity: ContactAddressBook::class, cascade: ['all'], fetch: 'EAGER')]
     #[JoinTable(name: 'address_book_address_book_contact_connection')]
     #[JoinColumn(name: "contact_id", referencedColumnName: "id")]
@@ -97,9 +87,7 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
     #[OneToOne(targetEntity: AppUser::class, fetch: 'EAGER')]
     protected ?AppUser $appUser = null;
 
-    /**
-     * @var Collection<ContactImage>
-     */
+    /** @var Collection<ContactImage> */
     #[OneToMany(mappedBy: 'contact', targetEntity: ContactImage::class, cascade: ['all'], orphanRemoval: true)]
     protected Collection $images;
 
@@ -124,11 +112,11 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
         ?Collection $addresses = null,
         ?Collection $addressBooks = null
     ) {
-        $this->images = new ArrayCollection();
-        $this->files = new ArrayCollection();
-        $this->details = new ArrayCollection();
-        $this->notes = new ArrayCollection();
-        $this->addresses = new ArrayCollection();
+        $this->images              = new ArrayCollection();
+        $this->files               = new ArrayCollection();
+        $this->details             = new ArrayCollection();
+        $this->notes               = new ArrayCollection();
+        $this->addresses           = new ArrayCollection();
         $this->contactAddressBooks = new ArrayCollection();
         $this->setFieldsFromNameable($nameable);
         $this->setType($type);
@@ -518,7 +506,7 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
      */
     public function getMailerAddress(): ?Address
     {
-        $name = $this->getName() ?? $this->getAppUser()?->getFullName() ?? '';
+        $name  = $this->getName() ?? $this->getAppUser()?->getFullName() ?? '';
         $eMail = $this->getAppUser()?->getEmail() ?? $this->getEmail() ?? '';
         if (empty($eMail)) {
             $eMail = $this->getEmail();
