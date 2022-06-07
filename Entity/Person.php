@@ -31,7 +31,9 @@ use function trim;
  * @OswisOrg\OswisCoreBundle\Filter\SearchAnnotation({
  *     "id",
  *     "slug",
+ *     "name",
  *     "sortableName",
+ *     "shortName",
  *     "description",
  *     "note",
  *     "birthDate"
