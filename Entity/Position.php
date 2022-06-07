@@ -7,6 +7,8 @@
 
 namespace OswisOrg\OswisAddressBookBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use DateTime;
 use Doctrine\ORM\Mapping\Cache;
 use Doctrine\ORM\Mapping\Column;
@@ -97,25 +99,23 @@ class Position implements NameableInterface, TypeInterface
     use EntityPublicTrait;
     use PriorityTrait;
 
-    /**
-     * True if person is intended for receiving messages about organization.
-     */
+    /** True if person is intended for receiving messages about organization. */
     #[Column(type: 'boolean')]
     protected bool $contactPerson = false;
 
-    /**
-     * True if position is kind of "special" (and to be displayed in web profile).
-     */
+    /** True if position is kind of "special" (and to be displayed in web profile). */
     #[Column(type: 'boolean')]
     protected bool $special = false;
 
     #[ManyToOne(targetEntity: Person::class, inversedBy: 'positions')]
     #[JoinColumn(name: 'person_id', referencedColumnName: 'id')]
+    #[ApiFilter(SearchFilter::class, properties: ['person.id' => 'exact'])]
     #[MaxDepth(3)]
     protected ?Person $person = null;
 
     #[ManyToOne(targetEntity: Organization::class)]
     #[JoinColumn(name: 'organization_id', referencedColumnName: 'id')]
+    #[ApiFilter(SearchFilter::class, properties: ['person.id' => 'exact'])]
     #[MaxDepth(3)]
     protected ?Organization $organization = null;
 

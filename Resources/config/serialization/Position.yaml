@@ -1,0 +1,151 @@
+OswisOrg\OswisAddressBookBundle\Entity\Position:
+    attributes:
+        id:
+            groups:
+                - 'address_book_positions_get'
+                - 'address_book_position_get'
+        name:
+            groups:
+                - 'address_book_positions_get'
+                - 'address_book_positions_post'
+                - 'address_book_position_get'
+                - 'address_book_position_put'
+        shortName:
+            groups:
+                - 'address_book_positions_get'
+                - 'address_book_positions_post'
+                - 'address_book_position_get'
+                - 'address_book_position_put'
+        sortableName:
+            groups:
+                - 'address_book_positions_get'
+                - 'address_book_positions_post'
+                - 'address_book_position_get'
+                - 'address_book_position_put'
+        slug:
+            groups:
+                - 'address_book_positions_get'
+                - 'address_book_position_get'
+        forcedSlug:
+            groups:
+                - 'address_book_positions_get'
+                - 'address_book_positions_post'
+                - 'address_book_position_get'
+                - 'address_book_position_put'
+        description:
+            groups:
+                - 'address_book_positions_get'
+                - 'address_book_positions_post'
+                - 'address_book_position_get'
+                - 'address_book_position_put'
+        note:
+            groups:
+                - 'address_book_positions_get'
+                - 'address_book_positions_post'
+                - 'address_book_position_get'
+                - 'address_book_position_put'
+        internalNote:
+            groups:
+                - 'address_book_positions_get'
+                - 'address_book_positions_post'
+                - 'address_book_position_get'
+                - 'address_book_position_put'
+
+        startDateTime:
+            groups:
+                - 'address_book_positions_get'
+                - 'address_book_positions_post'
+                - 'address_book_position_get'
+                - 'address_book_position_put'
+        endDateTime:
+            groups:
+                - 'address_book_positions_get'
+                - 'address_book_positions_post'
+                - 'address_book_position_get'
+                - 'address_book_position_put'
+
+        publicOnWeb:
+            groups:
+                - 'address_book_positions_get'
+                - 'address_book_positions_post'
+                - 'address_book_position_get'
+                - 'address_book_position_put'
+        priority:
+            groups:
+                - 'address_book_positions_get'
+                - 'address_book_positions_post'
+                - 'address_book_position_get'
+                - 'address_book_position_put'
+
+        contactPerson:
+            groups:
+                - 'address_book_positions_get'
+                - 'address_book_positions_post'
+                - 'address_book_position_get'
+                - 'address_book_position_put'
+        special:
+            groups:
+                - 'address_book_positions_get'
+                - 'address_book_positions_post'
+                - 'address_book_position_get'
+                - 'address_book_position_put'
+
+        person:
+            groups:
+                - 'address_book_positions_get'
+                - 'address_book_positions_post'
+                - 'address_book_position_get'
+                - 'address_book_position_put'
+        organization:
+            groups:
+                - 'address_book_positions_get'
+                - 'address_book_positions_post'
+                - 'address_book_position_get'
+                - 'address_book_position_put'
+
+        type: # string
+            groups:
+                - 'address_book_positions_get'
+                - 'address_book_positions_post'
+                - 'address_book_position_get'
+                - 'address_book_position_put'
+        allowedTypes: # strings
+            groups:
+                - 'address_book_position_get'
+
+
+OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact:
+    attributes:
+        id:
+            groups:
+                - 'address_book_positions_get'
+                - 'address_book_positions_post'
+                - 'address_book_position_get'
+        name:
+            groups:
+                - 'address_book_positions_get'
+                - 'address_book_position_get'
+        contactName:
+            groups:
+                - 'address_book_positions_get'
+                - 'address_book_position_get'
+        sortableName:
+            groups:
+                - 'address_book_positions_get'
+                - 'address_book_position_get'
+        slug:
+            groups:
+                - 'address_book_positions_get'
+                - 'address_book_position_get'
+        description:
+            groups:
+                - 'address_book_positions_get'
+                - 'address_book_position_get'
+        image:
+            groups:
+                - 'address_book_positions_get'
+                - 'address_book_position_get'
+
+
+
+
