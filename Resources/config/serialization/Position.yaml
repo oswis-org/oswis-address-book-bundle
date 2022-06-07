@@ -89,6 +89,10 @@ OswisOrg\OswisAddressBookBundle\Entity\Position:
                 - 'address_book_positions_post'
                 - 'address_book_position_get'
                 - 'address_book_position_put'
+        active:
+            groups:
+                - 'address_book_positions_get'
+                - 'address_book_position_get'
 
         person:
             groups:

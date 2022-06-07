@@ -63,7 +63,11 @@ use function in_array;
  *     "id",
  *     "name",
  *     "description",
- *     "note"
+ *     "note",
+ *     "person.name",
+ *     "person.sortableName",
+ *     "organization.name",
+ *     "organization.sortableName",
  * })
  */
 #[Entity]
