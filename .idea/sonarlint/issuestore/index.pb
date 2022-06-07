@@ -35,8 +35,6 @@ X
 (Entity/AbstractClass/AbstractAddress.php,a/6/a69ab13003482a64640fee79e8b48eabdfe5bb79
 ]
 -Entity/AbstractClass/AbstractOrganization.php,5/a/5ac3f7e4bb88f0771f3f6e1d82def2fcc834a7d7
-W
-'Entity/AbstractClass/AbstractPerson.php,6/5/65e27852f245501a5bfd88bbea032985d2f7492b
 ]
 -Controller/MediaObject/ContactImageAction.php,c/5/c5e1f90b443bc94313ac60ace4cfb9e44281d05f
 \
@@ -73,8 +71,6 @@ U
 rector.php,6/6/6615ad7e99dde97c69e0ae0a3109f1269e398de4
 P
  Entity/ContactDetailCategory.php,0/c/0c3a200904c5eadbf60366d1718420ee54039c4e
-H
-Entity/ContactDetail.php,b/c/bc06eef2e6d6b439dd9a42c6b5f53a629fe77c1e
 S
 #Entity/MediaObject/ContactImage.php,4/5/45238de90f7a35cbb223bf65b58a031b73bd75ad
 H

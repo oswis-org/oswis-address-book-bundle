@@ -68,22 +68,26 @@ OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact:
                 - 'address_book_abstract_contact_get'
         notes:
             groups:
-                #- 'address_book_abstract_contacts_get'
+                - 'address_book_abstract_contacts_get'
                 - 'address_book_abstract_contacts_post'
                 - 'address_book_abstract_contact_get'
                 - 'address_book_abstract_contact_put'
         details:
             groups:
-                #- 'address_book_abstract_contacts_get'
+                - 'address_book_abstract_contacts_get'
                 - 'address_book_abstract_contacts_post'
                 - 'address_book_abstract_contact_get'
                 - 'address_book_abstract_contact_put'
         addresses:
             groups:
-                #- 'address_book_abstract_contacts_get'
+                - 'address_book_abstract_contacts_get'
                 - 'address_book_abstract_contacts_post'
                 - 'address_book_abstract_contact_get'
                 - 'address_book_abstract_contact_put'
+        activatedUser:
+            groups:
+                - 'address_book_abstract_contacts_get'
+                - 'address_book_abstract_contact_get'
 
 
 OswisOrg\OswisAddressBookBundle\Entity\ContactDetail:
@@ -94,7 +98,7 @@ OswisOrg\OswisAddressBookBundle\Entity\ContactDetail:
                 - 'address_book_abstract_contacts_post'
                 - 'address_book_abstract_contact_get'
                 - 'address_book_abstract_contact_put'
-        detailType: ## ContactDetailType
+        detailCategory: ## ContactDetailType
             groups:
                 - 'address_book_abstract_contacts_get'
                 - 'address_book_abstract_contacts_post'
