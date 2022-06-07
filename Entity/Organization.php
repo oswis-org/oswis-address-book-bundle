@@ -46,11 +46,11 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
  *   },
  *   collectionOperations={
  *     "get"={
- *       "security"="is_granted('ROLE_MEMBER')",
+ *       "security"="is_granted('ROLE_MANAGER')",
  *       "normalization_context"={"groups"={"entities_get", "address_book_abstract_contacts_get", "address_book_organizations_get"}},
  *     },
  *     "post"={
- *       "security"="is_granted('ROLE_MEMBER')",
+ *       "security"="is_granted('ROLE_MANAGER')",
  *       "denormalization_context"={"groups"={"entities_post", "address_book_abstract_contacts_post", "address_book_organizations_post"}}
  *     }
  *   },
@@ -60,7 +60,7 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
  *       "normalization_context"={"groups"={"entity_get", "address_book_abstract_contact_get", "address_book_organization_get"}},
  *     },
  *     "put"={
- *       "security"="is_granted('ROLE_MEMBER')",
+ *       "security"="is_granted('ROLE_MANAGER')",
  *       "denormalization_context"={"groups"={"entity_put", "address_book_abstract_contact_put", "address_book_organization_put"}}
  *     }
  *   }

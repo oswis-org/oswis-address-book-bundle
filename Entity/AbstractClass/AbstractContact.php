@@ -6,7 +6,6 @@
 
 namespace OswisOrg\OswisAddressBookBundle\Entity\AbstractClass;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Cache;
@@ -51,7 +50,7 @@ use function in_array;
 #[Entity]
 #[Table(name: 'address_book_abstract_contact')]
 #[InheritanceType('JOINED')]
-#[DiscriminatorColumn(name: 'discriminator', type: 'text')]
+#[DiscriminatorColumn(name: 'discriminator', type: 'string')]
 #[DiscriminatorMap(typeProperty: 'discriminator', mapping: [
     'address_book_person'       => Person::class,
     'address_book_organization' => Organization::class,

@@ -31,7 +31,6 @@ use function trim;
  * @OswisOrg\OswisCoreBundle\Filter\SearchAnnotation({
  *     "id",
  *     "slug",
- *     "contactName",
  *     "sortableName",
  *     "description",
  *     "note",
@@ -45,11 +44,11 @@ use function trim;
  *   },
  *   collectionOperations={
  *     "get"={
- *       "security"="is_granted('ROLE_MEMBER')",
+ *       "security"="is_granted('ROLE_MANAGER')",
  *       "normalization_context"={"groups"={"entities_get", "address_book_abstract_contacts_get", "address_book_persons_get"}},
  *     },
  *     "post"={
- *       "security"="is_granted('ROLE_MEMBER')",
+ *       "security"="is_granted('ROLE_MANAGER')",
  *       "denormalization_context"={"groups"={"entities_post", "address_book_abstract_contacts_post", "address_book_persons_post"}}
  *     }
  *   },
@@ -59,7 +58,7 @@ use function trim;
  *       "normalization_context"={"groups"={"entity_get", "address_book_abstract_contact_get", "address_book_person_get"}},
  *     },
  *     "put"={
- *       "security"="is_granted('ROLE_MEMBER')",
+ *       "security"="is_granted('ROLE_MANAGER')",
  *       "denormalization_context"={"groups"={"entity_put", "address_book_abstract_contact_put", "address_book_person_put"}}
  *     }
  *   }
@@ -73,7 +72,6 @@ use function trim;
     "id"          => "exact",
     "description" => "partial",
     "slug"        => "partial",
-    "contactName" => "partial",
     "note"        => "partial",
     "birthDate"   => "partial",
 ])]
@@ -81,7 +79,6 @@ use function trim;
     "id" => "ASC",
     "slug",
     "description",
-    "contactName",
     "sortableName",
     "note",
     "birthDate",
