@@ -119,7 +119,7 @@ class Position implements NameableInterface, TypeInterface
 
     #[ManyToOne(targetEntity: Organization::class)]
     #[JoinColumn(name: 'organization_id', referencedColumnName: 'id')]
-    #[ApiFilter(SearchFilter::class, properties: ['person.id' => 'exact'])]
+    #[ApiFilter(SearchFilter::class, properties: ['organization.id' => 'exact'])]
     #[MaxDepth(3)]
     protected ?Organization $organization = null;
 
