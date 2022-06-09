@@ -125,6 +125,7 @@ OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact:
                 - 'address_book_positions_get'
                 - 'address_book_positions_post'
                 - 'address_book_position_get'
+                - 'address_book_position_put'
         name:
             groups:
                 - 'address_book_positions_get'
