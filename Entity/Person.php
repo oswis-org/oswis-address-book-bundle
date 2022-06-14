@@ -36,7 +36,8 @@ use function trim;
  *     "shortName",
  *     "description",
  *     "note",
- *     "birthDate"
+ *     "birthDate",
+ *     "detail.content",
  * })
  * @ApiPlatform\Core\Annotation\ApiResource(
  *   iri="http://schema.org/Person",
