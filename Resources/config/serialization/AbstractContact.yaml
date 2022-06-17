@@ -88,6 +88,10 @@ OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact:
             groups:
                 - 'address_book_abstract_contacts_get'
                 - 'address_book_abstract_contact_get'
+        oneImage:
+            groups:
+                - 'address_book_abstract_contacts_get'
+                - 'address_book_abstract_contact_get'
 
 
 OswisOrg\OswisAddressBookBundle\Entity\ContactDetail:
@@ -229,10 +233,6 @@ OswisOrg\OswisAddressBookBundle\Entity\ContactNote:
                 - 'address_book_abstract_contacts_post'
                 - 'address_book_abstract_contact_get'
                 - 'address_book_abstract_contact_put'
-        oneImage:
-            groups:
-                - 'address_book_abstract_contacts_get'
-                - 'address_book_abstract_contact_get'
 
 OswisOrg\OswisAddressBookBundle\Entity\MediaObject\ContactImage:
     attributes:
