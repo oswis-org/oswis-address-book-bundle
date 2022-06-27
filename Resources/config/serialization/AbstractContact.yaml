@@ -69,21 +69,15 @@ OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact:
         notes:
             groups:
                 - 'address_book_abstract_contacts_get'
-                - 'address_book_abstract_contacts_post'
                 - 'address_book_abstract_contact_get'
-                - 'address_book_abstract_contact_put'
         details:
             groups:
                 - 'address_book_abstract_contacts_get'
-                - 'address_book_abstract_contacts_post'
                 - 'address_book_abstract_contact_get'
-                - 'address_book_abstract_contact_put'
         addresses:
             groups:
                 - 'address_book_abstract_contacts_get'
-                - 'address_book_abstract_contacts_post'
                 - 'address_book_abstract_contact_get'
-                - 'address_book_abstract_contact_put'
         activatedUser:
             groups:
                 - 'address_book_abstract_contacts_get'
@@ -99,45 +93,31 @@ OswisOrg\OswisAddressBookBundle\Entity\ContactDetail:
         id:
             groups:
                 - 'address_book_abstract_contacts_get'
-                - 'address_book_abstract_contacts_post'
                 - 'address_book_abstract_contact_get'
-                - 'address_book_abstract_contact_put'
         detailCategory: ## ContactDetailType
             groups:
                 - 'address_book_abstract_contacts_get'
-                - 'address_book_abstract_contacts_post'
                 - 'address_book_abstract_contact_get'
-                - 'address_book_abstract_contact_put'
         name:
             groups:
                 - 'address_book_abstract_contacts_get'
-                - 'address_book_abstract_contacts_post'
                 - 'address_book_abstract_contact_get'
-                - 'address_book_abstract_contact_put'
         shortName:
             groups:
                 - 'address_book_abstract_contacts_get'
-                - 'address_book_abstract_contacts_post'
                 - 'address_book_abstract_contact_get'
-                - 'address_book_abstract_contact_put'
         description:
             groups:
                 - 'address_book_abstract_contacts_get'
-                - 'address_book_abstract_contacts_post'
                 - 'address_book_abstract_contact_get'
-                - 'address_book_abstract_contact_put'
         priority:
             groups:
                 - 'address_book_abstract_contacts_get'
-                - 'address_book_abstract_contacts_post'
                 - 'address_book_abstract_contact_get'
-                - 'address_book_abstract_contact_put'
         content:
             groups:
                 - 'address_book_abstract_contacts_get'
-                - 'address_book_abstract_contacts_post'
                 - 'address_book_abstract_contact_get'
-                - 'address_book_abstract_contact_put'
         formatted:
             groups:
                 - 'address_book_abstract_contacts_get'
@@ -164,9 +144,7 @@ OswisOrg\OswisAddressBookBundle\Entity\ContactDetailType:
         id:
             groups:
                 - 'address_book_abstract_contacts_get'
-                - 'address_book_abstract_contacts_post'
                 - 'address_book_abstract_contact_get'
-                - 'address_book_abstract_contact_put'
         name:
             groups:
                 - 'address_book_abstract_contacts_get'
