@@ -182,33 +182,23 @@ OswisOrg\OswisAddressBookBundle\Entity\ContactDetailType:
         priority:
             groups:
                 - 'address_book_abstract_contacts_get'
-                - 'address_book_abstract_contacts_post'
                 - 'address_book_abstract_contact_get'
-                - 'address_book_abstract_contact_put'
         content:
             groups:
                 - 'address_book_abstract_contacts_get'
-                - 'address_book_abstract_contacts_post'
                 - 'address_book_abstract_contact_get'
-                - 'address_book_abstract_contact_put'
         formatted:
             groups:
                 - 'address_book_abstract_contacts_get'
-                - 'address_book_abstract_contacts_post'
                 - 'address_book_abstract_contact_get'
-                - 'address_book_abstract_contact_put'
         schemaString:
             groups:
                 - 'address_book_abstract_contacts_get'
-                - 'address_book_abstract_contacts_post'
                 - 'address_book_abstract_contact_get'
-                - 'address_book_abstract_contact_put'
         typeString:
             groups:
                 - 'address_book_abstract_contacts_get'
-                - 'address_book_abstract_contacts_post'
                 - 'address_book_abstract_contact_get'
-                - 'address_book_abstract_contact_put'
 
 
 
