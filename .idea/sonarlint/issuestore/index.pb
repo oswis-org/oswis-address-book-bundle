@@ -56,9 +56,6 @@ U
 %DependencyInjection/Configuration.php,4/0/40445ca4f314e1b6bca678ae752dbf0e83bc5d44
 U
 %Controller/OrganizationController.php,a/1/a122ca35de82c1182d47a20f1b9f6799e9c95d71
-:
-
-rector.php,6/6/6615ad7e99dde97c69e0ae0a3109f1269e398de4
 P
  Entity/ContactDetailCategory.php,0/c/0c3a200904c5eadbf60366d1718420ee54039c4e
 H
@@ -81,18 +78,12 @@ H
 Traits/ZtpOrPetTrait.php,2/6/2672a18b15ae60c2b57643cace30de7c0e4767f9
 Y
 )Entity/AddressBook/ContactAddressBook.php,2/0/20453f2746c33722ae85153ac6a3377bf4bfd17b
-=
-composer.json,3/9/3957b91a0d8450cea0115cfd5af69eac90d75897
 G
 Entity/Organization.php,1/0/10e3add91069f16dfd3e976f73ed4d9863d4cde1
-=
-composer.lock,c/3/c3262e2a0879195bd6a727e90f768bc85ad79ffd
 p
 @Resources/views/web/parts/organization-person-profiles.html.twig,3/e/3ea4658648894a98f9966b6f10a1de84258ad056
 o
 ?Resources/views/web/parts/organization-person-profile.html.twig,3/c/3cd70c9a9a945bce2dec8b716976d79e26cd039c
-Z
-*Resources/config/serialization/Person.yaml,9/0/90fc93d1741f00825a7e98633b9f3441e118586c
 `
 0Resources/config/serialization/Organization.yaml,b/8/b831ad4c28a2df23660f6ded48ca39e70108dc50
 \
@@ -109,3 +100,5 @@ W
 'Entity/AbstractClass/AbstractPerson.php,6/5/65e27852f245501a5bfd88bbea032985d2f7492b
 H
 Entity/ContactDetail.php,b/c/bc06eef2e6d6b439dd9a42c6b5f53a629fe77c1e
+S
+#Entity/MediaObject/ContactImage.php,4/5/45238de90f7a35cbb223bf65b58a031b73bd75ad
