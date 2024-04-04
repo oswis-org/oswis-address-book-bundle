@@ -5,7 +5,7 @@
         {% if organization|default %}
             <div>
                 {% include '@OswisOrgOswisAddressBook/web/parts/organization-info.html.twig' %}
-                {{ render_hinclude(controller('OswisOrg\\OswisAddressBookBundle\\Controller\\OrganizationController::showTeam',
+                {{ render_esi(controller('OswisOrg\\OswisAddressBookBundle\\Controller\\OrganizationController::showTeam',
                     {'slug': organization.slug})) }}
                 {% include '@OswisOrgOswisAddressBook/web/parts/organization-person-profiles.html.twig' %}
             </div>

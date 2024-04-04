@@ -102,3 +102,9 @@ H
 Entity/ContactDetail.php,b/c/bc06eef2e6d6b439dd9a42c6b5f53a629fe77c1e
 S
 #Entity/MediaObject/ContactImage.php,4/5/45238de90f7a35cbb223bf65b58a031b73bd75ad
+=
+composer.json,3/9/3957b91a0d8450cea0115cfd5af69eac90d75897
+=
+composer.lock,c/3/c3262e2a0879195bd6a727e90f768bc85ad79ffd
+`
+0Resources/views/web/pages/organization.html.twig,7/b/7b6851aa60188eeb3cf539469d15fe22f4b5de10
