@@ -163,3 +163,20 @@ services:
             -   name: doctrine.orm.entity_listener
                 event: postUpdate
                 entity: OswisOrg\OswisAddressBookBundle\Entity\Position
+
+
+
+  oswis_org_oswis_address_book.address_book_site_map_extender:
+    class: OswisOrg\OswisAddressBookBundle\Extender\AddressBookSitemapExtender
+    autowire: true
+    public: true
+    arguments:
+        - '@router.default'
+        - '@oswis_org_oswis_address_book.organization_service'
+    tags:
+        - 'oswis.site_map_extender'
+  OswisOrg\OswisAddressBookBundle\Extender\AddressBookSitemapExtender:
+    alias: oswis_org_oswis_address_book.address_book_site_map_extender
+    public: true
+
+

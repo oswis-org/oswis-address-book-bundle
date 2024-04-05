@@ -108,3 +108,19 @@ S
 composer.lock,c/3/c3262e2a0879195bd6a727e90f768bc85ad79ffd
 `
 0Resources/views/web/pages/organization.html.twig,7/b/7b6851aa60188eeb3cf539469d15fe22f4b5de10
+W
+'Extender/AddressBookSitemapExtender.php,3/1/31e242d9f74bf49ca5f4467c87a50a7518d9e998
+R
+"Service/AbstractContactService.php,6/5/6576027ec967c723ba1d20133b087e9e7bd749ca
+T
+$Repository/AddressBookRepository.php,6/b/6bcc4ad65400dba6026c8961cf0f6da89f518522
+^
+.Repository/ContactDetailCategoryRepository.php,3/b/3bef6a528e2d80718de92e581c6ca03dde649476
+O
+Repository/PersonRepository.php,8/d/8d57754cd1cbd6efb2ab3b750038ec952f12013d
+N
+Repository/PlaceRepository.php,7/8/7829b79e402b9dbe25a2facc0b0e70f8291852ba
+O
+Service/OrganizationService.php,7/7/77379fc1ebea7fbb89e1f1e4cd440092ed52da4e
+L
+Resources/config/routes.yaml,c/7/c7e7cf739616e8673064dd9edd4c8365f22aacd9
