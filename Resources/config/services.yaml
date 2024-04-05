@@ -166,7 +166,7 @@ services:
 
 
 
-      oswis_org_oswis_address_book.address_book_site_map_extender:
+    oswis_org_oswis_address_book.address_book_site_map_extender:
         class: OswisOrg\OswisAddressBookBundle\Extender\AddressBookSitemapExtender
         autowire: true
         public: true
@@ -175,7 +175,7 @@ services:
             - '@oswis_org_oswis_address_book.organization_service'
         tags:
             - 'oswis.site_map_extender'
-      OswisOrg\OswisAddressBookBundle\Extender\AddressBookSitemapExtender:
+    OswisOrg\OswisAddressBookBundle\Extender\AddressBookSitemapExtender:
         alias: oswis_org_oswis_address_book.address_book_site_map_extender
         public: true
 
