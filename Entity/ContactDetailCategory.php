@@ -6,8 +6,14 @@
 
 namespace OswisOrg\OswisAddressBookBundle\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use Doctrine\ORM\Mapping\Cache;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
@@ -27,48 +33,51 @@ use OswisOrg\OswisCoreBundle\Traits\Common\TypeTrait;
  *     "appUser.description",
  *     "appUser.note"
  * })
- * @ApiPlatform\Core\Annotation\ApiResource(
- *   attributes={
- *     "filters"={"search"},
- *     "security"="is_granted('ROLE_MANAGER')"
- *   },
- *   collectionOperations={
- *     "get"={
- *       "security"="is_granted('ROLE_MANAGER')",
- *       "normalization_context"={"groups"={"entities_get", "address_book_contact_detail_categories_get"}},
- *     },
- *     "post"={
- *       "security"="is_granted('ROLE_MANAGER')",
- *       "denormalization_context"={"groups"={"entities_post", "address_book_contact_detail_categories_post"}}
- *     }
- *   },
- *   itemOperations={
- *     "get"={
- *       "security"="is_granted('ROLE_MANAGER')",
- *       "normalization_context"={"groups"={"entity_get", "address_book_contact_detail_category_get"}},
- *     },
- *     "put"={
- *       "security"="is_granted('ROLE_MANAGER')",
- *       "denormalization_context"={"groups"={"entity_put", "address_book_contact_detail_category_put"}}
- *     },
- *     "delete"={}
- *   }
- * )
  */
 #[Entity(repositoryClass: ContactDetailCategoryRepository::class)]
 #[Table(name: 'address_book_contact_detail_category')]
 #[Cache(usage: 'NONSTRICT_READ_WRITE', region: 'address_book_contact_detail_category')]
 #[ApiFilter(OrderFilter::class)]
+#[ApiResource(
+    operations: [
+        new GetCollection(
+            normalizationContext: ['groups' => ['entities_get', 'address_book_contact_detail_categories_get']],
+            security: "is_granted('ROLE_MANAGER')"
+        ),
+        new Post(
+            denormalizationContext: ['groups' => ['entities_post', 'address_book_contact_detail_categories_post']],
+            security: "is_granted('ROLE_MANAGER')"
+        ),
+        new Get(
+            normalizationContext: ['groups' => ['entity_get', 'address_book_contact_detail_category_get']],
+            security: "is_granted('ROLE_MANAGER')"
+        ),
+        new Put(
+            denormalizationContext: ['groups' => ['entity_put', 'address_book_contact_detail_category_put']],
+            security: "is_granted('ROLE_MANAGER')"
+        ),
+        new Delete(),
+    ],
+    filters: ['search'],
+    security: "is_granted('ROLE_MANAGER')"
+)]
 class ContactDetailCategory implements NameableInterface, TypeInterface
 {
-    public const TYPE_EMAIL = 'email';
-    public const TYPE_URL = 'url';
-    public const TYPE_PHONE = 'telephone';
-    public const TYPE_SOCIAL = 'social';
-    public const TYPE_MESSENGER = 'messenger';
-    public const TYPE_VOIP = 'voip';
-    public const ALLOWED_TYPES = [self::TYPE_URL, self::TYPE_EMAIL, self::TYPE_PHONE, self::TYPE_SOCIAL, self::TYPE_MESSENGER, self::TYPE_VOIP];
-    public const SPACELESS_TYPES
+    public const string TYPE_EMAIL = 'email';
+    public const string TYPE_URL = 'url';
+    public const string TYPE_PHONE = 'telephone';
+    public const string TYPE_SOCIAL = 'social';
+    public const string TYPE_MESSENGER = 'messenger';
+    public const string TYPE_VOIP = 'voip';
+    public const array ALLOWED_TYPES = [
+        self::TYPE_URL,
+        self::TYPE_EMAIL,
+        self::TYPE_PHONE,
+        self::TYPE_SOCIAL,
+        self::TYPE_MESSENGER,
+        self::TYPE_VOIP,
+    ];
+    public const array SPACELESS_TYPES
         = [
             self::TYPE_EMAIL,
             self::TYPE_URL,

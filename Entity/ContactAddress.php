@@ -29,7 +29,12 @@ class ContactAddress extends AbstractAddress implements PriorityInterface
     #[JoinColumn(name: 'contact_id', referencedColumnName: 'id')]
     protected ?AbstractContact $contact = null;
 
-    public function __construct(Nameable $nameable = null, PostalAddress $address = null, ?int $priority = null, ?AbstractContact $contact = null)
+    public function __construct(
+        ?Nameable $nameable = null,
+        ?PostalAddress $address = null,
+        ?int $priority = null,
+        ?AbstractContact $contact = null
+    )
     {
         $this->setContact($contact);
         $this->setFieldsFromNameable($nameable);

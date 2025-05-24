@@ -6,8 +6,13 @@
 
 namespace OswisOrg\OswisAddressBookBundle\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Cache;
@@ -38,55 +43,49 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
  *     "parentOrganization.name",
  *     "identificationNumber"
  * })
- * @ApiPlatform\Core\Annotation\ApiResource(
- *   iri="http://schema.org/Organization",
- *   attributes={
- *     "filters"={"search"},
- *     "security"="is_granted('ROLE_MEMBER')"
- *   },
- *   collectionOperations={
- *     "get"={
- *       "security"="is_granted('ROLE_MANAGER')",
- *       "normalization_context"={"groups"={"entities_get", "address_book_abstract_contacts_get", "address_book_organizations_get"}},
- *     },
- *     "post"={
- *       "security"="is_granted('ROLE_MANAGER')",
- *       "denormalization_context"={"groups"={"entities_post", "address_book_abstract_contacts_post", "address_book_organizations_post"}}
- *     }
- *   },
- *   itemOperations={
- *     "get"={
- *       "security"="is_granted('ROLE_MEMBER')",
- *       "normalization_context"={"groups"={"entity_get", "address_book_abstract_contact_get", "address_book_organization_get"}},
- *     },
- *     "put"={
- *       "security"="is_granted('ROLE_MANAGER')",
- *       "denormalization_context"={"groups"={"entity_put", "address_book_abstract_contact_put", "address_book_organization_put"}}
- *     }
- *   }
- * )
  */
 #[Entity(repositoryClass: OrganizationRepository::class)]
 #[Table(name: 'address_book_organization')]
 #[Cache(usage: 'NONSTRICT_READ_WRITE', region: 'address_book_contact')]
+#[ApiResource(
+    types: ['http://schema.org/Organization'],
+    filters: ['search'],
+    security: "is_granted('ROLE_MEMBER')"
+)]
+#[GetCollection(
+    normalizationContext: ['groups' => ['entities_get', 'address_book_abstract_contacts_get', 'address_book_organizations_get']],
+    security: "is_granted('ROLE_MANAGER')"
+)]
+#[Post(
+    denormalizationContext: ['groups' => ['entities_post', 'address_book_abstract_contacts_post', 'address_book_organizations_post']],
+    security: "is_granted('ROLE_MANAGER')"
+)]
+#[Get(
+    normalizationContext: ['groups' => ['entity_get', 'address_book_abstract_contact_get', 'address_book_organization_get']],
+    security: "is_granted('ROLE_MEMBER')"
+)]
+#[Put(
+    denormalizationContext: ['groups' => ['entity_put', 'address_book_abstract_contact_put', 'address_book_organization_put']],
+    security: "is_granted('ROLE_MANAGER')"
+)]
 #[ApiFilter(OrderFilter::class, properties: [
-    "id" => "ASC",
-    "slug",
-    "description",
-    "contactName",
-    "sortableName",
-    "shortName",
-    "note",
-    "identificationNumber",
+    'id' => 'ASC',
+    'slug' => null,
+    'description' => null,
+    'contactName' => null,
+    'sortableName' => null,
+    'shortName' => null,
+    'note' => null,
+    'identificationNumber' => null,
 ])]
 #[ApiFilter(SearchFilter::class, properties: [
-    "id"                   => "exact",
-    "description"          => "partial",
-    "slug"                 => "partial",
-    "contactName"          => "partial",
-    "shortName"            => "partial",
-    "note"                 => "partial",
-    "identificationNumber" => "partial",
+    'id' => 'exact',
+    'description' => 'partial',
+    'slug' => 'partial',
+    'contactName' => 'partial',
+    'shortName' => 'partial',
+    'note' => 'partial',
+    'identificationNumber' => 'partial',
 ])]
 class Organization extends AbstractOrganization
 {
@@ -96,7 +95,7 @@ class Organization extends AbstractOrganization
     #[MaxDepth(3)]
     protected ?Organization $parentOrganization = null;
 
-    #[OneToMany(mappedBy: 'parentOrganization', targetEntity: self::class)]
+    #[OneToMany(targetEntity: self::class, mappedBy: 'parentOrganization')]
     #[MaxDepth(3)]
     protected ?Collection $subOrganizations = null;
 

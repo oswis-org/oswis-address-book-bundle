@@ -47,13 +47,10 @@ class OrganizationController extends AbstractController
 
     public function getDefaultOrganization(): ?Organization
     {
-        $organization = null;
-        if (null !== $this->addressBookSettings->getPrimary()) {
-            $organization = $this->organizationService->getRepository()->findOneBy([
-                'slug'        => $this->addressBookSettings->getPrimary(),
-                'publicOnWeb' => true,
-            ]);
-        }
+        $organization = $this->organizationService->getRepository()->findOneBy([
+            'slug' => $this->addressBookSettings,
+            'publicOnWeb' => true,
+        ]);
         $organization ??= $this->organizationService->getRepository()->findBy(['publicOnWeb' => true], ['id' => 'ASC'])[0] ?? null;
         assert($organization instanceof Organization);
 

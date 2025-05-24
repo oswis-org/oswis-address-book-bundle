@@ -6,7 +6,10 @@
 
 namespace OswisOrg\OswisAddressBookBundle\Entity\MediaObject;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
 use Doctrine\ORM\Mapping\Cache;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\JoinColumn;
@@ -32,15 +35,16 @@ use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
 #[Table(name: 'address_book_contact_file')]
 #[Cache(usage: 'NONSTRICT_READ_WRITE', region: 'address_book_contact_file')]
 #[Uploadable]
-#[ApiResource(collectionOperations: [
-    'get',
-    'post' => [
-        'method'     => 'POST',
-        'path'       => '/address_book_contact_file',
-        'controller' => ContactFileAction::class,
-        'defaults'   => ['_api_receive' => false],
-    ],
-])]
+#[ApiResource(
+    operations: [
+        new GetCollection(),
+        new Get(),
+        new Post(
+            controller: ContactFileAction::class,
+            deserialize: false
+        ),
+    ]
+)]
 class ContactFile extends AbstractFile implements TypeInterface, PriorityInterface
 {
     use BasicTrait;

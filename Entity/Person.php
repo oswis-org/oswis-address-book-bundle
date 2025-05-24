@@ -1,14 +1,15 @@
 <?php
-/**
- * @noinspection PhpUnused
- * @noinspection MethodShouldBeFinalInspection
- */
 
 namespace OswisOrg\OswisAddressBookBundle\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -22,75 +23,57 @@ use OswisOrg\OswisCoreBundle\Entity\AppUser\AppUser;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
 use OswisOrg\OswisCoreBundle\Exceptions\InvalidTypeException;
 use OswisOrg\OswisCoreBundle\Filter\SearchFilter;
-
 use function assert;
 use function rtrim;
 use function trim;
 
-/**
- * @OswisOrg\OswisCoreBundle\Filter\SearchAnnotation({
- *     "id",
- *     "slug",
- *     "name",
- *     "sortableName",
- *     "shortName",
- *     "description",
- *     "note",
- *     "birthDate",
- * })
- * @ApiPlatform\Core\Annotation\ApiResource(
- *   iri="http://schema.org/Person",
- *   attributes={
- *     "filters"={"search"},
- *     "security"="is_granted('ROLE_MEMBER')"
- *   },
- *   collectionOperations={
- *     "get"={
- *       "security"="is_granted('ROLE_MANAGER')",
- *       "normalization_context"={"groups"={"entities_get", "address_book_abstract_contacts_get", "address_book_persons_get"}},
- *     },
- *     "post"={
- *       "security"="is_granted('ROLE_MANAGER')",
- *       "denormalization_context"={"groups"={"entities_post", "address_book_abstract_contacts_post", "address_book_persons_post"}}
- *     }
- *   },
- *   itemOperations={
- *     "get"={
- *       "security"="is_granted('ROLE_MEMBER')",
- *       "normalization_context"={"groups"={"entity_get", "address_book_abstract_contact_get", "address_book_person_get"}},
- *     },
- *     "put"={
- *       "security"="is_granted('ROLE_MANAGER')",
- *       "denormalization_context"={"groups"={"entity_put", "address_book_abstract_contact_put", "address_book_person_put"}}
- *     }
- *   }
- * )
- */
+#[ApiResource(
+    types: ['http://schema.org/Person'],
+    operations: [
+        new GetCollection(
+            normalizationContext: ['groups' => ['entities_get', 'address_book_abstract_contacts_get', 'address_book_persons_get']],
+            security: "is_granted('ROLE_MANAGER')"
+        ),
+        new Post(
+            denormalizationContext: ['groups' => ['entities_post', 'address_book_abstract_contacts_post', 'address_book_persons_post']],
+            security: "is_granted('ROLE_MANAGER')"
+        ),
+        new Get(
+            normalizationContext: ['groups' => ['entity_get', 'address_book_abstract_contact_get', 'address_book_person_get']],
+            security: "is_granted('ROLE_MEMBER')"
+        ),
+        new Put(
+            denormalizationContext: ['groups' => ['entity_put', 'address_book_abstract_contact_put', 'address_book_person_put']],
+            security: "is_granted('ROLE_MANAGER')"
+        ),
+    ],
+    security: "is_granted('ROLE_MEMBER')"
+)]
 #[Entity(repositoryClass: PersonRepository::class)]
 #[Table(name: 'address_book_person')]
 #[Cache(usage: 'NONSTRICT_READ_WRITE', region: 'address_book_contact')]
-#[ApiFilter(DateFilter::class, properties: ["createdAt", "updatedAt", "birthDate"])]
+#[ApiFilter(DateFilter::class, properties: ['createdAt', 'updatedAt', 'birthDate'])]
 #[ApiFilter(SearchFilter::class, properties: [
-    "id"          => "exact",
-    "description" => "partial",
-    "slug"        => "partial",
-    "note"        => "partial",
-    "birthDate"   => "partial",
+    'id' => 'exact',
+    'description' => 'partial',
+    'slug' => 'partial',
+    'note' => 'partial',
+    'birthDate' => 'partial',
 ])]
 #[ApiFilter(OrderFilter::class, properties: [
-    "id" => "ASC",
-    "slug",
-    "description",
-    "sortableName",
-    "note",
-    "birthDate",
+    'id' => 'ASC',
+    'slug' => null,
+    'description' => null,
+    'sortableName' => null,
+    'note' => null,
+    'birthDate' => null,
 ])]
 class Person extends AbstractPerson
 {
     /**
      * @var Collection<Position>
      */
-    #[OneToMany(mappedBy: 'person', targetEntity: Position::class, cascade: ['all'], orphanRemoval: true)]
+    #[OneToMany(targetEntity: Position::class, mappedBy: 'person', cascade: ['all'], orphanRemoval: true)]
     protected Collection $positions;
 
     public function __construct(

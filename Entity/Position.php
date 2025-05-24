@@ -7,8 +7,14 @@
 
 namespace OswisOrg\OswisAddressBookBundle\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use DateTime;
 use Doctrine\ORM\Mapping\Cache;
 use Doctrine\ORM\Mapping\Column;
@@ -28,66 +34,49 @@ use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\PriorityTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\TypeTrait;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
-
 use function in_array;
 
-/**
- * @ApiPlatform\Core\Annotation\ApiResource(
- *   attributes={
- *     "filters"={"search"},
- *     "security"="is_granted('ROLE_MANAGER')"
- *   },
- *   collectionOperations={
- *     "get"={
- *       "security"="is_granted('ROLE_MANAGER')",
- *       "normalization_context"={"groups"={"entities_get", "address_book_positions_get"}},
- *     },
- *     "post"={
- *       "security"="is_granted('ROLE_MANAGER')",
- *       "denormalization_context"={"groups"={"entities_post", "address_book_positions_post"}}
- *     }
- *   },
- *   itemOperations={
- *     "get"={
- *       "security"="is_granted('ROLE_MANAGER')",
- *       "normalization_context"={"groups"={"entity_get", "address_book_position_get"}},
- *     },
- *     "put"={
- *       "security"="is_granted('ROLE_MANAGER')",
- *       "denormalization_context"={"groups"={"entity_put", "address_book_position_put"}}
- *     }
- *   }
- * )
- * @ApiPlatform\Core\Annotation\ApiFilter(ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter::class)
- * @OswisOrg\OswisCoreBundle\Filter\SearchAnnotation({
- *     "id",
- *     "name",
- *     "description",
- *     "note",
- *     "person.name",
- *     "person.sortableName",
- *     "organization.name",
- *     "organization.sortableName",
- * })
- */
+#[ApiResource(
+    operations: [
+        new GetCollection(
+            normalizationContext: ['groups' => ['entities_get', 'address_book_positions_get']],
+            security: "is_granted('ROLE_MANAGER')"
+        ),
+        new Post(
+            denormalizationContext: ['groups' => ['entities_post', 'address_book_positions_post']],
+            security: "is_granted('ROLE_MANAGER')"
+        ),
+        new Get(
+            normalizationContext: ['groups' => ['entity_get', 'address_book_position_get']],
+            security: "is_granted('ROLE_MANAGER')"
+        ),
+        new Put(
+            denormalizationContext: ['groups' => ['entity_put', 'address_book_position_put']],
+            security: "is_granted('ROLE_MANAGER')"
+        ),
+    ],
+    filters: ['search'],
+    security: "is_granted('ROLE_MANAGER')"
+)]
+#[ApiFilter(OrderFilter::class)]
 #[Entity]
 #[Table(name: 'address_book_position')]
 #[Cache(usage: 'NONSTRICT_READ_WRITE', region: 'address_book_contact')]
 class Position implements NameableInterface, TypeInterface
 {
-    public const TYPE_EMPLOYEE = 'employee';
-    public const TYPE_MEMBER = 'member';
-    public const TYPE_MANAGER = 'manager';
-    public const TYPE_DIRECTOR = 'director';
-    public const TYPE_STUDENT = 'student';
-    public const TYPE_GRADUATED = 'graduated';
-    public const TYPE_STUDENT_OR_GRADUATED = 'student/graduated';
-    public const MANAGER_POSITION_TYPES = [self::TYPE_MANAGER, self::TYPE_DIRECTOR];
-    public const STUDY_POSITION_TYPES = [self::TYPE_STUDENT, self::TYPE_GRADUATED, self::TYPE_STUDENT_OR_GRADUATED];
-    public const EMPLOYEE_POSITION_TYPES = [self::TYPE_EMPLOYEE, ...self::MANAGER_POSITION_TYPES];
-    public const MEMBER_POSITION_TYPES = [self::TYPE_MEMBER, ...self::MANAGER_POSITION_TYPES];
-    public const EMPLOYEE_MEMBER_POSITION_TYPES = [self::TYPE_MEMBER, self::TYPE_EMPLOYEE, ...self::MANAGER_POSITION_TYPES];
-    public const ALLOWED_TYPES
+    public const string TYPE_EMPLOYEE = 'employee';
+    public const string TYPE_MEMBER = 'member';
+    public const string TYPE_MANAGER = 'manager';
+    public const string TYPE_DIRECTOR = 'director';
+    public const string TYPE_STUDENT = 'student';
+    public const string TYPE_GRADUATED = 'graduated';
+    public const string TYPE_STUDENT_OR_GRADUATED = 'student/graduated';
+    public const array MANAGER_POSITION_TYPES = [self::TYPE_MANAGER, self::TYPE_DIRECTOR];
+    public const array STUDY_POSITION_TYPES = [self::TYPE_STUDENT, self::TYPE_GRADUATED, self::TYPE_STUDENT_OR_GRADUATED];
+    public const array EMPLOYEE_POSITION_TYPES = [self::TYPE_EMPLOYEE, ...self::MANAGER_POSITION_TYPES];
+    public const array MEMBER_POSITION_TYPES = [self::TYPE_MEMBER, ...self::MANAGER_POSITION_TYPES];
+    public const array EMPLOYEE_MEMBER_POSITION_TYPES = [self::TYPE_MEMBER, self::TYPE_EMPLOYEE, ...self::MANAGER_POSITION_TYPES];
+    public const array ALLOWED_TYPES
         = [
             self::TYPE_EMPLOYEE,
             self::TYPE_MEMBER,

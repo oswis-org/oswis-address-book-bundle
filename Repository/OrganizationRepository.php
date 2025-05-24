@@ -36,7 +36,7 @@ class OrganizationRepository extends ServiceEntityRepository
         return $result;
     }
 
-    public function findOneBy(array $criteria, array $orderBy = null): ?Organization
+    public function findOneBy(array $criteria, ?array $orderBy = null): ?Organization
     {
         $result = parent::findOneBy($criteria, $orderBy);
 

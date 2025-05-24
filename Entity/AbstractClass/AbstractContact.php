@@ -6,7 +6,7 @@
 
 namespace OswisOrg\OswisAddressBookBundle\Entity\AbstractClass;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
+use ApiPlatform\Metadata\ApiProperty;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Cache;
@@ -41,7 +41,6 @@ use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\TypeTrait;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Serializer\Annotation\DiscriminatorMap;
-
 use function assert;
 use function in_array;
 
@@ -73,7 +72,7 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
     protected Collection $details;
 
     /** @var Collection<ContactAddress> Postal addresses of AbstractContact (Person, Organization). */
-    #[ApiProperty(iri: 'http://schema.org/address')]
+    #[ApiProperty(types: ['http://schema.org/address'])]
     #[OneToMany(mappedBy: 'contact', targetEntity: ContactAddress::class, cascade: ['all'], fetch: 'EAGER', orphanRemoval: true)]
     protected Collection $addresses;
 
@@ -128,7 +127,6 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
 
     public function setAddressBooks(?Collection $newAddressBooks): void
     {
-        $this->contactAddressBooks ??= new ArrayCollection();
         /** @var Collection<AddressBook>|null $newAddressBooks */
         $newAddressBooks ??= new ArrayCollection();
         foreach ($this->getAddressBooks() as $oldAddressBook) {
@@ -159,7 +157,7 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
 
     public function getContactAddressBooks(): Collection
     {
-        return $this->contactAddressBooks ?? new ArrayCollection();
+        return $this->contactAddressBooks;
     }
 
     public function setContactAddressBooks(?Collection $newContactAddressBooks): void
@@ -434,9 +432,9 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
     }
 
     /**
-     * @ApiProperty(iri="http://schema.org/url")
      * @return Collection Collection of URL addresses from contact details.
      */
+    #[ApiProperty(types: ['http://schema.org/url'])]
     public function getUrls(): Collection
     {
         return $this->getDetails(ContactDetailCategory::TYPE_URL);
@@ -477,9 +475,9 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
     }
 
     /**
-     * @ApiProperty(iri="http://schema.org/telephone")
      * @return Collection Collection of telephone numbers of AbstractContact (Person or Organization)
      */
+    #[ApiProperty(types: ['http://schema.org/telephone'])]
     public function getPhones(): Collection
     {
         return $this->getDetails(ContactDetailCategory::TYPE_PHONE);
@@ -521,9 +519,9 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
     }
 
     /**
-     * @ApiProperty(iri="http://schema.org/email")
      * @return Collection Collection of e-mail addresses from contact details
      */
+    #[ApiProperty(types: ['http://schema.org/email'])]
     public function getEmails(): Collection
     {
         return $this->getDetails(ContactDetailCategory::TYPE_EMAIL);

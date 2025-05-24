@@ -22,7 +22,7 @@ class ContactDetailCategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, ContactDetailCategory::class);
     }
 
-    public function findOneBy(array $criteria, array $orderBy = null): ?ContactDetailCategory
+    public function findOneBy(array $criteria, ?array $orderBy = null): ?ContactDetailCategory
     {
         $contactDetailType = parent::findOneBy($criteria, $orderBy);
 

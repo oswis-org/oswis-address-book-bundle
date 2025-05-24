@@ -22,7 +22,7 @@ class AddressBookRepository extends ServiceEntityRepository
         parent::__construct($registry, AddressBook::class);
     }
 
-    public function findOneBy(array $criteria, array $orderBy = null): ?AddressBook
+    public function findOneBy(array $criteria, ?array $orderBy = null): ?AddressBook
     {
         $addressBook = parent::findOneBy($criteria, $orderBy);
 

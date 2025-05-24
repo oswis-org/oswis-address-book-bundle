@@ -12,8 +12,6 @@ use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use OswisOrg\OswisAddressBookBundle\Entity\ContactDetail;
 use OswisOrg\OswisAddressBookBundle\Entity\Person;
 
-use function assert;
-
 class AbstractContactService
 {
     protected EntityManagerInterface $em;
@@ -30,7 +28,6 @@ class AbstractContactService
     {
         $contacts = $this->em->getRepository(AbstractContact::class)->findAll();
         foreach ($contacts as $contact) {
-            assert($contact instanceof AbstractContact);
             $contact->updateName();
             $this->em->persist($contact);
         }
@@ -40,7 +37,7 @@ class AbstractContactService
     /**
      * @param  AbstractContact|null  $contact
      *
-     * @param  array  $detailTypeSlugs
+     * @param string[] $detailTypeSlugs
      *
      * @return AbstractContact
      * @throws InvalidArgumentException

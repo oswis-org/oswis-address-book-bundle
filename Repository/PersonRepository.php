@@ -22,7 +22,7 @@ class PersonRepository extends ServiceEntityRepository
         parent::__construct($registry, Person::class);
     }
 
-    public function findOneBy(array $criteria, array $orderBy = null): ?Person
+    public function findOneBy(array $criteria, ?array $orderBy = null): ?Person
     {
         $result = parent::findOneBy($criteria, $orderBy);
 

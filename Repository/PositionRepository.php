@@ -11,35 +11,29 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
-use LogicException;
 use OswisOrg\OswisAddressBookBundle\Entity\Organization;
 use OswisOrg\OswisAddressBookBundle\Entity\Position;
 
 class PositionRepository extends ServiceEntityRepository
 {
-    public const CRITERIA_ID = 'id';
+    public const string CRITERIA_ID = 'id';
 
-    public const CRITERIA_ORG = 'organization';
+    public const string CRITERIA_ORG = 'organization';
 
-    public const CRITERIA_ORG_RECURSIVE_DEPTH = 'orgRecursiveDepth';
+    public const string CRITERIA_ORG_RECURSIVE_DEPTH = 'orgRecursiveDepth';
 
-    public const CRITERIA_POSITION_TYPE = 'positionType';
+    public const string CRITERIA_POSITION_TYPE = 'positionType';
 
-    public const CRITERIA_ONLY_ACTIVE = 'onlyActive';
+    public const string CRITERIA_ONLY_ACTIVE = 'onlyActive';
 
-    public const CRITERIA_ONLY_CONTACT_PERSON = 'onlyContactPerson';
+    public const string CRITERIA_ONLY_CONTACT_PERSON = 'onlyContactPerson';
 
-    /**
-     * @param  ManagerRegistry  $registry
-     *
-     * @throws LogicException
-     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Position::class);
     }
 
-    public function findOneBy(array $criteria, array $orderBy = null): ?Position
+    public function findOneBy(array $criteria, ?array $orderBy = null): ?Position
     {
         $result = parent::findOneBy($criteria, $orderBy);
 
@@ -109,7 +103,7 @@ class PositionRepository extends ServiceEntityRepository
 
     private function setOnlyContactPersonQuery(QueryBuilder $queryBuilder, array $opts = []): void
     {
-        if (!empty($opts[self::CRITERIA_ONLY_CONTACT_PERSON]) && true === (bool)$opts[self::CRITERIA_ONLY_CONTACT_PERSON]) {
+        if (true === (bool)($opts[self::CRITERIA_ONLY_CONTACT_PERSON] ?? null)) {
             $queryBuilder->andWhere('position.contactPerson = true');
         }
     }

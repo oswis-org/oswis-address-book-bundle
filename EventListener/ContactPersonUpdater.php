@@ -3,7 +3,7 @@
 namespace OswisOrg\OswisAddressBookBundle\EventListener;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use OswisOrg\OswisAddressBookBundle\Entity\Position;
 use OswisOrg\OswisAddressBookBundle\Repository\OrganizationRepository;
 use OswisOrg\OswisAddressBookBundle\Repository\PositionRepository;

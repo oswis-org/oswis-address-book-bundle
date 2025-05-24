@@ -7,10 +7,16 @@
 
 namespace OswisOrg\OswisAddressBookBundle\Entity;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Cache;
@@ -38,34 +44,29 @@ use Symfony\Component\Serializer\Annotation\MaxDepth;
  *     "description",
  *     "note"
  * })
- * @ApiPlatform\Core\Annotation\ApiResource(
- *   attributes={
- *     "filters"={"search"},
- *     "security"="is_granted('ROLE_MANAGER')"
- *   },
- *   collectionOperations={
- *     "get"={
- *       "security"="is_granted('ROLE_CUSTOMER')",
- *       "normalization_context"={"groups"={"entities_get", "address_book_places_get"}},
- *     },
- *     "post"={
- *       "security"="is_granted('ROLE_MANAGER')",
- *       "denormalization_context"={"groups"={"entities_post", "address_book_places_post"}}
- *     }
- *   },
- *   itemOperations={
- *     "get"={
- *       "security"="is_granted('ROLE_CUSTOMER')",
- *       "normalization_context"={"groups"={"entity_get", "address_book_place_get"}},
- *     },
- *     "put"={
- *       "security"="is_granted('ROLE_MANAGER')",
- *       "denormalization_context"={"groups"={"entity_put", "address_book_place_put"}}
- *     },
- *     "delete"={}
- *   }
- * )
  */
+#[ApiResource(
+    operations: [
+        new GetCollection(
+            normalizationContext: ['groups' => ['entities_get', 'address_book_places_get']],
+            security: "is_granted('ROLE_CUSTOMER')"
+        ),
+        new Post(
+            denormalizationContext: ['groups' => ['entities_post', 'address_book_places_post']],
+            security: "is_granted('ROLE_MANAGER')"
+        ),
+        new Get(
+            normalizationContext: ['groups' => ['entity_get', 'address_book_place_get']],
+            security: "is_granted('ROLE_CUSTOMER')"
+        ),
+        new Put(
+            denormalizationContext: ['groups' => ['entity_put', 'address_book_place_put']],
+            security: "is_granted('ROLE_MANAGER')"
+        ),
+        new Delete(),
+    ],
+    security: "is_granted('ROLE_MANAGER')"
+)]
 #[Entity]
 #[Table(name: 'address_book_place')]
 #[Cache(usage: 'NONSTRICT_READ_WRITE', region: 'address_book_contact')]

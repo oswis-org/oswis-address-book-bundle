@@ -4,9 +4,7 @@ namespace OswisOrg\OswisAddressBookBundle\Utils;
 
 use DateTime;
 use Exception;
-
 use function floor;
-
 use const PHP_INT_MAX;
 
 /**
@@ -29,9 +27,9 @@ class AgeUtils
      */
     public static function isBirthDateInRange(
         ?DateTime $birthDate,
-        int $minAge = null,
-        int $maxAge = null,
-        DateTime $referenceDateTime = null
+        ?int $minAge = null,
+        ?int $maxAge = null,
+        ?DateTime $referenceDateTime = null
     ): bool {
         if (null === $birthDate) {
             return false;
@@ -49,7 +47,7 @@ class AgeUtils
      * @return int|null
      * @throws Exception
      */
-    public static function getAgeFromBirthDate(?DateTime $birthDate, DateTime $referenceDateTime = null): ?int
+    public static function getAgeFromBirthDate(?DateTime $birthDate, ?DateTime $referenceDateTime = null): ?int
     {
         return $birthDate ? (int)floor((float)self::getAgeDecimalFromBirthDate($birthDate, $referenceDateTime)) : null;
     }
@@ -66,7 +64,6 @@ class AgeUtils
             return null;
         }
         $referenceDateTime ??= new DateTime();
-        assert($referenceDateTime instanceof DateTime);
         $referenceDateTime->setTime(0, 0);
         $birthDate->setTime(0, 0);
 
