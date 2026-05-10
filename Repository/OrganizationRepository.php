@@ -26,11 +26,17 @@ class OrganizationRepository extends ServiceEntityRepository
 
     public function getFacultiesOfUniversity(?string $universitySlug = null): array
     {
-        $qb = $this->createQueryBuilder('o')->where('o.type = faculty');
+        $qb = $this->createQueryBuilder('o')
+            ->where('o.type = :facultyType')
+            ->setParameter('facultyType', 'faculty');
         if ($universitySlug) {
-            $qb->andWhere('o.parent.type = university')->andWhere('o.parent.slug = :slug')->setParameter('slug', $universitySlug);
+            $qb->innerJoin('o.parentOrganization', 'parent')
+                ->andWhere('parent.type = :universityType')
+                ->andWhere('parent.slug = :slug')
+                ->setParameter('universityType', 'university')
+                ->setParameter('slug', $universitySlug);
         }
-        $result = $qb->getQuery()->execute([], AbstractQuery::HYDRATE_OBJECT);
+        $result = $qb->getQuery()->getResult(AbstractQuery::HYDRATE_OBJECT);
         assert(is_array($result));
 
         return $result;

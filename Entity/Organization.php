@@ -168,7 +168,7 @@ class Organization extends AbstractOrganization
     public function removeContactPerson(?AbstractContact $contact): void
     {
         if (null !== $contact) {
-            $this->getContactPersons()->remove($contact);
+            $this->getContactPersons()->removeElement($contact);
         }
     }
 
