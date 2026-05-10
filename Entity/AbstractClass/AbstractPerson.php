@@ -6,13 +6,13 @@ use Doctrine\Common\Collections\Collection;
 use OswisOrg\OswisAddressBookBundle\Traits\BirthDateTrait;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
 use OswisOrg\OswisCoreBundle\Interfaces\AddressBook\PersonInterface;
-use OswisOrg\OswisCoreBundle\Traits\AddressBook\PersonTrait;
+use OswisOrg\OswisCoreBundle\Traits\AddressBook\PersonNameOnlyTrait;
 
 abstract class AbstractPerson extends AbstractContact implements PersonInterface
 {
     public const ALLOWED_TYPES = [...self::PERSON_TYPES];
 
-    use PersonTrait;
+    use PersonNameOnlyTrait;
     use BirthDateTrait;
 
     public function __construct(

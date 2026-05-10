@@ -179,4 +179,16 @@ services:
         alias: oswis_org_oswis_address_book.address_book_site_map_extender
         public: true
 
+    ### MEDIA OBJECT API CONTROLLERS
+
+    OswisOrg\OswisAddressBookBundle\Controller\MediaObject\ContactFileAction:
+        autowire: true
+        public: true
+        tags: [ 'controller.service_arguments' ]
+
+    OswisOrg\OswisAddressBookBundle\Controller\MediaObject\ContactImageAction:
+        autowire: true
+        public: true
+        tags: [ 'controller.service_arguments' ]
+
 
