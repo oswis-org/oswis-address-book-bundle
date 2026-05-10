@@ -30,7 +30,7 @@ use OswisOrg\OswisAddressBookBundle\Entity\MediaObject\ContactImage;
 use OswisOrg\OswisAddressBookBundle\Repository\OrganizationRepository;
 use OswisOrg\OswisCoreBundle\Entity\NonPersistent\Nameable;
 use OswisOrg\OswisCoreBundle\Filter\SearchFilter;
-use Symfony\Component\Serializer\Annotation\MaxDepth;
+use Symfony\Component\Serializer\Attribute\MaxDepth;
 
 /**
  * @OswisOrg\OswisCoreBundle\Filter\SearchAnnotation({

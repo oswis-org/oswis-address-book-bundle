@@ -34,7 +34,7 @@ use OswisOrg\OswisCoreBundle\Traits\AddressBook\PostalAddressTrait;
 use OswisOrg\OswisCoreBundle\Traits\AddressBook\UrlTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\EntityPublicTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
-use Symfony\Component\Serializer\Annotation\MaxDepth;
+use Symfony\Component\Serializer\Attribute\MaxDepth;
 
 /**
  * @OswisOrg\OswisCoreBundle\Filter\SearchAnnotation({
