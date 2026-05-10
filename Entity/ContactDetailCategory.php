@@ -6,6 +6,7 @@
 
 namespace OswisOrg\OswisAddressBookBundle\Entity;
 
+use OswisOrg\OswisCoreBundle\Filter\SearchAnnotation;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
@@ -27,12 +28,6 @@ use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\TypeTrait;
 
 /**
- * @OswisOrg\OswisCoreBundle\Filter\SearchAnnotation({
- *     "id",
- *     "appUser.username",
- *     "appUser.description",
- *     "appUser.note"
- * })
  */
 #[Entity(repositoryClass: ContactDetailCategoryRepository::class)]
 #[Table(name: 'address_book_contact_detail_category')]
@@ -61,6 +56,7 @@ use OswisOrg\OswisCoreBundle\Traits\Common\TypeTrait;
     filters: ['search'],
     security: "is_granted('ROLE_MANAGER')"
 )]
+#[SearchAnnotation(['id', 'appUser.username', 'appUser.description', 'appUser.note'])]
 class ContactDetailCategory implements NameableInterface, TypeInterface
 {
     public const string TYPE_EMAIL = 'email';

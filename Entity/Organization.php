@@ -6,6 +6,7 @@
 
 namespace OswisOrg\OswisAddressBookBundle\Entity;
 
+use OswisOrg\OswisCoreBundle\Filter\SearchAnnotation;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
@@ -33,16 +34,6 @@ use OswisOrg\OswisCoreBundle\Filter\SearchFilter;
 use Symfony\Component\Serializer\Attribute\MaxDepth;
 
 /**
- * @OswisOrg\OswisCoreBundle\Filter\SearchAnnotation({
- *     "id",
- *     "slug",
- *     "contactName",
- *     "shortName",
- *     "description",
- *     "note",
- *     "parentOrganization.name",
- *     "identificationNumber"
- * })
  */
 #[Entity(repositoryClass: OrganizationRepository::class)]
 #[Table(name: 'address_book_organization')]
@@ -87,6 +78,7 @@ use Symfony\Component\Serializer\Attribute\MaxDepth;
     'note' => 'partial',
     'identificationNumber' => 'partial',
 ])]
+#[SearchAnnotation(['id', 'slug', 'contactName', 'shortName', 'description', 'note', 'parentOrganization.name', 'identificationNumber'])]
 class Organization extends AbstractOrganization
 {
 

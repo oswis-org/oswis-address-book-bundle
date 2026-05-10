@@ -7,6 +7,7 @@
 
 namespace OswisOrg\OswisAddressBookBundle\Entity;
 
+use OswisOrg\OswisCoreBundle\Filter\SearchAnnotation;
 use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
@@ -37,13 +38,6 @@ use OswisOrg\OswisCoreBundle\Traits\Common\NameableTrait;
 use Symfony\Component\Serializer\Attribute\MaxDepth;
 
 /**
- * @OswisOrg\OswisCoreBundle\Filter\SearchAnnotation({
- *     "id",
- *     "name",
- *     "shortName",
- *     "description",
- *     "note"
- * })
  */
 #[ApiResource(
     operations: [
@@ -77,6 +71,7 @@ use Symfony\Component\Serializer\Attribute\MaxDepth;
 #[ApiFilter(BooleanFilter::class, properties: [
     'publicOnWeb',
 ])]
+#[SearchAnnotation(['id', 'name', 'shortName', 'description', 'note'])]
 #[ApiFilter(OrderFilter::class)]
 class Place implements NameableInterface
 {
