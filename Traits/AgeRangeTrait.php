@@ -9,7 +9,7 @@ namespace OswisOrg\OswisAddressBookBundle\Traits;
 use DateTime;
 use Doctrine\ORM\Mapping\Column;
 use Exception;
-use OswisOrg\OswisCoreBundle\Utils\AgeUtils;
+use OswisOrg\OswisAddressBookBundle\Utils\AgeUtils;
 
 /**
  * Trait adds createdAt and updatedAt fields.
