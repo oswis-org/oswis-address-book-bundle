@@ -14,6 +14,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\Exception\AccessException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class PersonType extends AbstractType
 {
@@ -24,10 +25,18 @@ class PersonType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('name', TextType::class, [
-            'label' => 'Celé jméno',
-            'attr'  => [
+            'label'       => 'Celé jméno',
+            'attr'        => [
                 'autocomplete' => 'section-student name',
             ],
+            // Server-side guard: ~3-7 submissions/year previously slipped
+            // through with empty name when the browser didn't enforce HTML5
+            // `required` (older WebViews, autofill, accessibility tooling).
+            // Constraint is gated by validation group so other forms reusing
+            // PersonType outside the participant-registration flow stay
+            // unaffected; ParticipantType opts in via its validation_groups
+            // closure only for newly-created contacts.
+            'constraints' => [new NotBlank(['groups' => ['registration'], 'message' => 'Vyplň prosím jméno.'])],
         ])->add('details', CollectionType::class, [
             'label'         => false,
             'entry_type'    => ContactDetailType::class,

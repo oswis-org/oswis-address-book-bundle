@@ -19,6 +19,7 @@ use Symfony\Component\OptionsResolver\Exception\AccessException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Exception\ConstraintDefinitionException;
 use Symfony\Component\Validator\Exception\InvalidOptionsException;
@@ -80,10 +81,14 @@ class ContactDetailType extends AbstractType
     public static function getConstraintsByType(?string $type = null): array
     {
         if (ContactDetailCategory::TYPE_EMAIL === $type) {
-            return [new Email(['mode' => 'strict', 'message' => 'Zadaná adresa {{ value }} není platná.'])];
+            return [
+                new NotBlank(['groups' => ['registration'], 'message' => 'Vyplň prosím e-mail.']),
+                new Email(['mode' => 'strict', 'message' => 'Zadaná adresa {{ value }} není platná.']),
+            ];
         }
         if (ContactDetailCategory::TYPE_PHONE === $type) {
             return [
+                new NotBlank(['groups' => ['registration'], 'message' => 'Vyplň prosím telefonní číslo.']),
                 new Regex([
                     'pattern' => "/^(\+420|\+421)? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$/",
                     'message' => 'Zadané číslo {{ value }} není platným českým nebo slovenským telefonním číslem.',
