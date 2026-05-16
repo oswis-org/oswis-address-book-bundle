@@ -428,7 +428,7 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
      */
     public function removeEmptyNotes(): void
     {
-        $this->setNotes($this->getNotes()->filter(fn(mixed $note) => $note instanceof ContactNote && empty($note->getContent())));
+        $this->setNotes($this->getNotes()->filter(fn(mixed $note) => $note instanceof ContactNote && !empty($note->getContent())));
     }
 
     /**
