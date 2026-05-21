@@ -125,9 +125,11 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
         $this->setAddressBooks($addressBooks);
     }
 
+    /**
+     * @param Collection<int, AddressBook>|null $newAddressBooks
+     */
     public function setAddressBooks(?Collection $newAddressBooks): void
     {
-        /** @var Collection<AddressBook>|null $newAddressBooks */
         $newAddressBooks ??= new ArrayCollection();
         foreach ($this->getAddressBooks() as $oldAddressBook) {
             if (!$newAddressBooks->contains($oldAddressBook)) {
@@ -295,7 +297,13 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
      */
     public function removeEmptyDetails(): void
     {
-        $this->setDetails($this->getDetails()->filter(fn(mixed $detail) => $detail instanceof ContactDetail && !empty($detail->getContent())));
+        $kept = new ArrayCollection();
+        foreach ($this->getDetails() as $detail) {
+            if (!empty($detail->getContent())) {
+                $kept->add($detail);
+            }
+        }
+        $this->setDetails($kept);
     }
 
     /**
@@ -314,9 +322,11 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
         return $details;
     }
 
+    /**
+     * @param Collection<int, ContactDetail>|null $newDetails
+     */
     public function setDetails(?Collection $newDetails): void
     {
-        /** @var Collection<ContactDetail>|null $newDetails */
         $newDetails ??= new ArrayCollection();
         foreach ($this->details as $oldDetail) {
             if (!$newDetails->contains($oldDetail)) {
@@ -345,9 +355,11 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
         return $this->notes;
     }
 
+    /**
+     * @param Collection<int, ContactNote>|null $newNotes
+     */
     public function setNotes(?Collection $newNotes): void
     {
-        /** @var Collection<ContactNote>|null $newNotes */
         $newNotes ??= new ArrayCollection();
         foreach ($this->getNotes() as $oldNote) {
             if (!$newNotes->contains($oldNote)) {
@@ -383,9 +395,11 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
         return $this->addresses;
     }
 
+    /**
+     * @param Collection<int, ContactAddress>|null $newAddresses
+     */
     public function setAddresses(?Collection $newAddresses): void
     {
-        /** @var Collection<ContactAddress>|null $newAddresses */
         $newAddresses ??= new ArrayCollection();
         foreach ($this->getAddresses() as $oldAddress) {
             if (!$newAddresses->contains($oldAddress)) {
@@ -428,7 +442,13 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
      */
     public function removeEmptyNotes(): void
     {
-        $this->setNotes($this->getNotes()->filter(fn(mixed $note) => $note instanceof ContactNote && !empty($note->getContent())));
+        $kept = new ArrayCollection();
+        foreach ($this->getNotes() as $note) {
+            if (!empty($note->getContent())) {
+                $kept->add($note);
+            }
+        }
+        $this->setNotes($kept);
     }
 
     /**

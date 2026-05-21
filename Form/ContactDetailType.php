@@ -82,18 +82,18 @@ class ContactDetailType extends AbstractType
     {
         if (ContactDetailCategory::TYPE_EMAIL === $type) {
             return [
-                new NotBlank(['groups' => ['registration'], 'message' => 'Vyplň prosím e-mail.']),
-                new Email(['mode' => 'strict', 'message' => 'Zadaná adresa {{ value }} není platná.']),
+                new NotBlank(message: 'Vyplň prosím e-mail.', groups: ['registration']),
+                new Email(message: 'Zadaná adresa {{ value }} není platná.', mode: 'strict'),
             ];
         }
         if (ContactDetailCategory::TYPE_PHONE === $type) {
             return [
-                new NotBlank(['groups' => ['registration'], 'message' => 'Vyplň prosím telefonní číslo.']),
-                new Regex([
-                    'pattern' => "/^(\+420|\+421)? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$/",
-                    'message' => 'Zadané číslo {{ value }} není platným českým nebo slovenským telefonním číslem.',
-                ]),
-                new Length(['min' => 9, 'max' => 15]),
+                new NotBlank(message: 'Vyplň prosím telefonní číslo.', groups: ['registration']),
+                new Regex(
+                    pattern: "/^(\+420|\+421)? ?[1-9][0-9]{2} ?[0-9]{3} ?[0-9]{3}$/",
+                    message: 'Zadané číslo {{ value }} není platným českým nebo slovenským telefonním číslem.',
+                ),
+                new Length(min: 9, max: 15),
             ];
         }
 
@@ -102,12 +102,12 @@ class ContactDetailType extends AbstractType
 
     public static function getPatternByType(?string $type = null): ?string
     {
-        return self::PATTERNS[$type] ?? null;
+        return null === $type ? null : (self::PATTERNS[$type] ?? null);
     }
 
     public static function getTypeByType(?string $type = null): string
     {
-        return self::TYPES[$type] ?? TextType::class;
+        return null === $type ? TextType::class : (self::TYPES[$type] ?? TextType::class);
     }
 
     /**

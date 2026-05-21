@@ -109,9 +109,11 @@ class Person extends AbstractPerson
         return $positions;
     }
 
+    /**
+     * @param Collection<int, Position>|null $newPositions
+     */
     public function setPositions(?Collection $newPositions): void
     {
-        /** @var Collection<Position>|null $newPositions */
         $newPositions ??= new ArrayCollection();
         foreach ($this->positions as $oldPosition) {
             if (!$newPositions->contains($oldPosition)) {
