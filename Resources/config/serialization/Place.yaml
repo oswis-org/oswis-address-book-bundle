@@ -149,4 +149,16 @@ OswisOrg\OswisAddressBookBundle\Entity\Place:
                 - 'address_book_place_get'
                 - 'address_book_place_put'
 
+        publicInApp:
+            groups:
+                - 'address_book_places_get'
+                - 'address_book_places_post'
+                - 'address_book_place_get'
+                - 'address_book_place_put'
+
+        subPlaces:
+            groups:
+                - 'address_book_places_get'
+                - 'address_book_place_get'
+
 
