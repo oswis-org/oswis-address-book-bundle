@@ -36,7 +36,7 @@ class PersonType extends AbstractType
             // PersonType outside the participant-registration flow stay
             // unaffected; ParticipantType opts in via its validation_groups
             // closure only for newly-created contacts.
-            'constraints' => [new NotBlank(['groups' => ['registration'], 'message' => 'Vyplň prosím jméno.'])],
+            'constraints' => [new NotBlank(groups: ['registration'], message: 'Vyplň prosím jméno.')],
         ])->add('details', CollectionType::class, [
             'label'         => false,
             'entry_type'    => ContactDetailType::class,
