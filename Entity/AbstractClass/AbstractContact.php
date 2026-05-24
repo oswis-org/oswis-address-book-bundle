@@ -64,20 +64,20 @@ abstract class AbstractContact implements ContactInterface, TypeInterface
     use ColorTrait;
 
     /** @var Collection<ContactNote> Notes about person. */
-    #[OneToMany(mappedBy: 'contact', targetEntity: ContactNote::class, cascade: ['all'], fetch: 'EAGER', orphanRemoval: true)]
+    #[OneToMany(mappedBy: 'contact', targetEntity: ContactNote::class, cascade: ['all'], orphanRemoval: true)]
     protected Collection $notes;
 
     /** @var Collection<ContactDetail> Postal addresses of AbstractContact (Person, Organization). */
-    #[OneToMany(mappedBy: 'contact', targetEntity: ContactDetail::class, cascade: ['all'], fetch: 'EAGER', orphanRemoval: true)]
+    #[OneToMany(mappedBy: 'contact', targetEntity: ContactDetail::class, cascade: ['all'], orphanRemoval: true)]
     protected Collection $details;
 
     /** @var Collection<ContactAddress> Postal addresses of AbstractContact (Person, Organization). */
     #[ApiProperty(types: ['http://schema.org/address'])]
-    #[OneToMany(mappedBy: 'contact', targetEntity: ContactAddress::class, cascade: ['all'], fetch: 'EAGER', orphanRemoval: true)]
+    #[OneToMany(mappedBy: 'contact', targetEntity: ContactAddress::class, cascade: ['all'], orphanRemoval: true)]
     protected Collection $addresses;
 
     /** @var Collection<ContactAddressBook> */
-    #[ManyToMany(targetEntity: ContactAddressBook::class, cascade: ['all'], fetch: 'EAGER')]
+    #[ManyToMany(targetEntity: ContactAddressBook::class, cascade: ['all'])]
     #[JoinTable(name: 'address_book_address_book_contact_connection')]
     #[JoinColumn(name: "contact_id", referencedColumnName: "id")]
     #[InverseJoinColumn(name: "contact_address_book_id", referencedColumnName: "id", unique: true)]

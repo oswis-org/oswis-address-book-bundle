@@ -90,7 +90,7 @@ class Place implements NameableInterface
     #[Column(type: 'string', nullable: true)]
     protected ?string $ionIcon = null;
 
-    #[ManyToOne(targetEntity: self::class, fetch: 'EAGER', inversedBy: 'subPlaces')]
+    #[ManyToOne(targetEntity: self::class, inversedBy: 'subPlaces')]
     #[JoinColumn(nullable: true)]
     #[MaxDepth(3)]
     protected ?Place $parentPlace = null;
