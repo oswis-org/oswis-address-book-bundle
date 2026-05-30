@@ -12,6 +12,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Cache;
 use Doctrine\ORM\Mapping\DiscriminatorColumn;
 use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Index;
 use Doctrine\ORM\Mapping\InheritanceType;
 use Doctrine\ORM\Mapping\InverseJoinColumn;
 use Doctrine\ORM\Mapping\JoinColumn;
@@ -49,6 +50,8 @@ use function in_array;
  */
 #[Entity]
 #[Table(name: 'address_book_abstract_contact')]
+// Perf: ORDER BY sortable_name na každém výpisu účastníků/kontaktů (bez filesortu).
+#[Index(name: 'idx_contact_sortable_name', columns: ['sortable_name'])]
 #[InheritanceType('JOINED')]
 #[DiscriminatorColumn(name: 'discriminator', type: 'string')]
 #[DiscriminatorMap(typeProperty: 'discriminator', mapping: [
