@@ -191,4 +191,7 @@ services:
         public: true
         tags: [ 'controller.service_arguments' ]
 
-
+    OswisOrg\OswisAddressBookBundle\Command\RepairContactNamesCommand:
+        autowire: true
+        autoconfigure: true
+        tags: [ 'console.command' ]
