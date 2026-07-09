@@ -74,8 +74,16 @@ final class RepairContactNamesCommand extends Command
             ->getQuery()->getResult();
 
         $rows = [];
+        $skipped = [];
         foreach ($people as $person) {
-            $repaired = ''.$person->getGivenName().$person->getFamilyName();
+            $given = ''.$person->getGivenName();
+            $repaired = $given.$person->getFamilyName();
+            // Bez křestního jména by slepené jméno začínalo pomlčkou. Takový řádek vznikl jinak než
+            // rozseknutím jednoslovného jména — nesahat na něj, jen ho ohlásit.
+            if ('' === $given || $repaired === $person->getName()) {
+                $skipped[] = [$person->getId(), $person->getName(), '' === $given ? 'chybí křestní' : 'už je v pořádku'];
+                continue;
+            }
             $rows[] = [$person->getId(), $person->getName(), $repaired];
             if ($apply) {
                 $person->setName($repaired);
@@ -83,6 +91,10 @@ final class RepairContactNamesCommand extends Command
         }
         $io->section('A) Zkomolená jména (pomlčka)');
         [] === $rows ? $io->text('Žádná.') : $io->table(['ID', 'nyní', 'opraveno na'], $rows);
+        if ([] !== $skipped) {
+            $io->warning('Přeskočeno (opravit ručně):');
+            $io->table(['ID', 'jméno', 'důvod'], $skipped);
+        }
 
         return count($rows);
     }
