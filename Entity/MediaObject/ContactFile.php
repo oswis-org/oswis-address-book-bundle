@@ -43,7 +43,10 @@ use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
             controller: ContactFileAction::class,
             deserialize: false
         ),
-    ]
+    ],
+    // Bez tohoto byl resource dostupný bez tokenu (firewall /api nemá access_control,
+    // autorizaci drží jen security na resource). Sjednoceno s WebImage/WebFile.
+    security: "is_granted('ROLE_MANAGER')"
 )]
 class ContactFile extends AbstractFile implements TypeInterface, PriorityInterface
 {
