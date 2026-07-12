@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
-use Gedmo\Mapping\Annotation\Uploadable;
+use Vich\UploaderBundle\Mapping\Attribute\Uploadable;
 use OswisOrg\OswisAddressBookBundle\Controller\MediaObject\ContactFileAction;
 use OswisOrg\OswisAddressBookBundle\Entity\AbstractClass\AbstractContact;
 use OswisOrg\OswisCoreBundle\Entity\AbstractClass\AbstractFile;
@@ -29,7 +29,7 @@ use OswisOrg\OswisCoreBundle\Traits\Common\PriorityTrait;
 use OswisOrg\OswisCoreBundle\Traits\Common\TypeTrait;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints\NotNull;
-use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
+use Vich\UploaderBundle\Mapping\Attribute\UploadableField;
 
 #[Entity]
 #[Table(name: 'address_book_contact_file')]
