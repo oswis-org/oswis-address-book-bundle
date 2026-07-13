@@ -63,11 +63,13 @@ class AgeUtils
         if (!($birthDate instanceof DateTime)) {
             return null;
         }
-        $referenceDateTime ??= new DateTime();
-        $referenceDateTime->setTime(0, 0);
-        $birthDate->setTime(0, 0);
+        // KLONUJEME vstupy — DateTime je mutable, `setTime()` by jinak zmutoval birthDate/reference
+        // VOLAJÍCÍHO (typicky entity->birthDate) → spurious Doctrine changeset + bump updatedAt/Blameable
+        // při nejbližším flush, i když se datum reálně nemění.
+        $ref = ($referenceDateTime instanceof DateTime ? clone $referenceDateTime : new DateTime())->setTime(0, 0);
+        $birth = (clone $birthDate)->setTime(0, 0);
 
-        /// TODO: Return decimal!
-        return $birthDate->diff($referenceDateTime)->y;
+        /// TODO: Return decimal! (dnes vrací celé roky — název „decimal" je zatím aspirační)
+        return $birth->diff($ref)->y;
     }
 }
