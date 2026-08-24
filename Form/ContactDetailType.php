@@ -17,6 +17,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\Exception\AccessException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use OswisOrg\OswisAddressBookBundle\Validator\DorucitelnaDomena;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -84,6 +85,9 @@ class ContactDetailType extends AbstractType
             return [
                 new NotBlank(message: 'Vyplň prosím e-mail.', groups: ['registration']),
                 new Email(message: 'Zadaná adresa {{ value }} není platná.', mode: 'strict'),
+                // `Email` kontroluje jen TVAR adresy — `…@gmal.com` mu projde. Tohle ověří,
+                // že doména vůbec umí přijmout poštu, a případně nabídne opravu překlepu.
+                new DorucitelnaDomena(),
             ];
         }
         if (ContactDetailCategory::TYPE_PHONE === $type) {
