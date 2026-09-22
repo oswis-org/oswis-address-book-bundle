@@ -1,0 +1,84 @@
+{# Pozice v organizaci — kdo je ve spolku, od kdy a do kdy.
+
+   Do 19. 9. 2026 tahle obrazovka NEEXISTOVALA: entita je od roku 2019, v datech leželo
+   41 pozic, ale editovat je šlo jen přes API — a evidence proto tiše zastarala o tři roky.
+
+   Zatím jen ke čtení. #}
+{% extends '@OswisOrgOswisCore/web_admin/page-skeleton-web-admin.html.twig' %}
+
+{% block html_title %}{{ page_title }}{% endblock %}
+
+{% block body_content %}
+    <main class="container" style="padding: 1rem 1.25rem 3rem;">
+        <h2>{{ pageTitle }}</h2>
+        <p class="text-muted" style="max-width: 60rem;">
+            Kdo patří do organizace, s jakou funkcí a od kdy. Je to <strong>jiná rovina než
+            přihlášky</strong>: přihláška říká, kdo byl na jedné akci, tahle evidence platí
+            celoročně a přežije roky bez akce. Živí taky veřejnou stránku
+            <a href="{{ path('oswis_org_oswis_address_book_about_us') }}">O nás</a>.
+        </p>
+
+        {% if posledniZmena %}
+            {% set stari = date().diff(posledniZmena).days %}
+            <div class="alert {{ stari > 365 ? 'alert-warning' : 'alert-secondary' }}" style="max-width: 60rem;">
+                Poslední změna v evidenci: <strong>{{ posledniZmena|date('j. n. Y') }}</strong>.
+                {% if stari > 365 %}
+                    {# Tenhle údaj je tu schválně: evidence bez obrazovky zastarala o tři roky
+                       a nikdo si toho nevšiml, protože nebylo kde se podívat. #}
+                    <strong>To je víc než rok.</strong> Než se na tahle data začne kdokoli
+                    spoléhat (třeba při hledání, kdo je v organizačním týmu), je potřeba
+                    dopsat současný stav.
+                {% endif %}
+            </div>
+        {% endif %}
+
+        {% if organizace is empty %}
+            <div class="alert alert-warning" style="max-width: 60rem;">
+                <strong>Není zapsaná jediná pozice.</strong>
+            </div>
+        {% else %}
+            {% for org in organizace %}
+                <h3 style="margin-top: 1.5rem;">{{ org.nazev }}</h3>
+                {% if org.aktivni is empty %}
+                    <p class="text-muted">Žádná aktivní pozice.</p>
+                {% else %}
+                    <p><strong>{{ org.aktivni|length }}</strong> aktivních pozic.</p>
+                    <div class="list">
+                        {% for p in org.aktivni %}
+                            <div class="list__item">
+                                <strong>{{ p.person ? p.person.sortableName : '(bez osoby)' }}</strong>
+                                {% if p.name %}<span> — {{ p.name }}</span>{% endif %}
+                                {% if p.type and p.type != 'member' %}
+                                    <span class="badge text-bg-secondary" style="margin-left: 0.4rem;">{{ p.type }}</span>
+                                {% endif %}
+                                {% if p.contactPerson %}
+                                    <span class="badge text-bg-info" style="margin-left: 0.4rem;">kontaktní osoba</span>
+                                {% endif %}
+                                {% if p.startDateTime %}
+                                    <span class="text-muted"> · od {{ p.startDateTime|date('j. n. Y') }}</span>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {% if org.ukoncene is not empty %}
+                    <details style="margin-top: 0.5rem;">
+                        <summary style="cursor: pointer;">Ukončené pozice ({{ org.ukoncene|length }})</summary>
+                        <div class="list" style="margin-top: 0.5rem;">
+                            {% for p in org.ukoncene %}
+                                <div class="list__item text-muted">
+                                    {{ p.person ? p.person.sortableName : '(bez osoby)' }}
+                                    {% if p.name %} — {{ p.name }}{% endif %}
+                                    ·
+                                    {{ p.startDateTime ? p.startDateTime|date('j. n. Y') : '?' }}
+                                    – {{ p.endDateTime|date('j. n. Y') }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </details>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </main>
+{% endblock %}

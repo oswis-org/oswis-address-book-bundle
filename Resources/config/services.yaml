@@ -142,6 +142,14 @@ services:
         alias: oswis_org_oswis_address_book.organization_controller
         public: true
 
+    ### Pozice v organizaci — administrace (jen ke čtení)
+    OswisOrg\OswisAddressBookBundle\Controller\WebAdminPositionController:
+        autowire: true
+        public: true
+        tags:
+            - 'controller.service_arguments'
+            - 'container.service_subscriber'
+
     ### AGE UTILS
     oswis_org_oswis_address_book.oswis_address_book_age_utils:
         class: OswisOrg\OswisAddressBookBundle\Utils\AgeUtils

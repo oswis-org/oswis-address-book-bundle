@@ -7,3 +7,11 @@ oswis_org_oswis_address_book_organization:
 oswis_org_oswis_address_book_about_us:
     controller: oswis_org_oswis_address_book.organization_controller::aboutUs
     path: "/o-nas"
+
+# Pozice v organizaci — administrace. JEN KE ČTENÍ.
+# Do 19. 9. 2026 pro Position (entita z 2019, 41 řádků) neexistovala žádná obrazovka a evidence
+# proto zastarala o tři roky (poslední zápis 1. 7. 2023).
+oswis_org_oswis_address_book_web_admin_positions:
+    controller: OswisOrg\OswisAddressBookBundle\Controller\WebAdminPositionController::index
+    path: "/web_admin/pozice"
+    methods: [GET]
