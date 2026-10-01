@@ -56,7 +56,8 @@ use OswisOrg\OswisCoreBundle\Traits\Common\TypeTrait;
     filters: ['search'],
     security: "is_granted('ROLE_MANAGER')"
 )]
-#[SearchAnnotation(['id', 'appUser.username', 'appUser.description', 'appUser.note'])]
+// Pole jsou ze ZDEJŠÍ entity (dřív zkopírované „appUser.*“ — asociace, kterou kategorie nemá → hledání padalo na 500).
+#[SearchAnnotation(['id', 'name', 'shortName', 'slug', 'description', 'note', 'type'])]
 class ContactDetailCategory implements NameableInterface, TypeInterface
 {
     public const string TYPE_EMAIL = 'email';

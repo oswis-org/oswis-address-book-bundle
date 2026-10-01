@@ -63,7 +63,7 @@ use Symfony\Component\Serializer\Attribute\MaxDepth;
     'id' => 'ASC',
     'slug' => null,
     'description' => null,
-    'contactName' => null,
+    'name' => null,
     'sortableName' => null,
     'shortName' => null,
     'note' => null,
@@ -73,12 +73,13 @@ use Symfony\Component\Serializer\Attribute\MaxDepth;
     'id' => 'exact',
     'description' => 'partial',
     'slug' => 'partial',
-    'contactName' => 'partial',
+    'name' => 'partial',
     'shortName' => 'partial',
     'note' => 'partial',
     'identificationNumber' => 'partial',
 ])]
-#[SearchAnnotation(['id', 'slug', 'contactName', 'shortName', 'description', 'note', 'parentOrganization.name', 'identificationNumber'])]
+// `name` (dřív neexistující `contactName` — vlastní název organizace se tak nikdy neprohledával; oprava 1. 10. 2026).
+#[SearchAnnotation(['id', 'slug', 'name', 'sortableName', 'shortName', 'description', 'note', 'parentOrganization.name', 'identificationNumber'])]
 class Organization extends AbstractOrganization
 {
 
